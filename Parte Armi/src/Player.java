@@ -4,7 +4,6 @@ import java.util.*;
 public class Player {
     private String name;
     private int id;
-    private int first; //index of the starting player (just one player has 1, the others 0)
     private int [] damage; //array to sign every possible damage
     private int [] ammo; //array to show how many ammo for each color you have
     private int color; //player color is represented by an id integer
