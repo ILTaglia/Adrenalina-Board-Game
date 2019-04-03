@@ -19,4 +19,9 @@ public class Incell implements  Arma {
     public void changegun() {
 
     }
+
+    @Override
+    public Bullets getAmmo() {
+        return null;
+    }
 }

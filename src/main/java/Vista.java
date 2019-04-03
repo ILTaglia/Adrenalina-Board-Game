@@ -20,4 +20,9 @@ public class Vista implements Arma {
 
     }
 
+    @Override
+    public Bullets getAmmo() {
+        return null;
+    }
+
 }
