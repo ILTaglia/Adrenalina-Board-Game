@@ -1,3 +1,6 @@
-public class Ammo_Card implements Card {
+public abstract class Ammo_Card implements Card {
+
+    protected boolean Avaible;
+
 
 }

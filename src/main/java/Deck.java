@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-abstract class Deck {
+public abstract class Deck {
 
     private ArrayList<Card> Pila;
     private ArrayList<Card> Pila_Scartate;
