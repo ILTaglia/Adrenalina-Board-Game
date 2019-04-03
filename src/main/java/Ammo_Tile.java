@@ -16,8 +16,12 @@ public class Ammo_Tile extends Ammo_Card {
 
     @Override
     public void Collect_Card(){
-
-
+        //TODO
     }
-
+    /*
+    @Override
+    public Ammo get(int i){
+        return Refill_Ammo.get(i);
+    }
+    */
 }
