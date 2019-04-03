@@ -1,5 +1,4 @@
 public interface Card {
 
-    public void Collect_Card();
-
+    public void Get_Card();
 }

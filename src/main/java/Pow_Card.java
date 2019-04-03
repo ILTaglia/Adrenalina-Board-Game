@@ -1,2 +1,3 @@
-abstract class Pow_Card implements Card {
+public abstract class Pow_Card implements Card {
+
 }

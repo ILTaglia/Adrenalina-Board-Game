@@ -5,11 +5,11 @@ public class Ammo_Deck extends Deck {
     //ATTENZIONE: Non chiamo Shuffle, sarà il controller a farlo a inizio partita
     
     public Ammo_Deck(){
-        /*
-        TODO
-        Ricontrollare se evitabili i for
-        */
-        Stack=new ArrayList<Card>();
+        //
+        //TODO Modificare costruttori sottoclassi di Ammo_Card!
+        //Ricontrollare se evitabili i for
+        //
+        Stack=new ArrayList<>();
         int i;
         for (i= 0;i<3;i++) {
             this.Stack.add(new Ammo_Tile(0,1,1));
