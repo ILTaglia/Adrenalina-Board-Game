@@ -16,7 +16,7 @@ public class Player {
     private int action; //number of the action taken by the player in one turn
     private int firstblood; //number of the player that gave the damage 1
     private int score; //points of the player
-    private int turn; //number to identify the number of turn is beeing played
+    private int round; //number to identify the number of turn is beeing played
 
 
     public Player(String name, String color, String id){
@@ -24,7 +24,7 @@ public class Player {
         this.id=id;
         this.active=true; //if the player is just born, it is active
         //active will return 0 when two actions are made
-        this.turn=1; //first turn identified with 1
+        this.round=1; //first turn identified with 1
         this.damages=new ArrayList<>();
         this.damages.add(0);
         this.damages.add(0);
