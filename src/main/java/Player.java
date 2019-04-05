@@ -1,4 +1,6 @@
 //package player_test;
+import exceptions.*;
+
 import java.util.*;
 
 public class Player {
@@ -7,7 +9,7 @@ public class Player {
     private boolean active; //if 1 the player is active, if 0 the player is waiting its turn
     private ArrayList<Integer> damages; //list to sign every possible damage
     private ArrayList<Integer> marks; //list for marks given to this player by others
-    private ArrayList<Integer> ammos; //list to show how many ammo for each color you have
+    private ArrayList<Ammo> ammos; //list to show how many ammo for each color you have
     private int color; //player color is represented by an id integer
     private int [] cel; //signal to say if is in the map or not
     private ArrayList<Arma> gun; //list for the weapons of the player
@@ -42,9 +44,9 @@ public class Player {
         this.marks.add(0);
 
         this.ammos = new ArrayList<>();
-        ammos.add(1);
-        ammos.add(1);
-        ammos.add(1);
+        ammos.add(new Ammo(0));
+        ammos.add(new Ammo(1));
+        ammos.add(new Ammo(2));
         //at the beginning you have 1 ammo for each color
         //0 is red, you start with three red ammo
         //1 is blue, you start with three blue ammo
@@ -124,24 +126,23 @@ public class Player {
         return 0;
     }
 
-    //return number of ammos of color c
-    public int get_ammo(int c){
-        if(c<0 || c>3) return -1;
-        int i=ammos.get(c);
-        return i;
+    //return number of ammos of color
+    public int get_ammo(int color) throws InvalidColorExeption {
+        if(color<0 || color>3) throw new InvalidColorExeption();
+        return (int) ammos.stream().filter(x->x.get_Ammo()==color).count();
     }
 
-    //add number n of ammos of color c
-    public int add_ammo(int n, int c){
-        if(c<0 || c>3) return -1;
-        if(ammos.get(c)+n>=3) ammos.set(c, 3);
-        else ammos.set(c,(ammos.get(c)+n));
-        return 0;
+    //add ammo
+    public void add_ammo(Ammo ammo) throws MoreThanTreeAmmosException{
+        if(get_ammo(ammo.get_Ammo())>=3) {
+            throw new MoreThanTreeAmmosException();
+        } else ammos.add(ammo);
     }
 
+    //TODO use_ammo pensare a implementazione vedi metodo remove() ArrayList
     //remove number n of ammos of color c
-    public int remove_ammo(int n, int c){
-        if(c<0 || c>3) return -1;
+    public int remove_ammo(int n, int c) throws InvalidColorExeption{
+        if(color<0 || color>3) throw new InvalidColorExeption();
         if(ammos.get(c)<n) return -2;
         ammos.set(c, (ammos.get(c)-n));
         return 0;

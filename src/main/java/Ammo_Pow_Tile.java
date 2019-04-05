@@ -1,3 +1,5 @@
+import exceptions.*;
+
 import java.util.ArrayList;
 
 public class Ammo_Pow_Tile extends Ammo_Card {
@@ -12,10 +14,22 @@ public class Ammo_Pow_Tile extends Ammo_Card {
         Used=false;
     }
 
-    @Override
-    public ArrayList<Ammo> Get_Card(){
-        //TODO
-        //Oltre a restituire le munizioni chiama il metodo per pescare una carta
+    public void Collect_Card(Player player,Pow_Deck pow_deck) throws CardAlreadyCollectedException {
+        if(Used=true){
+            throw new CardAlreadyCollectedException();
+            //Exception will be handled by Controller
+        }
+        for (Ammo ammo:Refill_Ammo) {
+            try {
+                player.add_ammo(ammo);
+            }
+            catch (MoreThanTreeAmmosException e){
+                //TODO: pensare a catch
+                //Nothing to do, just try with next ammo
+            }
+        }
+        Used=true;
+        player.add_pow((Pow_Card) pow_deck.Draw_Card());
     }
 
 
