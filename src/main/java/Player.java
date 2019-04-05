@@ -11,7 +11,7 @@ public class Player {
     private int color; //player color is represented by an id integer
     private int [] cel; //signal to say if is in the map or not
     private ArrayList<Arma> gun; //list for the weapons of the player
-    private ArrayList<Potenziamento> pow; //list for the power up of the player
+    private ArrayList<Pow_Card> pow; //list for the power up of the player
     private int death; //number to show how many times the player died
     private int action; //number of the action taken by the player in one turn
     private int firstblood; //number of the player that gave the damage 1
@@ -170,20 +170,20 @@ public class Player {
         return 0;
     }
 
-    public int powIspresent(Potenziamento p){
+    public int powIspresent(Pow_Card p){
         for(int i=0; i<pow.size(); i++){
             if(pow.get(i).equals(p)) return 1;
         }
         return 0;
     }
 
-    public int add_pow(Potenziamento p){
+    public int add_pow(Pow_Card p){
         if(pow.size()==3) return -1; //remove one pow
         pow.add(p);
         return 0;
     }
 
-    public int remove_pow(Potenziamento p){
+    public int remove_pow(Pow_Card p){
         if(pow.size()==0) return -1; //invalid
         if(powIspresent(p)==0) return -2; //you don't have it
         int i=pow.indexOf(p);

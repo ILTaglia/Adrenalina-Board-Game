@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Ammo_Tile extends Ammo_Card {
 
-    private ArrayList<Ammo> Refill_Ammo;
 
     public Ammo_Tile(int color1, int color2, int color3){
         Refill_Ammo=new ArrayList<Ammo>();
@@ -15,13 +14,7 @@ public class Ammo_Tile extends Ammo_Card {
     }
 
     @Override
-    public ArrayList<Ammo> Get_Card(){
-        //TODO
+    public void Collect_Card(Player player){
+
     }
-    /*
-    @Override
-    public Ammo get(int i){
-        return Refill_Ammo.get(i);
-    }
-    */
 }
