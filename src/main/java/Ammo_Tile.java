@@ -11,11 +11,11 @@ public class Ammo_Tile extends Ammo_Card {
         Refill_Ammo.add(new Ammo(color2));
         Refill_Ammo.add(new Ammo(color3));
 
-        Avaible=true;
+        Used=false;
     }
 
     @Override
-    public void Collect_Card(){
+    public ArrayList<Ammo> Get_Card(){
         //TODO
     }
     /*

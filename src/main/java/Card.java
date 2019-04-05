@@ -1,4 +1,13 @@
-public interface Card {
+abstract public class Card {
 
-    public void Get_Card();
+    protected boolean Used;
+
+    public void Set_Used(){
+        this.Used=true;
+    }
+
+    public void Set_Available(){
+        this.Used=false;
+    }
+
 }

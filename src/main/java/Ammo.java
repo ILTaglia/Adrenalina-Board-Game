@@ -6,9 +6,13 @@ public class Ammo {
         this.color=color;
     }
 
-    public String toString(){
-        return String.valueOf(color);
+    public int get_Ammo(){
+        return color;
     }
 
+    /*public String toString(){
+        return String.valueOf(color);
+    }
+    */
 
 }

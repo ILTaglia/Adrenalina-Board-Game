@@ -11,12 +11,16 @@ public abstract class Deck {
         return Stack.remove(i);
     }
 
+    public void Discard_Card(Card c){
+        Stack_Discarded.add(c);
+    }
     public void Shuffle(){
         Collections.shuffle(Stack_Discarded);
         Collections.copy(Stack,Stack_Discarded);
         Stack_Discarded.clear();
-        return;
+        Stack.forEach(card -> card.Set_Available());
     }
+
 
 
 }
