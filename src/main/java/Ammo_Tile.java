@@ -15,21 +15,6 @@ public class Ammo_Tile extends Ammo_Card {
         Used=false;
     }
 
-    public void Collect_Card(Player player) throws CardAlreadyCollectedException{
-        if(Used=true){
-            throw new CardAlreadyCollectedException();
-            //Exception will be handled by Controller
-        }
-        for (Ammo ammo:Refill_Ammo) {
-            try {
-                player.add_ammo(ammo);
-            }
-            catch (MoreThanTreeAmmosException e){
-                //TODO: pensare a catch
-                //Nothing to do, just try with next ammo
-            }
-        }
-        Used=true;
-    }
+
 
 }

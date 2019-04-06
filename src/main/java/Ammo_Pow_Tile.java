@@ -14,22 +14,10 @@ public class Ammo_Pow_Tile extends Ammo_Card {
         Used=false;
     }
 
-    public void Collect_Card(Player player,Pow_Deck pow_deck) throws CardAlreadyCollectedException {
-        if(Used=true){
-            throw new CardAlreadyCollectedException();
-            //Exception will be handled by Controller
-        }
-        for (Ammo ammo:Refill_Ammo) {
-            try {
-                player.add_ammo(ammo);
-            }
-            catch (MoreThanTreeAmmosException e){
-                //TODO: pensare a catch
-                //Nothing to do, just try with next ammo
-            }
-        }
-        Used=true;
-        player.add_pow((Pow_Card) pow_deck.Draw_Card());
+    @Override
+    public void Collect_Card(Player player) throws CardAlreadyCollectedException {
+        super.Collect_Card(player);
+        //TODO capire come implementare la carta da pescare (Eventi ??)
     }
 
 

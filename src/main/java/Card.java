@@ -1,3 +1,5 @@
+import exceptions.*;
+
 abstract public class Card {
 
     protected boolean Used;
@@ -10,4 +12,5 @@ abstract public class Card {
         this.Used=false;
     }
 
+    //public abstract void Collect_Card(Player player) throws CardAlreadyCollectedException;
 }
