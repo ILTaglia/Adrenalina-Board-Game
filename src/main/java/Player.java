@@ -72,7 +72,7 @@ public class Player {
     public String getname() {return this.name;}
     public String getid() {return this.id;}
 
-    public int getcolor() {
+    public int getcolor() throws IllegalArgumentException{
         if(this.color>=0 && this.color<=4) return this.color;
         else throw new IllegalArgumentException();
         //error in case player has not a color yet or the chosen color is not in the range
@@ -139,12 +139,11 @@ public class Player {
     }
 
     //remove number n of ammos of color c
-    public int remove_ammo(int n, Ammo ammo) throws InvalidColorExeption{
+    public void remove_ammo(int n, Ammo ammo) throws InvalidColorExeption, NotEnoughAmmosException {
         if(color<0 || color>3) throw new InvalidColorExeption();
         int n_ammos=this.get_ammo(ammo.get_Ammo());
-        if(n_ammos<n) return -2;
+        if(n_ammos<n) throw new NotEnoughAmmosException();
         for(int i=0; i<n; i++) ammos.remove(ammo);
-        return 0;
     }
 
     //return weapon passed as argument
@@ -155,15 +154,15 @@ public class Player {
         return false;
     }
 
-    public int add_weapon(Weapon weapon){
-        if(gun.size()==3) return -1; //you have to remove a weapon, cannot have more than three
+    public int add_weapon(Weapon weapon) throws MaxNumberofCardsException{
+        if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to remove a weapon, cannot have more than three
         gun.add(weapon);
         return 0;
     }
 
-    public int remove_weapon(Weapon weapon){
-        if(gun.size()==0) return -1;
-        if(!weaponIspresent(weapon)) return -2;
+    public int remove_weapon(Weapon weapon) throws ZeroCardsOwnedException, NotOwnedCardException{
+        if(gun.size()==0) throw new ZeroCardsOwnedException();
+        if(!weaponIspresent(weapon)) throw new NotOwnedCardException();
         int i=gun.indexOf(weapon);
         gun.remove(i);
         return 0;
@@ -176,15 +175,15 @@ public class Player {
         return false;
     }
 
-    public int add_pow(Pow_Card p){
-        if(pow.size()==3) return -1; //remove one pow
+    public int add_pow(Pow_Card p) throws MaxNumberofCardsException{
+        if(pow.size()==3) throw new MaxNumberofCardsException(); //remove one pow
         pow.add(p);
         return 0;
     }
 
-    public int remove_pow(Pow_Card p){
-        if(pow.size()==0) return -1; //invalid
-        if(!powIspresent(p)) return -2; //you don't have it
+    public int remove_pow(Pow_Card p) throws ZeroCardsOwnedException, NotOwnedCardException{
+        if(pow.size()==0) throw new ZeroCardsOwnedException(); //invalid
+        if(!powIspresent(p)) throw new NotOwnedCardException(); //you don't have it
         int i=pow.indexOf(p);
         pow.remove(i);
         return 0;
@@ -192,9 +191,7 @@ public class Player {
 
     public Coordinate get_cel(){return this.cel;}
 
-    public void set_cel(int x, int y){
-        cel.set(x, y);
-    }
+    public void set_cel(int x, int y){cel.set(x, y);}
 
     public int get_death(){return this.death;}
 
@@ -208,8 +205,6 @@ public class Player {
     public int get_score(){return this.score;}
 
     //add the points of a single turn to the global score
-    public void set_score(int s){
-        this.score=this.score+s;
-    }
+    public void set_score(int s){this.score=this.score+s;}
 
 }
