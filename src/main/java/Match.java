@@ -10,7 +10,7 @@ public class Match {
 
     }
     public void set_round(){
-        if(players.get(players.size()-1).get_action()==2) this.round=this.round+1;
+        if(players.get(players.size()-1).get_action()==2) this.round++;
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
@@ -22,5 +22,6 @@ public class Match {
         players.add(player);
         return 0;
     }
+    //TODO inserire eccezione
 
 }

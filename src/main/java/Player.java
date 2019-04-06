@@ -1,4 +1,6 @@
 //package player_test;
+import exceptions.*;
+
 import java.util.*;
 
 public class Player {
@@ -7,10 +9,10 @@ public class Player {
     private boolean active; //if 1 the player is active, if 0 the player is waiting its turn
     private ArrayList<Integer> damages; //list to sign every possible damage
     private ArrayList<Integer> marks; //list for marks given to this player by others
-    private ArrayList<Integer> ammos; //list to show how many ammo for each color you have
+    private ArrayList<Ammo> ammos; //list to show how many ammo for each color you have
     private int color; //player color is represented by an id integer
-    private int [] cel; //signal to say if is in the map or not
-    private ArrayList<Arma> gun; //list for the weapons of the player
+    private Coordinate cel; //position of the player
+    private ArrayList<Weapoin> gun; //list for the weapons of the player
     private ArrayList<Pow_Card> pow; //list for the power up of the player
     private int death; //number to show how many times the player died
     private int action; //number of the action taken by the player in one turn
@@ -42,9 +44,9 @@ public class Player {
         this.marks.add(0);
 
         this.ammos = new ArrayList<>();
-        ammos.add(1);
-        ammos.add(1);
-        ammos.add(1);
+        ammos.add(new Ammo(0));
+        ammos.add(new Ammo(1));
+        ammos.add(new Ammo(2));
         //at the beginning you have 1 ammo for each color
         //0 is red, you start with three red ammo
         //1 is blue, you start with three blue ammo
@@ -61,8 +63,7 @@ public class Player {
         this.gun= new ArrayList<>();
         this.pow = new ArrayList<>();
 
-        this.cel = new int[2]; //index of the position of the player (default position is (-1, -1)
-        Arrays.fill(cel, -1);
+        this.cel = new Coordinate(-1, -1); //index of the position of the player (default position is (-1, -1)
         this.death=0;
         this.action=0;
         this.score=0;
@@ -74,7 +75,7 @@ public class Player {
     public int getcolor() {
         if(this.color>=0 && this.color<=4) return this.color;
         else throw new IllegalArgumentException();
-        //error in case player has not a color yet
+        //error in case player has not a color yet or the chosen color is not in the range
     }
 
     //return number of damages by a single enemy to set the score (parameter is the color of the enemy player)
@@ -125,55 +126,54 @@ public class Player {
     }
 
     //return number of ammos of color c
-    public int get_ammo(int c){
-        if(c<0 || c>3) throw new IllegalArgumentException();
-        int i=ammos.get(c);
-        return i;
+    public int get_ammo(int color) throws InvalidColorExeption {
+        if(color<0 || color>3) throw new InvalidColorExeption();
+        return (int) ammos.stream().filter(x->x.get_Ammo()==color).count();
     }
 
-    //add number n of ammos of color c
-    public int add_ammo(int n, int c){
-        if(c<0 || c>3) return -1;
-        if(ammos.get(c)+n>=3) ammos.set(c, 3);
-        else ammos.set(c,(ammos.get(c)+n));
-        return 0;
+    //add ammo
+    public void add_ammo(Ammo ammo) throws MoreThanTreeAmmosException{
+        if(get_ammo(ammo.get_Ammo())>=3) {
+            throw new MoreThanTreeAmmosException();
+        } else ammos.add(ammo);
     }
 
     //remove number n of ammos of color c
-    public int remove_ammo(int n, int c){
-        if(c<0 || c>3) return -1;
-        if(ammos.get(c)<n) return -2;
-        ammos.set(c, (ammos.get(c)-n));
+    public int remove_ammo(int n, Ammo ammo) throws InvalidColorExeption{
+        if(color<0 || color>3) throw new InvalidColorExeption();
+        int n_ammos=this.get_ammo(ammo.get_Ammo());
+        if(n_ammos<n) return -2;
+        for(int i=0; i<n; i++) ammos.remove(ammo);
         return 0;
     }
 
     //return weapon passed as argument
-    public int weaponIspresent(Arma weapon){
+    public boolean weaponIspresent(Weapoin weapon){
         for(int i=0; i<gun.size(); i++) {
-            if (gun.get(i).equals(weapon)) return 1;
+            if (gun.get(i).equals(weapon)) return true;
         }
-        return 0;
+        return false;
     }
 
-    public int add_weapon(Arma weapon){
+    public int add_weapon(Weapoin weapon){
         if(gun.size()==3) return -1; //you have to remove a weapon, cannot have more than three
         gun.add(weapon);
         return 0;
     }
 
-    public int remove_weapon(Arma weapon){
+    public int remove_weapon(Weapoin weapon){
         if(gun.size()==0) return -1;
-        if(weaponIspresent(weapon)==0) return -2;
+        if(!weaponIspresent(weapon)) return -2;
         int i=gun.indexOf(weapon);
         gun.remove(i);
         return 0;
     }
 
-    public int powIspresent(Pow_Card p){
+    public boolean powIspresent(Pow_Card p){
         for(int i=0; i<pow.size(); i++){
-            if(pow.get(i).equals(p)) return 1;
+            if(pow.get(i).equals(p)) return true;
         }
-        return 0;
+        return false;
     }
 
     public int add_pow(Pow_Card p){
@@ -184,19 +184,16 @@ public class Player {
 
     public int remove_pow(Pow_Card p){
         if(pow.size()==0) return -1; //invalid
-        if(powIspresent(p)==0) return -2; //you don't have it
+        if(!powIspresent(p)) return -2; //you don't have it
         int i=pow.indexOf(p);
         pow.remove(i);
         return 0;
     }
 
-    public int get_cel(){
-        return 0;
-    } //TODO in realtà ritorna oggetto CEL
+    public Coordinate get_cel(){return this.cel;}
 
     public void set_cel(int x, int y){
-        cel[0]=x;
-        cel[1]=y;
+        cel.set(x, y);
     }
 
     public int get_death(){return this.death;}
