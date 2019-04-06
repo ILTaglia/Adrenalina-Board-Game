@@ -6,6 +6,6 @@ public class Effect_factory {
             return new Player_effect(id);
         }
         else
-            return new Cell_effect();
+            return new Cell_effect(id);
     }
 }

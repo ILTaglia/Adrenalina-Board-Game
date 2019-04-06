@@ -26,6 +26,11 @@ public class Cell_effect implements Effect {
         return D.get(i);
     }
 
+    public Cell_effect(int id)
+    {
+        D= new ArrayList<Damage>();
+    }
+
     @Override
     public void shoot(int color) {
 
