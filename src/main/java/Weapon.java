@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
-public class Weapoin {
+public class Weapon {
     private String name;
     private ArrayList <Integer> cost;
     private int used;
     private ArrayList <Type_attack> Action;
-    public Weapoin(String name, ArrayList <Integer> cost)
+    public Weapon(String name, ArrayList <Integer> cost)
     {
         this.name=name;
         this.cost=cost;

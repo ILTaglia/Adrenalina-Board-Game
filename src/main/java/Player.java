@@ -12,7 +12,7 @@ public class Player {
     private ArrayList<Ammo> ammos; //list to show how many ammo for each color you have
     private int color; //player color is represented by an id integer
     private Coordinate cel; //position of the player
-    private ArrayList<Weapoin> gun; //list for the weapons of the player
+    private ArrayList<Weapon> gun; //list for the weapons of the player
     private ArrayList<Pow_Card> pow; //list for the power up of the player
     private int death; //number to show how many times the player died
     private int action; //number of the action taken by the player in one turn
@@ -148,20 +148,20 @@ public class Player {
     }
 
     //return weapon passed as argument
-    public boolean weaponIspresent(Weapoin weapon){
+    public boolean weaponIspresent(Weapon weapon){
         for(int i=0; i<gun.size(); i++) {
             if (gun.get(i).equals(weapon)) return true;
         }
         return false;
     }
 
-    public int add_weapon(Weapoin weapon){
+    public int add_weapon(Weapon weapon){
         if(gun.size()==3) return -1; //you have to remove a weapon, cannot have more than three
         gun.add(weapon);
         return 0;
     }
 
-    public int remove_weapon(Weapoin weapon){
+    public int remove_weapon(Weapon weapon){
         if(gun.size()==0) return -1;
         if(!weaponIspresent(weapon)) return -2;
         int i=gun.indexOf(weapon);

@@ -3,14 +3,14 @@ import java.util.ArrayList;
 public class TempMain {
     public static void main(String Args[])
     {
-        Weapoin A;
+        Weapon A;
         ArrayList <Integer> E;
         E=new ArrayList<Integer>();
         E.add(4);
         E.add(3);
         E.add(2);
         System.out.println("Ciao A tutti, Il main temporaneo funziona");
-        A=new Weapoin("Raggio Fotonico",E);
+        A=new Weapon("Raggio Fotonico",E);
         System.out.println("Il nome dell'arma e' "+A.getName());
         for(int i:A.getCost())
         {
