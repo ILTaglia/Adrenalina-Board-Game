@@ -6767,7 +6767,7 @@
 											"top": 1239,
 											"width": 302,
 											"height": 13,
-											"text": "-cell: int[2]",
+											"text": "-cell: Coordinate",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7056,7 +7056,7 @@
 											"top": 1487,
 											"width": 302,
 											"height": 13,
-											"text": "+add_ammo(n: int, c: int): int",
+											"text": "+add_ammo(Ammo ammo)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7073,7 +7073,7 @@
 											"top": 1502,
 											"width": 302,
 											"height": 13,
-											"text": "+remove_ammo(n: int, c: int): int",
+											"text": "+remove_ammo(n: int, ammo: Ammo)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7090,7 +7090,7 @@
 											"top": 1517,
 											"width": 302,
 											"height": 13,
-											"text": "+weaponIspresent(weapon: Weapon): int",
+											"text": "+weaponIspresent(weapon: Weapon): Boolean",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7141,7 +7141,7 @@
 											"top": 1562,
 											"width": 302,
 											"height": 13,
-											"text": "+powIspresent(p: Pow_Card): int",
+											"text": "+powIspresent(p: Pow_Card): Boolean",
 											"horizontalAlignment": 0
 										},
 										{
@@ -7192,7 +7192,7 @@
 											"top": 1607,
 											"width": 302,
 											"height": 13,
-											"text": "+get_cel(): Cell",
+											"text": "+get_cel(): Coordinate",
 											"horizontalAlignment": 0
 										},
 										{
@@ -14026,8 +14026,7 @@
 							},
 							"name": "cell",
 							"visibility": "private",
-							"type": "int",
-							"multiplicity": "2"
+							"type": "Coordinate"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -14366,26 +14365,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp5OeBHWY8IsA="
 									},
-									"name": "n",
-									"type": "int"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFp5O2gc93YcE0=",
-									"_parent": {
-										"$ref": "AAAAAAFp5OeBHWY8IsA="
-									},
-									"name": "c",
-									"type": "int"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFp5O2gc93ZLTQ=",
-									"_parent": {
-										"$ref": "AAAAAAFp5OeBHWY8IsA="
-									},
-									"type": "int",
-									"direction": "return"
+									"name": "Ammo ammo"
 								}
 							]
 						},
@@ -14412,17 +14392,10 @@
 									"_parent": {
 										"$ref": "AAAAAAFp5OeOZGg6jqI="
 									},
-									"name": "c",
-									"type": "int"
-								},
-								{
-									"_type": "UMLParameter",
-									"_id": "AAAAAAFp5O3mQeIPfkE=",
-									"_parent": {
-										"$ref": "AAAAAAFp5OeOZGg6jqI="
-									},
-									"type": "int",
-									"direction": "return"
+									"name": "ammo",
+									"type": {
+										"$ref": "AAAAAAFp2MNexw76css="
+									}
 								}
 							]
 						},
@@ -14451,7 +14424,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp5OecXWo4wdo="
 									},
-									"type": "int",
+									"type": "Boolean",
 									"direction": "return"
 								}
 							]
@@ -14541,7 +14514,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp5O5YdumBHTQ="
 									},
-									"type": "int",
+									"type": "Boolean",
 									"direction": "return"
 								}
 							]
@@ -14620,9 +14593,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp5PFGLvVykLY="
 									},
-									"type": {
-										"$ref": "AAAAAAFp2IsWQgsKEhA="
-									},
+									"type": "Coordinate",
 									"direction": "return"
 								}
 							]
