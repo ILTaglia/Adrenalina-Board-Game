@@ -58,7 +58,7 @@ public class Player {
         else if(color.equals("yellow")) this.color=2;
         else if(color.equals("pink")) this.color=3;
         else if(color.equals("grey")) this.color=4;
-        else throw new IllegalArgumentException(); //invalid color
+        else throw new InvalidColorExeption(); //invalid color
 
         this.gun= new ArrayList<>();
         this.pow = new ArrayList<>();
@@ -72,15 +72,15 @@ public class Player {
     public String getname() {return this.name;}
     public String getid() {return this.id;}
 
-    public int getcolor() throws IllegalArgumentException{
+    public int getcolor() throws InvalidColorExeption{
         if(this.color>=0 && this.color<=4) return this.color;
-        else throw new IllegalArgumentException();
+        else throw new InvalidColorExeption();
         //error in case player has not a color yet or the chosen color is not in the range
     }
 
     //return number of damages by a single enemy to set the score (parameter is the color of the enemy player)
     public int getnumberdamage(int c){
-        if(c==this.getcolor()) return 0; //not self made damages
+        if(c==this.getcolor()) return -1; //not self made damages
         int i=damages.get(c);
         return i;
     }
@@ -88,7 +88,9 @@ public class Player {
     //count the total amount of damages of the player
     public int gettotaldamage(){
         int j=0;
-        for(int h=0; h<this.damages.size(); h++) j=j+getnumberdamage(h);
+        for(int h=0; h<this.damages.size(); h++){
+            if(h!=this.getcolor()) j=j+getnumberdamage(h);
+        }
         return j;
     }
 
