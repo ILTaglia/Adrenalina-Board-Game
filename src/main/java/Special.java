@@ -1,4 +1,4 @@
-public class Special implements Arma {
+public  class Special implements Arma {
     private int ready;
     private int ammo[];
     private String name;
@@ -19,5 +19,10 @@ public class Special implements Arma {
     @Override
     public void changegun() {
 
+    }
+
+    @Override
+    public Bullets getAmmo() {  //TODO: completare metodo
+        return null;
     }
 }

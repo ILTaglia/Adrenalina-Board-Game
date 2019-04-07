@@ -55,6 +55,12 @@ public class More_distance implements Type_attack {
     {
         return this.extra.size();
     }
+
+    @Override
+    public int getDirection() { //TODO completare metodo
+        return 0;
+    }
+
     public More_distance(int typeplayer,int distance,int moveme, int moveyou)
     {
         this.extra=new ArrayList<Integer>();
