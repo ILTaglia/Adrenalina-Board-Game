@@ -19,6 +19,9 @@ public class Ammo_Pow_Tile extends Ammo_Card {
         super.Collect_Card(player);
         //TODO capire come implementare la carta da pescare (Eventi ??)
     }
-
+    @Override
+    public String toString(){
+        return Refill_Ammo.stream().map(ammo->ammo.toString()).reduce("",(a,b)->a + b)+"Pow";
+    }
 
 }

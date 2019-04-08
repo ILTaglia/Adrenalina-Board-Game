@@ -2,7 +2,10 @@ import exceptions.CardAlreadyCollectedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
+
+
 
 class Ammo_TileTest {
 
@@ -16,20 +19,18 @@ class Ammo_TileTest {
     }
 
     @Test
-    public void Collect_CardTest(){
-        boolean Exc=false;
+    public void Collect_CardTest() throws CardAlreadyCollectedException{
         try{
             ammo_tile.Collect_Card(player);
         }catch (CardAlreadyCollectedException e){
             fail();
         }
+        assertEquals(2,player.get_ammo(0));
         assertEquals(2,player.get_ammo(1));
-        try{
-            ammo_tile.Collect_Card(player);
-        }catch (CardAlreadyCollectedException e){
-            Exc=true;
-        }
-        assert(Exc);
+        assertEquals(2,player.get_ammo(2));
+
+        assertThrows(CardAlreadyCollectedException.class, ()->ammo_tile.Collect_Card(player));
+
     }
 
 }

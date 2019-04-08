@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Ammo_Deck extends Deck {
 //Rosso:0__Blue:1__Giallo:2
@@ -10,6 +11,7 @@ public class Ammo_Deck extends Deck {
         //Ricontrollare se evitabili i for
         //
         Stack=new ArrayList<>();
+        Stack_Discarded=new ArrayList<>();
         int i;
         for (i= 0;i<3;i++) {
             this.Stack.add(new Ammo_Tile(0,1,1));
@@ -44,8 +46,8 @@ public class Ammo_Deck extends Deck {
         for(i=0;i<4;i++){
             this.Stack.add(new Ammo_Pow_Tile(0,2));
         }
-        for(i=0;i<4;i++){
-            this.Stack.add(new Ammo_Pow_Tile(1,2));
+        for(i=0;i<4;i++) {
+            this.Stack.add(new Ammo_Pow_Tile(1, 2));
         }
     }
 }

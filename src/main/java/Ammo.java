@@ -13,9 +13,9 @@ public class Ammo {
         return color;
     }
 
-    /*public String toString(){
+    public String toString(){
         return String.valueOf(color);
     }
-    */
+
 
 }

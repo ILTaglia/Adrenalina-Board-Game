@@ -25,5 +25,10 @@ public abstract class Ammo_Card extends Card {
         }
         Used=true;
     }
+    public String toString(){
+        return Refill_Ammo.stream().map(ammo->ammo.toString()).reduce("",(a,b)->a + b);
+    }
+
+
 
 }
