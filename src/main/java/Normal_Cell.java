@@ -1,4 +1,5 @@
 import exceptions.CardAlreadyCollectedException;
+import exceptions.FullCellException;
 
 import java.util.ArrayList;
 
@@ -12,10 +13,14 @@ public class Normal_Cell extends Cell {
         this.color=color;
     }
 
-    public void Add_Ammo_Card(Ammo_Card ammo_card){
+    public void Add_Ammo_Card(Ammo_Card ammo_card) throws FullCellException{
+        if(ammo_card!=null) throw new FullCellException();
         this.ammo_card=ammo_card;
     }
+
     public void Collect_Card(Player player) throws CardAlreadyCollectedException{
-        ammo_card.Collect_Card(player);
+
+        ammo_card.Collect_Card(player); //TODO: come gestisco l'eccezione?
+
     }
 }

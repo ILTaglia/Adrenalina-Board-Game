@@ -6,10 +6,9 @@ public class Ammo_Deck extends Deck {
     //ATTENZIONE: Non chiamo Shuffle, sarà il controller a farlo a inizio partita
     
     public Ammo_Deck(){
-        //
-        //TODO Modificare costruttori sottoclassi di Ammo_Card!
-        //Ricontrollare se evitabili i for
-        //
+
+        //TODO Ricontrollare se evitabili i for
+
         Stack=new ArrayList<>();
         Stack_Discarded=new ArrayList<>();
         int i;
