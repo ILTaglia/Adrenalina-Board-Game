@@ -29,6 +29,7 @@ public class Cell_effect implements Effect {
     public Cell_effect(int id)
     {
         D= new ArrayList<Damage>();
+        this.id=id;
     }
 
     @Override
@@ -43,6 +44,6 @@ public class Cell_effect implements Effect {
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 }
