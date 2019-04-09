@@ -116,7 +116,16 @@ class PlayerTest {
     void setmarks() {
         assertEquals(0, player1.getmarks(player2.getcolor()));
         assertEquals(-1, player1.getmarks(player1.getcolor()));
-        player1.setmarks(3, player2.getcolor());
+        //1 mark from player2 to player1
+        player1.setmarks(1, player2.getcolor());
+        assertEquals(1, player1.getmarks(player2.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        //1 mark from player2 to player1
+        player1.setmarks(1, player2.getcolor());
+        assertEquals(2, player1.getmarks(player2.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        //2 marks from player2 to player1
+        player1.setmarks(2, player2.getcolor());
         assertEquals(3, player1.getmarks(player2.getcolor()));
         assertEquals(-1, player1.getmarks(player1.getcolor()));
 
