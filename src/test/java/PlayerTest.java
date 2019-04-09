@@ -1,10 +1,11 @@
 import Model.Player;
 import Model.Ammo;
 import Model.Weapon;
-import exceptions.InvalidColorException;
-import exceptions.MoreThanTreeAmmosException;
+import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -155,18 +156,65 @@ class PlayerTest {
 
     @Test
     void remove_ammo() {
+        Ammo ammo = new Ammo(0); //new ammo blue
+        /*try {
+            player1.remove_ammo(1, ammo);
+        }
+        catch (NotEnoughAmmosException e){}
+        assertEquals(0, player1.get_ammo(0));
+        assertThrows(NotEnoughAmmosException.class, () -> player1.remove_ammo(1, ammo));*/
     }
 
-    @Test
-    void weaponIspresent() {
-    }
 
-    @Test
+        @Test
     void add_weapon() {
+        ArrayList<Integer> cost = new ArrayList();
+        cost.add(1);
+        cost.add(2);
+        cost.add(0);
+        Weapon weapon1 = new Weapon("Spada Laser", cost);
+        try {
+            player1.add_weapon(weapon1);
+        }
+        catch (MaxNumberofCardsException e){}
+        Weapon weapon2 = new Weapon("Vortex", cost);
+        Weapon weapon3 = new Weapon("Distruttore", cost);
+        Weapon weapon4 = new Weapon("Fucile di precisione", cost);
+        try {
+            player1.add_weapon(weapon2);
+        }
+        catch (MaxNumberofCardsException e){}
+        try {
+            player1.add_weapon(weapon3);
+        }
+        catch (MaxNumberofCardsException e){}
+        assertThrows(MaxNumberofCardsException.class, () -> player1.add_weapon(weapon4));
     }
 
     @Test
     void remove_weapon() {
+        ArrayList<Integer> cost = new ArrayList();
+        cost.add(1);
+        cost.add(2);
+        cost.add(0);
+        Weapon weapon1 = new Weapon("Spada Laser", cost);
+        assertThrows(ZeroCardsOwnedException.class, () -> player1.remove_weapon(weapon1));
+
+        try {
+            player1.add_weapon(weapon1);
+        }
+        catch (MaxNumberofCardsException e){}
+        assertEquals(true, player1.weaponIspresent(weapon1));
+
+        Weapon weapon2 = new Weapon("Vortex", cost);
+        assertThrows(NotOwnedCardException.class, () -> player1.remove_weapon(weapon2));
+
+        try{
+            player1.remove_weapon(weapon1);
+        }
+        catch (NotOwnedCardException e1){}
+        catch (ZeroCardsOwnedException e2){}
+        assertEquals(false, player1.weaponIspresent(weapon1));
     }
 
     @Test

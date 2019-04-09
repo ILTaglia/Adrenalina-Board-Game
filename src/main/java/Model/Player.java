@@ -136,7 +136,7 @@ public class Player {
         } else ammos.add(ammo);
     }
 
-    //remove number n of ammos
+    //remove number n of ammos passed as parameter
     public void remove_ammo(int n, Ammo ammo) throws NotEnoughAmmosException {
         int n_ammos=this.get_ammo(ammo.get_Ammo());
         if(n_ammos<n) throw new NotEnoughAmmosException();
