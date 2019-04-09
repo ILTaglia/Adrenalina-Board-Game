@@ -14,10 +14,9 @@ class PlayerTest {
         assertEquals(3, player2.getcolor());
     }
 
-    @org.junit.Test(expected = InvalidColorException.class)
+    @Test
     public void whenExceptionThrown(){
-        Player player3 = new Player("Bellatrix", "red", "12220987");
-        assertThrows(InvalidColorException.class, () -> {player3.getcolor();});
+        assertThrows(InvalidColorException.class, () -> new Player("Bellatrix", "red", "12220987"));
     }
 
     @Test
