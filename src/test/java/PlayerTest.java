@@ -1,29 +1,39 @@
 import Model.Player;
+import Model.Ammo;
+import Model.Weapon;
 import exceptions.InvalidColorException;
+import exceptions.MoreThanTreeAmmosException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    Player player1;
+    Player player2;
+    Player player3;
+
+    @BeforeEach
+    void SetUp(){
+        player1 = new Player("Sirius", "blue", "10583741");
+        player2 = new Player("Calypso", "pink", "14253954");
+        player3 = new Player("Hermione", "green", "18263100");
+    }
 
     @Test
     void getcolor(){
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
         assertEquals(0, player1.getcolor());
         assertEquals(3, player2.getcolor());
     }
 
     @Test
-    public void whenExceptionThrown(){
+    public void whenExceptionThrown1(){
         assertThrows(InvalidColorException.class, () -> new Player("Bellatrix", "red", "12220987"));
     }
 
     @Test
     void getnumberdamage() {
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
         for(int i=0; i<5; i++){
             if(player1.getcolor()!=i) assertEquals(0, player1.getnumberdamage(i));
             if(player2.getcolor()!=i) assertEquals(0, player2.getnumberdamage(i));
@@ -41,9 +51,19 @@ class PlayerTest {
     }
 
     @Test
+    void winningpoints(){
+        player1.setdamage(6, player2.getcolor());
+        assertEquals(1, player1.setdamage(5, player3.getcolor()));
+        //set_damages returns 1 with the damage number 11
+        assertEquals(11, player1.gettotaldamage());
+
+        assertEquals(2, player1.setdamage(2, player2.getcolor()));
+        //set_damages returns 1 with the damage number 11
+        assertEquals(12, player1.gettotaldamage());
+    }
+
+    @Test
     void gettotaldamage() {
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
         assertEquals(0, player1.gettotaldamage());
         assertEquals(0, player2.gettotaldamage());
 
@@ -60,8 +80,6 @@ class PlayerTest {
 
     @Test
     void setdamage() {
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
         assertEquals(0, player1.gettotaldamage());
         player1.setdamage(3, player2.getcolor());
         assertEquals(3, player1.gettotaldamage());
@@ -75,13 +93,10 @@ class PlayerTest {
 
     @Test
     void getmarks() {
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
         for(int i=0; i<5; i++){
             if(player1.getcolor()!=i) assertEquals(0, player1.getmarks(i));
             if(player2.getcolor()!=i) assertEquals(0, player2.getmarks(i));
         }
-
         //verify that player1 has 3 marks by player2
         player1.setmarks(3, player2.getcolor());
         assertEquals(3, player1.getmarks(player2.getcolor()));
@@ -95,8 +110,6 @@ class PlayerTest {
 
     @Test
     void setmarks() {
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
         assertEquals(0, player1.getmarks(player2.getcolor()));
         assertEquals(-1, player1.getmarks(player1.getcolor()));
         player1.setmarks(3, player2.getcolor());
@@ -107,14 +120,37 @@ class PlayerTest {
         player1.setmarks(2, player1.getcolor());
         assertEquals(3, player1.getmarks(player2.getcolor()));
         assertEquals(-1, player1.getmarks(player1.getcolor()));
+
+        player1.setmarks(1, player2.getcolor());
+        assertEquals(3, player1.getmarks(player2.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
     }
 
     @Test
     void get_ammo() {
+        assertEquals(1, player1.get_ammo(1));
+    }
+
+    @Test
+    public void whenExceptionThrown2(){
+        assertThrows(InvalidColorException.class, () -> player1.get_ammo(4));
     }
 
     @Test
     void add_ammo() {
+        Ammo ammo = new Ammo(0); //new ammo blue
+        try{
+            player1.add_ammo(ammo);
+        }
+        catch (MoreThanTreeAmmosException e){}
+        assertEquals(2, player1.get_ammo(0));
+        try{
+            player1.add_ammo(ammo);
+        }
+        catch (MoreThanTreeAmmosException e){}
+        assertEquals(3, player1.get_ammo(0));
+        assertThrows(MoreThanTreeAmmosException.class, () -> player1.add_ammo(ammo));
+
     }
 
     @Test

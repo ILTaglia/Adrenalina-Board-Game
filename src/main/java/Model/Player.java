@@ -72,11 +72,7 @@ public class Player {
     public String getname() {return this.name;}
     public String getid() {return this.id;}
 
-    public int getcolor() throws InvalidColorException {
-        if(this.color>=0 && this.color<=4) return this.color;
-        else throw new InvalidColorException();
-        //error in case player has not a color yet or the chosen color is not in the range
-    }
+    public int getcolor(){return this.color;}
 
     //return number of damages by a single enemy to set the score (parameter is the color of the enemy player)
     public int getnumberdamage(int c){
@@ -140,9 +136,8 @@ public class Player {
         } else ammos.add(ammo);
     }
 
-    //remove number n of ammos of color c
-    public void remove_ammo(int n, Ammo ammo) throws InvalidColorException, NotEnoughAmmosException {
-        if(color<0 || color>3) throw new InvalidColorException();
+    //remove number n of ammos
+    public void remove_ammo(int n, Ammo ammo) throws NotEnoughAmmosException {
         int n_ammos=this.get_ammo(ammo.get_Ammo());
         if(n_ammos<n) throw new NotEnoughAmmosException();
         for(int i=0; i<n; i++) ammos.remove(ammo);
