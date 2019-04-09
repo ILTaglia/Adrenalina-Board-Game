@@ -125,7 +125,7 @@ public class Player {
 
     //return number of ammos of color c
     public int get_ammo(int color) throws InvalidColorException {
-        if(color<0 || color>3) throw new InvalidColorException();
+        if(color<0 || color>2) throw new InvalidColorException();
         return (int) ammos.stream().filter(x->x.get_Ammo()==color).count();
     }
 
@@ -140,7 +140,10 @@ public class Player {
     public void remove_ammo(int n, Ammo ammo) throws NotEnoughAmmosException {
         int n_ammos=this.get_ammo(ammo.get_Ammo());
         if(n_ammos<n) throw new NotEnoughAmmosException();
-        for(int i=0; i<n; i++) ammos.remove(ammo);
+        for(int i=0; i<n; i++) {
+            ammos.remove(ammo);
+        }
+
     }
 
     //return weapon passed as argument

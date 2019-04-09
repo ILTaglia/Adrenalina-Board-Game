@@ -131,12 +131,10 @@ class PlayerTest {
     @Test
     void get_ammo() {
         assertEquals(1, player1.get_ammo(1));
+        assertThrows(InvalidColorException.class, () -> player1.get_ammo(4));
+
     }
 
-    @Test
-    public void whenExceptionThrown2(){
-        assertThrows(InvalidColorException.class, () -> player1.get_ammo(4));
-    }
 
     @Test
     void add_ammo() {
@@ -158,6 +156,7 @@ class PlayerTest {
     @Test
     void remove_ammo() {
         Ammo ammo = new Ammo(0); //new ammo blue
+        assertEquals(1, player1.get_ammo(0));
         /*try {
             player1.remove_ammo(1, ammo);
         }
