@@ -1,6 +1,7 @@
 import Model.Player;
 import Model.Ammo;
 import Model.Weapon;
+import Model.Coordinate;
 import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -219,6 +220,7 @@ class PlayerTest {
 
     @Test
     void powIspresent() {
+        //Pow_card p = new Pow_card(0, "Raggio cinetico");
     }
 
     @Test
@@ -231,9 +233,42 @@ class PlayerTest {
 
     @Test
     void get_cel() {
+        player1.set_cel(1,2);
+        Coordinate c = player1.get_cel();
+        assertEquals(1, c.getX());
+        assertEquals(2, c.getY());
     }
 
     @Test
-    void set_cel() {
+    void get_death() {
+        assertEquals(0, player1.get_death());
+    }
+
+    @Test
+    void set_death() {
+        player1.set_death();
+        assertEquals(1, player1.get_death());
+    }
+
+    @Test
+    void get_action() {
+        assertEquals(0, player1.get_action());
+    }
+
+    @Test
+    void set_action() {
+        player1.set_action();
+        assertEquals(1, player1.get_action());
+    }
+
+    @Test
+    void get_score() {
+        assertEquals(0, player1.get_score());
+    }
+
+    @Test
+    void set_score() {
+        player1.set_score(5);
+        assertEquals(5, player1.get_score());
     }
 }
