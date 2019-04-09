@@ -58,7 +58,7 @@ public class Player {
         else if(color.equals("yellow")) this.color=2;
         else if(color.equals("pink")) this.color=3;
         else if(color.equals("grey")) this.color=4;
-        else throw new InvalidColorExeption(); //invalid color
+        else throw new InvalidColorException(); //invalid color
 
         this.gun= new ArrayList<>();
         this.pow = new ArrayList<>();
@@ -72,9 +72,9 @@ public class Player {
     public String getname() {return this.name;}
     public String getid() {return this.id;}
 
-    public int getcolor() throws InvalidColorExeption{
+    public int getcolor() throws InvalidColorException {
         if(this.color>=0 && this.color<=4) return this.color;
-        else throw new InvalidColorExeption();
+        else throw new InvalidColorException();
         //error in case player has not a color yet or the chosen color is not in the range
     }
 
@@ -128,8 +128,8 @@ public class Player {
     }
 
     //return number of ammos of color c
-    public int get_ammo(int color) throws InvalidColorExeption {
-        if(color<0 || color>3) throw new InvalidColorExeption();
+    public int get_ammo(int color) throws InvalidColorException {
+        if(color<0 || color>3) throw new InvalidColorException();
         return (int) ammos.stream().filter(x->x.get_Ammo()==color).count();
     }
 
@@ -141,8 +141,8 @@ public class Player {
     }
 
     //remove number n of ammos of color c
-    public void remove_ammo(int n, Ammo ammo) throws InvalidColorExeption, NotEnoughAmmosException {
-        if(color<0 || color>3) throw new InvalidColorExeption();
+    public void remove_ammo(int n, Ammo ammo) throws InvalidColorException, NotEnoughAmmosException {
+        if(color<0 || color>3) throw new InvalidColorException();
         int n_ammos=this.get_ammo(ammo.get_Ammo());
         if(n_ammos<n) throw new NotEnoughAmmosException();
         for(int i=0; i<n; i++) ammos.remove(ammo);

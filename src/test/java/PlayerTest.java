@@ -1,5 +1,4 @@
-import exceptions.InvalidColorExeption;
-import org.junit.Before;
+import exceptions.InvalidColorException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,10 +14,10 @@ class PlayerTest {
         assertEquals(3, player2.getcolor());
     }
 
-    @org.junit.Test(expected = InvalidColorExeption.class)
+    @org.junit.Test(expected = InvalidColorException.class)
     public void whenExceptionThrown(){
         Player player3 = new Player("Bellatrix", "red", "12220987");
-        assertThrows(InvalidColorExeption.class, () -> {player3.getcolor();});
+        assertThrows(InvalidColorException.class, () -> {player3.getcolor();});
     }
 
     @Test
@@ -26,19 +25,19 @@ class PlayerTest {
         Player player1 = new Player("Sirius", "blue", "10583741");
         Player player2 = new Player("Calypso", "pink", "14253954");
         for(int i=0; i<5; i++){
-            assertEquals(0, player1.getnumberdamage(i));
-            assertEquals(0, player2.getnumberdamage(i));
+            if(player1.getcolor()!=i) assertEquals(0, player1.getnumberdamage(i));
+            if(player2.getcolor()!=i) assertEquals(0, player2.getnumberdamage(i));
         }
 
         //verify that player1 has 3 damages by player2
         player1.setdamage(3, player2.getcolor());
         assertEquals(3, player1.getnumberdamage(player2.getcolor()));
-        assertEquals(0, player1.getnumberdamage(player1.getcolor()));
+        assertEquals(-1, player1.getnumberdamage(player1.getcolor()));
 
         //verify nothing changed
         player1.setdamage(2, player1.getcolor());
-        assertEquals(0, player1.getnumberdamage(player2.getcolor()));
-        assertEquals(0, player1.getnumberdamage(player1.getcolor()));
+        assertEquals(3, player1.getnumberdamage(player2.getcolor()));
+        assertEquals(-1, player1.getnumberdamage(player1.getcolor()));
     }
 
     @Test
@@ -55,7 +54,7 @@ class PlayerTest {
 
         //verify nothing changed
         player2.setdamage(2, player2.getcolor());
-        assertEquals(0, player1.gettotaldamage());
+        assertEquals(3, player1.gettotaldamage());
         assertEquals(0, player2.gettotaldamage());
     }
 
@@ -71,7 +70,7 @@ class PlayerTest {
         //verify nothing changed
         player1.setdamage(2, player1.getcolor());
         assertEquals(3, player1.gettotaldamage());
-        assertEquals(0, player1.getnumberdamage(player1.getcolor()));
+        assertEquals(-1, player1.getnumberdamage(player1.getcolor()));
     }
 
     @Test
@@ -79,19 +78,19 @@ class PlayerTest {
         Player player1 = new Player("Sirius", "blue", "10583741");
         Player player2 = new Player("Calypso", "pink", "14253954");
         for(int i=0; i<5; i++){
-            assertEquals(0, player1.getmarks(i));
-            assertEquals(0, player2.getmarks(i));
+            if(player1.getcolor()!=i) assertEquals(0, player1.getmarks(i));
+            if(player2.getcolor()!=i) assertEquals(0, player2.getmarks(i));
         }
 
         //verify that player1 has 3 marks by player2
         player1.setmarks(3, player2.getcolor());
         assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(0, player1.getmarks(player1.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
 
         //verify nothing changed
         player1.setmarks(2, player1.getcolor());
-        assertEquals(0, player1.getmarks(player2.getcolor()));
-        assertEquals(0, player1.getmarks(player1.getcolor()));
+        assertEquals(3, player1.getmarks(player2.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
     }
 
     @Test
@@ -99,15 +98,15 @@ class PlayerTest {
         Player player1 = new Player("Sirius", "blue", "10583741");
         Player player2 = new Player("Calypso", "pink", "14253954");
         assertEquals(0, player1.getmarks(player2.getcolor()));
-        assertEquals(0, player1.getmarks(player1.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
         player1.setmarks(3, player2.getcolor());
         assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(0, player1.getmarks(player1.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
 
         //verify nothing changed
         player1.setmarks(2, player1.getcolor());
-        assertEquals(0, player1.getmarks(player2.getcolor()));
-        assertEquals(0, player1.getmarks(player1.getcolor()));
+        assertEquals(3, player1.getmarks(player2.getcolor()));
+        assertEquals(-1, player1.getmarks(player1.getcolor()));
     }
 
     @Test

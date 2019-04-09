@@ -1,11 +1,13 @@
+import exceptions.InvalidColorException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ammo_Deck extends Deck {
 //Rosso:0__Blue:1__Giallo:2
-    //ATTENZIONE: Non chiamo Shuffle, sarà il controller a farlo a inizio partita
+//ATTENZIONE: Non chiamo Shuffle, sarà il controller a farlo a inizio partita
     
-    public Ammo_Deck(){
+    public Ammo_Deck() throws InvalidColorException {
 
         //TODO Ricontrollare se evitabili i for
 

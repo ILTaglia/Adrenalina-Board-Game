@@ -4,8 +4,8 @@ public class Ammo {
 
     private int color;
 
-    public Ammo(int color) throws InvalidColorExeption{
-        if(color<0 || color>3) throw new InvalidColorExeption();
+    public Ammo(int color) throws InvalidColorException {
+        if(color<0 || color>3) throw new InvalidColorException();
         this.color=color;
     }
 
