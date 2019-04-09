@@ -5,7 +5,9 @@ import java.util.*;
 public class Match {
     private int round;
     private ArrayList<Player> players;
+    private Dashboard dashboard;
 
+    //i è parametro per la dashboard
     public Match(){
         this.round=1;
         this.players=new ArrayList<>();
@@ -21,8 +23,12 @@ public class Match {
 
     public void add_player(Player player) throws MaxNumberPlayerException {
         if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
-
         players.add(player);
+    }
+
+    //i is the index of the chosen map
+    public void create_dashboard(int i){
+        if(players.size()>=3) this.dashboard=new Dashboard(i, this.players.size());
     }
 
 }
