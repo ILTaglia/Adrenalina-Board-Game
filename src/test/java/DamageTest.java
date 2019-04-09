@@ -1,4 +1,7 @@
 import static org.junit.Assert.*;
+
+import Model.Damage;
+import Model.Damage_Factory;
 import org.junit.Test;
 
 import java.util.ArrayList;

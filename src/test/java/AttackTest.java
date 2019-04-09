@@ -1,4 +1,8 @@
 import static org.junit.Assert.*;
+
+import Model.Attack_Factory;
+import Model.Effect_factory;
+import Model.Type_attack;
 import org.junit.Test;
 
 import java.util.ArrayList;

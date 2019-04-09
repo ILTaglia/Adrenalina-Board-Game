@@ -1,3 +1,4 @@
+import Model.Player;
 import exceptions.InvalidColorException;
 import org.junit.jupiter.api.Test;
 

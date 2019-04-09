@@ -1,4 +1,7 @@
 import static org.junit.Assert.*;
+
+import Model.Effect;
+import Model.Effect_factory;
 import org.junit.Test;
 
 import java.util.ArrayList;
