@@ -31,8 +31,8 @@ public class Match {
     }
 
     //i is the index of the chosen map
-    public void create_dashboard(int i) throws InvalidMapChoiceException {
-        if(players.size()>=3) this.dashboard=new Dashboard(i, this.players.size());
+    public void create_dashboard(int i){
+        if(players.size()>=3) this.dashboard=new Dashboard(i);
     }
 
 }

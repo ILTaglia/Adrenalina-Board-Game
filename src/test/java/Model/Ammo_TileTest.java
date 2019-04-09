@@ -1,3 +1,5 @@
+package Model;
+
 import Model.Ammo_Tile;
 import Model.Player;
 import exceptions.CardAlreadyCollectedException;

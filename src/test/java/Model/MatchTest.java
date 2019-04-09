@@ -60,4 +60,9 @@ public class MatchTest {
         catch (MaxNumberPlayerException e){}
         assertThrows(MaxNumberPlayerException.class, () -> match.add_player(player6));
     }
+
+    @Test
+    public void create_dashboard(){
+        match.create_dashboard(1);
+    }
 }

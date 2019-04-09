@@ -1,3 +1,5 @@
+package Model;
+
 import Model.Player;
 import Model.Ammo;
 import Model.Weapon;

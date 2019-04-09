@@ -1,3 +1,5 @@
+package Model;
+
 import static org.junit.Assert.*;
 
 import Model.Damage;
