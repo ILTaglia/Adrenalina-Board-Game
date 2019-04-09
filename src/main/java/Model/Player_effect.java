@@ -26,10 +26,6 @@ public class Player_effect implements Effect {
         return D.size();
     }
 
-    public Damage getdamage(int i)
-    {
-        return D.get(i);
-    }
     public Player_effect(int id)
     {
 
@@ -37,16 +33,6 @@ public class Player_effect implements Effect {
         this.D=new ArrayList<Damage>();
     }
 
-
-    @Override
-    public void shoot(int color) {
-
-    }
-
-    @Override
-    public void shoot(Coordinate target) {
-
-    }
 
     @Override
     public int getId() {

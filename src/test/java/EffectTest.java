@@ -117,6 +117,24 @@ public class EffectTest {
         assertEquals(E.getnumberdamage(),5);
     }
 
+    @Test
+    public void damagesTest()
+    {
+        Effect E;
+        E=new Effect_factory().getinstanceof(1,1);
+        E.adddamage(1,2);
+        E.adddamage(2,4);
+        assertEquals(E.getDamage(0).getdamage(),2);
+        assertEquals(E.getDamage(1).getdamage(),4);
+        assertEquals(E.getnumberdamage(),2);
+        E=new Effect_factory().getinstanceof(2,1);
+        E.adddamage(1,2);
+        E.adddamage(2,4);
+        assertEquals(E.getDamage(0).getdamage(),2);
+        assertEquals(E.getDamage(1).getdamage(),4);
+        assertEquals(E.getnumberdamage(),2);
+    }
+
 
 
 }
