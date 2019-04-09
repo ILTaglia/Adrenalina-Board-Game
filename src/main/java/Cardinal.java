@@ -3,19 +3,15 @@ import java.util.ArrayList;
 public class Cardinal implements Type_attack{
     private ArrayList<Integer> extra;
     private int typeplayer;
-    private int direction;
+    private int distance;
     private int moveme;
     private int moveyou;
     private ArrayList<Effect> E;
-    public int getDirection()
+    public int getDistance()
     {
-        return this.direction;
+        return this.distance;
     }
 
-    @Override
-    public int getDistance() {
-        return 0;
-    }
 
     public int getTypeplayer()
     {
@@ -25,15 +21,9 @@ public class Cardinal implements Type_attack{
     {
         return this.extra;
     }
-
-    @Override
-    public void setDistance(int distance) {
-
-    }
-
-    public void setDirection(int distance)
+    public void setDistance(int distance)
     {
-        this.direction=distance;
+        this.distance =distance;
     }
     public void setTypeplayer(int typeplayer)
     {
@@ -71,7 +61,7 @@ public class Cardinal implements Type_attack{
     {
         this.extra=new ArrayList<Integer>();
         this.E= new ArrayList<Effect>();
-        this.direction=direction;
+        this.distance =direction;
         this.moveme=moveme;
         this.moveyou=moveyou;
         this.typeplayer=typeplayer;

@@ -31,5 +31,6 @@ public class TempMain4 {
         System.out.println("Con il primo attacco hai dato un numero di danni apri a "+W.getAttack(0).getEffect(0).getDamage(0).getdamage()+ " al giocatore numero "+W.getAttack(0).getEffect(0).getId());
         System.out.println("Con il secondo attacco hai dato un numero di marchi apri a "+W.getAttack(0).getEffect(0).getDamage(1).getdamage()+ " al giocatore numero "+W.getAttack(0).getEffect(0).getId());
         System.out.println("Con il secondo attacco hai dato un numero di marchi apri a "+W.getAttack(0).getEffect(1).getDamage(0).getdamage()+ " al giocatore numero "+W.getAttack(0).getEffect(1).getId());
+
     }
 }

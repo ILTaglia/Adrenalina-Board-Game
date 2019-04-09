@@ -56,10 +56,6 @@ public class Undefined_distance implements Type_attack {
         return this.extra.size();
     }
 
-    @Override
-    public int getDirection() {
-        return 0;
-    }
 
     public Undefined_distance(int typeplayer,int distance,int moveme, int moveyou)
     {
