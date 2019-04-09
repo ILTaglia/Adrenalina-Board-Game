@@ -1,4 +1,5 @@
 package exceptions;
 
-public class InvalidMapChoiceException {
+public class InvalidMapChoiceException extends Exception {
+    public InvalidMapChoiceException(){super();}
 }

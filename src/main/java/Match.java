@@ -1,3 +1,4 @@
+import exceptions.InvalidMapChoiceException;
 import exceptions.MaxNumberPlayerException;
 
 import java.util.*;
@@ -27,7 +28,7 @@ public class Match {
     }
 
     //i is the index of the chosen map
-    public void create_dashboard(int i){
+    public void create_dashboard(int i) throws InvalidMapChoiceException {
         if(players.size()>=3) this.dashboard=new Dashboard(i, this.players.size());
     }
 
