@@ -2,8 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class Weapon {
     private String name;
-    private ArrayList <Integer> cost;
-    private int used;
+    private ArrayList <Integer> cost;    private int used;
     private ArrayList <Type_attack> Action;
     public Weapon(String name, ArrayList <Integer> cost)
     {

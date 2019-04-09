@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Cell_effect implements Effect {
-
+    private int id;
     private ArrayList<Damage> D;
 
     public void adddamage(int type, int damage)
@@ -16,7 +16,7 @@ public class Cell_effect implements Effect {
         return this.D.get( i);
     }
 
-    public int getnumberdamage(int i)
+    public int getnumberdamage()
     {
         return D.size();
     }
