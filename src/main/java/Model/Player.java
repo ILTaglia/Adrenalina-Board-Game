@@ -140,8 +140,12 @@ public class Player {
     public void remove_ammo(int n, Ammo ammo) throws NotEnoughAmmosException {
         int n_ammos=this.get_ammo(ammo.get_Ammo());
         if(n_ammos<n) throw new NotEnoughAmmosException();
-        for(int i=0; i<n; i++) {
-            ammos.remove(ammo);
+        for(int i=0; i<ammos.size(); i++) {
+            if(ammo.get_Ammo()==ammos.get(i).get_Ammo()){
+                ammos.remove(i);
+                n--;
+            }
+            if(n==0) return;
         }
 
     }

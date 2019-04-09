@@ -159,16 +159,16 @@ class PlayerTest {
     void remove_ammo() {
         Ammo ammo = new Ammo(0); //new ammo blue
         assertEquals(1, player1.get_ammo(0));
-        /*try {
+        try {
             player1.remove_ammo(1, ammo);
         }
         catch (NotEnoughAmmosException e){}
         assertEquals(0, player1.get_ammo(0));
-        assertThrows(NotEnoughAmmosException.class, () -> player1.remove_ammo(1, ammo));*/
+        assertThrows(NotEnoughAmmosException.class, () -> player1.remove_ammo(1,ammo));
     }
 
 
-        @Test
+    @Test
     void add_weapon() {
         ArrayList<Integer> cost = new ArrayList();
         cost.add(1);
