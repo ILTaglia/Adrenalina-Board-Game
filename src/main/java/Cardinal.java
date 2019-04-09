@@ -57,6 +57,14 @@ public class Cardinal implements Type_attack{
     {
         return this.extra.size();
     }
+    public int getMoveme()
+    {
+        return this.moveme;
+    }
+    public int getMoveyou()
+    {
+        return this.moveyou;
+    }
     public Cardinal(int typeplayer,int direction,int moveme, int moveyou)
     {
         this.extra=new ArrayList<Integer>();

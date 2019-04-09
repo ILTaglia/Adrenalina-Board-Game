@@ -55,6 +55,14 @@ public class Finite_Distance implements Type_attack{
     {
         return this.extra.size();
     }
+    public int getMoveme()
+    {
+        return this.moveme;
+    }
+    public int getMoveyou()
+    {
+        return this.moveyou;
+    }
 
 
     public Finite_Distance(int typeplayer,int distance,int moveme, int moveyou)

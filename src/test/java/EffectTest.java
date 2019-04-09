@@ -49,4 +49,36 @@ public class EffectTest {
         E.getDamage(0).setdamage(6);
         assertEquals(E.getDamage(0).getdamage(),6);
     }
+
+    @Test
+    public void multipledamages()
+    {
+        Effect E;
+        E=new Effect_factory().getinstanceof(1,1);
+        E.adddamage(1,4);
+        E.adddamage(2,8);
+        E.adddamage(2,1);
+        assertEquals(E.getDamage(0).getdamage(),4);
+        assertEquals(E.getDamage(1).getdamage(),8);
+        assertEquals(E.getDamage(2).getdamage(),1);
+    }
+
+    @Test
+    public void multiplesetdamages()
+    {
+        Effect E;
+        E=new Effect_factory().getinstanceof(1,1);
+        E.adddamage(1,4);
+        E.adddamage(2,8);
+        E.adddamage(2,1);
+        E.getDamage(0).setdamage(1);
+        E.getDamage(1).setdamage(2);
+        E.getDamage(2).setdamage(3);
+        assertEquals(E.getDamage(0).getdamage(),1);
+        assertEquals(E.getDamage(1).getdamage(),2);
+        assertEquals(E.getDamage(2).getdamage(),3);
+    }
+
+
+
 }

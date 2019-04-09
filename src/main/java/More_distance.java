@@ -55,7 +55,14 @@ public class More_distance implements Type_attack {
     {
         return this.extra.size();
     }
-
+    public int getMoveme()
+    {
+        return this.moveme;
+    }
+    public int getMoveyou()
+    {
+        return this.moveyou;
+    }
 
 
     public More_distance(int typeplayer,int distance,int moveme, int moveyou)

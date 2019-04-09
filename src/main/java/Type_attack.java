@@ -14,4 +14,6 @@ public interface Type_attack {
     public Effect getEffect(int i);
     public int getnumbereffect();
     public int getnumberextra();
+    public int getMoveme();
+    public int getMoveyou();
 }
