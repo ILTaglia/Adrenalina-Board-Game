@@ -21,7 +21,7 @@ public class Player_effect implements Effect {
         return this.D.get( i);
     }
 
-    public int getnumberdamage(int i)
+    public int getnumberdamage()
     {
         return D.size();
     }

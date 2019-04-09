@@ -67,6 +67,27 @@ public class EffectTest {
     }
 
     @Test
+    public void PlayerEffectId()
+    {
+        Effect E;
+        E=new Effect_factory().getinstanceof(1,5);
+        assertEquals(E.getId(),5);
+        E.setId(8);
+        assertEquals(E.getId(),8);
+    }
+
+    @Test
+    public void CellEffectId()
+    {
+        Effect E;
+        E=new Effect_factory().getinstanceof(2,5);
+        assertEquals(E.getId(),5);
+        E.setId(8);
+        assertEquals(E.getId(),8);
+    }
+
+
+    @Test
     public void multiplesetdamages()
     {
         Effect E;
@@ -80,6 +101,20 @@ public class EffectTest {
         assertEquals(E.getDamage(0).getdamage(),1);
         assertEquals(E.getDamage(1).getdamage(),2);
         assertEquals(E.getDamage(2).getdamage(),3);
+    }
+
+
+    @Test
+    public void numberdamageTest()
+    {
+        Effect E;
+        E=new Effect_factory().getinstanceof(1,1);
+        E.adddamage(1,1);
+        E.adddamage(1,1);
+        E.adddamage(2,1);
+        E.adddamage(2,1);
+        E.adddamage(1,1);
+        assertEquals(E.getnumberdamage(),5);
     }
 
 

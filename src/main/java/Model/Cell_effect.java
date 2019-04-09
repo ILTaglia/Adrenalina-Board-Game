@@ -18,6 +18,11 @@ public class Cell_effect implements Effect {
         return this.D.get( i);
     }
 
+    @Override
+    public void setId(int id) {
+        this.id=id;
+    }
+
     public int getnumberdamage()
     {
         return D.size();

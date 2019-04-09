@@ -16,6 +16,26 @@ public class DamageTest {
         assertEquals(5,D.get(0).getdamage());
     }
 
+    @Test
+    public void LifeTest()
+    {
+        Damage D;
+        D=new Damage_Factory().getinstaceof(1,1);
+        assertEquals(D.getdamage(),1);
+        D.setdamage(5);
+        assertEquals(D.getdamage(),5);
+    }
+
+    @Test
+    public void MarkTest()
+    {
+        Damage D;
+        D=new Damage_Factory().getinstaceof(2,1);
+        assertEquals(D.getdamage(),1);
+        D.setdamage(5);
+        assertEquals(D.getdamage(),5);
+    }
+
 
     @Test
     public void multipledamages()

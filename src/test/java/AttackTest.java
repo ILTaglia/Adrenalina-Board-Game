@@ -76,6 +76,7 @@ public class AttackTest {
         assertEquals(A.getnumberextra(),3);
     }
 
+
     @Test
     public void deeptest2()
     {
@@ -87,6 +88,60 @@ public class AttackTest {
         A.addeffect(new Effect_factory().getinstanceof(2,8));
         assertEquals(A.getnumbereffect(),4);
     }
+
+
+    @Test
+    public void EffectTest()
+    {
+        Type_attack A;
+        A=new Attack_Factory().getinstanceof(1,8,8,8,8);
+        A.addeffect(new Effect_factory().getinstanceof(1,1));
+        assertEquals(A.getEffect(0).getId(),1);
+        A=new Attack_Factory().getinstanceof(2,8,8,8,8);
+        A.addeffect(new Effect_factory().getinstanceof(1,1));
+        assertEquals(A.getEffect(0).getId(),1);
+        A=new Attack_Factory().getinstanceof(3,8,8,8,8);
+        A.addeffect(new Effect_factory().getinstanceof(1,1));
+        assertEquals(A.getEffect(0).getId(),1);
+        A=new Attack_Factory().getinstanceof(4,8,8,8,8);
+        A.addeffect(new Effect_factory().getinstanceof(1,1));
+        assertEquals(A.getEffect(0).getId(),1);
+    }
+
+    @Test
+    public void ExtraTest()
+    {
+        Type_attack A;
+        A=new Attack_Factory().getinstanceof(1,8,8,8,8);
+        A.addextra(1);
+        A.addextra(2);
+        A.addextra(3);
+        assertEquals(A.getextras().get(0),1);
+        assertEquals(A.getextras().get(1),2);
+        assertEquals(A.getextras().get(2),3);
+        A=new Attack_Factory().getinstanceof(2,8,8,8,8);
+        A.addextra(1);
+        A.addextra(2);
+        A.addextra(3);
+        assertEquals(A.getextras().get(0),1);
+        assertEquals(A.getextras().get(1),2);
+        assertEquals(A.getextras().get(2),3);
+        A=new Attack_Factory().getinstanceof(3,8,8,8,8);
+        A.addextra(1);
+        A.addextra(2);
+        A.addextra(3);
+        assertEquals(A.getextras().get(0),1);
+        assertEquals(A.getextras().get(1),2);
+        assertEquals(A.getextras().get(2),3);
+        A=new Attack_Factory().getinstanceof(4,8,8,8,8);
+        A.addextra(1);
+        A.addextra(2);
+        A.addextra(3);
+        assertEquals(A.getextras().get(0),1);
+        assertEquals(A.getextras().get(1),2);
+        assertEquals(A.getextras().get(2),3);
+    }
+
 
 
 }
