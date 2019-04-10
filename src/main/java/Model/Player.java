@@ -19,6 +19,7 @@ public class Player {
     private int firstblood; //number of the player that gave the damage 1
     private int score; //points of the player
     private int round; //number to identify the number of turn is beeing played
+    private ArrayList<Integer> order;
 
 
     public Player(String name, String color, String id){
@@ -65,8 +66,10 @@ public class Player {
 
         this.cel = new Coordinate(-1, -1); //index of the position of the player (default position is (-1, -1)
         this.death=0;
+        this.firstblood=-1;
         this.action=0;
         this.score=0;
+        this.order= new ArrayList<>();
     }
 
     public String getname() {return this.name;}
@@ -90,10 +93,32 @@ public class Player {
         return j;
     }
 
+    public int getmaxdamages(){
+        int max = Collections.max(damages);
+        int k = damages.indexOf(Collections.max(damages));
+        //number of maximum damages
+        for(int i=0; i<damages.size()-1; i++){
+            for(int j=i+1; j<damages.size(); j++){
+                if(max==damages.get(i) && damages.get(i)==damages.get(j)){
+                    if(order.indexOf(i)<order.indexOf(j)) k = i;
+                    else k = j;
+                }
+            }
+        }
+        return k;
+    }
+
     //set the number of damages, parameters are the number of damages to add (n) and the color of the player that gave them (c)
     public int setdamage(int n, int c){
         if(c==this.getcolor()) return -1;
+        if(!order.contains(c))order.add(c);
+        //command of reset
+        if(n==0){
+            damages.set(c, n);
+            return 2;
+        }
         int j=gettotaldamage();
+        if(j==0) this.firstblood=c;
         if(j+n==11){
             damages.set(c, (damages.get(c)+n));
             return 1; //killshot point to player with index c
@@ -205,6 +230,8 @@ public class Player {
     public int get_action(){return this.action;}
 
     public void set_action(){this.action+=1;}
+
+    public int get_firstblood(){return this.firstblood;}
 
     public int get_score(){return this.score;}
 

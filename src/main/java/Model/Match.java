@@ -1,6 +1,6 @@
 package Model;
 
-import exceptions.InvalidMapChoiceException;
+import exceptions.InvalidColorException;
 import exceptions.MaxNumberPlayerException;
 
 import java.util.*;
@@ -30,9 +30,19 @@ public class Match {
         players.add(player);
     }
 
+    public Player get_player(int color) throws InvalidColorException {
+        for (Player p : this.players) {
+            if (p.getcolor()==color) {
+                return p;
+            }
+        }
+        throw new InvalidColorException();
+    }
+
     //i is the index of the chosen map
     public void create_dashboard(int i){
         if(players.size()>=3) this.dashboard=new Dashboard(i);
     }
 
+    public Dashboard get_dashboard(){return this.dashboard;}
 }

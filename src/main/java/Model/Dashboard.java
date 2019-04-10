@@ -2,6 +2,7 @@ package Model;
 
 public class Dashboard {
     private Cell[][] map;
+    private int track_index;
     private int[][] killshot_track;
 
     public Dashboard(int i){
@@ -49,7 +50,21 @@ public class Dashboard {
             map[2][2] = new Normal_Cell(2); //yellow
         }
 
-
+        track_index=0;
         killshot_track = new int[2][8];
+    }
+
+    public void set_index(){this.track_index=this.track_index+1;}
+
+    public int get_index(){return this.track_index;}
+
+    public void setKillshot_track(Player player, int n){
+        killshot_track[0][track_index]=player.getcolor();
+        //n is the int returned by the set_damage
+        if(n==1) killshot_track[1][track_index]=player.getcolor();
+        if(n==2) killshot_track[1][track_index]= -1;
+        track_index=track_index+1;
+        //TODO se si finisce l'array finisce la partita
+        if(track_index==9) return; //end_game
     }
 }

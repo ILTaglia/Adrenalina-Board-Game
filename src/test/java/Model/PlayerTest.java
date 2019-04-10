@@ -83,6 +83,31 @@ class PlayerTest {
     }
 
     @Test
+    void getmaxdamages(){
+        Player player4 = new Player("Aries", "yellow", "18992302");
+        Player player5 = new Player("Karka", "grey", "18114320");
+        assertEquals(0, player1.gettotaldamage());
+        assertEquals(0, player1.get_death());
+        player1.setdamage(3,3); //from player2
+        player1.setdamage(2,2); //from player4
+        player1.setdamage(3,4); //from player5
+        player1.setdamage(2,3); //from player2
+        player1.setdamage(2,1); //from player3
+        assertEquals(12, player1.gettotaldamage());
+        assertEquals(5, player1.getnumberdamage(3)); //from player2
+        assertEquals(3, player1.getnumberdamage(4)); //from player5
+        assertEquals(2, player1.getnumberdamage(1)); //from player3
+        assertEquals(2, player1.getnumberdamage(2)); //from player4
+        assertEquals(3, player1.getmaxdamages()); //first is player2
+        player1.setdamage(0,3);
+        assertEquals(4, player1.getmaxdamages()); //second is player5
+        player1.setdamage(0,4);
+        assertEquals(2, player1.getmaxdamages()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
+        player1.setdamage(0,2);
+        assertEquals(1, player1.getmaxdamages()); //fourth is player3
+    }
+
+    @Test
     void setdamage() {
         assertEquals(0, player1.gettotaldamage());
         player1.setdamage(3, player2.getcolor());
@@ -173,7 +198,7 @@ class PlayerTest {
         }
         catch (NotEnoughAmmosException e){}
         assertEquals(0, player1.get_ammo(0));
-        assertThrows(NotEnoughAmmosException.class, () -> player1.remove_ammo(1,ammo));
+        assertThrows(NotEnoughAmmosException.class, () -> player1.remove_ammo(2, ammo));
     }
 
 

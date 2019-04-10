@@ -1,5 +1,6 @@
 package Model;
 
+import exceptions.InvalidColorException;
 import exceptions.MaxNumberPlayerException;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +60,25 @@ public class MatchTest {
         }
         catch (MaxNumberPlayerException e){}
         assertThrows(MaxNumberPlayerException.class, () -> match.add_player(player6));
+    }
+
+    @Test
+    public void get_player(){
+        assertEquals("Sirius", player1.getname());
+        assertEquals("Calypso", player2.getname());
+        assertEquals("Hermione", player3.getname());
+        assertEquals("Aries", player4.getname());
+        try{
+            player1 = match.get_player(1); //Hermione
+            player2 = match.get_player(0); //Sirius
+            player3 = match.get_player(2); //Aries
+            player4 = match.get_player(3); //Calypso
+        }
+        catch (InvalidColorException e){}
+        assertEquals("Hermione", player1.getname());
+        assertEquals("Sirius", player2.getname());
+        assertEquals("Aries", player3.getname());
+        assertEquals("Calypso", player4.getname());
     }
 
     @Test
