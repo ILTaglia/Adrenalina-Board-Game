@@ -99,7 +99,7 @@ public class Player {
         //number of maximum damages
         for(int i=0; i<damages.size()-1; i++){
             for(int j=i+1; j<damages.size(); j++){
-                if(max==damages.get(i) && damages.get(i)==damages.get(j)){
+                if(max==damages.get(i) && damages.get(i).equals(damages.get(j))){
                     if(order.indexOf(i)<order.indexOf(j)) k = i;
                     else k = j;
                 }
