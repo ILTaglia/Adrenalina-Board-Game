@@ -89,25 +89,25 @@ public class Lettore {
                     }
                     case 5:
                     {
-                        O.get(O.size()-1).getAttack(O.size()-1).setTypeplayer(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).setTypeplayer(Character.getNumericValue(nextc));
                         CS=6;
                         break;
                     }
                     case 6:
                     {
-                        O.get(O.size()-1).getAttack(O.size()-1).setDistance(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).setDistance(Character.getNumericValue(nextc));
                         CS=7;
                         break;
                     }
                     case 7:
                     {
-                        O.get(O.size()-1).getAttack(O.size()-1).setMoveme(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).setMoveme(Character.getNumericValue(nextc));
                         CS=8;
                         break;
                     }
                     case 8:
                     {
-                        O.get(O.size()-1).getAttack(O.size()-1).setMoveyou(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).setMoveyou(Character.getNumericValue(nextc));
                         CS=100;
                         break;
                     }
