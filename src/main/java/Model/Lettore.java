@@ -108,18 +108,62 @@ public class Lettore {
                     case 8:
                     {
                         O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).setMoveyou(Character.getNumericValue(nextc));
+                        CS=9;
+                        break;
+                    }
+                    case 9:
+                    {
+                        if(nextc=='p')
+                        {
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).addeffect(new Effect_factory().getinstanceof(1,0));
+                        }
+                        else
+                        {
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).addeffect(new Effect_factory().getinstanceof(2,0));
+                        }
+                        CS=10;
+                        break;
+                    }
+                    case 10:
+                    {
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getnumbereffect()-1).setId(Character.getNumericValue(nextc));
+                        CS=11;
+                        break;
+                    }
+                    case 11:
+                    {
+                        if(nextc=='l')
+                        {
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getnumbereffect()-1).adddamage(1,0);
+                        }
+                        else
+                        {
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getnumbereffect()-1).adddamage(2,0);
+                        }
+                        CS=12;
+                        break;
+                    }
+                    case 12:
+                    {
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getnumbereffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getnumberattack()-1).getnumbereffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
                         CS=100;
                         break;
                     }
                     case 100:
                     {
-                        if(nextc!='@')
-                        {
-                            CS=1;
-                        }
+                        if(nextc=='?')
+                            CS=11;
                         else
-                            next=-1;
-                        break;
+                            if(nextc=='!')
+                                CS=9;
+                            else
+                                if(nextc==':')
+                                    CS=3;
+                                else
+                                    if(nextc=='.')
+                                        CS=1;
+                                    else
+                                        next=-1;
                     }
                 }
 
@@ -136,6 +180,23 @@ public class Lettore {
             for (int i=0;i<A.getnumbercost();i++)
             {
                 System.out.println("Prezzo "+ A.getcost(i));
+            }
+            for(int e=0;e<A.getnumberattack();e++)
+            {
+                ArrayList<Integer> u;
+                u=A.getAttack(e).getextras();
+                for(int r : u)
+                {
+                    System.out.println("L'extra da pagare e' "+r);
+                }
+                System.out.println("Il tipo di player e' "+ A.getAttack(e).getTypeplayer());
+                System.out.println("La distanza e' "+ A.getAttack(e).getDistance());
+                System.out.println("Il mio movimento e' "+ A.getAttack(e).getMoveme());
+                System.out.println("Il movimento che infliggo e' "+ A.getAttack(e).getMoveyou());
+                for(int k=0;k<A.getAttack(e).getnumbereffect();k++)
+                {
+                    System.out.println("L'id del player o cella che subisce l'effetto e' "+A.getAttack(e).getEffect(k).getId());
+                }
             }
         }
     }
