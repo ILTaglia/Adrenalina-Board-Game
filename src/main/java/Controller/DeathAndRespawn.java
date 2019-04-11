@@ -3,16 +3,16 @@ import Model.Player;
 import Model.Match;
 import Model.Dashboard;
 
-public class Calculate_score {
+public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
     private int death;
 
-    //calculate the points to give to players that made damages to the player
-    public Calculate_score(){
+    //calculatescore the points to give to players that made damages to the player
+    public DeathAndRespawn(){
         this.death=0;
     }
 
-    public void calculate(Match m, Player player_killed, Player player_killer, int n){
+    public void calculatescore(Match m, Player player_killed, Player player_killer, int n){
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
         //TODO m.get_dashboard().setKillshot_track(player_killer, n);
@@ -45,6 +45,15 @@ public class Calculate_score {
             }
             if(flag==1) break;
         }
+    }
+
+    public void respawn(Player player_killed){
+        for(int i=0; i<5; i++) {
+            if(i!=player_killed.getcolor()) player_killed.setdamage(0, i);
+        }
+        player_killed.reset_action();
+        player_killed.reset_firstblood();
+        player_killed.set_cel(-1, -1);
     }
 }
 

@@ -1,15 +1,15 @@
 package Controller;
 
+import Model.Coordinate;
 import Model.Player;
 import Model.Match;
-import Model.Dashboard;
 import exceptions.MaxNumberPlayerException;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class Calculate_scoreTest {
+public class DeathAndRespawnTest {
     Player player1;
     Player player2;
     Player player3;
@@ -37,7 +37,7 @@ public class Calculate_scoreTest {
     }
 
     @Test
-    public void calculate(){
+    public void calculatescore(){
         assertEquals(0, player1.gettotaldamage());
         assertEquals(0, player1.get_death());
         //player3 kills player1 with revenge
@@ -45,6 +45,12 @@ public class Calculate_scoreTest {
         player1.setdamage(3,3); //from player2
         player1.setdamage(2,2); //from player4
         player1.setdamage(3,4); //from player5
+
+        player1.setmarks(1,2);
+        player1.setmarks(2, 3);
+        assertEquals(1, player1.getmarks(2));
+        assertEquals(2, player1.getmarks(3));
+
         player1.setdamage(2,3); //from player2
         player1.setdamage(2,1); //from player3
         assertEquals(12, player1.gettotaldamage());
@@ -52,8 +58,8 @@ public class Calculate_scoreTest {
         assertEquals(3, player1.getnumberdamage(4)); //from player5
         assertEquals(2, player1.getnumberdamage(1)); //from player3
         assertEquals(2, player1.getnumberdamage(2)); //from player4
-        Calculate_score c = new Calculate_score();
-        c.calculate(match, player1, player3, 2);
+        DeathAndRespawn c = new DeathAndRespawn();
+        c.calculatescore(match, player1, player3, 2);
 
         assertEquals(3, player1.get_firstblood());
         assertEquals(9, player2.get_score()); //first is player2
@@ -64,6 +70,19 @@ public class Calculate_scoreTest {
         assertEquals(1, player1.get_death());
         //check revenge
         assertEquals(1, player3.getmarks(0));
+
+        c.respawn(player1);
+        assertEquals(0, player1.get_firstblood());
+        assertEquals(0, player1.get_action());
+        assertEquals(0, player1.gettotaldamage());
+        assertEquals(1, player1.getmarks(2));
+        assertEquals(2, player1.getmarks(3));
+        Coordinate pos = new Coordinate(-1, -1);
+        assertEquals(pos.getX(), player1.get_cel().getX());
+        assertEquals(pos.getY(), player1.get_cel().getY());
+        for(int k=0; k<5; k++){
+            if(k!=player1.getcolor()) assertEquals(0, player1.getnumberdamage(k));
+        }
     }
 
 }

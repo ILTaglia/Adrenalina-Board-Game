@@ -231,7 +231,11 @@ public class Player {
 
     public void set_action(){this.action+=1;}
 
+    public void reset_action(){this.action=0;}
+
     public int get_firstblood(){return this.firstblood;}
+
+    public void reset_firstblood(){this.firstblood=0;}
 
     public int get_score(){return this.score;}
 
