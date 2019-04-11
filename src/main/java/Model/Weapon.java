@@ -60,4 +60,23 @@ public class Weapon {
             return 1;
         }
     }
+    public void addcost(int cost)
+    {
+        this.cost.add(cost);
+    }
+    public int getnumbercost()
+    {
+        return this.cost.size();
+    }
+    public int getcost(int i)
+    {
+        return this.cost.get(i);
+    }
+    public Weapon(String name)
+    {
+        this.name=name;
+        this.cost=new ArrayList<Integer>();
+        this.Attack=new ArrayList<Type_attack>();
+        this.used=0;
+    }
 }
