@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Lettore {
-    public static void main(String []args)
+    /*public static void main(String []args)
     {
         ArrayList<Weapon>O;
         O=new ArrayList<Weapon>();
@@ -199,5 +199,5 @@ public class Lettore {
                 }
             }
         }
-    }
+    }*/
 }
