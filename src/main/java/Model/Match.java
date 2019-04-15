@@ -15,8 +15,8 @@ public class Match {
     public Match(){
         this.round=1;
         this.players=new ArrayList<>();
-
     }
+
     public void set_round(){
         if(players.get(players.size()-1).get_action()==2) this.round++;         //TODO: lasciamo il controllo al controller e mettiamo direttamente il ++?
         //increase the number of the round just if the last player in the turn (that is the last of the array)
@@ -40,8 +40,12 @@ public class Match {
     }
 
     //i is the index of the chosen map
-    public void create_dashboard(int i){
-        if(players.size()>=3) this.dashboard=new Dashboard(i);
+    public int create_dashboard(int i){
+        if(players.size()>=3) {
+            this.dashboard=new Dashboard(i);
+            return 0;
+        }
+        return 1;
     }
 
     public Dashboard get_dashboard(){return this.dashboard;}

@@ -82,7 +82,8 @@ public class MatchTest {
     }
 
     @Test
-    public void create_dashboard(){
+    public void dashboard(){
         match.create_dashboard(1);
+        Dashboard d = match.get_dashboard();
     }
 }

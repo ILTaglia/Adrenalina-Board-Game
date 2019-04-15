@@ -61,8 +61,8 @@ public class Dashboard {
     public void setKillshot_track(Player player, int n){
         killshot_track[0][track_index]=player.getcolor();
         //n is the int returned by the set_damage
-        if(n==1) killshot_track[1][track_index]=player.getcolor();
-        if(n==2) killshot_track[1][track_index]= -1;
+        if(n==1) killshot_track[1][track_index]= -1;
+        if(n==2) killshot_track[1][track_index]=player.getcolor();
         track_index=track_index+1;
         //TODO se si finisce l'array finisce la partita
         if(track_index==9) return; //end_game

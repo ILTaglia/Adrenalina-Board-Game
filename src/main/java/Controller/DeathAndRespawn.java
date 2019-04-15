@@ -15,7 +15,7 @@ public class DeathAndRespawn {
     public void calculatescore(Match m, Player player_killed, Player player_killer, int n){
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
-        //TODO m.get_dashboard().setKillshot_track(player_killer, n);
+        //TODO d.setKillshot_track(player_killer, n);
         //manca aggiunta segnali al tracciato mortale, devo gestirlo
         if(n==2) player_killer.setmarks(1, player_killed.getcolor());
         death= player_killed.get_death();
