@@ -286,14 +286,21 @@ class PlayerTest {
     }
 
     @Test
-    void get_action() {
+    void action() {
+        assertEquals(0, player1.get_action());
+        player1.set_action();
+        assertEquals(1, player1.get_action());
+        player1.reset_action();
         assertEquals(0, player1.get_action());
     }
 
     @Test
-    void set_action() {
-        player1.set_action();
-        assertEquals(1, player1.get_action());
+    void firstblood(){
+        assertEquals(-1, player1.get_firstblood());
+        player1.setdamage(2, 3);
+        assertEquals(3, player1.get_firstblood());
+        player1.reset_firstblood();
+        assertEquals(-1, player1.get_firstblood());
     }
 
     @Test

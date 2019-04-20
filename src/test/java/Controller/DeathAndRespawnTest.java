@@ -4,6 +4,7 @@ import Model.Coordinate;
 import Model.Player;
 import Model.Match;
 import exceptions.MaxNumberPlayerException;
+import exceptions.NotExistingDashboardException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,6 @@ public class DeathAndRespawnTest {
         player4 = new Player("Aries", "yellow", "18992302");
         player5 = new Player("Karka", "grey", "18114320");
         match = new Match();
-        match.create_dashboard(1);
         try {
             match.add_player(player1);
             match.add_player(player2);
@@ -34,6 +34,7 @@ public class DeathAndRespawnTest {
             match.add_player(player5);
         }
         catch (MaxNumberPlayerException e){}
+        match.create_dashboard(1);
     }
 
     @Test
@@ -59,7 +60,10 @@ public class DeathAndRespawnTest {
         assertEquals(2, player1.getnumberdamage(1)); //from player3
         assertEquals(2, player1.getnumberdamage(2)); //from player4
         DeathAndRespawn c = new DeathAndRespawn();
-        c.calculatescore(match, player1, player3, 2);
+        assertTrue(match.get_check());
+        try{
+            c.calculatescore(match, player1, player3, 2);
+        } catch (NotExistingDashboardException e){}
 
         assertEquals(3, player1.get_firstblood());
         assertEquals(9, player2.get_score()); //first is player2
@@ -72,7 +76,7 @@ public class DeathAndRespawnTest {
         assertEquals(1, player3.getmarks(0));
 
         c.respawn(player1);
-        assertEquals(0, player1.get_firstblood());
+        assertEquals(-1, player1.get_firstblood());
         assertEquals(0, player1.get_action());
         assertEquals(0, player1.gettotaldamage());
         assertEquals(1, player1.getmarks(2));

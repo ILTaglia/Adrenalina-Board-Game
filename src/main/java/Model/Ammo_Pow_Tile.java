@@ -19,7 +19,7 @@ public class Ammo_Pow_Tile extends Ammo_Card {
     @Override
     public void Collect_Card(Player player) throws CardAlreadyCollectedException {
         super.Collect_Card(player);
-        ammo_deck.Draw_Card(player);
+        //ammo_deck.Draw_Card(player);
         //TODO capire come implementare la carta da pescare (Eventi ??)
     }
     @Override

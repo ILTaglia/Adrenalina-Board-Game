@@ -10,6 +10,7 @@ public class Match {
     private ArrayList<Player> players;
     private Dashboard dashboard;
     protected Ammo_Deck ammo_deck=new Ammo_Deck();
+    private boolean check_dashboard=false;
 
     //i è parametro per la dashboard
     public Match(){
@@ -43,9 +44,14 @@ public class Match {
     public int create_dashboard(int i){
         if(players.size()>=3) {
             this.dashboard=new Dashboard(i);
+            this.check_dashboard=true;
             return 0;
         }
         return 1;
+    }
+
+    public boolean get_check(){
+        return this.check_dashboard;
     }
 
     public Dashboard get_dashboard(){return this.dashboard;}

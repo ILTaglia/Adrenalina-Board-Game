@@ -235,7 +235,7 @@ public class Player {
 
     public int get_firstblood(){return this.firstblood;}
 
-    public void reset_firstblood(){this.firstblood=0;}
+    public void reset_firstblood(){this.firstblood=-1;}
 
     public int get_score(){return this.score;}
 
