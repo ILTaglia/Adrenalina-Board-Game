@@ -8,7 +8,7 @@ public class Ammo_Pow_Tile extends Ammo_Card {
 
 
     public Ammo_Pow_Tile(int color1, int color2){
-        Refill_Ammo=new ArrayList<Ammo>();
+        Refill_Ammo=new ArrayList<>();
 
         Refill_Ammo.add(new Ammo(color1));
         Refill_Ammo.add(new Ammo(color2));
@@ -19,8 +19,7 @@ public class Ammo_Pow_Tile extends Ammo_Card {
     @Override
     public void Collect_Card(Player player) throws CardAlreadyCollectedException {
         super.Collect_Card(player);
-        //ammo_deck.Draw_Card(player);
-        //TODO capire come implementare la carta da pescare (Eventi ??)
+        //TODO Implementare Observer Observable per forza
     }
     @Override
     public String toString(){

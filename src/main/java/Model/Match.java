@@ -9,13 +9,14 @@ public class Match {
     private int round;
     private ArrayList<Player> players;
     private Dashboard dashboard;
-    protected Ammo_Deck ammo_deck=new Ammo_Deck();
+    private Ammo_Deck ammo_deck;
     private boolean check_dashboard=false;
 
     //i è parametro per la dashboard
     public Match(){
         this.round=1;
         this.players=new ArrayList<>();
+        ammo_deck=new Ammo_Deck();
     }
 
     public void set_round(){
