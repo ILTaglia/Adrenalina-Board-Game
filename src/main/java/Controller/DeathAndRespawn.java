@@ -4,6 +4,8 @@ import Model.Match;
 import Model.Dashboard;
 import exceptions.NotExistingDashboardException;
 
+import java.util.Collections;
+
 public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
     private int death;
@@ -13,6 +15,7 @@ public class DeathAndRespawn {
         this.death=0;
     }
 
+    //calculates score when a player dies
     public void calculatescore(Match m, Player player_killed, Player player_killer, int n) throws NotExistingDashboardException {
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
@@ -48,7 +51,27 @@ public class DeathAndRespawn {
             }
             if(flag==1) break;
         }
+        if(m.get_dashboard().get_index()==9){
+            end_game(m, m.get_dashboard());
+            /*when a match ends the killshot track is full, so index is 9. The attribution of points considering the killshot
+            * track is done by another method in order to better test the attribution of points (see DashboardTest, in
+            * which the method end_game is used). Besides this choice makes the code more readable.*/
+        }
     }
+
+    public void end_game(Match m, Dashboard d){
+        //calculates the final score considering the killshot track
+        int in = 0;
+        int color;
+        boolean s = false;
+        while(!s){
+            color = d.getmaxkillshot();
+            m.get_player(color).set_score(points[in]);
+            in++;
+            s=d.stop();
+        }
+    }
+
 
     public void respawn(Player player_killed){
         for(int i=0; i<5; i++) {
