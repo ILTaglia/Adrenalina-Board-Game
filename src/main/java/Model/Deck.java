@@ -30,10 +30,11 @@ public abstract class Deck {
         Stack.forEach(card -> card.Set_Available());
     }
 
-
-    @Override
-    public String toString() {
-        return Stack.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b)+Stack_Discarded.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
+    public String Stack_toString() {
+        return Stack.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
+    }
+    public String Stack_Discarded_toString() {
+        return Stack_Discarded.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
     }
 
     public int size_Stack(){
@@ -49,16 +50,16 @@ public abstract class Deck {
     public boolean contains_Stack(Card card){
         return Stack.contains(card);
     }
-    public boolean containsAll_Stack(ArrayList<Card> List){
-        return Stack.containsAll(List);
-    }
+
     public boolean contains_Stack_Discarded(Card card){
         return Stack_Discarded.contains(card);
+    }
+    /*
+    public boolean containsAll_Stack(ArrayList<Card> List){
+        return Stack.containsAll(List);
     }
     public boolean containsAll_Stack_Discarded(ArrayList<Card> List){
         return Stack_Discarded.containsAll(List);
     }
-
-
-
+    */
 }
