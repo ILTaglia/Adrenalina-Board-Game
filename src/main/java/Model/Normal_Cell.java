@@ -5,9 +5,7 @@ import exceptions.FullCellException;
 
 public class Normal_Cell extends Cell {
 
-    //TODO: modificare costruttore con le porte
-
-    Ammo_Card ammo_card;
+    Ammo_Card Ammo_NormalCell;
 
     public Normal_Cell(int color){
         this.color=color;
@@ -15,12 +13,12 @@ public class Normal_Cell extends Cell {
 
     public void Add_Ammo_Card(Ammo_Card ammo_card) throws FullCellException{
         if(ammo_card!=null) throw new FullCellException();
-        this.ammo_card=ammo_card;
+        this.Ammo_NormalCell =ammo_card;
+        //TODO: Aggiungere costruzione porte
     }
-
+    //Exception must be handled by Controller
     public void Collect_Card(Player player) throws CardAlreadyCollectedException{
-
-        ammo_card.Collect_Card(player); //TODO: come gestisco l'eccezione?
-
+        Ammo_NormalCell.Collect_Card(player);
+        //TODO: Aggiungere carta dove appena rimossa
     }
 }
