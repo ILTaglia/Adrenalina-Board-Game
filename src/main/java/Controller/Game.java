@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game{
     private ArrayList<Match> matches = new ArrayList<>();
+    Random rand = new Random();
 
     public Game(){
         Match m = new Match();
@@ -36,6 +38,27 @@ public class Game{
     public void select(int i){
         matches.get(0).create_dashboard(i);
     }
+
+    public String random_id(Random rand){
+        int i = 10000000 + rand.nextInt(89999999);
+        String id = Integer.toString(i);
+        for (Match m : this.matches){
+            //check to avoid different players have the same id
+            for(int index =0; index< m.get_players_size(); index++){
+                if (m.get_player_byindex(index).getid().equals(id)){
+                    id=id+7;
+                }
+            }
+        }
+        if(Integer.parseInt(id)>99999999) id = random_id(rand);
+        return id;
+    }
+
+    public void add_match(Match m){
+        if(!this.matches.contains(m)) this.matches.add(m);
+    }
+
+    public Random get_rand(){return this.rand;}
 
     public static void main(String[] args){
         Game g = new Game();

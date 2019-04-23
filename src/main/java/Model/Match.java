@@ -27,11 +27,17 @@ public class Match {
 
     public int get_round(){return this.round;}
 
-    public void add_player(Player player) throws MaxNumberPlayerException {
+    public void add_player(Player player) throws MaxNumberPlayerException, InvalidColorException {
         if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
+        for (Player p : this.players) {
+            if (p.getcolor()==player.getcolor()) {
+                throw new InvalidColorException();
+            }
+        }
         players.add(player);
     }
 
+    //returns player by color
     public Player get_player(int color) throws InvalidColorException {
         for (Player p : this.players) {
             if (p.getcolor()==color) {
@@ -54,6 +60,11 @@ public class Match {
     public boolean get_check(){
         return this.check_dashboard;
     }
+
+    //returns player by index to check their ID
+    public Player get_player_byindex(int index){ return this.players.get(index);}
+
+    public int get_players_size(){ return this.players.size();}
 
     public Dashboard get_dashboard(){return this.dashboard;}
 }
