@@ -14,5 +14,4 @@ abstract public class Card {
         this.Used=false;
     }
 
-    //public abstract void Collect_Card(Model.Player player) throws CardAlreadyCollectedException;
 }

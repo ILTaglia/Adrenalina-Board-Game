@@ -1,7 +1,5 @@
 package Model;
 
-import Model.Ammo_Tile;
-import Model.Player;
 import exceptions.CardAlreadyCollectedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +21,7 @@ class Ammo_TileTest {
     }
 
     @Test
-    public void Collect_CardTest() throws CardAlreadyCollectedException{
+    public void Collect_CardTest(){
         try{
             ammo_tile.Collect_Card(player);
         }catch (CardAlreadyCollectedException e){
@@ -33,8 +31,28 @@ class Ammo_TileTest {
         assertEquals(2,player.get_ammo(1));
         assertEquals(2,player.get_ammo(2));
 
-        assertThrows(CardAlreadyCollectedException.class, ()->ammo_tile.Collect_Card(player));
-
     }
+
+    @Test
+    public void Collect_CardAmmoExceptionTest(){
+        Ammo_Tile ammo_tile_2;
+        ammo_tile_2=new Ammo_Tile(0,0,1);//Aggiungo 2 per un totale di 4 munizioni rosse e una munizione blu
+        try{
+            ammo_tile.Collect_Card(player);
+            ammo_tile_2.Collect_Card(player);
+        }catch (CardAlreadyCollectedException e){
+            fail();
+        }
+        //Verifico che funzioni il catch e continui ad aggiungere le munizioni successive
+        assertEquals(3,player.get_ammo(0));
+        assertEquals(3,player.get_ammo(1));
+    }
+
+    @Test
+    public void Collect_CardAlreadyCollectedExceptionTest(){
+        ammo_tile.Set_Used();
+        assertThrows(CardAlreadyCollectedException.class, ()->ammo_tile.Collect_Card(player));
+    }
+
 
 }

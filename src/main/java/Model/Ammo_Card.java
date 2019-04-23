@@ -21,12 +21,12 @@ public abstract class Ammo_Card extends Card {
                 player.add_ammo(ammo);
             }
             catch (MoreThanTreeAmmosException e){
-                //TODO: pensare a catch
                 //Nothing to do, just try with next ammo
             }
         }
         Used=true;
     }
+    @Override
     public String toString(){
         return Refill_Ammo.stream().map(ammo->ammo.toString()).reduce("",(a,b)->a + b);
     }

@@ -5,10 +5,10 @@ import exceptions.InvalidColorException;
 import java.util.ArrayList;
 
 public class Ammo_Deck extends Deck {
-//Rosso:0__Blue:1__Giallo:2
+//Rosso:0 Blue:1 Giallo:2
 //ATTENZIONE: Non chiamo Shuffle, sarà il controller a farlo a inizio partita
 
-    int[][] ammo_deck= {
+    private int[][] matrix_ammo_deck = {
             {0,1,1},
             {0,1,1},
             {0,1,1},
@@ -28,7 +28,7 @@ public class Ammo_Deck extends Deck {
             {1,2,2},
             {1,2,2},
     };
-    int[][] ammo_pow_deck={
+    private int[][] matrix_ammo_pow_deck ={
             {0,0},
             {0,0},
             {1,1},
@@ -55,12 +55,8 @@ public class Ammo_Deck extends Deck {
         Stack=new ArrayList<>();
         Stack_Discarded=new ArrayList<>();
         int i;
-        for(i=0;i<18;i++){
-            this.Stack.add(new Ammo_Tile(ammo_deck[i][0],ammo_deck[i][1],ammo_deck[i][2]));
-        }
-        for(i=0;i<18;i++){
-            this.Stack.add(new Ammo_Pow_Tile(ammo_pow_deck[i][0],ammo_pow_deck[i][1]));
-        }
+        for(i=0;i<18;i++) this.Stack.add(new Ammo_Tile(matrix_ammo_deck[i][0], matrix_ammo_deck[i][1], matrix_ammo_deck[i][2]));
+        for(i=0;i<18;i++) this.Stack.add(new Ammo_Pow_Tile(matrix_ammo_pow_deck[i][0], matrix_ammo_pow_deck[i][1]));
 
 
 
