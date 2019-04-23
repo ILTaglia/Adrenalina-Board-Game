@@ -52,6 +52,13 @@ public class MatchTest {
     }
 
     @Test
+    public void get_check() {
+        assertFalse(match.get_check());
+        match.create_dashboard(2);
+        assertTrue(match.get_check());
+    }
+
+    @Test
     public void add_player() {
         Player player5 = new Player("Karka", "grey", "18114320");
         Player player6 = new Player("Gemini", "grey", "10003256");
@@ -85,5 +92,20 @@ public class MatchTest {
     public void dashboard(){
         match.create_dashboard(1);
         Dashboard d = match.get_dashboard();
+    }
+
+    @Test
+    public void exception_test(){
+        try {
+            Player player6 = match.get_player(6);
+        }
+        catch (InvalidColorException e){}
+        Match m2 = new Match();
+        try{
+            m2.add_player(player1);
+            m2.add_player(player2);
+        }
+        catch (MaxNumberPlayerException e){}
+        assertEquals(1, m2.create_dashboard(1));
     }
 }

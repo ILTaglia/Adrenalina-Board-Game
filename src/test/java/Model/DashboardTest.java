@@ -28,7 +28,9 @@ public class DashboardTest {
         catch (MaxNumberPlayerException e){}
         match.create_dashboard(1);
 
+        assertEquals(0, match.get_dashboard().get_index());
         match.get_dashboard().setKillshot_track(player1,2);
+        assertEquals(1, match.get_dashboard().get_index());
         match.get_dashboard().setKillshot_track(player2,1);
         match.get_dashboard().setKillshot_track(player3,1);
         match.get_dashboard().setKillshot_track(player2,2);
