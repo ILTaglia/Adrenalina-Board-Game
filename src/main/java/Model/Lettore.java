@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Lettore {
     public static void main(String []args)
     {
-        ArrayList<Weapon>O;
+        /*ArrayList<Weapon>O;
         O=new ArrayList<Weapon>();
         String stringa=new String();
         int CS=1;
@@ -198,6 +198,6 @@ public class Lettore {
                     System.out.println("L'id del player o cella che subisce l'effetto e' "+A.getAttack(e).getEffect(k).getId());
                 }
             }
-        }
+        }*/
     }
 }

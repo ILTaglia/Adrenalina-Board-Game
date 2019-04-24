@@ -49,9 +49,9 @@ public class Pow_Deck extends Deck{
                         break;
                     }
                     case 7: {
+                        O.add( new Pow_Factory().getInstanceof(tipo,colore,costo,moveme,life,marks));
                         if(nextc=='!') {
                             CS=1;
-                            O.add( new Pow_Factory().getInstanceof(tipo,colore,costo,moveme,life,marks));
                         }
                         else {
                             next = -1;
