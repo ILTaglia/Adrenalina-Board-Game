@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Lettore {
-    /*public static void main(String []args)
+    public static void main(String []args)
     {
         ArrayList<Weapon>O;
         O=new ArrayList<Weapon>();
@@ -14,7 +14,7 @@ public class Lettore {
         int CS=1;
         int cont=0;
         int contextra=0;
-        try (FileReader file = new FileReader("Testo"+".mdr")) {
+        try (FileReader file = new FileReader("Armi"+".mdr")) {
             int next;
             do {
                 next=file.read();
@@ -199,5 +199,5 @@ public class Lettore {
                 }
             }
         }
-    }*/
+    }
 }
