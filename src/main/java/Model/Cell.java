@@ -9,4 +9,17 @@ public abstract class Cell {
 
     //TODO: costruttore come deve gestire le porte?
     //TODO: il metodo per sapere quale carta è presente? Va ragionato con la view?
+
+    public Cell(){
+        port = new int[4];
+    }
+
+    public String elenco(){
+        return Arrays.toString(this.port);
+    }
+
+    public int getcolor(){return this.color;}
+
+    public int portIsPresent(int d){return this.port[d];}
+
 }

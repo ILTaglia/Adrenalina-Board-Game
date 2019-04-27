@@ -2,10 +2,11 @@ package Controller;
 
 import Model.Player;
 import Model.Weapon;
+import Model.Match;
 import exceptions.InvalidDirectionException;
 
 public class Shoot extends Action {
-    public Shoot(Player player, Weapon weapon, int n, String d1, String d2) {
+    public Shoot(Match m, Player player, Weapon weapon, int n, String d1, String d2) {
         //n is the number of passes a player wants to do before shooting
         //TODO Player player, Weapon weapon can be parameters?
         //you can shoot even by moving up to 1 squares before doing the action if you have at least 6 damages
@@ -14,12 +15,12 @@ public class Shoot extends Action {
             Run r = new Run();
             if(!d1.equals("Zero")){
                 try {
-                    r.movement(player, d1);
+                    r.movement(m, player, d1);
                 } catch (InvalidDirectionException e) {}
             }
             if(!d2.equals("Zero")){
                 try {
-                    r.movement(player, d2);
+                    r.movement(m, player, d2);
                 } catch (InvalidDirectionException e) {}
             }
         }

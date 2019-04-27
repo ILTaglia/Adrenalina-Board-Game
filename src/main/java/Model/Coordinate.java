@@ -22,4 +22,8 @@ public class Coordinate {
     {
         return this.y;
     }
+
+    public Cell inmap(Dashboard d, int x, int y){
+        return d.getmap(x, y);
+    }
 }

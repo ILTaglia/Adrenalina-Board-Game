@@ -4,11 +4,14 @@ import exceptions.CardAlreadyCollectedException;
 import exceptions.FullCellException;
 
 public class Normal_Cell extends Cell {
+        Ammo_Card Ammo_NormalCell;
 
-    Ammo_Card Ammo_NormalCell;
-
-    public Normal_Cell(int color){
-        this.color=color;
+    public Normal_Cell(int color, int N_port, int E_port, int S_port, int W_port){
+        this.color = color;
+        this.port[0] = N_port;
+        this.port[1] = E_port;
+        this.port[2] = S_port;
+        this.port[3] = W_port;
     }
 
     public void Add_Ammo_Card(Ammo_Card ammo_card) throws FullCellException{

@@ -49,6 +49,14 @@ public class DashboardTest {
         assertEquals(6, player2.get_score());
         assertEquals(4, player3.get_score());
 
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                System.out.println(d1.getmap(i, j).elenco());
+            }
+        }
+
+        //check print to verify ports are memorized correctly
+
     }
 
 }
