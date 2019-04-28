@@ -4,8 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
-public class Weapon_Deck {
+//TODO IMPORTANTE: Classe Deck da usare !
+public class Weapon_Deck extends Deck{
     private ArrayList<Weapon> W;
 
     public int getnumbercards()
@@ -13,13 +13,19 @@ public class Weapon_Deck {
         return this.W.size();
     }
 
+    //TODO: questo metodo può essere rimosso e si può usare il Draw_Card di Deck
+    /*
     public Weapon getCard(int i)
+
     {
         return this.W.get(i);
     }
+    */
 
     public Weapon_Deck(){
-        W=new ArrayList<Weapon>();
+        Stack=new ArrayList<>();
+        Stack_Discarded=new ArrayList<>();
+        //W=new ArrayList<Weapon>();
         ArrayList <Integer> A;
 
     }

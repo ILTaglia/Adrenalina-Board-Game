@@ -1,5 +1,6 @@
 package Model;
 
+import exceptions.FullCellException;
 import exceptions.InvalidColorException;
 import exceptions.MaxNumberPlayerException;
 
@@ -10,6 +11,7 @@ public class Match {
     private ArrayList<Player> players;
     private Dashboard dashboard;
     private Ammo_Deck ammo_deck;
+    private Weapon_Deck weapon_deck;
     private boolean check_dashboard=false;
 
     //i è parametro per la dashboard
@@ -17,6 +19,7 @@ public class Match {
         this.round=1;
         this.players=new ArrayList<>();
         ammo_deck=new Ammo_Deck();
+        weapon_deck=new Weapon_Deck();
     }
 
     public void set_round(){
@@ -67,4 +70,23 @@ public class Match {
     public int get_players_size(){ return this.players.size();}
 
     public Dashboard get_dashboard(){return this.dashboard;}
+
+    //TODO:Test
+    //Riaggiunge la carta Ammo dopo che è stata usata
+    public void Add_AmmoCard(Normal_Cell cell){//TODO:pensare a nome più efficace
+        try{
+            cell.Add_Ammo_Card((Ammo_Card)ammo_deck.Draw_Card());
+        }catch(FullCellException e){
+            //TODO
+        }
+
+    }
+    public void Add_WeaponCard(SpawnPoint_Cell cell,int index){//TODO:pensare a nome più efficace
+        try{
+            cell.Add_Weapon_Card((Weapon)weapon_deck.Draw_Card(),index);//TODO:controllare
+        }catch(FullCellException e){
+            //TODO
+        }
+
+    }
 }

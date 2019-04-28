@@ -1,8 +1,8 @@
 package Model;
 
 import java.util.ArrayList;
-
-public class Weapon {
+//TODO IMPORTANTE: Classe Card da Usare !
+public class Weapon extends Card{
     private String name;
     private ArrayList <Integer> cost;
     private int used;

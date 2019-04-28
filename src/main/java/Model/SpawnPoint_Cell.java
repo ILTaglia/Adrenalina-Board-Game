@@ -19,13 +19,13 @@ public class SpawnPoint_Cell extends Cell {
         this.port[3] = W_port;
         this.type = 0; //spawn point cell
     }
-    public void Add_Weapon_Card(Weapon weapon) throws FullCellException{
+    public void Add_Weapon_Card(Weapon weapon,int index) throws FullCellException{
         if(Weapons_SpawnPoint.size()==3) throw new FullCellException();
-        Weapons_SpawnPoint.add(weapon);
+        Weapons_SpawnPoint.set(index,weapon);
     }
     //Assegna al player la carta selezionata tra le 3 disponibili
     public void Collect_Weapon(Player player,int selected_weapon) throws MaxNumberofCardsException {
-        player.add_weapon(Weapons_SpawnPoint.remove(selected_weapon));
+        player.add_weapon(Weapons_SpawnPoint.get(selected_weapon));
         //TODO: Aggiungere carta dove appena rimossa
     }
 
