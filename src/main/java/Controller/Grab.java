@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Player;
 import Model.Card;
+import Model.Cell;
 import Model.Match;
 import exceptions.InvalidDirectionException;
 
@@ -28,6 +29,13 @@ public class Grab extends Action {
                 } catch (InvalidDirectionException e) {}
             }
         }
+        Cell cell = player.get_cel().inmap(m.get_dashboard(), player.get_cel().getX(), player.get_cel().getY());
+        //spawn point cell
+        if(cell.gettype()==0){}
+
+        //normal cell
+        else if(cell.gettype()==1){}
+
         player.set_action();
 
         /*Bisognerà fare la collect card, lanciando eccezione se il player ha già troppe armi o potenziamenti e quindi facendo richiesta

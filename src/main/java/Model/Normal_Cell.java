@@ -12,6 +12,7 @@ public class Normal_Cell extends Cell {
         this.port[1] = E_port;
         this.port[2] = S_port;
         this.port[3] = W_port;
+        this.type = 1; //normal cell
     }
 
     public void Add_Ammo_Card(Ammo_Card ammo_card) throws FullCellException{
