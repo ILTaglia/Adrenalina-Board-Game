@@ -1,6 +1,6 @@
 package Model;
 
-public class Teleporter implements PowCard{
+public class Teleporter extends PowCard{
     private int color;
     private int cost;
     private int moveme;

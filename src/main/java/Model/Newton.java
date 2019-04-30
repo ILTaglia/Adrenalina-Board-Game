@@ -1,6 +1,6 @@
 package Model;
 
-public class Newton implements PowCard{
+public class Newton extends PowCard{
     private int color;
     private int cost;
     private int moveme;

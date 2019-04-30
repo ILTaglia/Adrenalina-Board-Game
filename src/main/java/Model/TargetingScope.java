@@ -1,6 +1,6 @@
 package Model;
 
-public class TargetingScope implements PowCard{
+public class TargetingScope extends PowCard{
     private int color;
     private int cost;
     private int moveme;

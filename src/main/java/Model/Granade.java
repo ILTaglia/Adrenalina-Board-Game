@@ -1,6 +1,6 @@
 package Model;
 
-public class Granade implements PowCard{
+public class Granade extends PowCard{
     private int color;
     private int cost;
     private int moveme;

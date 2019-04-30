@@ -1,16 +1,16 @@
 package Model;
 
-public interface PowCard {
-    public void setColor(int color);
-    public int getColor();
-    public void setCost(int cost);
-    public int getCost();
-    public String getName();
-    public void setMoveme(int moveme);
-    public int getMoveme();
-    public void setLife(int life);
-    public int getLife();
-    public void setMarks(int marks);
-    public int getMarks();
+public abstract class PowCard extends Card{
+    public abstract void setColor(int color);
+    public abstract int getColor();
+    public abstract void setCost(int cost);
+    public abstract int getCost();
+    public abstract String getName();
+    public abstract void setMoveme(int moveme);
+    public abstract int getMoveme();
+    public abstract void setLife(int life);
+    public abstract int getLife();
+    public abstract void setMarks(int marks);
+    public abstract int getMarks();
 
 }
