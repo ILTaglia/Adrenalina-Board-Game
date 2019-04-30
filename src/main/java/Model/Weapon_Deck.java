@@ -14,13 +14,13 @@ public class Weapon_Deck extends Deck{
     }
 
     //TODO: questo metodo può essere rimosso e si può usare il Draw_Card di Deck
-    /*
-    public Weapon getCard(int i)
+
+    public Card getCard(int i)
 
     {
-        return this.W.get(i);
+        return this.Stack.get(i);
     }
-    */
+
 
     public Weapon_Deck(){
         Stack=new ArrayList<>();
@@ -32,13 +32,14 @@ public class Weapon_Deck extends Deck{
 
     public void setWeapons(String filename)
     {
-        this.W=this.readWeaponCards( filename);
+        this.Stack=this.readWeaponCards( filename);
     }
 
-    public ArrayList<Weapon> readWeaponCards(String fileName)
+    public ArrayList<Card> readWeaponCards(String fileName)
     {
-        ArrayList<Weapon>O;
+        ArrayList<Weapon> O;
         O=new ArrayList<Weapon>();
+        ArrayList<Card> S=new ArrayList<>();
         String stringa=new String();
         int CS=1;
         int cont=0;
@@ -203,7 +204,8 @@ public class Weapon_Deck extends Deck{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return O;
+        S.addAll(O);
+        return S;
     }
 
 
