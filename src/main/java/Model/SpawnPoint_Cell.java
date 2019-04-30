@@ -17,7 +17,6 @@ public class SpawnPoint_Cell extends Cell {
         this.port[1] = E_port;
         this.port[2] = S_port;
         this.port[3] = W_port;
-        this.type = 0; //spawn point cell
     }
     public void Add_Weapon_Card(Weapon weapon,int index) throws FullCellException{
         if(Weapons_SpawnPoint.size()==3) throw new FullCellException();

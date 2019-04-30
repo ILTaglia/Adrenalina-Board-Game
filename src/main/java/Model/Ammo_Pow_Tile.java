@@ -15,15 +15,15 @@ public class Ammo_Pow_Tile extends Ammo_Card {
 
         Used=false;
     }
-
+    /*
     @Override
     public void Collect_Card(Player player) throws CardAlreadyCollectedException {
         super.Collect_Card(player);
-        //TODO Implementare Observer Observable per forza
     }
+    */
     @Override
     public String toString(){
-        return Refill_Ammo.stream().map(ammo->ammo.toString()).reduce("",(a,b)->a + b)+"Pow";
+        return super.toString()+"Pow";
     }
 
 }

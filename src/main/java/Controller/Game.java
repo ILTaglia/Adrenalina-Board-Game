@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 
 import java.util.ArrayList;
 import java.util.Random;
+//TODO: Capire se la view va istanziata nel Controller oppure se va passata negli eventi che lancia al controller
 
 public class Game{
     private ArrayList<Match> matches = new ArrayList<>();
