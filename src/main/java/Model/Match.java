@@ -90,23 +90,25 @@ public class Match {
 
     }
 
+    //returns all the players seen by the given player
     public ArrayList<Player> visible_players(Player player){
         int x, y, cell_color;
         x = player.get_cel().getX();
         y = player.get_cel().getY();
-        Cell cell_player = this.get_dashboard().getmap(x, y); //cella in cui si trova il player
-        cell_color = cell_player.getcolor(); //colore della cella in cui si trova il player
+        Cell cell_player = this.get_dashboard().getmap(x, y); //cell of the player
+        cell_color = cell_player.getcolor(); //color of the cell of the player
 
         ArrayList<Player> visible = new ArrayList<>();
 
         //adds a player if it is in the same room
         for (Player p : this.players) {
             if (!p.equals(player)) {
+                //color of the cell of the other player
                 int other_player_cell_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                 if(other_player_cell_color == cell_color) visible.add(p);
             }
         }
-        //adds
+        //adds a player if it is in a room connected to the parameter player by a port and the parameter player is across the port
         for(int i=0; i<4; i++){
             if(cell_player.portIsPresent(i)==1){
                 //north port
@@ -115,6 +117,7 @@ public class Match {
                     Cell other_cell = this.get_dashboard().getmap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
+                            //color of the cell of the other player
                             int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                             if(other_player_color==other_cell.getcolor()) visible.add(p);
                         }
@@ -127,6 +130,7 @@ public class Match {
                     Cell other_cell = this.get_dashboard().getmap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
+                            //color of the cell of the other player
                             int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                             if(other_player_color==other_cell.getcolor()) visible.add(p);
                         }
@@ -139,6 +143,7 @@ public class Match {
                     Cell other_cell = this.get_dashboard().getmap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
+                            //color of the cell of the other player
                             int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                             if(other_player_color==other_cell.getcolor()) visible.add(p);
                         }
@@ -151,6 +156,7 @@ public class Match {
                     Cell other_cell = this.get_dashboard().getmap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
+                            //color of the cell of the other player
                             int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                             if(other_player_color==other_cell.getcolor()) visible.add(p);
                         }
@@ -160,5 +166,46 @@ public class Match {
             }
         }
         return visible;
+    }
+
+    //returns the list of players in the same line of the given player
+    public ArrayList<Player> same_line_players(Player player){
+        ArrayList<Player> list = new ArrayList<>();
+        int x = player.get_cel().getX(); //player line
+        for (Player p : this.players) {
+            if (!p.equals(player)) {
+                int other_player_x = p.get_cel().getX();
+                if(other_player_x == x) list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Player> same_column_players(Player player){
+        ArrayList<Player> list = new ArrayList<>();
+        int y = player.get_cel().getY(); //player column
+        for (Player p : this.players) {
+            if (!p.equals(player)) {
+                int other_player_y = p.get_cel().getY();
+                if(other_player_y == y) list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public int manhattan_distance (Player player1, Player player2){
+        int distance=-1;
+        int x1, y1, x2, y2;
+        x1 = player1.get_cel().getX();
+        y1 = player1.get_cel().getY();
+        x2 = player2.get_cel().getX();
+        y2 = player2.get_cel().getY();
+        if(x1==x2) {
+            distance = Math.abs(y2-y1);
+        }
+        else if(y1==y2) {
+            distance = Math.abs(x2-x1);
+        }
+        return distance;
     }
 }

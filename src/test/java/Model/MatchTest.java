@@ -141,6 +141,28 @@ public class MatchTest {
         assertArrayEquals(visible_players_byplayer3.toArray(), match.visible_players(player3).toArray());
         assertArrayEquals(visible_players_byplayer4.toArray(), match.visible_players(player4).toArray());
 
+
+        assertTrue(match.same_line_players(player1).contains(player2));
+        assertEquals(1, match.same_line_players(player1).size());
+        assertTrue(match.same_line_players(player2).contains(player1));
+        assertEquals(1, match.same_line_players(player2).size());
+        assertTrue(match.same_line_players(player3).contains(player4));
+        assertEquals(1, match.same_line_players(player3).size());
+        assertTrue(match.same_line_players(player4).contains(player3));
+        assertEquals(1, match.same_line_players(player4).size());
+
+
+        assertEquals(0, match.same_column_players(player1).size());
+        assertTrue(match.same_column_players(player2).contains(player4));
+        assertEquals(1, match.same_column_players(player2).size());
+        assertEquals(0, match.same_column_players(player3).size());
+        assertTrue(match.same_column_players(player4).contains(player2));
+        assertEquals(1, match.same_column_players(player4).size());
+
+        assertEquals(2, match.manhattan_distance(player1, player2));
+        assertEquals(2, match.manhattan_distance(player2, player4));
+        assertEquals(1, match.manhattan_distance(player3, player4));
+        assertEquals(-1, match.manhattan_distance(player1, player3));
     }
 
     @Test
@@ -176,5 +198,27 @@ public class MatchTest {
         assertTrue(match.visible_players(player4).contains(player2));
         assertEquals(2, match.visible_players(player4).size());
 
+
+        assertTrue(match.same_line_players(player1).contains(player2));
+        assertEquals(1, match.same_line_players(player1).size());
+        assertTrue(match.same_line_players(player2).contains(player1));
+        assertEquals(1, match.same_line_players(player2).size());
+        assertEquals(0, match.same_line_players(player3).size());
+        assertEquals(0, match.same_line_players(player4).size());
+
+
+        assertTrue(match.same_column_players(player1).contains(player3));
+        assertEquals(1, match.same_column_players(player1).size());
+        assertTrue(match.same_column_players(player2).contains(player4));
+        assertEquals(1, match.same_column_players(player2).size());
+        assertTrue(match.same_column_players(player3).contains(player1));
+        assertEquals(1, match.same_column_players(player3).size());
+        assertTrue(match.same_column_players(player4).contains(player2));
+        assertEquals(1, match.same_column_players(player4).size());
+
+
+        assertEquals(1, match.manhattan_distance(player1, player2));
+        assertEquals(1, match.manhattan_distance(player2, player4));
+        assertEquals(-1, match.manhattan_distance(player3, player4));
     }
 }
