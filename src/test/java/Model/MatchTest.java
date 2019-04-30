@@ -5,6 +5,8 @@ import exceptions.MaxNumberPlayerException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,5 +116,65 @@ public class MatchTest {
         catch (MaxNumberPlayerException e){}
         assertThrows(InvalidColorException.class, () -> m2.add_player(player5));
         assertEquals(1, m2.create_dashboard(1));
+    }
+
+    @Test
+    public void visible_players(){
+        match.create_dashboard(3);
+
+        player1.set_cel(0, 3);
+        player2.set_cel(0, 1);
+        player3.set_cel(2, 2);
+        player4.set_cel(2, 1);
+
+        ArrayList<Player> visible_players_byplayer2 = new ArrayList<>();
+        ArrayList<Player> visible_players_byplayer3 = new ArrayList<>();
+        ArrayList<Player> visible_players_byplayer4 = new ArrayList<>();
+
+        visible_players_byplayer3.add(player4);
+        visible_players_byplayer4.add(player3);
+
+        assertTrue(match.visible_players(player1).contains(player2));
+        assertTrue(match.visible_players(player1).contains(player3));
+        assertEquals(2, match.visible_players(player1).size());
+        assertArrayEquals(visible_players_byplayer2.toArray(), match.visible_players(player2).toArray());
+        assertArrayEquals(visible_players_byplayer3.toArray(), match.visible_players(player3).toArray());
+        assertArrayEquals(visible_players_byplayer4.toArray(), match.visible_players(player4).toArray());
+
+    }
+
+    @Test
+    public void visible_players2(){
+        match.create_dashboard(3);
+
+        player1.set_cel(0, 2);
+        player2.set_cel(0, 1);
+        player3.set_cel(2, 2);
+        player4.set_cel(1, 1);
+
+        ArrayList<Player> visible_players_byplayer1 = new ArrayList<>();
+        ArrayList<Player> visible_players_byplayer2 = new ArrayList<>();
+        ArrayList<Player> visible_players_byplayer3 = new ArrayList<>();
+        ArrayList<Player> visible_players_byplayer4 = new ArrayList<>();
+
+        visible_players_byplayer1.add(player2);
+        visible_players_byplayer1.add(player3);
+        visible_players_byplayer2.add(player1);
+        visible_players_byplayer2.add(player4);
+        visible_players_byplayer4.add(player2);
+        visible_players_byplayer4.add(player1);
+
+
+        assertArrayEquals(visible_players_byplayer3.toArray(), match.visible_players(player3).toArray());
+        assertTrue(match.visible_players(player1).contains(player2));
+        assertTrue(match.visible_players(player1).contains(player3));
+        assertEquals(2, match.visible_players(player1).size());
+        assertTrue(match.visible_players(player2).contains(player1));
+        assertTrue(match.visible_players(player2).contains(player4));
+        assertEquals(2, match.visible_players(player2).size());
+        assertTrue(match.visible_players(player4).contains(player1));
+        assertTrue(match.visible_players(player4).contains(player2));
+        assertEquals(2, match.visible_players(player4).size());
+
     }
 }

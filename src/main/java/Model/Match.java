@@ -89,4 +89,76 @@ public class Match {
         }
 
     }
+
+    public ArrayList<Player> visible_players(Player player){
+        int x, y, cell_color;
+        x = player.get_cel().getX();
+        y = player.get_cel().getY();
+        Cell cell_player = this.get_dashboard().getmap(x, y); //cella in cui si trova il player
+        cell_color = cell_player.getcolor(); //colore della cella in cui si trova il player
+
+        ArrayList<Player> visible = new ArrayList<>();
+
+        //adds a player if it is in the same room
+        for (Player p : this.players) {
+            if (!p.equals(player)) {
+                int other_player_cell_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
+                if(other_player_cell_color == cell_color) visible.add(p);
+            }
+        }
+        //adds
+        for(int i=0; i<4; i++){
+            if(cell_player.portIsPresent(i)==1){
+                //north port
+                if(i==0){
+                    x--;
+                    Cell other_cell = this.get_dashboard().getmap(x, y);
+                    for (Player p : this.players) {
+                        if (!p.equals(player) && !visible.contains(p)) {
+                            int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
+                            if(other_player_color==other_cell.getcolor()) visible.add(p);
+                        }
+                    }
+                    x++;
+                }
+                //east port
+                else if(i==1){
+                    y++;
+                    Cell other_cell = this.get_dashboard().getmap(x, y);
+                    for (Player p : this.players) {
+                        if (!p.equals(player) && !visible.contains(p)) {
+                            int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
+                            if(other_player_color==other_cell.getcolor()) visible.add(p);
+                        }
+                    }
+                    y--;
+                }
+                //south port
+                else if(i==2){
+                    x++;
+                    Cell other_cell = this.get_dashboard().getmap(x, y);
+                    for (Player p : this.players) {
+                        if (!p.equals(player) && !visible.contains(p)) {
+                            int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
+                            if(other_player_color==other_cell.getcolor()) visible.add(p);
+                        }
+                    }
+                    x--;
+                }
+                //west port
+                else if(i==3){
+                    y--;
+                    Cell other_cell = this.get_dashboard().getmap(x, y);
+                    for (Player p : this.players) {
+                        if (!p.equals(player) && !visible.contains(p)) {
+                            int other_player_color = p.get_cel().inmap(this.dashboard, p.get_cel().getX(), p.get_cel().getY()).getcolor();
+                            if(other_player_color==other_cell.getcolor()) visible.add(p);
+                        }
+                    }
+                    y++;
+                }
+            }
+        }
+        return visible;
+    }
 }

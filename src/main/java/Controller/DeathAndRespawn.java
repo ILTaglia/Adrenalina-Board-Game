@@ -23,7 +23,7 @@ public class DeathAndRespawn {
         else throw new NotExistingDashboardException();
         //adds signals to killshot track
 
-        if(n==2) player_killer.setmarks(1, player_killed.getcolor());
+        if(n==2) player_killer.setmarks(1, player_killed.getcolor()); //revenge mark in the killed player
         death= player_killed.get_death();
         player_killed.set_death();
         int player_color;
@@ -42,7 +42,7 @@ public class DeathAndRespawn {
             death++;
             player_killed.setdamage(0, player_color);
             flag=1;
-            /*in the copied list cancel the old max and assign the second score of the array points
+            /* in the copied list cancel the old max and assign the second score of the array points
              * to the new max element. If other players made damages flag is set back to zero and
              * the iteration is repeated, while, if no other players made damages flag rests 1 and
              * the attribution of scores is stopped.*/

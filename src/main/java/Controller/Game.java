@@ -74,6 +74,6 @@ public class Game{
         }catch(IOException e)
         {e.printStackTrace();}
 
-        g.select(choice);
+        g.select(choice); //method that creates a dashboard
     }
 }

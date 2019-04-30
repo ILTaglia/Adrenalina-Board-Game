@@ -73,9 +73,8 @@ public class Dashboard {
 
     }
 
-    public Cell getmap(int i, int j){
-        return this.map[i][j];
-    }
+    public Cell getmap(int i, int j){ return this.map[i][j]; }
+    //public Cell getmap(int j, int i){ return this.map[i][j]; }
 
     public int get_index(){return this.track_index;}
 

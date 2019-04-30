@@ -4,6 +4,7 @@ import Model.Player;
 import Model.Ammo;
 import Model.Weapon;
 import Model.Coordinate;
+import Model.Card;
 import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
+    Pow_Card p;
     Player player1;
     Player player2;
     Player player3;

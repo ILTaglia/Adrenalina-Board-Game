@@ -15,8 +15,8 @@ public class Run extends Action {
          * 0
          * 1
          * 2
-         * le x vanno da 0 a 3, le y da 0 a 2, ATTENZIONE all'unica convenzione non intuitiva. Se si va a nord la coordinata viene decrementata
-         * mentre se si va a sud la coordinata aumenta
+         * le righe vanno da 0 a 2, le colonne da 0 a 3, ATTENZIONE all'unica convenzione non intuitiva. Se si va a nord la coordinata viene decrementata
+         * mentre se si va a sud la coordinata aumenta (x vanno da 0 a 3, y vanno da 0 a 2)
          */
     }
 
@@ -33,49 +33,49 @@ public class Run extends Action {
             }
             catch (InvalidDirectionException e) {}
             //player wants to go to the north
-            if(d==0 && y>0){
+            if(d==0 && x>0){
                 int actual_color = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                 int next_color = p.get_cel().inmap(map, p.get_cel().getX(), (p.get_cel().getY()-1)).getcolor();
 
                 int port = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).portIsPresent(0);
                 if(actual_color==next_color || port==1){
-                    y--;
+                    x--;
                     p.set_cel(x, y);
                 }
                 else throw new InvalidDirectionException();
             }
             //player wants to go the the east
-            else if(d==1 && x<3){
+            else if(d==1 && y<3){
                 int actual_color = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                 int next_color = p.get_cel().inmap(map, (p.get_cel().getX()+1), p.get_cel().getY()).getcolor();
 
                 int port = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).portIsPresent(1);
-                if(actual_color==next_color || port==1){
-                    x++;
-                    p.set_cel(x, y);
-                }
-                else throw new InvalidDirectionException();
-            }
-            //player wants to go the south
-            else if(d==2 && y<2) {
-                int actual_color = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).getcolor();
-                int next_color = p.get_cel().inmap(map, p.get_cel().getX(), (p.get_cel().getY()+1)).getcolor();
-
-                int port = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).portIsPresent(2);
                 if(actual_color==next_color || port==1){
                     y++;
                     p.set_cel(x, y);
                 }
                 else throw new InvalidDirectionException();
             }
+            //player wants to go the south
+            else if(d==2 && x<2) {
+                int actual_color = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).getcolor();
+                int next_color = p.get_cel().inmap(map, p.get_cel().getX(), (p.get_cel().getY()+1)).getcolor();
+
+                int port = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).portIsPresent(2);
+                if(actual_color==next_color || port==1){
+                    x++;
+                    p.set_cel(x, y);
+                }
+                else throw new InvalidDirectionException();
+            }
             //player wants to go to the west
-            else if(d==3 && x>0) {
+            else if(d==3 && y>0) {
                 int actual_color = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).getcolor();
                 int next_color = p.get_cel().inmap(map, (p.get_cel().getX()-1), p.get_cel().getY()).getcolor();
 
                 int port = p.get_cel().inmap(map, p.get_cel().getX(), p.get_cel().getY()).portIsPresent(3);
                 if(actual_color==next_color || port==1){
-                    x--;
+                    y--;
                     p.set_cel(x, y);
                 }
                 else throw new InvalidDirectionException();
