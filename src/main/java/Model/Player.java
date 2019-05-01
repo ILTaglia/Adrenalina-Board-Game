@@ -13,7 +13,7 @@ public class Player {
     private int color; //player color is represented by an id integer
     private Coordinate cel; //position of the player
     private ArrayList<Weapon> gun; //list for the weapons of the player
-    private ArrayList<Pow_Card> pow; //list for the power up of the player
+    private ArrayList<PowCard> pow; //list for the power up of the player
     private int death; //number to show how many times the player died
     private int action; //number of the action taken by the player in one turn
     private int firstblood; //number of the player that gave the damage 1
@@ -172,7 +172,6 @@ public class Player {
             }
             if(n==0) return;
         }
-
     }
 
     //return weapon passed as argument
@@ -197,20 +196,20 @@ public class Player {
         return 0;
     }
 
-    public boolean powIspresent(Pow_Card p){
+    public boolean powIspresent(PowCard p){
         for(int i=0; i<pow.size(); i++){
             if(pow.get(i).equals(p)) return true;
         }
         return false;
     }
 
-    public int add_pow(Pow_Card p) throws MaxNumberofCardsException{
+    public int add_pow(PowCard p) throws MaxNumberofCardsException{
         if(pow.size()==3) throw new MaxNumberofCardsException(); //remove one pow
         pow.add(p);
         return 0;
     }
 
-    public int remove_pow(Pow_Card p) throws ZeroCardsOwnedException, NotOwnedCardException{
+    public int remove_pow(PowCard p) throws ZeroCardsOwnedException, NotOwnedCardException{
         if(pow.size()==0) throw new ZeroCardsOwnedException(); //invalid
         if(!powIspresent(p)) throw new NotOwnedCardException(); //you don't have it
         int i=pow.indexOf(p);
