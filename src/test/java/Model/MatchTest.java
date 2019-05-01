@@ -119,7 +119,7 @@ public class MatchTest {
     }
 
     @Test
-    public void visible_players(){
+    public void players_list1(){
         match.create_dashboard(3);
 
         player1.set_cel(0, 3);
@@ -127,19 +127,14 @@ public class MatchTest {
         player3.set_cel(2, 2);
         player4.set_cel(2, 1);
 
-        ArrayList<Player> visible_players_byplayer2 = new ArrayList<>();
-        ArrayList<Player> visible_players_byplayer3 = new ArrayList<>();
-        ArrayList<Player> visible_players_byplayer4 = new ArrayList<>();
-
-        visible_players_byplayer3.add(player4);
-        visible_players_byplayer4.add(player3);
-
         assertTrue(match.visible_players(player1).contains(player2));
         assertTrue(match.visible_players(player1).contains(player3));
         assertEquals(2, match.visible_players(player1).size());
-        assertArrayEquals(visible_players_byplayer2.toArray(), match.visible_players(player2).toArray());
-        assertArrayEquals(visible_players_byplayer3.toArray(), match.visible_players(player3).toArray());
-        assertArrayEquals(visible_players_byplayer4.toArray(), match.visible_players(player4).toArray());
+        assertEquals(0, match.visible_players(player2).size());
+        assertTrue(match.visible_players(player3).contains(player4));
+        assertEquals(1, match.visible_players(player3).size());
+        assertTrue(match.visible_players(player4).contains(player3));
+        assertEquals(1, match.visible_players(player4).size());
 
 
         assertTrue(match.same_line_players(player1).contains(player2));
@@ -166,7 +161,7 @@ public class MatchTest {
     }
 
     @Test
-    public void visible_players2(){
+    public void players_list2(){
         match.create_dashboard(3);
 
         player1.set_cel(0, 2);
@@ -174,26 +169,14 @@ public class MatchTest {
         player3.set_cel(2, 2);
         player4.set_cel(1, 1);
 
-        ArrayList<Player> visible_players_byplayer1 = new ArrayList<>();
-        ArrayList<Player> visible_players_byplayer2 = new ArrayList<>();
-        ArrayList<Player> visible_players_byplayer3 = new ArrayList<>();
-        ArrayList<Player> visible_players_byplayer4 = new ArrayList<>();
 
-        visible_players_byplayer1.add(player2);
-        visible_players_byplayer1.add(player3);
-        visible_players_byplayer2.add(player1);
-        visible_players_byplayer2.add(player4);
-        visible_players_byplayer4.add(player2);
-        visible_players_byplayer4.add(player1);
-
-
-        assertArrayEquals(visible_players_byplayer3.toArray(), match.visible_players(player3).toArray());
         assertTrue(match.visible_players(player1).contains(player2));
         assertTrue(match.visible_players(player1).contains(player3));
         assertEquals(2, match.visible_players(player1).size());
         assertTrue(match.visible_players(player2).contains(player1));
         assertTrue(match.visible_players(player2).contains(player4));
         assertEquals(2, match.visible_players(player2).size());
+        assertEquals(0, match.visible_players(player3).size());
         assertTrue(match.visible_players(player4).contains(player1));
         assertTrue(match.visible_players(player4).contains(player2));
         assertEquals(2, match.visible_players(player4).size());

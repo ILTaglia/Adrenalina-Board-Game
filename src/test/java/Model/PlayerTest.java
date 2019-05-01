@@ -9,13 +9,13 @@ import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
-    Pow_Card p;
     Player player1;
     Player player2;
     Player player3;
@@ -28,9 +28,10 @@ class PlayerTest {
     }
 
     @Test
-    void getcolor(){
+    void get(){
         assertEquals(0, player1.getcolor());
         assertEquals(3, player2.getcolor());
+        assertEquals("10583741", player1.getid());
     }
 
     @Test
@@ -256,17 +257,27 @@ class PlayerTest {
     }
 
     @Test
-    void powIspresent() {
-        //Pow_card p = new Pow_card(0, "Raggio cinetico");
+    void testing_pow() {
+        Pow_Deck deck = new Pow_Deck("Pow");
+        PowCard powcard1 = (PowCard) deck.Draw_Card();
+        try{
+            player1.add_pow(powcard1);
+        }
+        catch (MaxNumberofCardsException e){}
+        assertTrue(player1.powIspresent(powcard1));
+        PowCard powcard2 = (PowCard) deck.Draw_Card();
+        assertThrows(NotOwnedCardException.class, () -> player1.remove_pow(powcard2));
+
+        try{
+            player1.remove_pow(powcard1);
+        }
+        catch (NotOwnedCardException e){}
+        catch (ZeroCardsOwnedException e){}
+        assertTrue(!player1.powIspresent(powcard1));
+        assertThrows(ZeroCardsOwnedException.class, () -> player1.remove_pow(powcard2));
+
     }
 
-    @Test
-    void add_pow() {
-    }
-
-    @Test
-    void remove_pow() {
-    }
 
     @Test
     void get_cel() {

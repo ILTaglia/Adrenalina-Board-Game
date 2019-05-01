@@ -27,4 +27,6 @@ public abstract class Action {
         else throw new InvalidDirectionException();
         return d;
     }
+
+    public void isvalid(){}
 }
