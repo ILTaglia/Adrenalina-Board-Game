@@ -7,7 +7,6 @@ import Controller.Run;
 import Model.Player;
 import Model.Match;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InvalidDirectionExceptionTest {
@@ -18,14 +17,14 @@ public class InvalidDirectionExceptionTest {
     @Before
     public void SetUp(){
         match = new Match();
-        match.create_dashboard(1);
+        match.createdashboard(1);
         try{
-            match.add_player(player);
+            match.addplayer(player);
         }
         catch (MaxNumberPlayerException e){}
         r = new Run();
         player = new Player("Sirius", "blue", "10583741");
-        player.set_cel(0,0);
+        player.setCel(0,0);
     }
     @Test
     public void test(){

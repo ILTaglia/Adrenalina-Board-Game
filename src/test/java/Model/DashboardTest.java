@@ -2,7 +2,6 @@ package Model;
 
 import Controller.DeathAndRespawn;
 import exceptions.MaxNumberPlayerException;
-import exceptions.NotExistingDashboardException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -21,33 +20,33 @@ public class DashboardTest {
         Match match = new Match();
 
         try {
-            match.add_player(player1);
-            match.add_player(player2);
-            match.add_player(player3);
+            match.addplayer(player1);
+            match.addplayer(player2);
+            match.addplayer(player3);
         }
         catch (MaxNumberPlayerException e){}
-        match.create_dashboard(1);
+        match.createdashboard(1);
 
-        assertEquals(0, match.get_dashboard().get_index());
-        match.get_dashboard().setKillshot_track(player1,2);
-        assertEquals(1, match.get_dashboard().get_index());
-        match.get_dashboard().setKillshot_track(player2,1);
-        match.get_dashboard().setKillshot_track(player3,1);
-        match.get_dashboard().setKillshot_track(player2,2);
-        match.get_dashboard().setKillshot_track(player1,1);
-        match.get_dashboard().setKillshot_track(player3,2);
-        match.get_dashboard().setKillshot_track(player2,1);
-        match.get_dashboard().setKillshot_track(player1,1);
+        assertEquals(0, match.getDashboard().getindex());
+        match.getDashboard().setKillshottrack(player1,2);
+        assertEquals(1, match.getDashboard().getindex());
+        match.getDashboard().setKillshottrack(player2,1);
+        match.getDashboard().setKillshottrack(player3,1);
+        match.getDashboard().setKillshottrack(player2,2);
+        match.getDashboard().setKillshottrack(player1,1);
+        match.getDashboard().setKillshottrack(player3,2);
+        match.getDashboard().setKillshottrack(player2,1);
+        match.getDashboard().setKillshottrack(player1,1);
 
         /*This test controls that when a match ends, points of the killshot track are given to players that have
         * signals in the track*/
 
         DeathAndRespawn c = new DeathAndRespawn();
 
-        c.end_game(match, match.get_dashboard());
-        assertEquals(8, player1.get_score());
-        assertEquals(6, player2.get_score());
-        assertEquals(4, player3.get_score());
+        c.endgame(match, match.getDashboard());
+        assertEquals(8, player1.getScore());
+        assertEquals(6, player2.getScore());
+        assertEquals(4, player3.getScore());
 
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){

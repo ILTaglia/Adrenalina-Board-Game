@@ -27,40 +27,40 @@ public class RunTest {
         player3 = new Player("Hermione", "green", "18263100");
         player4 = new Player("Aries", "yellow", "18992302");
         try {
-            match.add_player(player1);
-            match.add_player(player2);
-            match.add_player(player3);
-            match.add_player(player4);
+            match.addplayer(player1);
+            match.addplayer(player2);
+            match.addplayer(player3);
+            match.addplayer(player4);
         }
         catch (MaxNumberPlayerException e){}
 
-        match.create_dashboard(3);
+        match.createdashboard(3);
 
-        player1.set_cel(0, 2);
-        player2.set_cel(0, 1);
-        player3.set_cel(2, 2);
-        player4.set_cel(1, 1);
+        player1.setCel(0, 2);
+        player2.setCel(0, 1);
+        player3.setCel(2, 2);
+        player4.setCel(1, 1);
     }
 
     @Test
     public void movement1() {
         //movements test for player1
-        assertEquals(0, player1.get_cel().getX());
-        assertEquals(2, player1.get_cel().getY());
+        assertEquals(0, player1.getCel().getX());
+        assertEquals(2, player1.getCel().getY());
 
         assertThrows(InvalidDirectionException.class, () -> r.movement(match, player1, "N"));
         try{
             r.movement(match, player1, "E");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(0, player1.get_cel().getX());
-        assertEquals(3, player1.get_cel().getY());
+        assertEquals(0, player1.getCel().getX());
+        assertEquals(3, player1.getCel().getY());
         try{
             r.movement(match, player1, "S");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(1, player1.get_cel().getX());
-        assertEquals(3, player1.get_cel().getY());
+        assertEquals(1, player1.getCel().getX());
+        assertEquals(3, player1.getCel().getY());
 
 
         //movements test for player4
@@ -70,14 +70,14 @@ public class RunTest {
             r.movement(match, player4, "N");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(0, player4.get_cel().getX());
-        assertEquals(1, player4.get_cel().getY());
+        assertEquals(0, player4.getCel().getX());
+        assertEquals(1, player4.getCel().getY());
         try{
             r.movement(match, player4, "W");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(0, player4.get_cel().getX());
-        assertEquals(0, player4.get_cel().getY());
+        assertEquals(0, player4.getCel().getX());
+        assertEquals(0, player4.getCel().getY());
 
 
         //movements test for player3
@@ -85,20 +85,20 @@ public class RunTest {
             r.movement(match, player3, "W");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(2, player3.get_cel().getX());
-        assertEquals(1, player3.get_cel().getY());
+        assertEquals(2, player3.getCel().getX());
+        assertEquals(1, player3.getCel().getY());
         //assertThrows(InvalidDirectionException.class, () -> r.movement(match, player3, "N"));
         try{
             r.movement(match, player3, "N");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(1, player3.get_cel().getX());
-        assertEquals(1, player3.get_cel().getY());
+        assertEquals(1, player3.getCel().getX());
+        assertEquals(1, player3.getCel().getY());
         try{
             r.movement(match, player3, "S");
         }
         catch(InvalidDirectionException e){}
-        assertEquals(2, player3.get_cel().getX());
-        assertEquals(1, player3.get_cel().getY());
+        assertEquals(2, player3.getCel().getX());
+        assertEquals(1, player3.getCel().getY());
     }
 }

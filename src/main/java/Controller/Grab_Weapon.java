@@ -11,12 +11,12 @@ public class Grab_Weapon extends Grab{
     }
     public void Grab_Weapon(Match match, Player player,int index_weapon) throws MaxNumberofCardsException{
         SpawnPoint_Cell cell;
-        cell = (SpawnPoint_Cell) player.get_cel().inmap(match.get_dashboard(), player.get_cel().getX(), player.get_cel().getY());
+        cell = (SpawnPoint_Cell) player.getCel().inmap(match.getDashboard(), player.getCel().getX(), player.getCel().getY());
         cell.Collect_Weapon(player,index_weapon);
 
-        match.Add_WeaponCard(cell,index_weapon);
+        match.addWeaponCard(cell,index_weapon);
 
-        player.set_action();
+        player.setAction();
     }
 
 }

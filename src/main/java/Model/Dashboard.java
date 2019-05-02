@@ -5,9 +5,9 @@ import java.util.Collections;
 
 public class Dashboard {
     private Cell[][] map;
-    private int track_index;
-    private int[][] killshot_track;
-    private ArrayList<Integer> killshot_points;
+    private int trackindex;
+    private int[][] killshottrack;
+    private ArrayList<Integer> killshotpoints;
     private ArrayList<Integer> ord;
     private boolean stop;
 
@@ -61,55 +61,54 @@ public class Dashboard {
             map[2][3] = new SpawnPoint_Cell(2, 0, 0, 0, 0); //yellow
         }
 
-        track_index=0;
-        killshot_track = new int[2][8];
-        killshot_points = new ArrayList<>();
-        killshot_points.add(0);
-        killshot_points.add(0);
-        killshot_points.add(0);
-        killshot_points.add(0);
-        killshot_points.add(0);
+        trackindex =0;
+        killshottrack = new int[2][8];
+        killshotpoints = new ArrayList<>();
+        killshotpoints.add(0);
+        killshotpoints.add(0);
+        killshotpoints.add(0);
+        killshotpoints.add(0);
+        killshotpoints.add(0);
         ord = new ArrayList<>();
 
     }
 
     public Cell getmap(int i, int j){ return this.map[i][j]; }
-    //public Cell getmap(int j, int i){ return this.map[i][j]; }
 
-    public int get_index(){return this.track_index;}
+    public int getindex(){return this.trackindex;}
 
-    public void setKillshot_track(Player player, int n){
-        killshot_track[0][track_index]=player.getcolor();
+    public void setKillshottrack(Player player, int n){
+        killshottrack[0][trackindex]=player.getcolor();
         //n is the int returned by the set_damage
 
         //m contains the number of signals a player already has in the killshot track
-        int m = killshot_points.get(player.getcolor());
-        killshot_points.set(player.getcolor(), n+m);
+        int m = killshotpoints.get(player.getcolor());
+        killshotpoints.set(player.getcolor(), n+m);
         if(!ord.contains(player.getcolor()))ord.add(player.getcolor());
-        if(n==1) killshot_track[1][track_index]= -1;
-        if(n==2) killshot_track[1][track_index]=player.getcolor();
-        track_index=track_index+1;
+        if(n==1) killshottrack[1][trackindex]= -1;
+        if(n==2) killshottrack[1][trackindex]=player.getcolor();
+        trackindex = trackindex +1;
         //TODO se si finisce l'array finisce la partita
-        if(track_index==9) return; //end_game
+        if(trackindex ==9) return; //endgame
     }
 
     public int getmaxkillshot(){
-        int max = Collections.max(killshot_points);
-        int k = killshot_points.indexOf(Collections.max(killshot_points));
+        int max = Collections.max(killshotpoints);
+        int k = killshotpoints.indexOf(Collections.max(killshotpoints));
         stop=true;
         //number of maximum killshot point
         //check if same points, the first one is the max
-        for(int i=0; i<killshot_points.size()-1; i++){
-            for(int j=i+1; j<killshot_points.size(); j++){
-                if(max==killshot_points.get(i) && killshot_points.get(i).equals(killshot_points.get(j))){
+        for(int i = 0; i< killshotpoints.size()-1; i++){
+            for(int j = i+1; j< killshotpoints.size(); j++){
+                if(max== killshotpoints.get(i) && killshotpoints.get(i).equals(killshotpoints.get(j))){
                     if(ord.indexOf(i)<ord.indexOf(j)) k = i;
                     else k = j;
                 }
             }
         }
-        killshot_points.set(k, 0);
-        for(int j=0; j<killshot_points.size(); j++){
-            if(killshot_points.get(j)!=0){
+        killshotpoints.set(k, 0);
+        for(int j = 0; j< killshotpoints.size(); j++){
+            if(killshotpoints.get(j)!=0){
                 stop=false;
                 return k;
             }

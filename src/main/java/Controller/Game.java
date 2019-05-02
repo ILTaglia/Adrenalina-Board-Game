@@ -1,6 +1,5 @@
 package Controller;
 import Model.Match;
-import Model.Dashboard;
 import Model.Player;
 import exceptions.MaxNumberPlayerException;
 
@@ -26,40 +25,40 @@ public class Game{
         Player player4 = new Player("Aries", "yellow", "18992302");
         Player player5 = new Player("Karka", "grey", "18114320");
         try {
-            m.add_player(player1);
-            m.add_player(player2);
-            m.add_player(player3);
-            m.add_player(player4);
-            m.add_player(player5);
+            m.addplayer(player1);
+            m.addplayer(player2);
+            m.addplayer(player3);
+            m.addplayer(player4);
+            m.addplayer(player5);
         }
         catch (MaxNumberPlayerException e){}
         //in case the players are more than five they have to wait for a new match
     }
 
     public void select(int i){
-        matches.get(0).create_dashboard(i);
+        matches.get(0).createdashboard(i);
     }
 
-    public String random_id(Random rand){
+    public String randomId(Random rand){
         int i = 10000000 + rand.nextInt(89999999);
         String id = Integer.toString(i);
         for (Match m : this.matches){
             //check to avoid different players have the same id
-            for(int index =0; index< m.get_players_size(); index++){
-                if (m.get_player_byindex(index).getid().equals(id)){
+            for(int index = 0; index< m.getplayerssize(); index++){
+                if (m.getplayerbyindex(index).getid().equals(id)){
                     id=id+7;
                 }
             }
         }
-        if(Integer.parseInt(id)>99999999) id = random_id(rand);
+        if(Integer.parseInt(id)>99999999) id = randomId(rand);
         return id;
     }
 
-    public void add_match(Match m){
+    public void addMatch(Match m){
         if(!this.matches.contains(m)) this.matches.add(m);
     }
 
-    public Random get_rand(){return this.rand;}
+    public Random getRand(){return this.rand;}
 
     public static void main(String[] args){
         Game g = new Game();

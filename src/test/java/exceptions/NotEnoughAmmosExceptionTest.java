@@ -20,6 +20,6 @@ public class NotEnoughAmmosExceptionTest {
 
     @Test
     public void test(){
-        //assertThrows(NotEnoughAmmosExceptionTest.class, () -> player.remove_ammo(2, ammo));
+        //assertThrows(NotEnoughAmmosExceptionTest.class, () -> player.removeAmmo(2, ammo));
     }
 }

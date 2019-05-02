@@ -5,7 +5,6 @@ import Model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MaxNumberPlayerExceptionTest {
@@ -27,17 +26,17 @@ public class MaxNumberPlayerExceptionTest {
         player5 = new Player("Karka", "grey", "18114320");
         player6 = new Player("Iron", "blue", "18752344");
         try {
-            match.add_player(player1);
-            match.add_player(player2);
-            match.add_player(player3);
-            match.add_player(player4);
-            match.add_player(player5);
+            match.addplayer(player1);
+            match.addplayer(player2);
+            match.addplayer(player3);
+            match.addplayer(player4);
+            match.addplayer(player5);
         }
         catch (MaxNumberPlayerException e){}
     }
 
     @Test
     public void test(){
-        assertThrows(MaxNumberPlayerException.class, () -> match.add_player(player6));
+        assertThrows(MaxNumberPlayerException.class, () -> match.addplayer(player6));
     }
 }

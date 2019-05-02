@@ -77,9 +77,9 @@ public class Player {
 
     public int getcolor(){return this.color;}
 
-    public boolean get_active(){return this.active;}
+    public boolean getActive(){return this.active;}
 
-    public void set_active(){
+    public void setActive(){
         //the player hasn't played its turn yet
         if(this.action==0) this.active = true;
         //the player has ended its turn
@@ -158,22 +158,22 @@ public class Player {
     }
 
     //return number of ammos of color c
-    public int get_ammo(int color) throws InvalidColorException {
+    public int getAmmo(int color) throws InvalidColorException {
         if(color<0 || color>2) throw new InvalidColorException();
         return (int) ammos.stream().filter(x->x.get_Ammo()==color).count();
     }
 
     //add ammo
-    public void add_ammo(Ammo ammo) throws MoreThanTreeAmmosException{
-        if(get_ammo(ammo.get_Ammo())>=3) {
+    public void addAmmo(Ammo ammo) throws MoreThanTreeAmmosException{
+        if(getAmmo(ammo.get_Ammo())>=3) {
             throw new MoreThanTreeAmmosException();
         } else ammos.add(ammo);
     }
 
     //remove number n of ammos passed as parameter
-    public void remove_ammo(int n, Ammo ammo) throws NotEnoughAmmosException {
-        int n_ammos=this.get_ammo(ammo.get_Ammo());
-        if(n_ammos<n) throw new NotEnoughAmmosException();
+    public void removeAmmo(int n, Ammo ammo) throws NotEnoughAmmosException {
+        int nAmmos=this.getAmmo(ammo.get_Ammo());
+        if(nAmmos<n) throw new NotEnoughAmmosException();
         for(int i=0; i<ammos.size(); i++) {
             if(ammo.get_Ammo()==ammos.get(i).get_Ammo()){
                 ammos.remove(i);
@@ -191,18 +191,16 @@ public class Player {
         return false;
     }
 
-    public int add_weapon(Weapon weapon) throws MaxNumberofCardsException{
+    public void addWeapon(Weapon weapon) throws MaxNumberofCardsException{
         if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to remove a weapon, cannot have more than three
         gun.add(weapon);
-        return 0;
     }
 
-    public int remove_weapon(Weapon weapon) throws ZeroCardsOwnedException, NotOwnedCardException{
+    public void removeWeapon(Weapon weapon) throws ZeroCardsOwnedException, NotOwnedCardException{
         if(gun.size()==0) throw new ZeroCardsOwnedException();
         if(!weaponIspresent(weapon)) throw new NotOwnedCardException();
         int i=gun.indexOf(weapon);
         gun.remove(i);
-        return 0;
     }
 
     public boolean powIspresent(PowCard p){
@@ -212,42 +210,40 @@ public class Player {
         return false;
     }
 
-    public int add_pow(PowCard p) throws MaxNumberofCardsException{
+    public void addPow(PowCard p) throws MaxNumberofCardsException{
         if(pow.size()==3) throw new MaxNumberofCardsException(); //remove one pow
         pow.add(p);
-        return 0;
     }
 
-    public int remove_pow(PowCard p) throws ZeroCardsOwnedException, NotOwnedCardException{
+    public void removePow(PowCard p) throws ZeroCardsOwnedException, NotOwnedCardException{
         if(pow.size()==0) throw new ZeroCardsOwnedException(); //invalid
         if(!powIspresent(p)) throw new NotOwnedCardException(); //you don't have it
         int i=pow.indexOf(p);
         pow.remove(i);
-        return 0;
     }
 
-    public Coordinate get_cel(){return this.cel;}
+    public Coordinate getCel(){return this.cel;}
 
-    public void set_cel(int x, int y){cel.set(x, y);}
+    public void setCel(int x, int y){cel.set(x, y);}
 
-    public int get_death(){return this.death;}
+    public int getDeath(){return this.death;}
 
-    public void set_death(){this.death+=1;}
+    public void setDeath(){this.death+=1;}
 
     //return number of actions taken till this moment
-    public int get_action(){return this.action;}
+    public int getAction(){return this.action;}
 
-    public void set_action(){this.action+=1;}
+    public void setAction(){this.action+=1;}
 
-    public void reset_action(){this.action=0;}
+    public void resetAction(){this.action=0;}
 
-    public int get_firstblood(){return this.firstblood;}
+    public int getFirstblood(){return this.firstblood;}
 
-    public void reset_firstblood(){this.firstblood=-1;}
+    public void resetFirstblood(){this.firstblood=-1;}
 
-    public int get_score(){return this.score;}
+    public int getScore(){return this.score;}
 
     //add the points of a single turn to the global score
-    public void set_score(int s){this.score=this.score+s;}
+    public void setScore(int s){this.score=this.score+s;}
 
 }

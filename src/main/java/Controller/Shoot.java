@@ -24,7 +24,7 @@ public class Shoot extends Action {
                 } catch (InvalidDirectionException e) {}
             }
         }
-        player.set_action();
+        player.setAction();
         /*Si dovrà raccogliere un'arma o un potenziamento a seconda della cella in cui ci si trova*/
         /*l'arma dovrà avere un metodo che ritorna il numero di danni che può infliggere, e il numero
          * di marchi, scegli il bersaglio e spara*/

@@ -1,15 +1,9 @@
 package Model;
 
-import Model.Player;
-import Model.Ammo;
-import Model.Weapon;
-import Model.Coordinate;
-import Model.Card;
 import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileReader;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -90,7 +84,7 @@ class PlayerTest {
         Player player4 = new Player("Aries", "yellow", "18992302");
         Player player5 = new Player("Karka", "grey", "18114320");
         assertEquals(0, player1.gettotaldamage());
-        assertEquals(0, player1.get_death());
+        assertEquals(0, player1.getDeath());
         player1.setdamage(3,3); //from player2
         player1.setdamage(2,2); //from player4
         player1.setdamage(3,4); //from player5
@@ -168,88 +162,88 @@ class PlayerTest {
     }
 
     @Test
-    void get_ammo() {
-        assertEquals(1, player1.get_ammo(1));
-        assertThrows(InvalidColorException.class, () -> player1.get_ammo(4));
+    void getAmmo() {
+        assertEquals(1, player1.getAmmo(1));
+        assertThrows(InvalidColorException.class, () -> player1.getAmmo(4));
 
     }
 
 
     @Test
-    void add_ammo() {
+    void addAmmo() {
         Ammo ammo = new Ammo(0); //new ammo blue
         try{
-            player1.add_ammo(ammo);
+            player1.addAmmo(ammo);
         }
         catch (MoreThanTreeAmmosException e){}
-        assertEquals(2, player1.get_ammo(0));
+        assertEquals(2, player1.getAmmo(0));
         try{
-            player1.add_ammo(ammo);
+            player1.addAmmo(ammo);
         }
         catch (MoreThanTreeAmmosException e){}
-        assertEquals(3, player1.get_ammo(0));
-        assertThrows(MoreThanTreeAmmosException.class, () -> player1.add_ammo(ammo));
+        assertEquals(3, player1.getAmmo(0));
+        assertThrows(MoreThanTreeAmmosException.class, () -> player1.addAmmo(ammo));
 
     }
 
     @Test
-    void remove_ammo() {
+    void removeAmmo() {
         Ammo ammo = new Ammo(0); //new ammo blue
-        assertEquals(1, player1.get_ammo(0));
+        assertEquals(1, player1.getAmmo(0));
         try {
-            player1.remove_ammo(1, ammo);
+            player1.removeAmmo(1, ammo);
         }
         catch (NotEnoughAmmosException e){}
-        assertEquals(0, player1.get_ammo(0));
-        assertThrows(NotEnoughAmmosException.class, () -> player1.remove_ammo(2, ammo));
+        assertEquals(0, player1.getAmmo(0));
+        assertThrows(NotEnoughAmmosException.class, () -> player1.removeAmmo(2, ammo));
     }
 
 
     @Test
-    void add_weapon() {
+    void addWeapon() {
         ArrayList<Integer> cost = new ArrayList();
         cost.add(1);
         cost.add(2);
         cost.add(0);
         Weapon weapon1 = new Weapon("Spada Laser", cost);
         try {
-            player1.add_weapon(weapon1);
+            player1.addWeapon(weapon1);
         }
         catch (MaxNumberofCardsException e){}
         Weapon weapon2 = new Weapon("Vortex", cost);
         Weapon weapon3 = new Weapon("Distruttore", cost);
         Weapon weapon4 = new Weapon("Fucile di precisione", cost);
         try {
-            player1.add_weapon(weapon2);
+            player1.addWeapon(weapon2);
         }
         catch (MaxNumberofCardsException e){}
         try {
-            player1.add_weapon(weapon3);
+            player1.addWeapon(weapon3);
         }
         catch (MaxNumberofCardsException e){}
-        assertThrows(MaxNumberofCardsException.class, () -> player1.add_weapon(weapon4));
+        assertThrows(MaxNumberofCardsException.class, () -> player1.addWeapon(weapon4));
     }
 
     @Test
-    void remove_weapon() {
+    void removeWeapon() {
         ArrayList<Integer> cost = new ArrayList();
         cost.add(1);
         cost.add(2);
         cost.add(0);
         Weapon weapon1 = new Weapon("Spada Laser", cost);
-        assertThrows(ZeroCardsOwnedException.class, () -> player1.remove_weapon(weapon1));
+        assertThrows(ZeroCardsOwnedException.class, () -> player1.removeWeapon(weapon1));
 
         try {
-            player1.add_weapon(weapon1);
+            player1.addWeapon(weapon1);
         }
         catch (MaxNumberofCardsException e){}
         assertEquals(true, player1.weaponIspresent(weapon1));
 
         Weapon weapon2 = new Weapon("Vortex", cost);
-        assertThrows(NotOwnedCardException.class, () -> player1.remove_weapon(weapon2));
+        assertThrows(NotOwnedCardException.class, () -> player1.removeWeapon(weapon2));
 
         try{
-            player1.remove_weapon(weapon1);
+            player1.removeWeapon(weapon1);
         }
         catch (NotOwnedCardException e1){}
         catch (ZeroCardsOwnedException e2){}
@@ -257,73 +251,73 @@ class PlayerTest {
     }
 
     @Test
-    void testing_pow() {
+    void testingPow() {
         Pow_Deck deck = new Pow_Deck("Pow");
         PowCard powcard1 = (PowCard) deck.Draw_Card();
         try{
-            player1.add_pow(powcard1);
+            player1.addPow(powcard1);
         }
         catch (MaxNumberofCardsException e){}
         assertTrue(player1.powIspresent(powcard1));
         PowCard powcard2 = (PowCard) deck.Draw_Card();
-        assertThrows(NotOwnedCardException.class, () -> player1.remove_pow(powcard2));
+        assertThrows(NotOwnedCardException.class, () -> player1.removePow(powcard2));
 
         try{
-            player1.remove_pow(powcard1);
+            player1.removePow(powcard1);
         }
         catch (NotOwnedCardException e){}
         catch (ZeroCardsOwnedException e){}
         assertTrue(!player1.powIspresent(powcard1));
-        assertThrows(ZeroCardsOwnedException.class, () -> player1.remove_pow(powcard2));
+        assertThrows(ZeroCardsOwnedException.class, () -> player1.removePow(powcard2));
 
     }
 
 
     @Test
-    void get_cel() {
-        player1.set_cel(1,2);
-        Coordinate c = player1.get_cel();
+    void getCel() {
+        player1.setCel(1,2);
+        Coordinate c = player1.getCel();
         assertEquals(1, c.getX());
         assertEquals(2, c.getY());
     }
 
     @Test
-    void get_death() {
-        assertEquals(0, player1.get_death());
+    void getDeath() {
+        assertEquals(0, player1.getDeath());
     }
 
     @Test
-    void set_death() {
-        player1.set_death();
-        assertEquals(1, player1.get_death());
+    void setDeath() {
+        player1.setDeath();
+        assertEquals(1, player1.getDeath());
     }
 
     @Test
     void action() {
-        assertEquals(0, player1.get_action());
-        player1.set_action();
-        assertEquals(1, player1.get_action());
-        player1.reset_action();
-        assertEquals(0, player1.get_action());
+        assertEquals(0, player1.getAction());
+        player1.setAction();
+        assertEquals(1, player1.getAction());
+        player1.resetAction();
+        assertEquals(0, player1.getAction());
     }
 
     @Test
     void firstblood(){
-        assertEquals(-1, player1.get_firstblood());
+        assertEquals(-1, player1.getFirstblood());
         player1.setdamage(2, 3);
-        assertEquals(3, player1.get_firstblood());
-        player1.reset_firstblood();
-        assertEquals(-1, player1.get_firstblood());
+        assertEquals(3, player1.getFirstblood());
+        player1.resetFirstblood();
+        assertEquals(-1, player1.getFirstblood());
     }
 
     @Test
-    void get_score() {
-        assertEquals(0, player1.get_score());
+    void getScore() {
+        assertEquals(0, player1.getScore());
     }
 
     @Test
-    void set_score() {
-        player1.set_score(5);
-        assertEquals(5, player1.get_score());
+    void setScore() {
+        player1.setScore(5);
+        assertEquals(5, player1.getScore());
     }
 }

@@ -27,20 +27,20 @@ public class DeathAndRespawnTest {
         player5 = new Player("Karka", "grey", "18114320");
         match = new Match();
         try {
-            match.add_player(player1);
-            match.add_player(player2);
-            match.add_player(player3);
-            match.add_player(player4);
-            match.add_player(player5);
+            match.addplayer(player1);
+            match.addplayer(player2);
+            match.addplayer(player3);
+            match.addplayer(player4);
+            match.addplayer(player5);
         }
         catch (MaxNumberPlayerException e){}
-        match.create_dashboard(1);
+        match.createdashboard(1);
     }
 
     @Test
     public void calculatescore(){
         assertEquals(0, player1.gettotaldamage());
-        assertEquals(0, player1.get_death());
+        assertEquals(0, player1.getDeath());
         //player3 kills player1 with revenge
         assertEquals(0, player3.getmarks(0));
         player1.setdamage(3,3); //from player2
@@ -60,30 +60,30 @@ public class DeathAndRespawnTest {
         assertEquals(2, player1.getnumberdamage(1)); //from player3
         assertEquals(2, player1.getnumberdamage(2)); //from player4
         DeathAndRespawn c = new DeathAndRespawn();
-        assertTrue(match.get_check());
+        assertTrue(match.getcheck());
         try{
             c.calculatescore(match, player1, player3, 2);
         } catch (NotExistingDashboardException e){}
 
-        assertEquals(3, player1.get_firstblood());
-        assertEquals(9, player2.get_score()); //first is player2
-        assertEquals(6, player5.get_score()); //second is player5
-        assertEquals(4, player4.get_score()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
-        assertEquals(2, player3.get_score()); //fourth is player3
+        assertEquals(3, player1.getFirstblood());
+        assertEquals(9, player2.getScore()); //first is player2
+        assertEquals(6, player5.getScore()); //second is player5
+        assertEquals(4, player4.getScore()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
+        assertEquals(2, player3.getScore()); //fourth is player3
 
-        assertEquals(1, player1.get_death());
+        assertEquals(1, player1.getDeath());
         //check revenge
         assertEquals(1, player3.getmarks(0));
 
         c.respawn(player1);
-        assertEquals(-1, player1.get_firstblood());
-        assertEquals(0, player1.get_action());
+        assertEquals(-1, player1.getFirstblood());
+        assertEquals(0, player1.getAction());
         assertEquals(0, player1.gettotaldamage());
         assertEquals(1, player1.getmarks(2));
         assertEquals(2, player1.getmarks(3));
         Coordinate pos = new Coordinate(-1, -1);
-        assertEquals(pos.getX(), player1.get_cel().getX());
-        assertEquals(pos.getY(), player1.get_cel().getY());
+        assertEquals(pos.getX(), player1.getCel().getX());
+        assertEquals(pos.getY(), player1.getCel().getY());
         for(int k=0; k<5; k++){
             if(k!=player1.getcolor()) assertEquals(0, player1.getnumberdamage(k));
         }
@@ -91,24 +91,24 @@ public class DeathAndRespawnTest {
 
     @Test
     public void end_game(){
-        match.get_dashboard().setKillshot_track(player1,2);
-        match.get_dashboard().setKillshot_track(player2,1);
-        match.get_dashboard().setKillshot_track(player3,1);
-        match.get_dashboard().setKillshot_track(player2,2);
-        match.get_dashboard().setKillshot_track(player1,1);
-        match.get_dashboard().setKillshot_track(player3,2);
-        match.get_dashboard().setKillshot_track(player2,1);
-        match.get_dashboard().setKillshot_track(player1,1);
+        match.getDashboard().setKillshottrack(player1,2);
+        match.getDashboard().setKillshottrack(player2,1);
+        match.getDashboard().setKillshottrack(player3,1);
+        match.getDashboard().setKillshottrack(player2,2);
+        match.getDashboard().setKillshottrack(player1,1);
+        match.getDashboard().setKillshottrack(player3,2);
+        match.getDashboard().setKillshottrack(player2,1);
+        match.getDashboard().setKillshottrack(player1,1);
 
         /*This test controls that when a match ends, points of the killshot track are given to players that have
          * signals in the track*/
 
         DeathAndRespawn c = new DeathAndRespawn();
 
-        c.end_game(match, match.get_dashboard());
-        assertEquals(8, player1.get_score());
-        assertEquals(6, player2.get_score());
-        assertEquals(4, player3.get_score());
+        c.endgame(match, match.getDashboard());
+        assertEquals(8, player1.getScore());
+        assertEquals(6, player2.getScore());
+        assertEquals(4, player3.getScore());
 
     }
 

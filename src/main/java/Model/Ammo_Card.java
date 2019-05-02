@@ -20,7 +20,7 @@ public abstract class Ammo_Card extends Card {
         }
         for (Ammo ammo:Refill_Ammo) {
             try {
-                player.add_ammo(ammo);
+                player.addAmmo(ammo);
             }
             catch (MoreThanTreeAmmosException e){
                 //Nothing to do, just try with next ammo
