@@ -37,7 +37,7 @@ public class Attack_General {
                 if(attack.getClass().getName()=="Model.Undefined_distance") //In case I have an Undefined_distance attack
                 {
                     ArrayList<Player> visible= new ArrayList<Player>();
-                    visible=m.visible_players(viewer);
+                    visible=m.getVisiblePlayers(viewer);
                     if(attack.getDistance()==0) //Caso in cui ho un classico undefine distance
                     {
                         for(int j=0;j<attack.getnumbereffect();j++)
