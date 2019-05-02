@@ -187,12 +187,80 @@ public class Attack_General {
                         visible=m.getVisiblePlayers(viewer);
                         directx=m.getSameLinePlayers(viewer);
                         directy=m.getSameColumnPlayers(viewer);
-                        if(attack.getDistance()!=0)
+                        if(attack.getDistance()==0) //If i can pass through walls
                         {
-                            //TODO CASO PASSAGGIO ATTRAVERSO MURI
+                            for(int k=0; k<attack.getnumbereffect();k++)
+                            {
+                                Effect effect= attack.getEffect(k);
+                                if(effect.getClass().getName()=="Player_effect")
+                                {
+                                    visible.clear();
+                                    visible.addAll(directx);
+                                    visible.addAll(directy);
+                                    if(visible.contains(second))
+                                    {
+                                        if(effect.getId()>A.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
+                                        {
+                                            if(!A.contains(second))
+                                            {
+                                                A.add(second);
+                                            }
+                                            else {
+                                                //TODO ERRORE, GIOCATORE NON COLPIBILE
+                                            }
+                                        }
+                                        if(A.get(effect.getId()).equals(second))
+                                        {
+                                            for(int w=0;k<effect.getnumberdamage();w++)
+                                            {
+                                                Damage damage = effect.getDamage(w);
+                                                if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
+                                                {
+                                                    m.get_player(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+                                                }
+                                                else //Caso di attacco che mette marchi
+                                                {
+                                                    m.get_player(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
+                                                }
+                                            }
+                                            if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
+                                            {
+                                                viewer=second;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    //TODO CASO CELL EFFECT
+                                }
+                            }
                         }
                         else
                         {
+                            for(int k=0;k<attack.getnumbereffect();k++)
+                            {
+                                int d=0;
+                                Effect effect= attack.getEffect(k);
+                                if(effect.getClass().getName()=="Model.Player_effect")
+                                {
+                                    if(moveme==0)
+                                    {
+                                        ArrayList<Player> temporal =new ArrayList<Player>();
+                                        //TODO CALCOLO CHI POSSO ATTACCARE
+                                    }
+                                    else
+                                    {
+                                        //TODO MI SPOSTO E CALCOLO CHI POSSO ATTACCARE
+                                    }
+                                    d++;
+                                }
+                                else
+                                {
+                                    //TODO CASO CELL EFFECT
+                                }
+                            }
+                            int d=0; //fa da conteggio per il numero di celle di cui ho deciso di attaccare
                             //TODO CASO NON PASSAGGIO ATTRAVERSO MURI
                         }
                     }
