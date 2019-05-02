@@ -77,6 +77,15 @@ public class Player {
 
     public int getcolor(){return this.color;}
 
+    public boolean get_active(){return this.active;}
+
+    public void set_active(){
+        //the player hasn't played its turn yet
+        if(this.action==0) this.active = true;
+        //the player has ended its turn
+        else if(this.action==2) this.active = false;
+    }
+
     //return number of damages by a single enemy to set the score (parameter is the color of the enemy player)
     public int getnumberdamage(int c){
         if(c==this.getcolor()) return -1; //not self made damages

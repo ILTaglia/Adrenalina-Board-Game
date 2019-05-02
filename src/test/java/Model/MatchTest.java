@@ -127,37 +127,37 @@ public class MatchTest {
         player3.set_cel(2, 2);
         player4.set_cel(2, 1);
 
-        assertTrue(match.visible_players(player1).contains(player2));
-        assertTrue(match.visible_players(player1).contains(player3));
-        assertEquals(2, match.visible_players(player1).size());
-        assertEquals(0, match.visible_players(player2).size());
-        assertTrue(match.visible_players(player3).contains(player4));
-        assertEquals(1, match.visible_players(player3).size());
-        assertTrue(match.visible_players(player4).contains(player3));
-        assertEquals(1, match.visible_players(player4).size());
+        assertTrue(match.getVisiblePlayers(player1).contains(player2));
+        assertTrue(match.getVisiblePlayers(player1).contains(player3));
+        assertEquals(2, match.getVisiblePlayers(player1).size());
+        assertEquals(0, match.getVisiblePlayers(player2).size());
+        assertTrue(match.getVisiblePlayers(player3).contains(player4));
+        assertEquals(1, match.getVisiblePlayers(player3).size());
+        assertTrue(match.getVisiblePlayers(player4).contains(player3));
+        assertEquals(1, match.getVisiblePlayers(player4).size());
 
 
-        assertTrue(match.same_line_players(player1).contains(player2));
-        assertEquals(1, match.same_line_players(player1).size());
-        assertTrue(match.same_line_players(player2).contains(player1));
-        assertEquals(1, match.same_line_players(player2).size());
-        assertTrue(match.same_line_players(player3).contains(player4));
-        assertEquals(1, match.same_line_players(player3).size());
-        assertTrue(match.same_line_players(player4).contains(player3));
-        assertEquals(1, match.same_line_players(player4).size());
+        assertTrue(match.getSameLinePlayers(player1).contains(player2));
+        assertEquals(1, match.getSameLinePlayers(player1).size());
+        assertTrue(match.getSameLinePlayers(player2).contains(player1));
+        assertEquals(1, match.getSameLinePlayers(player2).size());
+        assertTrue(match.getSameLinePlayers(player3).contains(player4));
+        assertEquals(1, match.getSameLinePlayers(player3).size());
+        assertTrue(match.getSameLinePlayers(player4).contains(player3));
+        assertEquals(1, match.getSameLinePlayers(player4).size());
 
 
-        assertEquals(0, match.same_column_players(player1).size());
-        assertTrue(match.same_column_players(player2).contains(player4));
-        assertEquals(1, match.same_column_players(player2).size());
-        assertEquals(0, match.same_column_players(player3).size());
-        assertTrue(match.same_column_players(player4).contains(player2));
-        assertEquals(1, match.same_column_players(player4).size());
+        assertEquals(0, match.getSameColumnPlayers(player1).size());
+        assertTrue(match.getSameColumnPlayers(player2).contains(player4));
+        assertEquals(1, match.getSameColumnPlayers(player2).size());
+        assertEquals(0, match.getSameColumnPlayers(player3).size());
+        assertTrue(match.getSameColumnPlayers(player4).contains(player2));
+        assertEquals(1, match.getSameColumnPlayers(player4).size());
 
-        assertEquals(2, match.manhattan_distance(player1, player2));
-        assertEquals(2, match.manhattan_distance(player2, player4));
-        assertEquals(1, match.manhattan_distance(player3, player4));
-        assertEquals(-1, match.manhattan_distance(player1, player3));
+        assertEquals(2, match.getPlayersMD(player1, player2));
+        assertEquals(2, match.getPlayersMD(player2, player4));
+        assertEquals(1, match.getPlayersMD(player3, player4));
+        assertEquals(-1, match.getPlayersMD(player1, player3));
     }
 
     @Test
@@ -170,38 +170,64 @@ public class MatchTest {
         player4.set_cel(1, 1);
 
 
-        assertTrue(match.visible_players(player1).contains(player2));
-        assertTrue(match.visible_players(player1).contains(player3));
-        assertEquals(2, match.visible_players(player1).size());
-        assertTrue(match.visible_players(player2).contains(player1));
-        assertTrue(match.visible_players(player2).contains(player4));
-        assertEquals(2, match.visible_players(player2).size());
-        assertEquals(0, match.visible_players(player3).size());
-        assertTrue(match.visible_players(player4).contains(player1));
-        assertTrue(match.visible_players(player4).contains(player2));
-        assertEquals(2, match.visible_players(player4).size());
+        assertTrue(match.getVisiblePlayers(player1).contains(player2));
+        assertTrue(match.getVisiblePlayers(player1).contains(player3));
+        assertEquals(2, match.getVisiblePlayers(player1).size());
+        assertTrue(match.getVisiblePlayers(player2).contains(player1));
+        assertTrue(match.getVisiblePlayers(player2).contains(player4));
+        assertEquals(2, match.getVisiblePlayers(player2).size());
+        assertEquals(0, match.getVisiblePlayers(player3).size());
+        assertTrue(match.getVisiblePlayers(player4).contains(player1));
+        assertTrue(match.getVisiblePlayers(player4).contains(player2));
+        assertEquals(2, match.getVisiblePlayers(player4).size());
 
 
-        assertTrue(match.same_line_players(player1).contains(player2));
-        assertEquals(1, match.same_line_players(player1).size());
-        assertTrue(match.same_line_players(player2).contains(player1));
-        assertEquals(1, match.same_line_players(player2).size());
-        assertEquals(0, match.same_line_players(player3).size());
-        assertEquals(0, match.same_line_players(player4).size());
+        assertTrue(match.getSameLinePlayers(player1).contains(player2));
+        assertEquals(1, match.getSameLinePlayers(player1).size());
+        assertTrue(match.getSameLinePlayers(player2).contains(player1));
+        assertEquals(1, match.getSameLinePlayers(player2).size());
+        assertEquals(0, match.getSameLinePlayers(player3).size());
+        assertEquals(0, match.getSameLinePlayers(player4).size());
 
 
-        assertTrue(match.same_column_players(player1).contains(player3));
-        assertEquals(1, match.same_column_players(player1).size());
-        assertTrue(match.same_column_players(player2).contains(player4));
-        assertEquals(1, match.same_column_players(player2).size());
-        assertTrue(match.same_column_players(player3).contains(player1));
-        assertEquals(1, match.same_column_players(player3).size());
-        assertTrue(match.same_column_players(player4).contains(player2));
-        assertEquals(1, match.same_column_players(player4).size());
+        assertTrue(match.getSameColumnPlayers(player1).contains(player3));
+        assertEquals(1, match.getSameColumnPlayers(player1).size());
+        assertTrue(match.getSameColumnPlayers(player2).contains(player4));
+        assertEquals(1, match.getSameColumnPlayers(player2).size());
+        assertTrue(match.getSameColumnPlayers(player3).contains(player1));
+        assertEquals(1, match.getSameColumnPlayers(player3).size());
+        assertTrue(match.getSameColumnPlayers(player4).contains(player2));
+        assertEquals(1, match.getSameColumnPlayers(player4).size());
 
 
-        assertEquals(1, match.manhattan_distance(player1, player2));
-        assertEquals(1, match.manhattan_distance(player2, player4));
-        assertEquals(-1, match.manhattan_distance(player3, player4));
+        assertEquals(1, match.getPlayersMD(player1, player2));
+        assertEquals(1, match.getPlayersMD(player2, player4));
+        assertEquals(-1, match.getPlayersMD(player3, player4));
+    }
+
+    @Test
+    public void cells_tests() {
+        match.create_dashboard(3);
+
+        player1.set_cel(0, 3);
+        player2.set_cel(0, 1);
+        player3.set_cel(2, 2);
+        player4.set_cel(2, 1);
+
+        int x = player1.get_cel().getX();
+        int y = player1.get_cel().getY();
+        Coordinate c = new Coordinate(x, y);
+
+        ArrayList<Coordinate> list1;
+        list1 = match.getSameLineCells(c);
+        for(int i=0; i<list1.size(); i++){
+            System.out.println(list1.get(i).getY());
+        }
+
+        ArrayList<Coordinate> list2;
+        list2 = match.getSameColumnCells(c);
+        for(int i=0; i<list1.size(); i++){
+            System.out.println(list1.get(i).getX());
+        }
     }
 }
