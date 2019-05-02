@@ -25,7 +25,7 @@ public class SpawnPoint_Cell extends Cell {
     //Assegna al player la carta selezionata tra le 3 disponibili
     public void Collect_Weapon(Player player,int selected_weapon) throws MaxNumberofCardsException {
         player.add_weapon(Weapons_SpawnPoint.get(selected_weapon));
-        //TODO: Aggiungere carta dove appena rimossa
+
     }
 
 }

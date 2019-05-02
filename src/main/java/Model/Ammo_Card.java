@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public abstract class Ammo_Card extends Card {
 
+    int type;   //type convention: Ammo_Tile 0 Ammo_Pow_Tile 1
+
     //boolean per evitare che la stessa carta rifornimento sia usata due volte nello stesso turno dallo stesso giocatore
     //Solo alla fine del turno si elimina la carta e la si sostituisce
     protected ArrayList<Ammo> Refill_Ammo;
@@ -26,11 +28,12 @@ public abstract class Ammo_Card extends Card {
         }
         Used=true;
     }
+
+    public int getType(){
+        return this.type;
+    }
     @Override
     public String toString(){
         return Refill_Ammo.stream().map(ammo->ammo.toString()).reduce("",(a,b)->a + b);
     }
-
-
-
 }

@@ -3,6 +3,7 @@ package Model;
 import exceptions.FullCellException;
 import exceptions.InvalidColorException;
 import exceptions.MaxNumberPlayerException;
+import exceptions.MaxNumberofCardsException;
 
 import java.util.*;
 
@@ -12,6 +13,7 @@ public class Match {
     private Dashboard dashboard;
     private Ammo_Deck ammo_deck;
     private Weapon_Deck weapon_deck;
+    private Pow_Deck pow_deck;
     private boolean check_dashboard=false;
 
     //i è parametro per la dashboard
@@ -20,6 +22,7 @@ public class Match {
         this.players=new ArrayList<>();
         ammo_deck=new Ammo_Deck();
         weapon_deck=new Weapon_Deck();
+        pow_deck=new Pow_Deck("Pow");
     }
 
     public void set_round(){
@@ -27,6 +30,8 @@ public class Match {
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
+
+
 
     public int get_round(){return this.round;}
 
@@ -88,6 +93,23 @@ public class Match {
             //TODO
         }
 
+    }
+    //Metodo per controller che mescola i mazzi (per esempio a inizio partita)
+    public void shuffleAllDecks(){
+        ammo_deck.Shuffle_Stack();
+        weapon_deck.Shuffle_Stack();
+        pow_deck.Shuffle_Stack();
+    }
+    //Method to assign powCard to player
+    public void assignPowCard(Player player) throws MaxNumberofCardsException {     //TODO:Verificare se ha senso fare catch di una eccezione e poi rilanciarla
+        PowCard powcard;
+        powcard=(PowCard) pow_deck.Draw_Card();
+        try{
+            player.add_pow(powcard);
+        }catch (MaxNumberofCardsException e){
+            pow_deck.Discard_Card(powcard);
+            throw new MaxNumberofCardsException();
+        }
     }
 
     //returns all the players seen by the given player
