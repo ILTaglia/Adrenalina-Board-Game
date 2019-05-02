@@ -30,7 +30,7 @@ public class Run extends Action {
             Dashboard map = m.get_dashboard();
 
             try{
-                d = this.get_direction(direction);
+                d = this.getdirection(direction);
             }
             catch (InvalidDirectionException e) {}
             if(this.isvalid(map, player, x, y, d)){
