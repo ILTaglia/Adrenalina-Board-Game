@@ -17,7 +17,7 @@ public abstract class Action {
     public Action(){
     }
 
-    public int get_direction(String direction) throws InvalidDirectionException{
+    public int getdirection(String direction) throws InvalidDirectionException{
         int d;
         if(direction.equals("N")) d=0;
         else if(direction.equals("E")) d=1;
