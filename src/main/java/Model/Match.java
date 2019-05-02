@@ -91,7 +91,7 @@ public class Match {
     }
 
     //returns all the players seen by the given player
-    public ArrayList<Player> visible_players(Player player){
+    public ArrayList<Player> getVisiblePlayers(Player player){
         int x, y, cell_color;
         x = player.get_cel().getX();
         y = player.get_cel().getY();
@@ -169,7 +169,7 @@ public class Match {
     }
 
     //returns the list of players in the same line of the given player
-    public ArrayList<Player> same_line_players(Player player){
+    public ArrayList<Player> getSameLinePlayers(Player player){
         ArrayList<Player> list = new ArrayList<>();
         int x = player.get_cel().getX(); //player line
         for (Player p : this.players) {
@@ -181,7 +181,7 @@ public class Match {
         return list;
     }
 
-    public ArrayList<Player> same_column_players(Player player){
+    public ArrayList<Player> getSameColumnPlayers(Player player){
         ArrayList<Player> list = new ArrayList<>();
         int y = player.get_cel().getY(); //player column
         for (Player p : this.players) {
@@ -193,13 +193,55 @@ public class Match {
         return list;
     }
 
-    public int manhattan_distance (Player player1, Player player2){
+    public int getPlayersMD(Player player1, Player player2){
         int distance=-1;
         int x1, y1, x2, y2;
         x1 = player1.get_cel().getX();
         y1 = player1.get_cel().getY();
         x2 = player2.get_cel().getX();
         y2 = player2.get_cel().getY();
+        if(x1==x2) {
+            distance = Math.abs(y2-y1);
+        }
+        else if(y1==y2) {
+            distance = Math.abs(x2-x1);
+        }
+        return distance;
+    }
+
+    public ArrayList<Coordinate> getSameLineCells(Coordinate cell){
+        ArrayList<Coordinate> list = new ArrayList<>();
+        int x = cell.getX(); //cell column
+        Coordinate c;
+        for(int i=0; i<4; i++){
+            if(i!=cell.getY()){
+                c = new Coordinate(x, i);
+                list.add(c);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Coordinate> getSameColumnCells(Coordinate cell){
+        ArrayList<Coordinate> list = new ArrayList<>();
+        int y = cell.getY(); //cell column
+        Coordinate c;
+        for(int i=0; i<3; i++){
+            if(i!=cell.getX()){
+                c = new Coordinate(i, y);
+                list.add(c);
+            }
+        }
+        return list;
+    }
+
+    public int getCellsMD(Coordinate cell1, Coordinate cell2){
+        int distance=-1;
+        int x1, y1, x2, y2;
+        x1 = cell1.getX();
+        y1 = cell1.getY();
+        x2 = cell2.getX();
+        y2 = cell2.getY();
         if(x1==x2) {
             distance = Math.abs(y2-y1);
         }
