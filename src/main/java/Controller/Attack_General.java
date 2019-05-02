@@ -1,6 +1,7 @@
 package Controller;
 import Model.*;
 import exceptions.InvalidDirectionException;
+import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.util.ArrayList;
 
@@ -153,11 +154,47 @@ public class Attack_General {
                 else
                     if(attack.getClass().getName()=="Model.Finite_Distance") //Caso di attacco tipo finite distance
                     {
-
+                        ArrayList<Player>visible =new ArrayList<Player>();
+                        visible=m.getVisiblePlayers(viewer);
+                        for(Player p : visible)
+                        {
+                            if(m.getPlayersMD(viewer,p)!=attack.getDistance())
+                            {
+                                visible.remove(p);
+                            }
+                        }
+                        //TODO Stesso codice di undefined distance
                     }
                 else
+                    if(attack.getClass().getName()=="Model.More_distance") //Caso attacco di tipo more distance
                     {
-                        //TODO AGGIUNGERE MORE DISTANCE E CARDINAL
+                        ArrayList<Player>visible =new ArrayList<Player>();
+                        visible=m.getVisiblePlayers(viewer);
+                        for(Player p: visible)
+                        {
+                            if(m.getPlayersMD(viewer,second)<=attack.getDistance())
+                            {
+                                visible.remove(p);
+                            }
+                        }
+                        //TODO STESSO CODICE DI UNDEFINED DISTANCE
+                    }
+                else //Caso attacco di tipo cardinal
+                    {
+                        ArrayList<Player> visible= new ArrayList<Player>();
+                        ArrayList<Player> directx = new ArrayList<Player>();
+                        ArrayList<Player> directy= new ArrayList<Player>();
+                        visible=m.getVisiblePlayers(viewer);
+                        directx=m.getSameLinePlayers(viewer);
+                        directy=m.getSameColumnPlayers(viewer);
+                        if(attack.getDistance()!=0)
+                        {
+                            //TODO CASO PASSAGGIO ATTRAVERSO MURI
+                        }
+                        else
+                        {
+                            //TODO CASO NON PASSAGGIO ATTRAVERSO MURI
+                        }
                     }
             }
         }
