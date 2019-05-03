@@ -6,7 +6,7 @@ import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 import java.util.ArrayList;
 
 public class Attack_General {
-    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type)
+    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction)
     {
         Player viewer=first; //Used to change viewer in case of torpedine
         ArrayList<Player>A=new ArrayList<Player>();
@@ -59,25 +59,7 @@ public class Attack_General {
                                             //TODO ERRORE, GIOCATORE NON COLPIBILE
                                         }
                                     }
-                                    if(A.get(effect.getId()).equals(second))
-                                    {
-                                        for(int k=0;k<effect.getnumberdamage();k++)
-                                        {
-                                            Damage damage = effect.getDamage(k);
-                                            if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
-                                            {
-                                                m.get_player(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
-                                            }
-                                            else //Caso di attacco che mette marchi
-                                            {
-                                                m.get_player(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
-                                            }
-                                        }
-                                        if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
-                                        {
-                                            viewer=second;
-                                        }
-                                    }
+                                    viewer = damage_set(m, first, second, viewer, A, attack, effect);
                                 }
                                 else {
                                     //TODO ERRORE GIOCATORE NON COLPIBILE
@@ -112,25 +94,7 @@ public class Attack_General {
                                             //TODO ERRORE, GIOCATORE NON COLPIBILE
                                         }
                                     }
-                                    if(A.get(effect.getId()).equals(second))
-                                    {
-                                        for(int k=0;k<effect.getnumberdamage();k++)
-                                        {
-                                            Damage damage = effect.getDamage(k);
-                                            if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
-                                            {
-                                                m.get_player(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
-                                            }
-                                            else //Caso di attacco che mette marchi
-                                            {
-                                                m.get_player(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
-                                            }
-                                        }
-                                        if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
-                                        {
-                                            viewer=second;
-                                        }
-                                    }
+                                    viewer = damage_set(m, first, second, viewer, A, attack, effect);
                                 }
                                 else {
                                     //TODO ERRORE GIOCATORE NON COLPIBILE
@@ -209,25 +173,7 @@ public class Attack_General {
                                                 //TODO ERRORE, GIOCATORE NON COLPIBILE
                                             }
                                         }
-                                        if(A.get(effect.getId()).equals(second))
-                                        {
-                                            for(int w=0;k<effect.getnumberdamage();w++)
-                                            {
-                                                Damage damage = effect.getDamage(w);
-                                                if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
-                                                {
-                                                    m.get_player(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
-                                                }
-                                                else //Caso di attacco che mette marchi
-                                                {
-                                                    m.get_player(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
-                                                }
-                                            }
-                                            if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
-                                            {
-                                                viewer=second;
-                                            }
-                                        }
+                                        viewer = damage_set(m, first, second, viewer, A, attack, effect);
                                     }
                                 }
                                 else
@@ -240,33 +186,103 @@ public class Attack_General {
                         {
                             for(int k=0;k<attack.getnumbereffect();k++)
                             {
-                                int d=0;
                                 Effect effect= attack.getEffect(k);
                                 if(effect.getClass().getName()=="Model.Player_effect")
                                 {
-                                    if(moveme==0)
+                                    for(int d=1;d<attack.getDistance();d++) //for all the cells of the cistance
                                     {
-                                        ArrayList<Player> temporal =new ArrayList<Player>();
-                                        //TODO CALCOLO CHI POSSO ATTACCARE
+                                        if(moveme==0)
+                                        {
+                                            ArrayList<Player> temporal =new ArrayList<Player>();
+                                            temporal=m.getVisiblePlayers(viewer);
+                                            for(Player p : temporal)
+                                            {
+                                                if(m.getPlayersMD(viewer,second)!=d||!directx.contains(p)) //TODO TO UPDATE WITH SINGLE DIRECTIONS METHODS
+                                                {
+                                                    temporal.remove(p);
+                                                }
+                                            }
+                                            viewer = AimAndShoot(m, first, second, viewer, A, attack, effect, temporal);
+                                        }
+                                        else
+                                        {
+                                            ArrayList<Player> temporal =new ArrayList<Player>();
+                                            temporal=m.getVisiblePlayers(viewer);
+                                            for(Player p : temporal)
+                                            {
+                                                if(m.getPlayersMD(viewer,second)!=0||!directx.contains(p)) //TODO TO UPDATE WITH SINGLE DIRECTIONS METHODS
+                                                {
+                                                    temporal.remove(p);
+                                                }
+                                            }
+                                            viewer = AimAndShoot(m, first, second, viewer, A, attack, effect, temporal);
+                                            //TODO CONSENTO MOVIMENTO NELLA DIREZIONE INDICATA
+                                        }
                                     }
-                                    else
-                                    {
-                                        //TODO MI SPOSTO E CALCOLO CHI POSSO ATTACCARE
-                                    }
-                                    d++;
                                 }
                                 else
                                 {
                                     //TODO CASO CELL EFFECT
                                 }
                             }
-                            int d=0; //fa da conteggio per il numero di celle di cui ho deciso di attaccare
+
                             //TODO CASO NON PASSAGGIO ATTRAVERSO MURI
                         }
                     }
             }
         }
         return 0;
+    }
+
+
+    //Denote if the player can be attacked, then attack the player
+    private Player AimAndShoot(Match m, Player first, Player second, Player viewer, ArrayList<Player> a, Type_attack attack, Effect effect, ArrayList<Player> temporal) {
+        if(temporal.contains(second))
+        {
+            if(a.size()-1<effect.getId())
+            {
+                if(!a.contains(second))
+                {
+                    a.add(second);
+                }
+                else
+                {
+                    //TODO IMPOSSIBILE ATTACCARE QUEL GIOCATORE
+                }
+                viewer = damage_set(m, first, second, viewer, a, attack, effect);
+            }
+
+        }
+        else
+        {
+            //TODO IMPOSSIBILE ATTACCARE GIOCATORE
+        }
+        return viewer;
+    }
+
+
+    //Assigns damages and marks to a player
+    private Player damage_set(Match m, Player first, Player second, Player viewer, ArrayList<Player> a, Type_attack attack, Effect effect) {
+        if(a.get(effect.getId()).equals(second))
+        {
+            for(int k=0;k<effect.getnumberdamage();k++)
+            {
+                Damage damage = effect.getDamage(k);
+                if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
+                {
+                    m.get_player(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+                }
+                else //Caso di attacco che mette marchi
+                {
+                    m.get_player(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
+                }
+            }
+            if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
+            {
+                viewer=second;
+            }
+        }
+        return viewer;
     }
 
 }
