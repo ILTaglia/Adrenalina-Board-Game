@@ -236,6 +236,102 @@ public class Match {
         return distance;
     }
 
+    public ArrayList<Coordinate> getVisibleCells(Coordinate cell) {
+        int x;
+        int y;
+        int cellcolor;
+        int othercellcolor;
+        x = cell.getX();
+        y = cell.getY();
+        Cell cellplayer = this.getDashboard().getmap(x, y); //cell with that coordinates
+        cellcolor = cellplayer.getcolor(); //color of the cell with that coordinates
+
+        ArrayList<Coordinate> visible = new ArrayList<>();
+
+        //adds a cell if it is in the same room
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                othercellcolor = this.getDashboard().getmap(i, j).getcolor();
+                if(othercellcolor==cellcolor){
+                    Coordinate c = new Coordinate(i, j);
+                    visible.add(c);
+                }
+            }
+        }
+        for(int k=0; k<visible.size(); k++){
+            if(visible.get(k).getX()==x && visible.get(k).getY()==y){
+                int index = visible.indexOf(visible.get(k));
+                visible.remove(index);
+            }
+        }
+        //adds cells if there is a port
+        for(int i=0; i<4; i++){
+            if(cellplayer.portIsPresent(i)==1){
+                //north port
+                if(i==0){
+                    x--;
+                    Cell portcell = this.getDashboard().getmap(x, y);
+                    for(int h=0; h<3; h++){
+                        for(int j=0; j<4; j++){
+                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
+                            if(othercellcolor == portcell.getcolor()){
+                                Coordinate c = new Coordinate(h, j);
+                                visible.add(c);
+                            }
+                        }
+                    }
+                    x++;
+                }
+                //east port
+                else if(i==1){
+                    y++;
+                    Cell portcell = this.getDashboard().getmap(x, y);
+                    for(int h=0; h<3; h++){
+                        for(int j=0; j<4; j++){
+                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
+                            if(othercellcolor==portcell.getcolor()){
+                                Coordinate c = new Coordinate(h, j);
+                                visible.add(c);
+                            }
+                        }
+                    }
+                    y--;
+                }
+                //south port
+                else if(i==2){
+                    x++;
+                    Cell portcell = this.getDashboard().getmap(x, y);
+                    for(int h=0; h<3; h++){
+                        for(int j=0; j<4; j++){
+                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
+                            if(othercellcolor==portcell.getcolor()){
+                                Coordinate c = new Coordinate(h, j);
+                                visible.add(c);
+                            }
+                        }
+                    }
+                    x--;
+                }
+                //west port
+                else if(i==3){
+                    y--;
+                    Cell portcell = this.getDashboard().getmap(x, y);
+                    for(int h=0; h<3; h++){
+                        for(int j=0; j<4; j++){
+                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
+                            if(othercellcolor==portcell.getcolor()){
+                                Coordinate c = new Coordinate(h, j);
+                                visible.add(c);
+                            }
+                        }
+                    }
+                    y++;
+                }
+            }
+        }
+        return visible;
+    }
+
     public ArrayList<Coordinate> getSameLineCells(Coordinate cell){
         ArrayList<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell column
@@ -321,6 +417,74 @@ public class Match {
             if (!p.equals(player)) {
                 int otherplayerY = p.getCel().getY();
                 if(otherplayerY == y && p.getCel().getX()>player.getCel().getX()) list.add(p);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Player> getSameCellsPlayers(Coordinate cell){
+        ArrayList<Player> list = new ArrayList<>();
+        int Xcell = cell.getX();
+        int Ycell = cell.getY();
+        for (Player p : this.players) {
+            int Xplayer = p.getCel().getX();
+            int Yplayer = p.getCel().getY();
+            if (Xcell == Xplayer && Ycell==Yplayer) { list.add(p); }
+        }
+        return list;
+    }
+
+    public ArrayList<Coordinate> getDownCells(Coordinate cell){
+        ArrayList<Coordinate> list = new ArrayList<>();
+        int x = cell.getX(); //cell line
+        int y = cell.getY(); //cell column
+        if(x<2){
+            while(x<2){
+                x++;
+                Coordinate c = new Coordinate(x, y);
+                list.add(c);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Coordinate> getUpCells(Coordinate cell){
+        ArrayList<Coordinate> list = new ArrayList<>();
+        int x = cell.getX(); //cell line
+        int y = cell.getY(); //cell column
+        if(x>0){
+            while(x>0){
+                x--;
+                Coordinate c = new Coordinate(x, y);
+                list.add(c);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Coordinate> getLeftCells(Coordinate cell){
+        ArrayList<Coordinate> list = new ArrayList<>();
+        int x = cell.getX(); //cell line
+        int y = cell.getY(); //cell column
+        if(y>0){
+            while(y>0){
+                y--;
+                Coordinate c = new Coordinate(x, y);
+                list.add(c);
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Coordinate> getRightCells(Coordinate cell){
+        ArrayList<Coordinate> list = new ArrayList<>();
+        int x = cell.getX(); //cell line
+        int y = cell.getY(); //cell column
+        if(y<3){
+            while(y<3){
+                y++;
+                Coordinate c = new Coordinate(x, y);
+                list.add(c);
             }
         }
         return list;

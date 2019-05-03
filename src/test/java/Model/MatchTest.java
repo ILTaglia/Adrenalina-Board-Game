@@ -5,6 +5,8 @@ import exceptions.MaxNumberPlayerException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -204,7 +206,7 @@ public class MatchTest {
     }
 
     @Test
-    public void cells_tests() {
+    public void cellsTests1() {
         match.createdashboard(3);
 
         player1.setCel(0, 3);
@@ -279,5 +281,134 @@ public class MatchTest {
         assertEquals(1, match.getDownPlayers(player2).size());
         assertEquals(0, match.getDownPlayers(player3).size());
         assertEquals(0, match.getDownPlayers(player4).size());
+    }
+
+    @Test
+    public void cellTest2(){
+        match.createdashboard(3);
+
+        Coordinate c1 = new Coordinate(0,3);
+
+        assertEquals(6, match.getVisibleCells(c1).size());
+        assertEquals(1, match.getVisibleCells(c1).get(0).getX());
+        assertEquals(2, match.getVisibleCells(c1).get(0).getY());
+        assertEquals(1, match.getVisibleCells(c1).get(1).getX());
+        assertEquals(3, match.getVisibleCells(c1).get(1).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(2).getX());
+        assertEquals(2, match.getVisibleCells(c1).get(2).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(3).getX());
+        assertEquals(3, match.getVisibleCells(c1).get(3).getY());
+        assertEquals(0, match.getVisibleCells(c1).get(4).getX());
+        assertEquals(1, match.getVisibleCells(c1).get(4).getY());
+        assertEquals(0, match.getVisibleCells(c1).get(5).getX());
+        assertEquals(2, match.getVisibleCells(c1).get(5).getY());
+
+        c1.set(1, 1);
+        assertEquals(4, match.getVisibleCells(c1).size());
+        assertEquals(0, match.getVisibleCells(c1).get(0).getX());
+        assertEquals(1, match.getVisibleCells(c1).get(0).getY());
+        assertEquals(0, match.getVisibleCells(c1).get(1).getX());
+        assertEquals(2, match.getVisibleCells(c1).get(1).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(2).getX());
+        assertEquals(0, match.getVisibleCells(c1).get(2).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(3).getX());
+        assertEquals(1, match.getVisibleCells(c1).get(3).getY());
+
+        c1.set(0, 0);
+        assertEquals(3, match.getVisibleCells(c1).size());
+        assertEquals(1, match.getVisibleCells(c1).get(0).getX());
+        assertEquals(0, match.getVisibleCells(c1).get(0).getY());
+        assertEquals(0, match.getVisibleCells(c1).get(1).getX());
+        assertEquals(1, match.getVisibleCells(c1).get(1).getY());
+        assertEquals(0, match.getVisibleCells(c1).get(2).getX());
+        assertEquals(2, match.getVisibleCells(c1).get(2).getY());
+
+        c1.set(2, 2);
+        assertEquals(5, match.getVisibleCells(c1).size());
+        assertEquals(1, match.getVisibleCells(c1).get(0).getX());
+        assertEquals(2, match.getVisibleCells(c1).get(0).getY());
+        assertEquals(1, match.getVisibleCells(c1).get(1).getX());
+        assertEquals(3, match.getVisibleCells(c1).get(1).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(2).getX());
+        assertEquals(3, match.getVisibleCells(c1).get(2).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(3).getX());
+        assertEquals(0, match.getVisibleCells(c1).get(3).getY());
+        assertEquals(2, match.getVisibleCells(c1).get(4).getX());
+        assertEquals(1, match.getVisibleCells(c1).get(4).getY());
+    }
+    @Test
+    public void cellTest3() {
+        match.createdashboard(3);
+
+        player1.setCel(0, 3); //Sirius
+        player2.setCel(0, 3); //Calypso
+        player3.setCel(2, 2); //Hermione
+        player4.setCel(2, 1); //Aries
+
+        Coordinate c1 = new Coordinate(0, 3);
+        Coordinate c2 = new Coordinate(2, 2);
+        Coordinate c3 = new Coordinate(2, 1);
+
+        assertTrue(match.getSameCellsPlayers(c1).contains(player1));
+        assertTrue(match.getSameCellsPlayers(c1).contains(player2));
+        assertEquals(2, match.getSameCellsPlayers(c1).size());
+        assertTrue(match.getSameCellsPlayers(c2).contains(player3));
+        assertEquals(1, match.getSameCellsPlayers(c2).size());
+        assertTrue(match.getSameCellsPlayers(c3).contains(player4));
+        assertEquals(1, match.getSameCellsPlayers(c3).size());
+    }
+
+    @Test
+    public void cellTest4() {
+        match.createdashboard(3);
+
+        Coordinate c1 = new Coordinate(0, 3);
+        Coordinate c2 = new Coordinate(0, 1);
+        Coordinate c3 = new Coordinate(2, 2);
+        Coordinate c4 = new Coordinate(2, 1);
+
+        assertEquals(3, match.getLeftCells(c1).size());
+        assertEquals(0, match.getLeftCells(c1).get(0).getX());
+        assertEquals(2, match.getLeftCells(c1).get(0).getY());
+        assertEquals(0, match.getLeftCells(c1).get(1).getX());
+        assertEquals(1, match.getLeftCells(c1).get(1).getY());
+        assertEquals(0, match.getLeftCells(c1).get(2).getX());
+        assertEquals(0, match.getLeftCells(c1).get(2).getY());
+
+        assertEquals(1, match.getLeftCells(c2).size());
+        assertEquals(0, match.getLeftCells(c2).get(0).getX());
+        assertEquals(0, match.getLeftCells(c2).get(0).getY());
+
+        assertEquals(2, match.getLeftCells(c3).size());
+        assertEquals(2, match.getLeftCells(c3).get(0).getX());
+        assertEquals(1, match.getLeftCells(c3).get(0).getY());
+        assertEquals(2, match.getLeftCells(c3).get(1).getX());
+        assertEquals(0, match.getLeftCells(c3).get(1).getY());
+
+        assertEquals(1, match.getLeftCells(c4).size());
+        assertEquals(2, match.getLeftCells(c4).get(0).getX());
+        assertEquals(0, match.getLeftCells(c4).get(0).getY());
+
+        assertEquals(0, match.getRightCells(c1).size());
+        assertEquals(2, match.getRightCells(c2).size());
+        assertEquals(0, match.getRightCells(c2).get(0).getX());
+        assertEquals(2, match.getRightCells(c2).get(0).getY());
+        assertEquals(0, match.getRightCells(c2).get(1).getX());
+        assertEquals(3, match.getRightCells(c2).get(1).getY());
+
+        assertEquals(0, match.getUpCells(c1).size());
+        assertEquals(2, match.getDownCells(c1).size());
+        assertEquals(1, match.getDownCells(c1).get(0).getX());
+        assertEquals(3, match.getDownCells(c1).get(0).getY());
+        assertEquals(2, match.getDownCells(c1).get(1).getX());
+        assertEquals(3, match.getDownCells(c1).get(1).getY());
+
+        assertEquals(2, match.getUpCells(c3).size());
+        assertEquals(1, match.getUpCells(c3).get(0).getX());
+        assertEquals(2, match.getUpCells(c3).get(0).getY());
+        assertEquals(0, match.getUpCells(c3).get(1).getX());
+        assertEquals(2, match.getUpCells(c3).get(1).getY());
+        assertEquals(0, match.getDownCells(c3).size());
+
     }
 }
