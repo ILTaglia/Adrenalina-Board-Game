@@ -4,6 +4,7 @@ import Model.Dashboard;
 import Model.Player;
 import Model.Match;
 import exceptions.InvalidDirectionException;
+import java.util.ArrayList;
 
 public class Run extends Action {
     public Run(){
@@ -21,6 +22,13 @@ public class Run extends Action {
     }
 
 
+    //parameter passed from Game will be a String Array, each direction will be decomposed in atomic movements
+    public void getMovement(Match m, Player player, ArrayList<String> destination) throws InvalidDirectionException{
+        if(destination.size()>3) throw new InvalidDirectionException();
+        for(int i=0; i<destination.size(); i++){
+            this.movement(m, player, destination.get(i));
+        }
+    }
     public void movement(Match m, Player player, String direction) throws InvalidDirectionException{
             int d = -1;
             int x;
