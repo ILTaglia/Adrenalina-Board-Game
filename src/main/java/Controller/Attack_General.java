@@ -6,10 +6,12 @@ import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 import java.util.ArrayList;
 
 public class Attack_General {
-    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction)
+    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction, Coordinate cell)
     {
         Player viewer=first; //Used to change viewer in case of torpedine
         ArrayList<Player>A=new ArrayList<Player>();
+        ArrayList<Coordinate> B= new ArrayList<Coordinate>();
+
         if(m.getplayer(first.getcolor()).weaponIspresent(weapon))
         {
             for(int i=0;i<weapon.getnumberattack();i++)
@@ -37,8 +39,10 @@ public class Attack_General {
                 }
                 if(attack.getClass().getName()=="Model.Undefined_distance") //In case I have an Undefined_distance attack
                 {
-                    ArrayList<Player> visible= new ArrayList<Player>();
+                    ArrayList<Player> visible= new ArrayList<Player>(); //Arraylist of Players I can see
                     visible=m.getVisiblePlayers(viewer);
+                    ArrayList<Coordinate> viscel = new ArrayList<Coordinate>(); //Arraylist of cells I can see
+                    //TODO CREAZIONE VISCEL CON CELLE VISIBILI (MANCA METODO)
                     if(attack.getDistance()==0) //Caso in cui ho un classico undefine distance
                     {
                         for(int j=0;j<attack.getnumbereffect();j++)
@@ -65,9 +69,31 @@ public class Attack_General {
                                     //TODO ERRORE GIOCATORE NON COLPIBILE
                                 }
                             }
-                            else
+                            else //Case I have a cell effect effect
                             {
-                                //TODO CASO DI CELL EFFECT
+                                if(viscel.contains(cell))
+                                {
+                                    if(effect.getId()>B.size()-1) //Controllo se è una nuova cella da aggiungere nella lista
+                                    {
+                                        if(!B.contains(cell))
+                                        {
+                                            B.add(cell);
+                                        }
+                                        else
+                                        {
+                                            //TODO ERRORE, CELLA NON ATTACCABILE
+                                        }
+                                    }
+                                    if(B.get(effect.getId()).equals(cell))
+                                    {
+                                        ArrayList<Player> contained= new ArrayList<Player>();
+                                        //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                        for(Player p : contained) //Sets marks and damages for all the players on the cell
+                                        {
+                                            UseDamagesOnPlayer(m, first, p, effect);
+                                        }
+                                    }
+                                }
                             }
 
                         }
@@ -103,45 +129,148 @@ public class Attack_General {
                         }
 
                     }
-                    //In caso di moveme o moveyou permetto di assegnarli
-                    if(moveme!=0)
-                    {
-                        //TODO assegno movimento a first
-                        moveme=0;
-                    }
-                    if(moveyou!=0)
-                    {
-                        //TODO assegno movimento a second
-                        moveyou=0;
-                    }
                 }
                 else
                     if(attack.getClass().getName()=="Model.Finite_Distance") //Caso di attacco tipo finite distance
                     {
                         ArrayList<Player>visible =new ArrayList<Player>();
                         visible=m.getVisiblePlayers(viewer);
-                        for(Player p : visible)
+                        ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
+                        //TODO AGGIUNGERE METODO CHE CREA LISTA DI CELLE VISIBILI
+                        for(int k=0;k<attack.getnumbereffect();k++) //for all the effects of the attack
                         {
-                            if(m.getPlayersMD(viewer,p)!=attack.getDistance())
+                            Effect effect=attack.getEffect(k);
+                            if(effect.getClass().getName()=="Model.Player_effect") //case of player effect
                             {
-                                visible.remove(p);
+                                for(Player p : visible)
+                                {
+                                    if(m.getPlayersMD(viewer,p)!=attack.getDistance())
+                                    {
+                                        visible.remove(p);
+                                    }
+                                }
+                                if(visible.contains(second))
+                                {
+                                    if(effect.getId()>A.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
+                                    {
+                                        if(!A.contains(second))
+                                        {
+                                            A.add(second);
+                                        }
+                                        else
+                                        {
+                                            //TODO ERRORE, GIOCATORE NON COLPIBILE
+                                        }
+                                    }
+                                    viewer = damage_set(m, first, second, viewer, A, attack, effect);
+                                }
+                                else {
+                                    //TODO ERRORE GIOCATORE NON COLPIBILE
+                                }
+                            }
+                            else //Case i have a cell effect
+                            {
+                                for(Coordinate c : viscel) //Eliminates cells visibles but not at this distance
+                                {
+                                    if(m.getCellsMD(viewer.getCel(),c)!=attack.getDistance())
+                                    {
+                                        viscel.remove(c);
+                                    }
+                                }
+                                if(effect.getId()>B.size()-1) //Controllo se è una nuova cella da aggiungere nella lista
+                                {
+                                    if(!B.contains(cell))
+                                    {
+                                        B.add(cell);
+                                    }
+                                    else
+                                    {
+                                        //TODO ERRORE, CELLA NON ATTACCABILE
+                                    }
+                                }
+                                if(B.get(effect.getId()).equals(cell))
+                                {
+                                    ArrayList<Player> contained= new ArrayList<Player>();
+                                    //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                    for(Player p : contained) //Sets marks and damages for all the players on the cell
+                                    {
+                                        UseDamagesOnPlayer(m, first, p, effect);
+                                    }
+                                }
                             }
                         }
-                        //TODO Stesso codice di undefined distance
+
                     }
                 else
                     if(attack.getClass().getName()=="Model.More_distance") //Caso attacco di tipo more distance
                     {
                         ArrayList<Player>visible =new ArrayList<Player>();
                         visible=m.getVisiblePlayers(viewer);
-                        for(Player p: visible)
+                        ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
+                        //TODO INSERIRE IN VISCEL TUTTE LE CELLE VISIBILI
+                        for(int k=0;k<attack.getnumbereffect();k++ )
                         {
-                            if(m.getPlayersMD(viewer,second)<=attack.getDistance())
+                            Effect effect= attack.getEffect(k);
+                            if(effect.getClass().getName()=="Model.Player_effect") // Caso player effect
                             {
-                                visible.remove(p);
+                                for(Player p: visible)
+                                {
+                                    if(m.getPlayersMD(viewer,second)<=attack.getDistance())
+                                    {
+                                        visible.remove(p);
+                                    }
+                                }
+                                if(visible.contains(second))
+                                {
+                                    if(effect.getId()>A.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
+                                    {
+                                        if(!A.contains(second))
+                                        {
+                                            A.add(second);
+                                        }
+                                        else
+                                        {
+                                            //TODO ERRORE, GIOCATORE NON COLPIBILE
+                                        }
+                                    }
+                                    viewer = damage_set(m, first, second, viewer, A, attack, effect);
+                                }
+                                else {
+                                    //TODO ERRORE GIOCATORE NON COLPIBILE
+                                }
+                            }
+                            else //Caso cell effect
+                            {
+                                for(Coordinate c : viscel) //Eliminates cells visibles but not in a distance highter than indicated
+                                {
+                                    if(m.getCellsMD(viewer.getCel(),c)<attack.getDistance())
+                                    {
+                                        viscel.remove(c);
+                                    }
+                                }
+                                if(effect.getId()>B.size()-1) //Controllo se è una nuova cella da aggiungere nella lista
+                                {
+                                    if(!B.contains(cell))
+                                    {
+                                        B.add(cell);
+                                    }
+                                    else
+                                    {
+                                        //TODO ERRORE, CELLA NON ATTACCABILE
+                                    }
+                                }
+                                if(B.get(effect.getId()).equals(cell))
+                                {
+                                    ArrayList<Player> contained= new ArrayList<Player>();
+                                    //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                    for(Player p : contained) //Sets marks and damages for all the players on the cell
+                                    {
+                                        UseDamagesOnPlayer(m, first, p, effect);
+                                    }
+                                }
                             }
                         }
-                        //TODO STESSO CODICE DI UNDEFINED DISTANCE
+
                     }
                 else //Caso attacco di tipo cardinal
                     {
@@ -194,7 +323,7 @@ public class Attack_General {
                                 }
                                 else
                                 {
-                                    //TODO CASO CELL EFFECT
+                                    //TODO CASO CELL EFFECT POSSIBILE UPGRADE FUTURO
                                 }
                             }
                         }
@@ -246,9 +375,35 @@ public class Attack_General {
 
                         }
                     }
+                //In caso di moveme o moveyou permetto di assegnarli
+                if(moveme!=0)
+                {
+                    //TODO assegno movimento a first
+                    moveme=0;
+                }
+                if(moveyou!=0)
+                {
+                    //TODO assegno movimento a second
+                    moveyou=0;
+                }
             }
         }
         return 0;
+    }
+
+    private void UseDamagesOnPlayer(Match m, Player first, Player second, Effect effect) {
+        for(int k=0;k<effect.getnumberdamage();k++)
+        {
+            Damage damage = effect.getDamage(k);
+            if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
+            {
+                m.getplayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+            }
+            else //Caso di attacco che mette marchi
+            {
+                m.getplayer(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
+            }
+        }
     }
 
     private ArrayList<Player> getDirectedPlayer(Match m, int direction, Player viewer) {
@@ -307,18 +462,7 @@ public class Attack_General {
     private Player damage_set(Match m, Player first, Player second, Player viewer, ArrayList<Player> a, Type_attack attack, Effect effect) {
         if(a.get(effect.getId()).equals(second))
         {
-            for(int k=0;k<effect.getnumberdamage();k++)
-            {
-                Damage damage = effect.getDamage(k);
-                if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
-                {
-                    m.getplayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
-                }
-                else //Caso di attacco che mette marchi
-                {
-                    m.getplayer(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
-                }
-            }
+            UseDamagesOnPlayer(m, first, second, effect);
             if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
             {
                 viewer=second;
