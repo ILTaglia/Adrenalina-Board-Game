@@ -76,3 +76,5 @@ public class Game{
         g.select(choice); //method that creates a dashboard
     }
 }
+
+//TODO per la run servirà passare un'array di stringhe
