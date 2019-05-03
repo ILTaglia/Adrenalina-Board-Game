@@ -367,9 +367,61 @@ public class Attack_General {
                                         }
                                     }
                                 }
-                                else
+                                else //Case i have a cell effect
                                 {
-                                    //TODO CASO CELL EFFECT
+                                    for(int d=1;d<attack.getDistance();d++)
+                                    {
+                                        ArrayList<Coordinate>viscel= new ArrayList<Coordinate>();
+                                        if(moveme==0) //case i shoot without moving
+                                        {
+                                            if(direction==0)
+                                            {
+                                                //TODO INSERISCO CELLE SOPRA
+                                            }
+                                            else
+                                            {
+                                                if(direction==1)
+                                                {
+                                                    //TODO INSERISCO CELLE A DESTRA
+                                                }
+                                                else
+                                                    if(direction==2)
+                                                    {
+                                                        //TODO INSERISCO CELLE SOTTO
+                                                    }
+                                                    else
+                                                        if(direction==3) {
+                                                            //TODO INSERISCO CELLE A SINISTRA
+                                                        }
+
+                                            }
+                                            for(Coordinate c : viscel)
+                                            {
+                                                if(m.getCellsMD(viewer.getCel(),c)!=d)
+                                                {
+                                                    viscel.remove(c);
+                                                }
+                                                ArrayList<Player> contained= new ArrayList<Player>();
+                                                //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                                for(Player p : contained) //Sets marks and damages for all the players on the cell
+                                                {
+                                                    UseDamagesOnPlayer(m, first, p, effect);
+                                                }
+                                            }
+
+
+                                        }
+                                        else //case i shoot while moving
+                                        {
+                                            //TODO PERMETTO SPOSTAMENTO NELLA DIREZIONE INDICATA
+                                            ArrayList<Player> inmycell=new ArrayList<Player>();
+                                            //TODO AGGIORNO INSERENDO TUTTI I PLAYER NELLA MIA CELLA
+                                            for(Player p: inmycell)
+                                            {
+                                                UseDamagesOnPlayer(m, first, p, effect);
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
