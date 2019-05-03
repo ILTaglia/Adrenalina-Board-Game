@@ -159,8 +159,24 @@ public class Attack_General {
                                 if(effect.getClass().getName()=="Player_effect")
                                 {
                                     visible.clear();
-                                    visible.addAll(directx);
-                                    visible.addAll(directy);
+                                    if(direction==0) //0 means up, 1 means right, 2 means down, 3 means left
+                                    {
+                                        visible.addAll(m.getUpPlayers(viewer));
+                                    }
+                                    else
+                                        if(direction==1)
+                                        {
+                                            visible.addAll(m.getRightPlayers(viewer));
+                                        }
+                                        else
+                                            if(direction==2)
+                                            {
+                                                visible.addAll(m.getDownPlayers(viewer));
+                                            }
+                                            else
+                                            {
+                                                visible.addAll(m.getLeftPlayers(viewer));
+                                            }
                                     if(visible.contains(second))
                                     {
                                         if(effect.getId()>A.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
@@ -182,41 +198,43 @@ public class Attack_General {
                                 }
                             }
                         }
-                        else
+                        else //for all the attacks that can't pass over walls
                         {
                             for(int k=0;k<attack.getnumbereffect();k++)
                             {
                                 Effect effect= attack.getEffect(k);
                                 if(effect.getClass().getName()=="Model.Player_effect")
                                 {
-                                    for(int d=1;d<attack.getDistance();d++) //for all the cells of the cistance
+                                    for(int d=1;d<attack.getDistance();d++) //for all the cells of the Distance
                                     {
-                                        if(moveme==0)
+                                        if(moveme==0) //for all the guns i shoot but i don't move from my position
                                         {
                                             ArrayList<Player> temporal =new ArrayList<Player>();
                                             temporal=m.getVisiblePlayers(viewer);
-                                            for(Player p : temporal)
+                                            ArrayList<Player> directed = new ArrayList<Player>();
+                                            directed = getDirectedPlayer(m, direction, viewer);
+                                            for(Player p : temporal) //If player i can see are not on the correct distance or not on the direction i choosed, are deleted
                                             {
-                                                if(m.getPlayersMD(viewer,second)!=d||!directx.contains(p)) //TODO TO UPDATE WITH SINGLE DIRECTIONS METHODS
+                                                if(!directed.contains(p)||m.getPlayersMD(viewer,p)!=d)
                                                 {
                                                     temporal.remove(p);
                                                 }
                                             }
                                             viewer = AimAndShoot(m, first, second, viewer, A, attack, effect, temporal);
                                         }
-                                        else
+                                        else //For all the people I shoot but I also move on that direction
                                         {
+                                            //TODO PERMETTO DI SPOSTARSI NELLA DIREZIONE INDICATA
                                             ArrayList<Player> temporal =new ArrayList<Player>();
                                             temporal=m.getVisiblePlayers(viewer);
                                             for(Player p : temporal)
                                             {
-                                                if(m.getPlayersMD(viewer,second)!=0||!directx.contains(p)) //TODO TO UPDATE WITH SINGLE DIRECTIONS METHODS
+                                                if(m.getPlayersMD(viewer,second)!=0)
                                                 {
                                                     temporal.remove(p);
                                                 }
                                             }
                                             viewer = AimAndShoot(m, first, second, viewer, A, attack, effect, temporal);
-                                            //TODO CONSENTO MOVIMENTO NELLA DIREZIONE INDICATA
                                         }
                                     }
                                 }
@@ -226,12 +244,36 @@ public class Attack_General {
                                 }
                             }
 
-                            //TODO CASO NON PASSAGGIO ATTRAVERSO MURI
                         }
                     }
             }
         }
         return 0;
+    }
+
+    private ArrayList<Player> getDirectedPlayer(Match m, int direction, Player viewer) {
+        ArrayList<Player> directed;
+        if(direction==0) //direction 0 for up, 1 to right, 2 to down 3 to left
+        {
+            directed=m.getUpPlayers(viewer);
+        }
+        else
+        {
+            if(direction==1)
+            {
+                directed=m.getRightPlayers(viewer);
+            }
+            else
+                if(direction==2)
+                {
+                    directed=m.getDownPlayers(viewer);
+                }
+                else
+                {
+                    directed=m.getLeftPlayers(viewer);
+                }
+        }
+        return directed;
     }
 
 
