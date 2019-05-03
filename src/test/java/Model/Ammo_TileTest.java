@@ -27,9 +27,9 @@ class Ammo_TileTest {
         }catch (CardAlreadyCollectedException e){
             fail();
         }
-        assertEquals(2,player.get_ammo(0));
-        assertEquals(2,player.get_ammo(1));
-        assertEquals(2,player.get_ammo(2));
+        assertEquals(2,player.getAmmo(0));
+        assertEquals(2,player.getAmmo(1));
+        assertEquals(2,player.getAmmo(2));
 
     }
 
@@ -44,8 +44,8 @@ class Ammo_TileTest {
             fail();
         }
         //Verifico che funzioni il catch e continui ad aggiungere le munizioni successive
-        assertEquals(3,player.get_ammo(0));
-        assertEquals(3,player.get_ammo(1));
+        assertEquals(3,player.getAmmo(0));
+        assertEquals(3,player.getAmmo(1));
     }
 
     @Test

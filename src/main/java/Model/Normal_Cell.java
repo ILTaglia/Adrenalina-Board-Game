@@ -21,6 +21,8 @@ public class Normal_Cell extends Cell {
     //Exception must be handled by Controller
     public void Collect_Card(Player player) throws CardAlreadyCollectedException{
         Ammo_NormalCell.Collect_Card(player);
-        //TODO: Aggiungere carta dove appena rimossa
+    }
+    public int getCardType(){
+        return Ammo_NormalCell.getType();
     }
 }
