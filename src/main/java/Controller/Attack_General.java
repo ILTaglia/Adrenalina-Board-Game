@@ -36,7 +36,8 @@ public class Attack_General {
                 {
                     moveyou=attack.getMoveyou();
                 }
-                if(attack.getClass().getName().equals("Model.Undefined_distance")) //In case I have an Undefined_distance attack
+                //if(attack.getClass().getName().equals("Model.Undefined_distance")) //In case I have an Undefined_distance attack
+                if(attack instanceof Model.Undefined_distance) //In case I have an Undefined_distance attack
                 {
                     ArrayList<Player> visible= new ArrayList<Player>(); //Arraylist of Players I can see
                     visible=m.getVisiblePlayers(viewer);
@@ -47,7 +48,7 @@ public class Attack_General {
                         for(int j=0;j<attack.getnumbereffect();j++)
                         {
                             Effect effect= attack.getEffect(j);
-                            if(effect.getClass().getName()=="Model.Player_effect") //Caso in cui ho un player effect
+                            if(effect instanceof Model.Player_effect) //Caso in cui ho un player effect
                             {
                                 if(visible.contains(second))
                                 {
@@ -104,7 +105,7 @@ public class Attack_General {
                         for(int j=0;j<attack.getnumbereffect();j++)
                         {
                             Effect effect= attack.getEffect(j);
-                            if(effect.getClass().getName().equals("Model.Player_effect")) //Caso in cui ho un player effect
+                            if(effect instanceof Model.Player_effect) //Caso in cui ho un player effect
                             {
                                 if(!visible.contains(second))
                                 {
@@ -130,7 +131,7 @@ public class Attack_General {
                     }
                 }
                 else
-                    if(attack.getClass().getName().equals("Model.Finite_Distance")) //Caso di attacco tipo finite distance
+                    if(attack instanceof Model.Finite_Distance) //Caso di attacco tipo finite distance
                     {
                         ArrayList<Player>visible =new ArrayList<Player>();
                         visible=m.getVisiblePlayers(viewer);
@@ -139,7 +140,7 @@ public class Attack_General {
                         for(int k=0;k<attack.getnumbereffect();k++) //for all the effects of the attack
                         {
                             Effect effect=attack.getEffect(k);
-                            if(effect.getClass().getName().equals("Model.Player_effect")) //case of player effect
+                            if(effect instanceof Model.Player_effect) //case of player effect
                             {
                                 for(Player p : visible)
                                 {
@@ -201,7 +202,7 @@ public class Attack_General {
 
                     }
                 else
-                    if(attack.getClass().getName().equals("Model.More_distance")) //Caso attacco di tipo more distance
+                    if(attack instanceof Model.More_distance) //Caso attacco di tipo more distance
                     {
                         ArrayList<Player>visible =new ArrayList<Player>();
                         visible=m.getVisiblePlayers(viewer);
@@ -210,7 +211,7 @@ public class Attack_General {
                         for(int k=0;k<attack.getnumbereffect();k++ )
                         {
                             Effect effect= attack.getEffect(k);
-                            if(effect.getClass().getName().equals("Model.Player_effect")) // Caso player effect
+                            if(effect instanceof Model.Player_effect) // Caso player effect
                             {
                                 for(Player p: visible)
                                 {
@@ -284,7 +285,7 @@ public class Attack_General {
                             for(int k=0; k<attack.getnumbereffect();k++)
                             {
                                 Effect effect= attack.getEffect(k);
-                                if(effect.getClass().getName().equals("Model.Player_effect"))
+                                if(effect instanceof Model.Player_effect)
                                 {
                                     visible.clear();
                                     if(direction==0) //0 means up, 1 means right, 2 means down, 3 means left
@@ -331,7 +332,7 @@ public class Attack_General {
                             for(int k=0;k<attack.getnumbereffect();k++)
                             {
                                 Effect effect= attack.getEffect(k);
-                                if(effect.getClass().getName().equals("Model.Player_effect"))
+                                if(effect instanceof Model.Player_effect)
                                 {
                                     for(int d=1;d<attack.getDistance();d++) //for all the cells of the Distance
                                     {
@@ -446,7 +447,7 @@ public class Attack_General {
         for(int k=0;k<effect.getnumberdamage();k++)
         {
             Damage damage = effect.getDamage(k);
-            if(damage.getClass().getName().equals("Model.Life")) //caso di attacco che toglie vita
+            if(damage instanceof Model.Life) //caso di attacco che toglie vita
             {
                 m.getplayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
             }
