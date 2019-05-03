@@ -10,7 +10,7 @@ public class Attack_General {
     {
         Player viewer=first; //Used to change viewer in case of torpedine
         ArrayList<Player>A=new ArrayList<Player>();
-        if(m.get_player(first.getcolor()).weaponIspresent(weapon))
+        if(m.getplayer(first.getcolor()).weaponIspresent(weapon))
         {
             for(int i=0;i<weapon.getnumberattack();i++)
             {
@@ -270,11 +270,11 @@ public class Attack_General {
                 Damage damage = effect.getDamage(k);
                 if(damage.getClass().getName()=="Model.Life") //caso di attacco che toglie vita
                 {
-                    m.get_player(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+                    m.getplayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
                 }
                 else //Caso di attacco che mette marchi
                 {
-                    m.get_player(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
+                    m.getplayer(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
                 }
             }
             if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
