@@ -35,39 +35,33 @@ public class Run extends Action {
 
     //method for atomic movements
     public void movement(Match m, Player player, String direction) throws InvalidDirectionException {
-        int d = -1;
+        int d = this.getdirection(direction);
         int x;
         int y;
         x = player.getCel().getX();
         y = player.getCel().getY();
         Dashboard map = m.getDashboard();
 
-        try {
-            d = this.getdirection(direction);
-        } catch (InvalidDirectionException e) {
+        //player wants to go to the north
+        if (d == 0) {
+            x--;
+            player.setCel(x, y);
         }
-        if (this.atomicValidity(map, player, x, y, d)) {
-            //player wants to go to the north
-            if (d == 0) {
-                x--;
-                player.setCel(x, y);
-            }
-            //player wants to go the the east
-            else if (d == 1) {
-                y++;
-                player.setCel(x, y);
-            }
-            //player wants to go the south
-            else if (d == 2) {
-                x++;
-                player.setCel(x, y);
-            }
-            //player wants to go to the west
-            else if (d == 3) {
-                y--;
-                player.setCel(x, y);
-            }
-        } else throw new InvalidDirectionException();
+        //player wants to go the the east
+        else if (d == 1) {
+            y++;
+            player.setCel(x, y);
+        }
+        //player wants to go the south
+        else if (d == 2) {
+            x++;
+            player.setCel(x, y);
+        }
+        //player wants to go to the west
+        else if (d == 3) {
+            y--;
+            player.setCel(x, y);
+        }
     }
 
     //method to check the atomic validity of each movement
