@@ -42,7 +42,7 @@ public class Attack_General {
                     ArrayList<Player> visible= new ArrayList<Player>(); //Arraylist of Players I can see
                     visible=m.getVisiblePlayers(viewer);
                     ArrayList<Coordinate> viscel = new ArrayList<Coordinate>(); //Arraylist of cells I can see
-                    //TODO CREAZIONE VISCEL CON CELLE VISIBILI (MANCA METODO)
+                    viscel=m.getVisibleCells(viewer.getCel());
                     if(attack.getDistance()==0) //Caso in cui ho un classico undefine distance
                     {
                         for(int j=0;j<attack.getnumbereffect();j++)
@@ -87,7 +87,7 @@ public class Attack_General {
                                     if(B.get(effect.getId()).equals(cell))
                                     {
                                         ArrayList<Player> contained= new ArrayList<Player>();
-                                        //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                        contained=m.getSameCellsPlayers(cell);
                                         for(Player p : contained) //Sets marks and damages for all the players on the cell
                                         {
                                             UseDamagesOnPlayer(m, first, p, effect);
@@ -100,7 +100,7 @@ public class Attack_General {
 
                     }
                     else
-                        //TODO Caso in cui colpisco chi non vedo
+                        // Caso in cui colpisco chi non vedo
                     {
                         for(int j=0;j<attack.getnumbereffect();j++)
                         {
@@ -136,7 +136,7 @@ public class Attack_General {
                         ArrayList<Player>visible =new ArrayList<Player>();
                         visible=m.getVisiblePlayers(viewer);
                         ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
-                        //TODO AGGIUNGERE METODO CHE CREA LISTA DI CELLE VISIBILI
+                        viscel=m.getVisibleCells(viewer.getCel());
                         for(int k=0;k<attack.getnumbereffect();k++) //for all the effects of the attack
                         {
                             Effect effect=attack.getEffect(k);
@@ -191,7 +191,7 @@ public class Attack_General {
                                 if(B.get(effect.getId()).equals(cell))
                                 {
                                     ArrayList<Player> contained= new ArrayList<Player>();
-                                    //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                    contained=m.getSameCellsPlayers(cell); //I load all the players contained in the cell indicated
                                     for(Player p : contained) //Sets marks and damages for all the players on the cell
                                     {
                                         UseDamagesOnPlayer(m, first, p, effect);
@@ -207,7 +207,7 @@ public class Attack_General {
                         ArrayList<Player>visible =new ArrayList<Player>();
                         visible=m.getVisiblePlayers(viewer);
                         ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
-                        //TODO INSERIRE IN VISCEL TUTTE LE CELLE VISIBILI
+                        viscel=m.getVisibleCells(viewer.getCel());
                         for(int k=0;k<attack.getnumbereffect();k++ )
                         {
                             Effect effect= attack.getEffect(k);
@@ -262,7 +262,7 @@ public class Attack_General {
                                 if(B.get(effect.getId()).equals(cell))
                                 {
                                     ArrayList<Player> contained= new ArrayList<Player>();
-                                    //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
+                                    contained=m.getSameCellsPlayers(cell); //I load all the players on the cell indicated
                                     for(Player p : contained) //Sets marks and damages for all the players on the cell
                                     {
                                         UseDamagesOnPlayer(m, first, p, effect);
@@ -372,41 +372,52 @@ public class Attack_General {
                                     for(int d=1;d<attack.getDistance();d++)
                                     {
                                         ArrayList<Coordinate>viscel= new ArrayList<Coordinate>();
+                                        viscel=m.getVisibleCells(viewer.getCel());
+                                        ArrayList<Coordinate> aux =new ArrayList<Coordinate>();
                                         if(moveme==0) //case i shoot without moving
                                         {
-                                            if(direction==0)
+                                            if(direction==0) //I am creating an aux list containing only cells in one direction, later I remove from the visible liste the ones are not in the direction choosen
                                             {
-                                                //TODO INSERISCO CELLE SOPRA
+                                                aux=m.getUpCells(viewer.getCel());
                                             }
                                             else
                                             {
                                                 if(direction==1)
                                                 {
-                                                    //TODO INSERISCO CELLE A DESTRA
+                                                    aux=m.getRightCells(viewer.getCel());
                                                 }
                                                 else
                                                     if(direction==2)
                                                     {
-                                                        //TODO INSERISCO CELLE SOTTO
+                                                        aux=m.getDownCells(viewer.getCel());
                                                     }
                                                     else
-                                                        if(direction==3) {
-                                                            //TODO INSERISCO CELLE A SINISTRA
+                                                        if(direction==3)
+                                                        {
+                                                            aux=m.getLeftCells(viewer.getCel());
                                                         }
+
 
                                             }
                                             for(Coordinate c : viscel)
+                                            {
+                                                if(!aux.contains(c))
+                                                {
+                                                    viscel.remove(c);
+                                                }
+                                            }
+                                            for(Coordinate c : viscel) //If I have only one direction and one distance, the only cell remaining will be only one
                                             {
                                                 if(m.getCellsMD(viewer.getCel(),c)!=d)
                                                 {
                                                     viscel.remove(c);
                                                 }
-                                                ArrayList<Player> contained= new ArrayList<Player>();
-                                                //TODO CARICARE IN CONTAINED TUTTI I GIOCATORI DELLA CELLA
-                                                for(Player p : contained) //Sets marks and damages for all the players on the cell
-                                                {
-                                                    UseDamagesOnPlayer(m, first, p, effect);
-                                                }
+                                            }
+                                            ArrayList<Player> contained= new ArrayList<Player>();
+                                            contained= m.getSameCellsPlayers(viscel.get(0)); // I take all the players on the first cell contained because I'm sure there will be only one cell
+                                            for(Player p : contained) //Sets marks and damages for all the players on the cell
+                                            {
+                                                UseDamagesOnPlayer(m, first, p, effect);
                                             }
 
 
@@ -415,7 +426,7 @@ public class Attack_General {
                                         {
                                             //TODO PERMETTO SPOSTAMENTO NELLA DIREZIONE INDICATA
                                             ArrayList<Player> inmycell=new ArrayList<Player>();
-                                            //TODO AGGIORNO INSERENDO TUTTI I PLAYER NELLA MIA CELLA
+                                            inmycell=m.getSameCellsPlayers(viewer.getCel());
                                             for(Player p: inmycell)
                                             {
                                                 UseDamagesOnPlayer(m, first, p, effect);
