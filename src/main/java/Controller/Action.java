@@ -1,6 +1,5 @@
 package Controller;
 
-import java.util.ArrayList;
 import exceptions.InvalidDirectionException;
 
 public abstract class Action {
@@ -23,10 +22,9 @@ public abstract class Action {
         else if(direction.equals("E")) d=1;
         else if(direction.equals("S")) d=2;
         else if(direction.equals("W")) d=3;
-        else if(direction.equals("Zero")) d=-1;
         else throw new InvalidDirectionException();
         return d;
     }
 
-    public void isvalid(){}
+    public void isValid(){}
 }

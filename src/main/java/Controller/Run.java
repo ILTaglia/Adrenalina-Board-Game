@@ -5,9 +5,10 @@ import Model.Player;
 import Model.Match;
 import exceptions.InvalidDirectionException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Run extends Action {
-    public Run(){
+    public Run() {
         //parameter is just the player, because the action of running is atomic, just one step
         //TODO
         /*ci si sposterà a seconda dei vincoli della mappa e a seconda dei vincoli della plancia, non ho ancora messo le pareti*/
@@ -22,96 +23,112 @@ public class Run extends Action {
     }
 
 
-    //parameter passed from Game will be a String Array, each direction will be decomposed in atomic movements
-    public void getMovement(Match m, Player player, ArrayList<String> destination) throws InvalidDirectionException{
-        if(destination.size()>3) throw new InvalidDirectionException();
-        for(int i=0; i<destination.size(); i++){
-            this.movement(m, player, destination.get(i));
+    //method for complete movement, to be decomposed in atomic movements
+    public void getMovement(Match m, Player player, ArrayList<String> destination) throws InvalidDirectionException {
+        if(destination.size() > 3) throw new InvalidDirectionException();
+        if(isValid(m, player, player.getCel().getX(), player.getCel().getY(), destination)){
+            for(String s : destination){
+                this.movement(m, player, s);
+            }
         }
     }
-    public void movement(Match m, Player player, String direction) throws InvalidDirectionException{
-            int d = -1;
-            int x;
-            int y;
-            x = player.getCel().getX();
-            y = player.getCel().getY();
-            Dashboard map = m.getDashboard();
 
-            try{
-                d = this.getdirection(direction);
+    //method for atomic movements
+    public void movement(Match m, Player player, String direction) throws InvalidDirectionException {
+        int d = -1;
+        int x;
+        int y;
+        x = player.getCel().getX();
+        y = player.getCel().getY();
+        Dashboard map = m.getDashboard();
+
+        try {
+            d = this.getdirection(direction);
+        } catch (InvalidDirectionException e) {
+        }
+        if (this.atomicValidity(map, player, x, y, d)) {
+            //player wants to go to the north
+            if (d == 0) {
+                x--;
+                player.setCel(x, y);
             }
-            catch (InvalidDirectionException e) {}
-            if(this.isvalid(map, player, x, y, d)){
-                //player wants to go to the north
-                if(d==0){
-                    x--;
-                    player.setCel(x, y);
-                }
-                //player wants to go the the east
-                else if(d==1){
-                    y++;
-                    player.setCel(x, y);
-                }
-                //player wants to go the south
-                else if(d==2) {
-                    x++;
-                    player.setCel(x, y);
-                }
-                //player wants to go to the west
-                else if(d==3) {
-                    y--;
-                    player.setCel(x, y);
-                }
+            //player wants to go the the east
+            else if (d == 1) {
+                y++;
+                player.setCel(x, y);
             }
-            else throw new InvalidDirectionException();
+            //player wants to go the south
+            else if (d == 2) {
+                x++;
+                player.setCel(x, y);
+            }
+            //player wants to go to the west
+            else if (d == 3) {
+                y--;
+                player.setCel(x, y);
+            }
+        } else throw new InvalidDirectionException();
     }
 
-    public boolean isvalid(Dashboard map, Player player, int x, int y, int direction) {
+    //method to check the atomic validity of each movement
+    public boolean atomicValidity(Dashboard map, Player player, int x, int y, int direction) {
         //player wants to go to the north
-        if(direction==0 && x>0){
+        if (direction == 0 && x > 0) {
             int actualcolor = player.getCel().inmap(map, x, y).getcolor();
-            int nextcolor = player.getCel().inmap(map, x-1, y).getcolor();
+            int nextcolor = player.getCel().inmap(map, x - 1, y).getcolor();
 
             int port = player.getCel().inmap(map, x, y).portIsPresent(0);
-            if(actualcolor==nextcolor || port==1){
+            if (actualcolor == nextcolor || port == 1) {
                 return true;
-            }
-            else return false;
+            } else return false;
         }
         //player wants to go the the east
-        else if(direction==1 && y<3){
+        else if (direction == 1 && y < 3) {
             int actualcolor = player.getCel().inmap(map, x, y).getcolor();
-            int nextcolor = player.getCel().inmap(map, x, y+1).getcolor();
+            int nextcolor = player.getCel().inmap(map, x, y + 1).getcolor();
 
             int port = player.getCel().inmap(map, x, y).portIsPresent(1);
-            if(actualcolor==nextcolor || port==1){
+            if (actualcolor == nextcolor || port == 1) {
                 return true;
-            }
-            else return false;
+            } else return false;
         }
         //player wants to go the south
-        else if(direction==2 && x<2) {
+        else if (direction == 2 && x < 2) {
             int actualcolor = player.getCel().inmap(map, x, y).getcolor();
-            int nextcolor = player.getCel().inmap(map, x+1, y).getcolor();
+            int nextcolor = player.getCel().inmap(map, x + 1, y).getcolor();
 
             int port = player.getCel().inmap(map, x, y).portIsPresent(2);
-            if(actualcolor==nextcolor || port==1){
+            if (actualcolor == nextcolor || port == 1) {
                 return true;
-            }
-            else return false;
+            } else return false;
         }
         //player wants to go to the west
-        else if(direction==3 && y>0) {
+        else if (direction == 3 && y > 0) {
             int actualcolor = player.getCel().inmap(map, x, y).getcolor();
-            int nextcolor = player.getCel().inmap(map, x, y-1).getcolor();
+            int nextcolor = player.getCel().inmap(map, x, y - 1).getcolor();
 
             int port = player.getCel().inmap(map, x, y).portIsPresent(3);
-            if(actualcolor==nextcolor || port==1){
+            if (actualcolor == nextcolor || port == 1) {
                 return true;
-            }
-            else return false;
-        }
-        else return false;
+            } else return false;
+        } else return false;
     }
 
+    //method to check the global validity of the action of movement
+    public boolean isValid(Match m, Player player, int x, int y, List<String> destination) {
+        if (destination.size() > 3) return false;
+        Dashboard map = m.getDashboard();
+        int direction;
+        for(String s : destination){
+            try {
+                direction = this.getdirection(s);
+            } catch (InvalidDirectionException e) { return false; }
+            if(!this.atomicValidity(map, player, x, y, direction)){return false;}
+            if(direction==0){x--;}
+            if(direction==1){y++;}
+            if(direction==2){x++;}
+            if(direction==3){y--;}
+        }
+        return true;
+    }
 }
