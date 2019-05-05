@@ -3,9 +3,9 @@ package exceptions;
 import org.junit.Before;
 import org.junit.Test;
 
-import Controller.Run;
-import Model.Player;
-import Model.Match;
+import controller.Run;
+import model.Player;
+import model.Match;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

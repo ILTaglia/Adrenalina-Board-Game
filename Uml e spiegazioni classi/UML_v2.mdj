@@ -9,7 +9,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model",
+			"name": "model",
 			"ownedElements": [
 				{
 					"_type": "UMLClassDiagram",
@@ -77,7 +77,7 @@
 											"top": 160,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -342,7 +342,7 @@
 											"top": 624,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -537,7 +537,7 @@
 											"top": 208,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -732,7 +732,7 @@
 											"top": 208,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -927,7 +927,7 @@
 											"top": 192,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1141,7 +1141,7 @@
 											"top": 192,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1353,7 +1353,7 @@
 											"top": 192,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -2587,7 +2587,7 @@
 											"top": 560,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -2782,7 +2782,7 @@
 											"top": 160,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3087,7 +3087,7 @@
 											"top": 784,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3783,7 +3783,7 @@
 											"top": 320,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -4835,7 +4835,7 @@
 											"top": -336,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -5047,7 +5047,7 @@
 											"top": -464,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -5295,7 +5295,7 @@
 											"top": -320,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -6003,7 +6003,7 @@
 											"top": 208,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -6574,7 +6574,7 @@
 											"top": 1792,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -7196,7 +7196,7 @@
 											"top": -358,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -9216,7 +9216,7 @@
 											"font": "Arial;13;0",
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -9387,7 +9387,7 @@
 											"top": 368,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -9890,7 +9890,7 @@
 											"top": 352,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -10393,7 +10393,7 @@
 											"top": 368,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -10896,7 +10896,7 @@
 											"top": 384,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -11384,7 +11384,7 @@
 											"top": 752,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -11565,7 +11565,7 @@
 											"top": 1008,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -11830,7 +11830,7 @@
 											"top": 976,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -12097,7 +12097,7 @@
 											"top": 1328,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -12278,7 +12278,7 @@
 											"top": 1840,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -12509,7 +12509,7 @@
 											"top": 1840,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -15904,7 +15904,7 @@
 											"top": -16,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -16367,7 +16367,7 @@
 											"top": 1232,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -16828,7 +16828,7 @@
 											"top": 128,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",

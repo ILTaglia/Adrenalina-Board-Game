@@ -1,7 +1,7 @@
 package exceptions;
 
-import Model.Ammo;
-import Model.Player;
+import model.Ammo;
+import model.Player;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,10 +1,8 @@
 package exceptions;
 
-import Model.Player;
-import org.junit.Before;
+import model.Player;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class InvalidColorExceptionTest {

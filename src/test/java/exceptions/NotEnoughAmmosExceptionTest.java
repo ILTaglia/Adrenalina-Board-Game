@@ -1,11 +1,10 @@
 package exceptions;
 
-import Model.Ammo;
-import Model.Player;
+import model.Ammo;
+import model.Player;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class NotEnoughAmmosExceptionTest {

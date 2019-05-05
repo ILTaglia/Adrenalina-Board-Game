@@ -1,7 +1,7 @@
 package exceptions;
 
-import Model.Match;
-import Model.Player;
+import model.Match;
+import model.Player;
 import org.junit.Before;
 import org.junit.Test;
 

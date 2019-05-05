@@ -9,7 +9,7 @@
 			"_parent": {
 				"$ref": "AAAAAAFF+h6SjaM2Hec="
 			},
-			"name": "Model",
+			"name": "model",
 			"ownedElements": [
 				{
 					"_type": "UMLClassDiagram",
@@ -63,7 +63,7 @@
 											"top": 230,
 											"width": 3142,
 											"height": 13,
-											"text": "Controller"
+											"text": "controller"
 										},
 										{
 											"_type": "LabelView",
@@ -77,7 +77,7 @@
 											"top": -976,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -194,7 +194,7 @@
 											"top": 2518,
 											"width": 4287,
 											"height": 13,
-											"text": "Model"
+											"text": "model"
 										},
 										{
 											"_type": "LabelView",
@@ -208,7 +208,7 @@
 											"top": 3888,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -310,7 +310,7 @@
 											"top": 5232,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -575,7 +575,7 @@
 											"top": 5696,
 											"width": 80.9072265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -770,7 +770,7 @@
 											"top": 5280,
 											"width": 80.9072265625,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -965,7 +965,7 @@
 											"top": 5280,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1160,7 +1160,7 @@
 											"top": 5264,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1374,7 +1374,7 @@
 											"top": 5264,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -1586,7 +1586,7 @@
 											"top": 5264,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -2820,7 +2820,7 @@
 											"top": 5632,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3015,7 +3015,7 @@
 											"top": 5232,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -3320,7 +3320,7 @@
 											"top": 5856,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -4016,7 +4016,7 @@
 											"top": 5392,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -5068,7 +5068,7 @@
 											"top": 4736,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -5280,7 +5280,7 @@
 											"top": 4608,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -5528,7 +5528,7 @@
 											"top": 4752,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -6236,7 +6236,7 @@
 											"top": 5280,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -6739,7 +6739,7 @@
 											"top": 6864,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -7187,7 +7187,7 @@
 											"top": 4714,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -9126,7 +9126,7 @@
 											"top": 5072,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -9307,7 +9307,7 @@
 											"top": 5440,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -9810,7 +9810,7 @@
 											"top": 5424,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -10313,7 +10313,7 @@
 											"top": 5440,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -10816,7 +10816,7 @@
 											"top": 5456,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -11304,7 +11304,7 @@
 											"top": 5824,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -11485,7 +11485,7 @@
 											"top": 6080,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -11750,7 +11750,7 @@
 											"top": 6048,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -12017,7 +12017,7 @@
 											"top": 6400,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -12198,7 +12198,7 @@
 											"top": 6912,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -12429,7 +12429,7 @@
 											"top": 6912,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -15852,7 +15852,7 @@
 											"top": 5056,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -16319,7 +16319,7 @@
 											"top": 6304,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -16786,7 +16786,7 @@
 											"top": 5200,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -17253,7 +17253,7 @@
 											"top": 272,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -17341,7 +17341,7 @@
 											"top": 254,
 											"width": 2327,
 											"height": 13,
-											"text": "Utils"
+											"text": "utils"
 										},
 										{
 											"_type": "LabelView",
@@ -17355,7 +17355,7 @@
 											"top": -9552,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -17462,7 +17462,7 @@
 											"top": -1936,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Model)"
+											"text": "(from model)"
 										},
 										{
 											"_type": "LabelView",
@@ -17564,7 +17564,7 @@
 											"top": -1008,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Utils)"
+											"text": "(from utils)"
 										},
 										{
 											"_type": "LabelView",
@@ -17740,7 +17740,7 @@
 											"top": -1040,
 											"width": 73.67724609375,
 											"height": 13,
-											"text": "(from Utils)"
+											"text": "(from utils)"
 										},
 										{
 											"_type": "LabelView",
@@ -17904,7 +17904,7 @@
 											"top": 535,
 											"width": 574,
 											"height": 13,
-											"text": "Controller"
+											"text": "controller"
 										},
 										{
 											"_type": "LabelView",
@@ -17917,7 +17917,7 @@
 											"top": -2080,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -18095,7 +18095,7 @@
 											"top": -2448,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -18274,7 +18274,7 @@
 											"top": -2112,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -18453,7 +18453,7 @@
 											"top": -2048,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -18629,7 +18629,7 @@
 											"top": -1912,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -18808,7 +18808,7 @@
 											"top": -1928,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -18987,7 +18987,7 @@
 											"top": -1160,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -19166,7 +19166,7 @@
 											"top": -1944,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -19345,7 +19345,7 @@
 											"top": -1912,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -19524,7 +19524,7 @@
 											"top": -880,
 											"width": 94.62451171875,
 											"height": 13,
-											"text": "(from Controller)"
+											"text": "(from controller)"
 										},
 										{
 											"_type": "LabelView",
@@ -21300,7 +21300,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Model",
+					"name": "model",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",
@@ -26130,7 +26130,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Controller",
+					"name": "controller",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",
@@ -26138,7 +26138,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFqGz0/pkMRduA="
 							},
-							"name": "Controller"
+							"name": "controller"
 						},
 						{
 							"_type": "UMLClass",
@@ -26395,7 +26395,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Utils",
+					"name": "utils",
 					"ownedElements": [
 						{
 							"_type": "UMLClass",

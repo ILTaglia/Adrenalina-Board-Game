@@ -1,20 +1,20 @@
 package exceptions;
 
-import Model.PowCard;
-import Model.Pow_Deck;
-import Model.Player;
+import model.PowCard;
+import model.PowDeck;
+import model.Player;
 import org.junit.Before;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MaxNumberofCardsExceptionTest {
     Player player;
-    Pow_Deck deck;
+    PowDeck deck;
 
     @Before
     public void SetUp(){
         player = new Player("Sirius", "blue", "10583741");
-        deck = new Pow_Deck("Pow");
+        deck = new PowDeck("Pow");
         PowCard powcard1 = (PowCard) deck.drawCard();
         PowCard powcard2 = (PowCard) deck.drawCard();
         PowCard powcard3 = (PowCard) deck.drawCard();
