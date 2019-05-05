@@ -4,21 +4,21 @@ import exceptions.*;
 
 import java.util.ArrayList;
 
-public abstract class Ammo_Card extends Card {
+public abstract class AmmoCard extends Card {
 
-    int type;   //type convention: Ammo_Tile 0 Ammo_Pow_Tile 1
+    int type;   //type convention: AmmoTile 0 AmmoPowTile 1
 
     //boolean per evitare che la stessa carta rifornimento sia usata due volte nello stesso turno dallo stesso giocatore
     //Solo alla fine del turno si elimina la carta e la si sostituisce
-    protected ArrayList<Ammo> Refill_Ammo;
+    protected ArrayList<Ammo> refillAmmo;
 
-    //Collect_Card throws Exception if player try to collect card already collected in his precedent action
-    public void Collect_Card(Player player) throws CardAlreadyCollectedException{
+    //collectCard throws Exception if player try to collect card already collected in his precedent action
+    public void collectCard(Player player) throws CardAlreadyCollectedException{
         if(Used){
             throw new CardAlreadyCollectedException();
             //Exception will be handled by Controller
         }
-        for (Ammo ammo:Refill_Ammo) {
+        for (Ammo ammo: refillAmmo) {
             try {
                 player.addAmmo(ammo);
             }
@@ -34,6 +34,6 @@ public abstract class Ammo_Card extends Card {
     }
     @Override
     public String toString(){
-        return Refill_Ammo.stream().map(ammo->ammo.toString()).reduce("",(a,b)->a + b);
+        return refillAmmo.stream().map(ammo->ammo.toString()).reduce("",(a, b)->a + b);
     }
 }

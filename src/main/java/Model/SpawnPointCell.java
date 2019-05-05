@@ -4,12 +4,12 @@ import exceptions.*;
 
 import java.util.ArrayList;
 
-public class SpawnPoint_Cell extends Cell {
+public class SpawnPointCell extends Cell {
 
     private ArrayList<Weapon> Weapons_SpawnPoint;
 
     //Quando creo lascio i campi carta vuoti, il controller poi creerà mazzo e distribuirà le carti arma a inizio partita
-    public SpawnPoint_Cell(int color, int N_port, int E_port, int S_port, int W_port){
+    public SpawnPointCell(int color, int N_port, int E_port, int S_port, int W_port){
         this.color=color;
         Weapons_SpawnPoint=new ArrayList<>();
 

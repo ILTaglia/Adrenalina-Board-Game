@@ -11,7 +11,7 @@ public class Match {
     private int round;
     private ArrayList<Player> players;
     private Dashboard dashboard;
-    private Ammo_Deck ammodeck;
+    private AmmoDeck ammodeck;
     private Weapon_Deck weapondeck;
     private Pow_Deck powdeck;
     private boolean checkdashboard =false;
@@ -20,7 +20,7 @@ public class Match {
     public Match(){
         this.round=1;
         this.players=new ArrayList<>();
-        ammodeck =new Ammo_Deck();
+        ammodeck =new AmmoDeck();
         weapondeck =new Weapon_Deck();
         powdeck =new Pow_Deck("Pow");
     }
@@ -78,15 +78,15 @@ public class Match {
 
     //TODO:Test
     //Riaggiunge la carta Ammo dopo che è stata usata
-    public void addAmmoCard(Normal_Cell cell){//TODO:pensare a nome più efficace
+    public void addAmmoCard(NormalCell cell){//TODO:pensare a nome più efficace
         try{
-            cell.Add_Ammo_Card((Ammo_Card) ammodeck.Draw_Card());
+            cell.Add_Ammo_Card((AmmoCard) ammodeck.Draw_Card());
         }catch(FullCellException e){
             //TODO
         }
 
     }
-    public void addWeaponCard(SpawnPoint_Cell cell, int index){//TODO:pensare a nome più efficace
+    public void addWeaponCard(SpawnPointCell cell, int index){//TODO:pensare a nome più efficace
         try{
             cell.Add_Weapon_Card((Weapon) weapondeck.Draw_Card(),index);//TODO:controllare
         }catch(FullCellException e){

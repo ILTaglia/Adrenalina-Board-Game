@@ -17,48 +17,48 @@ public class Dashboard {
         //i is the index of the chosen map
         //index 1 for 1° map, good for 3 or 4 players
         if(i==1) {
-            map[0][0] = new Normal_Cell(0, 0, 0, 1, 0); //blue
-            map[0][1] = new Normal_Cell(0, 0, 0, 0, 0); //blue
-            map[0][2] = new SpawnPoint_Cell(0, 0, 0, 1, 0); //blue
-            map[0][3] = new Normal_Cell(-1, 0, 0, 0, 0); //not exists
-            map[1][0] = new SpawnPoint_Cell(5, 1, 0, 0, 0); //red
-            map[1][1] = new Normal_Cell(5, 0, 0, 1, 0); //red
-            map[1][2] = new Normal_Cell(5, 1, 1, 0, 0); //red
-            map[1][3] = new Normal_Cell(2, 0, 0, 0, 1); //yellow
-            map[2][0] = new Normal_Cell(-1, 0, 0, 0, 0); //not exists
-            map[2][1] = new Normal_Cell(4, 1, 0, 0, 0); //grey
-            map[2][2] = new Normal_Cell(4, 0, 1, 0, 0); //grey
-            map[2][3] = new SpawnPoint_Cell(2, 0, 0, 0, 1); //yellow
+            map[0][0] = new NormalCell(0, 0, 0, 1, 0); //blue
+            map[0][1] = new NormalCell(0, 0, 0, 0, 0); //blue
+            map[0][2] = new SpawnPointCell(0, 0, 0, 1, 0); //blue
+            map[0][3] = new NormalCell(-1, 0, 0, 0, 0); //not exists
+            map[1][0] = new SpawnPointCell(5, 1, 0, 0, 0); //red
+            map[1][1] = new NormalCell(5, 0, 0, 1, 0); //red
+            map[1][2] = new NormalCell(5, 1, 1, 0, 0); //red
+            map[1][3] = new NormalCell(2, 0, 0, 0, 1); //yellow
+            map[2][0] = new NormalCell(-1, 0, 0, 0, 0); //not exists
+            map[2][1] = new NormalCell(4, 1, 0, 0, 0); //grey
+            map[2][2] = new NormalCell(4, 0, 1, 0, 0); //grey
+            map[2][3] = new SpawnPointCell(2, 0, 0, 0, 1); //yellow
         }
         //index 2 for 2° map, good for every number of players
         if(i==2) {
-            map[0][0] = new Normal_Cell(0, 0, 0, 1, 0); //blue
-            map[0][1] = new Normal_Cell(0, 0, 0, 0, 0); //blue
-            map[0][2] = new SpawnPoint_Cell(0, 0, 1, 1, 0); //blue
-            map[0][3] = new Normal_Cell(1, 0, 0, 1, 1); //green
-            map[1][0] = new SpawnPoint_Cell(5, 1, 0, 0, 0); //red
-            map[1][1] = new Normal_Cell(5, 0, 0 ,1, 0); //red
-            map[1][2] = new Normal_Cell(2, 1, 0 ,0 ,0); //yellow
-            map[1][3] = new Normal_Cell(2, 1, 0, 0, 0); //yellow
-            map[2][0] = new Normal_Cell(-1, 0 , 0 , 0, 0); //not exists
-            map[2][1] = new Normal_Cell(4, 1, 1, 0, 0); //grey
-            map[2][2] = new Normal_Cell(2, 0 , 0, 0, 1); //yellow
-            map[2][3] = new SpawnPoint_Cell(2, 0, 0, 0, 0); //yellow
+            map[0][0] = new NormalCell(0, 0, 0, 1, 0); //blue
+            map[0][1] = new NormalCell(0, 0, 0, 0, 0); //blue
+            map[0][2] = new SpawnPointCell(0, 0, 1, 1, 0); //blue
+            map[0][3] = new NormalCell(1, 0, 0, 1, 1); //green
+            map[1][0] = new SpawnPointCell(5, 1, 0, 0, 0); //red
+            map[1][1] = new NormalCell(5, 0, 0 ,1, 0); //red
+            map[1][2] = new NormalCell(2, 1, 0 ,0 ,0); //yellow
+            map[1][3] = new NormalCell(2, 1, 0, 0, 0); //yellow
+            map[2][0] = new NormalCell(-1, 0 , 0 , 0, 0); //not exists
+            map[2][1] = new NormalCell(4, 1, 1, 0, 0); //grey
+            map[2][2] = new NormalCell(2, 0 , 0, 0, 1); //yellow
+            map[2][3] = new SpawnPointCell(2, 0, 0, 0, 0); //yellow
         }
         //index 3 for 3° map, good for 4 or 5 players
         if(i==3) {
-            map[0][0] = new Normal_Cell(5, 0, 1, 0, 0); //red
-            map[0][1] = new Normal_Cell(0, 0, 0, 1, 1); //blue
-            map[0][2] = new SpawnPoint_Cell(0, 0, 1, 1, 0); //blue
-            map[0][3] = new Normal_Cell(1, 0, 0, 1, 1); //green
-            map[1][0] = new SpawnPoint_Cell(5, 0, 0, 1, 0); //red
-            map[1][1] = new Normal_Cell(3,1, 0, 1, 0); //pink
-            map[1][2] = new Normal_Cell(2, 1, 0 ,0 ,0); //yellow
-            map[1][3] = new Normal_Cell(2, 1, 0, 0, 0); //yellow
-            map[2][0] = new Normal_Cell(4, 1, 0, 0, 0); //grey
-            map[2][1] = new Normal_Cell(4, 1, 1, 0, 0); //grey
-            map[2][2] = new Normal_Cell(2, 0 , 0, 0, 1); //yellow
-            map[2][3] = new SpawnPoint_Cell(2, 0, 0, 0, 0); //yellow
+            map[0][0] = new NormalCell(5, 0, 1, 0, 0); //red
+            map[0][1] = new NormalCell(0, 0, 0, 1, 1); //blue
+            map[0][2] = new SpawnPointCell(0, 0, 1, 1, 0); //blue
+            map[0][3] = new NormalCell(1, 0, 0, 1, 1); //green
+            map[1][0] = new SpawnPointCell(5, 0, 0, 1, 0); //red
+            map[1][1] = new NormalCell(3,1, 0, 1, 0); //pink
+            map[1][2] = new NormalCell(2, 1, 0 ,0 ,0); //yellow
+            map[1][3] = new NormalCell(2, 1, 0, 0, 0); //yellow
+            map[2][0] = new NormalCell(4, 1, 0, 0, 0); //grey
+            map[2][1] = new NormalCell(4, 1, 1, 0, 0); //grey
+            map[2][2] = new NormalCell(2, 0 , 0, 0, 1); //yellow
+            map[2][3] = new SpawnPointCell(2, 0, 0, 0, 0); //yellow
         }
 
         trackindex =0;

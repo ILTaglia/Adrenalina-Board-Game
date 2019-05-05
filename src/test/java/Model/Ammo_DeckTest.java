@@ -1,7 +1,5 @@
 package Model;
 
-import Model.Ammo_Card;
-import Model.Ammo_Deck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Ammo_DeckTest {
 
-    private Ammo_Deck ammo_deck;
-    private Ammo_Card ammo_card;
+    private AmmoDeck ammo_deck;
+    private AmmoCard ammo_card;
     private int in_size_stack;
 
 
     @BeforeEach
     public void setUp() {
-        ammo_deck = new Ammo_Deck();
+        ammo_deck = new AmmoDeck();
         ammo_deck.Shuffle_Stack();
     }
     //Primo semplice test per carta pescata
@@ -24,7 +22,7 @@ public class Ammo_DeckTest {
     public void Draw_CardTest(){
         in_size_stack=ammo_deck.size_Stack();
 
-        ammo_card=(Ammo_Card)ammo_deck.Draw_Card();
+        ammo_card=(AmmoCard)ammo_deck.Draw_Card();
 
         assertEquals(in_size_stack-1,ammo_deck.size_Stack());
         assertEquals(0,ammo_deck.size_Stack_Discarded());
@@ -34,7 +32,7 @@ public class Ammo_DeckTest {
     //Primo semplice test per carta scartata
     @Test
     public void Discard_CardTest(){
-        ammo_card=(Ammo_Card)ammo_deck.Draw_Card();
+        ammo_card=(AmmoCard)ammo_deck.Draw_Card();
         in_size_stack=ammo_deck.size_Stack_Discarded();
         ammo_deck.Discard_Card(ammo_card);
         assertEquals(1,ammo_deck.size_Stack_Discarded());
@@ -45,12 +43,12 @@ public class Ammo_DeckTest {
     @Test
     public void Draw_CardShuffleTest(){
         for(int i=0;i<36;i++){
-            ammo_card= (Ammo_Card) ammo_deck.Draw_Card();
+            ammo_card= (AmmoCard) ammo_deck.Draw_Card();
             ammo_deck.Discard_Card(ammo_card);
         }
         assertEquals(0,ammo_deck.size_Stack());
         assertEquals(36,ammo_deck.size_Stack_Discarded());
-        ammo_card= (Ammo_Card) ammo_deck.Draw_Card();
+        ammo_card= (AmmoCard) ammo_deck.Draw_Card();
         assertEquals(0,ammo_deck.size_Stack_Discarded());
         assertEquals(35, ammo_deck.size_Stack());
     }
@@ -58,7 +56,7 @@ public class Ammo_DeckTest {
     @Test
     public void Shuffle_DiscardedTest(){
         for(int i=0;i<36;i++){
-            ammo_card= (Ammo_Card) ammo_deck.Draw_Card();
+            ammo_card= (AmmoCard) ammo_deck.Draw_Card();
             ammo_deck.Discard_Card(ammo_card);
         }
         //Ho svuotato Stack e riempito Stack_Discarded
