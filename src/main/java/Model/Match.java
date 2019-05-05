@@ -80,7 +80,7 @@ public class Match {
     //Riaggiunge la carta Ammo dopo che è stata usata
     public void addAmmoCard(NormalCell cell){//TODO:pensare a nome più efficace
         try{
-            cell.Add_Ammo_Card((AmmoCard) ammodeck.Draw_Card());
+            cell.Add_Ammo_Card((AmmoCard) ammodeck.drawCard());
         }catch(FullCellException e){
             //TODO
         }
@@ -88,7 +88,7 @@ public class Match {
     }
     public void addWeaponCard(SpawnPointCell cell, int index){//TODO:pensare a nome più efficace
         try{
-            cell.Add_Weapon_Card((Weapon) weapondeck.Draw_Card(),index);//TODO:controllare
+            cell.Add_Weapon_Card((Weapon) weapondeck.drawCard(),index);//TODO:controllare
         }catch(FullCellException e){
             //TODO
         }
@@ -96,18 +96,18 @@ public class Match {
     }
     //Metodo per controller che mescola i mazzi (per esempio a inizio partita)
     public void shuffleAllDecks(){
-        ammodeck.Shuffle_Stack();
-        weapondeck.Shuffle_Stack();
-        powdeck.Shuffle_Stack();
+        ammodeck.shuffleStack();
+        weapondeck.shuffleStack();
+        powdeck.shuffleStack();
     }
     //Method to assign powCard to player
     public void assignPowCard(Player player) throws MaxNumberofCardsException {     //TODO:Verificare se ha senso fare catch di una eccezione e poi rilanciarla
         PowCard powcard;
-        powcard=(PowCard) powdeck.Draw_Card();
+        powcard=(PowCard) powdeck.drawCard();
         try{
             player.addPow(powcard);
         }catch (MaxNumberofCardsException e){
-            powdeck.Discard_Card(powcard);
+            powdeck.discardCard(powcard);
             throw new MaxNumberofCardsException();
         }
     }

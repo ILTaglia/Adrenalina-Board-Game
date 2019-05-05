@@ -160,22 +160,22 @@ public class Player {
     //return number of ammos of color c
     public int getAmmo(int color) throws InvalidColorException {
         if(color<0 || color>2) throw new InvalidColorException();
-        return (int) ammos.stream().filter(x->x.get_Ammo()==color).count();
+        return (int) ammos.stream().filter(x->x.getAmmo()==color).count();
     }
 
     //add ammo
     public void addAmmo(Ammo ammo) throws MoreThanTreeAmmosException{
-        if(getAmmo(ammo.get_Ammo())>=3) {
+        if(getAmmo(ammo.getAmmo())>=3) {
             throw new MoreThanTreeAmmosException();
         } else ammos.add(ammo);
     }
 
     //remove number n of ammos passed as parameter
     public void removeAmmo(int n, Ammo ammo) throws NotEnoughAmmosException {
-        int nAmmos=this.getAmmo(ammo.get_Ammo());
+        int nAmmos=this.getAmmo(ammo.getAmmo());
         if(nAmmos<n) throw new NotEnoughAmmosException();
         for(int i=0; i<ammos.size(); i++) {
-            if(ammo.get_Ammo()==ammos.get(i).get_Ammo()){
+            if(ammo.getAmmo()==ammos.get(i).getAmmo()){
                 ammos.remove(i);
                 n--;
             }

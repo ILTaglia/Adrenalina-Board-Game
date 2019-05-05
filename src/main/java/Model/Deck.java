@@ -4,62 +4,63 @@ import java.util.*;
 
 public abstract class Deck {
 
-    protected ArrayList<Card> Stack;
-    protected ArrayList<Card> Stack_Discarded;
+    protected ArrayList<Card> stack;
+    protected ArrayList<Card> stackDiscarded;
 
-    public Card Draw_Card(){
+    public Card drawCard(){
         try{
-            return Stack.remove(0);
+            return stack.remove(0);
         }catch (IndexOutOfBoundsException e){
-            Shuffle_Discarded();
-            return Stack.remove(0);
+            shuffleDiscarded();
+            return stack.remove(0);
         }
     }
 
-    public void Discard_Card(Card c){
-        Stack_Discarded.add(c);
+    public void discardCard(Card c){
+        stackDiscarded.add(c);
     }
-    public void Shuffle_Stack(){
-        Collections.shuffle(Stack);
-    }
-
-    public void Shuffle_Discarded(){
-        Collections.shuffle(Stack_Discarded);
-        Stack.addAll(Stack_Discarded);
-        Stack_Discarded.clear();
-        Stack.forEach(card -> card.Set_Available());
+    public void shuffleStack(){
+        Collections.shuffle(stack);
     }
 
-    public String Stack_toString() {
-        return Stack.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
-    }
-    public String Stack_Discarded_toString() {
-        return Stack_Discarded.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
+    public void shuffleDiscarded(){
+        Collections.shuffle(stackDiscarded);
+        stack.addAll(stackDiscarded);
+        stackDiscarded.clear();
+        stack.forEach(card -> card.setAvailable());
     }
 
-    public int size_Stack(){
+    public String stackToString() {
+        return stack.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
+    }
+    public String stackDiscardedToString() {
+        return stackDiscarded.stream().map(card -> card.toString()).reduce("", (a, b) -> a + b);
+    }
+
+    public int sizeStack(){
         try {
-            return Stack.size();
+            return stack.size();
         }catch (NullPointerException e){
             return 0;
         }
     }
-    public int size_Stack_Discarded(){
-        return Stack_Discarded.size();
+    public int sizeStackDiscarded(){
+        return stackDiscarded.size();
     }
-    public boolean contains_Stack(Card card){
-        return Stack.contains(card);
+    public boolean containsStack(Card card){
+        return stack.contains(card);
     }
 
-    public boolean contains_Stack_Discarded(Card card){
-        return Stack_Discarded.contains(card);
+    public boolean containsStackDiscarded(Card card){
+        return stackDiscarded.contains(card);
     }
+
     /*
     public boolean containsAll_Stack(ArrayList<Card> List){
-        return Stack.containsAll(List);
+        return stack.containsAll(List);
     }
     public boolean containsAll_Stack_Discarded(ArrayList<Card> List){
-        return Stack_Discarded.containsAll(List);
+        return stackDiscarded.containsAll(List);
     }
     */
 }

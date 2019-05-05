@@ -1,17 +1,15 @@
 package Model;
 
-import exceptions.*;
+public abstract class Card {
 
-abstract public class Card {
+    protected boolean used;
 
-    protected boolean Used;
-
-    public void Set_Used(){
-        this.Used=true;
+    public void setUsed(){
+        this.used =true;
     }
 
-    public void Set_Available(){
-        this.Used=false;
+    public void setAvailable(){
+        this.used =false;
     }
 
 }

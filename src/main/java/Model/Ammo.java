@@ -11,7 +11,7 @@ public class Ammo {
         this.color=color;
     }
 
-    public int get_Ammo(){
+    public int getAmmo(){
         return color;
     }
 

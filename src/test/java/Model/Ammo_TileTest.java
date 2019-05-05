@@ -50,7 +50,7 @@ class Ammo_TileTest {
 
     @Test
     public void Collect_CardAlreadyCollectedExceptionTest(){
-        ammo_tile.Set_Used();
+        ammo_tile.setUsed();
         assertThrows(CardAlreadyCollectedException.class, ()->ammo_tile.collectCard(player));
     }
 

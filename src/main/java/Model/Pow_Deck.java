@@ -8,9 +8,9 @@ import java.util.ArrayList;
 public class Pow_Deck extends Deck{
     private ArrayList <PowCard> PC;
     public Pow_Deck(String fileName){
-        Stack=new ArrayList<>();
+        stack =new ArrayList<>();
         ArrayList<Card> S=new ArrayList<>();
-        Stack_Discarded=new ArrayList<>();
+        stackDiscarded =new ArrayList<>();
         ArrayList <Integer> A;
         int tipo=0, colore=0, costo=0, moveme=0,life=0,marks=0;
         ArrayList<PowCard>O;
@@ -54,7 +54,7 @@ public class Pow_Deck extends Deck{
                     }
                     case 7: {
                         O.add( new Pow_Factory().getInstanceof(tipo,colore,costo,moveme,life,marks));
-                        O.get(O.size()-1).Used=false;
+                        O.get(O.size()-1).used =false;
                         if(nextc=='!') {
                             CS=1;
                         }
@@ -62,7 +62,7 @@ public class Pow_Deck extends Deck{
                             next = -1;
                             //this.PC = O;
                             S.addAll(O);
-                            this.Stack=S;
+                            this.stack =S;
                         }
                         break;
                     }

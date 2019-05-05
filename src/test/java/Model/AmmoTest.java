@@ -16,7 +16,7 @@ public class AmmoTest {
 
     @Test
     public void getTest(){
-        assertEquals(0,ammo.get_Ammo());
+        assertEquals(0,ammo.getAmmo());
     }
 
     @Test

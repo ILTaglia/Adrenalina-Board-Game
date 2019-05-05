@@ -52,11 +52,11 @@ public class AmmoDeck extends Deck {
     public AmmoDeck() throws InvalidColorException {
 
         //TODO Migliorare struttura dati per deck
-        Stack=new ArrayList<>();
-        Stack_Discarded=new ArrayList<>();
+        stack =new ArrayList<>();
+        stackDiscarded =new ArrayList<>();
         int i;
-        for(i=0;i<18;i++) this.Stack.add(new AmmoTile(matrixAmmoDeck[i][0], matrixAmmoDeck[i][1], matrixAmmoDeck[i][2]));
-        for(i=0;i<18;i++) this.Stack.add(new AmmoPowTile(matrixAmmoPowDeck[i][0], matrixAmmoPowDeck[i][1]));
+        for(i=0;i<18;i++) this.stack.add(new AmmoTile(matrixAmmoDeck[i][0], matrixAmmoDeck[i][1], matrixAmmoDeck[i][2]));
+        for(i=0;i<18;i++) this.stack.add(new AmmoPowTile(matrixAmmoPowDeck[i][0], matrixAmmoPowDeck[i][1]));
 
 
 

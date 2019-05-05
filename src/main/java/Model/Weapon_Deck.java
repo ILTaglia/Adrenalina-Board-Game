@@ -13,12 +13,12 @@ public class Weapon_Deck extends Deck{
         return this.W.size();
     }
 
-    //TODO: questo metodo può essere rimosso e si può usare il Draw_Card di Deck
+    //TODO: questo metodo può essere rimosso e si può usare il drawCard di Deck
 
 
     public Weapon_Deck(){
-        Stack=new ArrayList<>();
-        Stack_Discarded=new ArrayList<>();
+        stack =new ArrayList<>();
+        stackDiscarded =new ArrayList<>();
         //W=new ArrayList<Weapon>();
         ArrayList <Integer> A;
 
@@ -26,7 +26,7 @@ public class Weapon_Deck extends Deck{
 
     public void setWeapons(String filename)
     {
-        this.Stack=this.readWeaponCards( filename);
+        this.stack =this.readWeaponCards( filename);
     }
 
     public ArrayList<Card> readWeaponCards(String fileName)

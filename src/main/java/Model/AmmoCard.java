@@ -14,7 +14,7 @@ public abstract class AmmoCard extends Card {
 
     //collectCard throws Exception if player try to collect card already collected in his precedent action
     public void collectCard(Player player) throws CardAlreadyCollectedException{
-        if(Used){
+        if(used){
             throw new CardAlreadyCollectedException();
             //Exception will be handled by Controller
         }
@@ -26,7 +26,7 @@ public abstract class AmmoCard extends Card {
                 //Nothing to do, just try with next ammo
             }
         }
-        Used=true;
+        used =true;
     }
 
     public int getType(){

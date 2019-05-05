@@ -13,7 +13,7 @@ public class AmmoTile extends AmmoCard {
         refillAmmo.add(new Ammo(color2));
         refillAmmo.add(new Ammo(color3));
         type=0;
-        Used=false;
+        used =false;
     }
 
 

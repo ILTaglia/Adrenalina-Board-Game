@@ -271,7 +271,7 @@ class PlayerTest {
     @Test
     void testingPow() {
         Pow_Deck deck = new Pow_Deck("Pow");
-        PowCard powcard1 = (PowCard) deck.Draw_Card();
+        PowCard powcard1 = (PowCard) deck.drawCard();
         try{
             player1.addPow(powcard1);
         }
@@ -279,7 +279,7 @@ class PlayerTest {
             System.out.println("You have too many Pow Cards, please remove one.");
         }
         assertTrue(player1.powIspresent(powcard1));
-        PowCard powcard2 = (PowCard) deck.Draw_Card();
+        PowCard powcard2 = (PowCard) deck.drawCard();
         assertThrows(NotOwnedCardException.class, () -> player1.removePow(powcard2));
 
         try{

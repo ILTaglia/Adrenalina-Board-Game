@@ -15,10 +15,10 @@ public class MaxNumberofCardsExceptionTest {
     public void SetUp(){
         player = new Player("Sirius", "blue", "10583741");
         deck = new Pow_Deck("Pow");
-        PowCard powcard1 = (PowCard) deck.Draw_Card();
-        PowCard powcard2 = (PowCard) deck.Draw_Card();
-        PowCard powcard3 = (PowCard) deck.Draw_Card();
-        PowCard powcard4 = (PowCard) deck.Draw_Card();
+        PowCard powcard1 = (PowCard) deck.drawCard();
+        PowCard powcard2 = (PowCard) deck.drawCard();
+        PowCard powcard3 = (PowCard) deck.drawCard();
+        PowCard powcard4 = (PowCard) deck.drawCard();
         try{
             player.addPow(powcard1);
             player.addPow(powcard2);

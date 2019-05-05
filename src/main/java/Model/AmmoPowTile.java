@@ -10,7 +10,7 @@ public class AmmoPowTile extends AmmoCard {
         refillAmmo.add(new Ammo(color1));
         refillAmmo.add(new Ammo(color2));
         type=0;
-        Used=false;
+        used =false;
     }
 
     @Override

@@ -1,17 +1,9 @@
 package Model;
 
-import Model.Player;
-import Model.Ammo;
-import Model.Weapon;
-import Model.Coordinate;
-import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 public class WeaponDeckTest {
@@ -23,7 +15,7 @@ public class WeaponDeckTest {
     {
         W= new Weapon_Deck();
         W.setWeapons("Test");
-        weapon = (Weapon) W.Draw_Card();
+        weapon = (Weapon) W.drawCard();
     }
 
 
@@ -74,15 +66,15 @@ public class WeaponDeckTest {
     @Test
     public void numbercardTest()
     {
-        assertEquals(W.size_Stack(),2);
-        assertEquals(W.size_Stack_Discarded(),0);
+        assertEquals(W.sizeStack(),2);
+        assertEquals(W.sizeStackDiscarded(),0);
     }
 
     @Test
     public void otherCardsTest()
     {
-        weapon = (Weapon) W.Draw_Card();
-        weapon = (Weapon) W.Draw_Card();
+        weapon = (Weapon) W.drawCard();
+        weapon = (Weapon) W.drawCard();
         assertEquals(weapon.getcost(1),1);
         assertEquals(weapon.getName(),"Distruttore");
         assertEquals(weapon.getAttack(1).getextras().get(0),1);

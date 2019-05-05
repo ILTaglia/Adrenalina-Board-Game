@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Attack_General {
     public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction, Coordinate cell)
     {
-        Player viewer=first; //Used to change viewer in case of torpedine
+        Player viewer=first; //used to change viewer in case of torpedine
         ArrayList<Player>A=new ArrayList<Player>();
         ArrayList<Coordinate> B= new ArrayList<Coordinate>();
 

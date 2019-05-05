@@ -15,62 +15,62 @@ public class Ammo_DeckTest {
     @BeforeEach
     public void setUp() {
         ammo_deck = new AmmoDeck();
-        ammo_deck.Shuffle_Stack();
+        ammo_deck.shuffleStack();
     }
     //Primo semplice test per carta pescata
     @Test
     public void Draw_CardTest(){
-        in_size_stack=ammo_deck.size_Stack();
+        in_size_stack=ammo_deck.sizeStack();
 
-        ammo_card=(AmmoCard)ammo_deck.Draw_Card();
+        ammo_card=(AmmoCard)ammo_deck.drawCard();
 
-        assertEquals(in_size_stack-1,ammo_deck.size_Stack());
-        assertEquals(0,ammo_deck.size_Stack_Discarded());
-        assert(!ammo_deck.contains_Stack(ammo_card));
+        assertEquals(in_size_stack-1,ammo_deck.sizeStack());
+        assertEquals(0,ammo_deck.sizeStackDiscarded());
+        assert(!ammo_deck.containsStack(ammo_card));
     }
 
     //Primo semplice test per carta scartata
     @Test
     public void Discard_CardTest(){
-        ammo_card=(AmmoCard)ammo_deck.Draw_Card();
-        in_size_stack=ammo_deck.size_Stack_Discarded();
-        ammo_deck.Discard_Card(ammo_card);
-        assertEquals(1,ammo_deck.size_Stack_Discarded());
-        assert(ammo_deck.contains_Stack_Discarded(ammo_card));
+        ammo_card=(AmmoCard)ammo_deck.drawCard();
+        in_size_stack=ammo_deck.sizeStackDiscarded();
+        ammo_deck.discardCard(ammo_card);
+        assertEquals(1,ammo_deck.sizeStackDiscarded());
+        assert(ammo_deck.containsStackDiscarded(ammo_card));
     }
 
     //Testo il caso in cui il mazzo finisca e verifico che si possa comunque pescare una nuova carta
     @Test
     public void Draw_CardShuffleTest(){
         for(int i=0;i<36;i++){
-            ammo_card= (AmmoCard) ammo_deck.Draw_Card();
-            ammo_deck.Discard_Card(ammo_card);
+            ammo_card= (AmmoCard) ammo_deck.drawCard();
+            ammo_deck.discardCard(ammo_card);
         }
-        assertEquals(0,ammo_deck.size_Stack());
-        assertEquals(36,ammo_deck.size_Stack_Discarded());
-        ammo_card= (AmmoCard) ammo_deck.Draw_Card();
-        assertEquals(0,ammo_deck.size_Stack_Discarded());
-        assertEquals(35, ammo_deck.size_Stack());
+        assertEquals(0,ammo_deck.sizeStack());
+        assertEquals(36,ammo_deck.sizeStackDiscarded());
+        ammo_card= (AmmoCard) ammo_deck.drawCard();
+        assertEquals(0,ammo_deck.sizeStackDiscarded());
+        assertEquals(35, ammo_deck.sizeStack());
     }
-    //Testo metodo Shuffle_Discarded() sul mazzo scartate, aspettandosi che Stack sia diverso da Stack_Discarded prima della chiamata del metodo
+    //Testo metodo shuffleDiscarded() sul mazzo scartate, aspettandosi che stack sia diverso da stackDiscarded prima della chiamata del metodo
     @Test
     public void Shuffle_DiscardedTest(){
         for(int i=0;i<36;i++){
-            ammo_card= (AmmoCard) ammo_deck.Draw_Card();
-            ammo_deck.Discard_Card(ammo_card);
+            ammo_card= (AmmoCard) ammo_deck.drawCard();
+            ammo_deck.discardCard(ammo_card);
         }
-        //Ho svuotato Stack e riempito Stack_Discarded
-        String s=ammo_deck.Stack_Discarded_toString();
-        ammo_deck.Shuffle_Discarded();
-        assertNotEquals(s,ammo_deck.Stack_toString());
+        //Ho svuotato stack e riempito stackDiscarded
+        String s=ammo_deck.stackDiscardedToString();
+        ammo_deck.shuffleDiscarded();
+        assertNotEquals(s,ammo_deck.stackToString());
     }
 
-    //Testo metodo Shuffle_Stack() usando il metodo toString che restituisce tutto il mazzo
+    //Testo metodo shuffleStack() usando il metodo toString che restituisce tutto il mazzo
     @Test
     public void Shuffle_StackTest(){
-        String s=ammo_deck.Stack_toString();
-        ammo_deck.Shuffle_Stack();
-        assertNotEquals(s,ammo_deck.Stack_toString());
+        String s=ammo_deck.stackToString();
+        ammo_deck.shuffleStack();
+        assertNotEquals(s,ammo_deck.stackToString());
     }
 
 

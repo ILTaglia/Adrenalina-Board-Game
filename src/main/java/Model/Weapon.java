@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Weapon extends Card{
     private String name;
     private ArrayList <Integer> cost;
-    private int used;
+    private int used; //TODO: Correggere campo con used di Card
     private ArrayList <Type_attack> Attack;
     public void addAttack(int id, int typeplayer,int distance,int moveme,int moveyou)
     {
