@@ -25,11 +25,11 @@ public class Game{
         Player player4 = new Player("Aries", "yellow", "18992302");
         Player player5 = new Player("Karka", "grey", "18114320");
         try {
-            match.addplayer(player1);
-            match.addplayer(player2);
-            match.addplayer(player3);
-            match.addplayer(player4);
-            match.addplayer(player5);
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+            match.addPlayer(player4);
+            match.addPlayer(player5);
         }
         catch (MaxNumberPlayerException e){
             //in case the players are more than five they have to wait for a new match
@@ -37,7 +37,7 @@ public class Game{
     }
 
     public void select(int i){
-        matches.get(0).createdashboard(i);
+        matches.get(0).createDashboard(i);
     }
 
     //TODO controllare random, meglio stringa char+int
@@ -46,8 +46,8 @@ public class Game{
         String id = Integer.toString(i);
         for (Match match : this.matches){
             //check to avoid different players have the same id
-            for(int index = 0; index< match.getplayerssize(); index++){
-                if (match.getplayerbyindex(index).getid().equals(id)){
+            for(int index = 0; index< match.getPlayersSize(); index++){
+                if (match.getPlayerByIndex(index).getid().equals(id)){
                     id=id+7;
                 }
             }

@@ -10,30 +10,30 @@ public class AttackGeneral {
         ArrayList<Player>A=new ArrayList<Player>();
         ArrayList<Coordinate> B= new ArrayList<Coordinate>();
 
-        if(m.getplayer(first.getcolor()).weaponIspresent(weapon))
+        if(m.getPlayer(first.getcolor()).weaponIspresent(weapon))
         {
             for(int i = 0; i<weapon.getNumberAttack(); i++)
             {
                 int moveme=0;
                 int moveyou=0;
                 TypeAttack attack= weapon.getAttack(i);
-                if(attack.getMoveme()>5)
+                if(attack.getMoveMe()>5)
                 {
-                    moveme=attack.getMoveme()-5;
+                    moveme=attack.getMoveMe()-5;
                     //TODO permettere movimento a first prima del turno
                 }
                 else
                 {
-                    moveme=attack.getMoveme();
+                    moveme=attack.getMoveMe();
                 }
-                if(attack.getMoveyou()>5)
+                if(attack.getMoveYou()>5)
                 {
-                    moveyou=attack.getMoveyou()-5;
+                    moveyou=attack.getMoveYou()-5;
                     //TODO permette movimento a second prima del turno
                 }
                 else
                 {
-                    moveyou=attack.getMoveyou();
+                    moveyou=attack.getMoveYou();
                 }
                 //if(attack.getClass().getName().equals("model.UndefinedDistance")) //In case I have an UndefinedDistance attack
                 if(attack instanceof UndefinedDistance) //In case I have an UndefinedDistance attack
@@ -44,7 +44,7 @@ public class AttackGeneral {
                     viscel=m.getVisibleCells(viewer.getCel());
                     if(attack.getDistance()==0) //Caso in cui ho un classico undefine distance
                     {
-                        for(int j=0;j<attack.getnumbereffect();j++)
+                        for(int j = 0; j<attack.getNumberEffect(); j++)
                         {
                             Effect effect= attack.getEffect(j);
                             if(effect instanceof PlayerEffect) //Caso in cui ho un player effect
@@ -101,7 +101,7 @@ public class AttackGeneral {
                     else
                         // Caso in cui colpisco chi non vedo
                     {
-                        for(int j=0;j<attack.getnumbereffect();j++)
+                        for(int j = 0; j<attack.getNumberEffect(); j++)
                         {
                             Effect effect= attack.getEffect(j);
                             if(effect instanceof PlayerEffect) //Caso in cui ho un player effect
@@ -136,7 +136,7 @@ public class AttackGeneral {
                         visible=m.getVisiblePlayers(viewer);
                         ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
                         viscel=m.getVisibleCells(viewer.getCel());
-                        for(int k=0;k<attack.getnumbereffect();k++) //for all the effects of the attack
+                        for(int k = 0; k<attack.getNumberEffect(); k++) //for all the effects of the attack
                         {
                             Effect effect=attack.getEffect(k);
                             if(effect instanceof PlayerEffect) //case of player effect
@@ -207,7 +207,7 @@ public class AttackGeneral {
                         visible=m.getVisiblePlayers(viewer);
                         ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
                         viscel=m.getVisibleCells(viewer.getCel());
-                        for(int k=0;k<attack.getnumbereffect();k++ )
+                        for(int k = 0; k<attack.getNumberEffect(); k++ )
                         {
                             Effect effect= attack.getEffect(k);
                             if(effect instanceof PlayerEffect) // Caso player effect
@@ -281,7 +281,7 @@ public class AttackGeneral {
                         directy=m.getSameColumnPlayers(viewer);
                         if(attack.getDistance()==0) //If i can pass through walls
                         {
-                            for(int k=0; k<attack.getnumbereffect();k++)
+                            for(int k = 0; k<attack.getNumberEffect(); k++)
                             {
                                 Effect effect= attack.getEffect(k);
                                 if(effect instanceof PlayerEffect)
@@ -328,7 +328,7 @@ public class AttackGeneral {
                         }
                         else //for all the attacks that can't pass over walls
                         {
-                            for(int k=0;k<attack.getnumbereffect();k++)
+                            for(int k = 0; k<attack.getNumberEffect(); k++)
                             {
                                 Effect effect= attack.getEffect(k);
                                 if(effect instanceof PlayerEffect)
@@ -459,11 +459,11 @@ public class AttackGeneral {
             Damage damage = effect.getDamage(k);
             if(damage instanceof model.Life) //caso di attacco che toglie vita
             {
-                m.getplayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+                m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
             }
             else //Caso di attacco che mette marchi
             {
-                m.getplayer(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
+                m.getPlayer(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
             }
         }
     }
@@ -525,7 +525,7 @@ public class AttackGeneral {
         if(a.get(effect.getId()).equals(second))
         {
             UseDamagesOnPlayer(m, first, second, effect);
-            if(attack.getTypeplayer()==1) //Aggiorno chi vede in caso di torpedine
+            if(attack.getTypePlayer()==1) //Aggiorno chi vede in caso di torpedine
             {
                 viewer=second;
             }

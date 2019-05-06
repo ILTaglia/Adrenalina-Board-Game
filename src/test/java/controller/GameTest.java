@@ -31,7 +31,7 @@ public class GameTest {
         String s = game.randomId(r);
         p1 = new Player("Sirius", "blue", s);
         try {
-            match.addplayer(p1);
+            match.addPlayer(p1);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
@@ -40,7 +40,7 @@ public class GameTest {
         s = game.randomId(r);
         p2 = new Player("Calypso", "pink", s);
         try {
-            match.addplayer(p2);
+            match.addPlayer(p2);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
@@ -49,7 +49,7 @@ public class GameTest {
         s = game.randomId(r);
         p3 = new Player("Hermione", "green", s);
         try {
-            match.addplayer(p3);
+            match.addPlayer(p3);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
@@ -57,10 +57,10 @@ public class GameTest {
 
         s = game.randomId(r);
         p4 = new Player("Aries", "green", s);
-        assertThrows(InvalidColorException.class, () -> match.addplayer(p4));
+        assertThrows(InvalidColorException.class, () -> match.addPlayer(p4));
         p4 = new Player("Aries", "yellow", s);
         try {
-            match.addplayer(p4);
+            match.addPlayer(p4);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
@@ -69,7 +69,7 @@ public class GameTest {
         s = game.randomId(r);
         p5 = new Player("Karka", "grey", s);
         try {
-            match.addplayer(p5);
+            match.addPlayer(p5);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}

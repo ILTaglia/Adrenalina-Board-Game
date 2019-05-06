@@ -9382,7 +9382,7 @@
 											"top": 3741,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+typeplayer: int",
+											"text": "+typePlayer: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9416,7 +9416,7 @@
 											"top": 3771,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+moveme: int",
+											"text": "+moveMe: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9433,7 +9433,7 @@
 											"top": 3786,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+moveyou: int",
+											"text": "+moveYou: int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -9535,7 +9535,7 @@
 											"top": 3869,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setTypeplayer(int typeplayer): void",
+											"text": "+setTypeplayer(int typePlayer): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9569,7 +9569,7 @@
 											"top": 3899,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveme(int moveme): void",
+											"text": "+setMoveme(int moveMe): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9586,7 +9586,7 @@
 											"top": 3914,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveyou(int moveyou): void",
+											"text": "+setMoveyou(int moveYou): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9868,7 +9868,7 @@
 											"top": 3734,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-typeplayer: int",
+											"text": "-typePlayer: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9919,7 +9919,7 @@
 											"top": 3779,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-moveme: int",
+											"text": "-moveMe: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -9936,7 +9936,7 @@
 											"top": 3794,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-moveyou: int",
+											"text": "-moveYou: int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -10038,7 +10038,7 @@
 											"top": 3877,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setTypeplayer(int typeplayer): void",
+											"text": "+setTypeplayer(int typePlayer): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10072,7 +10072,7 @@
 											"top": 3907,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveme(int moveme): void",
+											"text": "+setMoveme(int moveMe): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10089,7 +10089,7 @@
 											"top": 3922,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveyou(int moveyou): void",
+											"text": "+setMoveyou(int moveYou): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10388,7 +10388,7 @@
 											"top": 3749,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-typeplayer: int",
+											"text": "-typePlayer: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10422,7 +10422,7 @@
 											"top": 3779,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-moveme: int",
+											"text": "-moveMe: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10439,7 +10439,7 @@
 											"top": 3794,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-moveyou: int",
+											"text": "-moveYou: int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -10541,7 +10541,7 @@
 											"top": 3877,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setTypeplayer(int typeplayer): void",
+											"text": "+setTypeplayer(int typePlayer): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10575,7 +10575,7 @@
 											"top": 3907,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveme(int moveme): void",
+											"text": "+setMoveme(int moveMe): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10592,7 +10592,7 @@
 											"top": 3922,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveyou(int moveyou): void",
+											"text": "+setMoveyou(int moveYou): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10891,7 +10891,7 @@
 											"top": 3765,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-typeplayer: int",
+											"text": "-typePlayer: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10925,7 +10925,7 @@
 											"top": 3795,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-moveme: int",
+											"text": "-moveMe: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10942,7 +10942,7 @@
 											"top": 3810,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "-moveyou: int",
+											"text": "-moveYou: int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -11027,7 +11027,7 @@
 											"top": 3878,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setTypeplayer(int typeplayer): void",
+											"text": "+setTypeplayer(int typePlayer): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11061,7 +11061,7 @@
 											"top": 3908,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveme(int moveme): void",
+											"text": "+setMoveme(int moveMe): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -11078,7 +11078,7 @@
 											"top": 3923,
 											"width": 205.5751953125,
 											"height": 13,
-											"text": "+setMoveyou(int moveyou): void",
+											"text": "+setMoveyou(int moveYou): void",
 											"horizontalAlignment": 0
 										},
 										{
@@ -16859,7 +16859,7 @@
 											"top": 3320,
 											"width": 499.6748046875,
 											"height": 13,
-											"text": "+getinstanceof(int i, int typeplayer, int distance, int moveme, int moveyou): Type_attack",
+											"text": "+getinstanceof(int i, int typePlayer, int distance, int moveMe, int moveYou): Type_attack",
 											"horizontalAlignment": 0
 										}
 									],
@@ -23340,7 +23340,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vCQPQ4pCxE="
 									},
-									"name": "typeplayer",
+									"name": "typePlayer",
 									"type": "int"
 								},
 								{
@@ -23358,7 +23358,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vCQPQ4pCxE="
 									},
-									"name": "moveme",
+									"name": "moveMe",
 									"type": "int"
 								},
 								{
@@ -23367,7 +23367,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vCQPQ4pCxE="
 									},
-									"name": "moveyou",
+									"name": "moveYou",
 									"type": "int"
 								}
 							],
@@ -23471,7 +23471,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAUvvvAJY3r8="
 											},
-											"name": "int typeplayer",
+											"name": "int typePlayer",
 											"type": ""
 										},
 										{
@@ -23527,7 +23527,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAUvz8wPqq08="
 											},
-											"name": "int moveme",
+											"name": "int moveMe",
 											"type": ""
 										},
 										{
@@ -23555,7 +23555,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAUv18gSzdnY="
 											},
-											"name": "int moveyou",
+											"name": "int moveYou",
 											"type": ""
 										},
 										{
@@ -23734,7 +23734,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vCcRA8Vobo="
 									},
-									"name": "typeplayer",
+									"name": "typePlayer",
 									"visibility": "private",
 									"type": "int"
 								},
@@ -23764,7 +23764,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vCcRA8Vobo="
 									},
-									"name": "moveme",
+									"name": "moveMe",
 									"visibility": "private",
 									"type": "int"
 								},
@@ -23774,7 +23774,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vCcRA8Vobo="
 									},
-									"name": "moveyou",
+									"name": "moveYou",
 									"visibility": "private",
 									"type": "int"
 								}
@@ -23879,7 +23879,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAVeBq0ra7Gw="
 											},
-											"name": "int typeplayer",
+											"name": "int typePlayer",
 											"type": ""
 										},
 										{
@@ -23935,7 +23935,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAVhP+U4jqqE="
 											},
-											"name": "int moveme",
+											"name": "int moveMe",
 											"type": ""
 										},
 										{
@@ -23963,7 +23963,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAVmOH1ACX8A="
 											},
-											"name": "int moveyou",
+											"name": "int moveYou",
 											"type": ""
 										},
 										{
@@ -24152,7 +24152,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vDZahQjia8="
 									},
-									"name": "typeplayer",
+									"name": "typePlayer",
 									"visibility": "private",
 									"type": "int"
 								},
@@ -24172,7 +24172,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vDZahQjia8="
 									},
-									"name": "moveme",
+									"name": "moveMe",
 									"visibility": "private",
 									"type": "int"
 								},
@@ -24182,7 +24182,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vDZahQjia8="
 									},
-									"name": "moveyou",
+									"name": "moveYou",
 									"visibility": "private",
 									"type": "int"
 								}
@@ -24287,7 +24287,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAV3nsnIwqIc="
 											},
-											"name": "int typeplayer",
+											"name": "int typePlayer",
 											"type": ""
 										},
 										{
@@ -24343,7 +24343,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAV6mxXV5mIM="
 											},
-											"name": "int moveme",
+											"name": "int moveMe",
 											"type": ""
 										},
 										{
@@ -24371,7 +24371,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAV7p6nbjaTQ="
 											},
-											"name": "int moveyou",
+											"name": "int moveYou",
 											"type": ""
 										},
 										{
@@ -24739,7 +24739,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vDs3BVdaag="
 									},
-									"name": "typeplayer",
+									"name": "typePlayer",
 									"visibility": "private",
 									"type": "int"
 								},
@@ -24759,7 +24759,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vDs3BVdaag="
 									},
-									"name": "moveme",
+									"name": "moveMe",
 									"visibility": "private",
 									"type": "int"
 								},
@@ -24769,7 +24769,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFp/vDs3BVdaag="
 									},
-									"name": "moveyou",
+									"name": "moveYou",
 									"visibility": "private",
 									"type": "int"
 								}
@@ -24855,7 +24855,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAWSNipAKbek="
 											},
-											"name": "int typeplayer",
+											"name": "int typePlayer",
 											"type": ""
 										},
 										{
@@ -24911,7 +24911,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAWUQCZLe9l8="
 											},
-											"name": "int moveme",
+											"name": "int moveMe",
 											"type": ""
 										},
 										{
@@ -24939,7 +24939,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAWVTHZRILK4="
 											},
-											"name": "int moveyou",
+											"name": "int moveYou",
 											"type": ""
 										},
 										{
@@ -25622,7 +25622,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAXg4B+3AKr8="
 											},
-											"name": "int typeplayer",
+											"name": "int typePlayer",
 											"type": ""
 										},
 										{
@@ -25640,7 +25640,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAXg4B+3AKr8="
 											},
-											"name": "int moveme",
+											"name": "int moveMe",
 											"type": ""
 										},
 										{
@@ -25649,7 +25649,7 @@
 											"_parent": {
 												"$ref": "AAAAAAFqAXg4B+3AKr8="
 											},
-											"name": "int moveyou",
+											"name": "int moveYou",
 											"type": ""
 										},
 										{

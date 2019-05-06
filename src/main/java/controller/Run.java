@@ -35,7 +35,7 @@ public class Run extends Action {
 
     //method for atomic movements
     public void movement(Match m, Player player, String direction) throws InvalidDirectionException {
-        int d = this.getdirection(direction);
+        int d = this.getDirection(direction);
         int x;
         int y;
         x = player.getCel().getX();
@@ -115,7 +115,7 @@ public class Run extends Action {
         int direction;
         for(String s : destination){
             try {
-                direction = this.getdirection(s);
+                direction = this.getDirection(s);
             } catch (InvalidDirectionException e) { return false; }
             if(!this.atomicValidity(map, player, x, y, direction)){return false;}
             if(direction==0){x--;}

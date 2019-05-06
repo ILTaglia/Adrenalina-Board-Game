@@ -20,12 +20,12 @@ public class DashboardTest {
         Match match = new Match();
 
         try {
-            match.addplayer(player1);
-            match.addplayer(player2);
-            match.addplayer(player3);
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
         }
         catch (MaxNumberPlayerException e){}
-        match.createdashboard(1);
+        match.createDashboard(1);
 
         assertEquals(0, match.getDashboard().getindex());
         match.getDashboard().setKillshottrack(player1,2);

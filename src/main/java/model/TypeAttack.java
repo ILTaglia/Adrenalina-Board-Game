@@ -5,17 +5,17 @@ import java.util.ArrayList;
 public interface TypeAttack {
 
     public int getDistance();
-    public int getTypeplayer();
-    public ArrayList getextras();
+    public int getTypePlayer();
+    public ArrayList getExtras();
     public void setDistance(int distance);
-    public void setTypeplayer(int typeplayer);
-    public void addextra(int extra);
-    public void setMoveme(int moveme);
-    public void setMoveyou(int moveyou);
-    public void addeffect(Effect E);
+    public void setTypePlayer(int typePlayer);
+    public void addExtra(int extra);
+    public void setMoveMe(int moveMe);
+    public void setMoveYou(int moveYou);
+    public void addEffect(Effect E);
     public Effect getEffect(int i);
-    public int getnumbereffect();
-    public int getnumberextra();
-    public int getMoveme();
-    public int getMoveyou();
+    public int getNumberEffect();
+    public int getNumberExtra();
+    public int getMoveMe();
+    public int getMoveYou();
 }

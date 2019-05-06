@@ -4,76 +4,74 @@ import java.util.ArrayList;
 
 public class Cardinal implements TypeAttack {
     private ArrayList<Integer> extra;
-    private int typeplayer;
+    private int typePlayer;
     private int distance;
-    private int moveme;
-    private int moveyou;
+    private int moveMe;
+    private int moveYou;
     private ArrayList<Effect> E;
-    public int getDistance()
-    {
+    //TODO Verificare @Override
+    @Override
+    public int getDistance(){
         return this.distance;
     }
-
-
-    public int getTypeplayer()
-    {
-        return this.typeplayer;
+    @Override
+    public int getTypePlayer(){
+        return this.typePlayer;
     }
-    public ArrayList getextras()
-    {
+    @Override
+    public ArrayList getExtras(){
         return this.extra;
     }
-    public void setDistance(int distance)
-    {
+    @Override
+    public void setDistance(int distance){
         this.distance =distance;
     }
-    public void setTypeplayer(int typeplayer)
-    {
-        this.typeplayer=typeplayer;
+    @Override
+    public void setTypePlayer(int typePlayer){
+        this.typePlayer = typePlayer;
     }
-    public void addextra(int extra)
-    {
+    @Override
+    public void addExtra(int extra){
         this.extra.add(extra);
     }
-    public void setMoveme(int moveme)
-    {
-        this.moveme=moveme;
+    @Override
+    public void setMoveMe(int moveMe){
+        this.moveMe = moveMe;
     }
-    public void setMoveyou(int moveyou)
-    {
-        this.moveyou=moveyou;
+    @Override
+    public void setMoveYou(int moveYou){
+        this.moveYou = moveYou;
     }
-    public void addeffect(Effect E)
-    {
+    @Override
+    public void addEffect(Effect E){
         this.E.add(E);
     }
-    public Effect getEffect(int i)
-    {
+    @Override
+    public Effect getEffect(int i){
         return this.E.get(i);
     }
-    public int getnumbereffect()
-    {
+    @Override
+    public int getNumberEffect(){
         return this.E.size();
     }
-    public int getnumberextra()
-    {
+    @Override
+    public int getNumberExtra(){
         return this.extra.size();
     }
-    public int getMoveme()
-    {
-        return this.moveme;
+    @Override
+    public int getMoveMe(){
+        return this.moveMe;
     }
-    public int getMoveyou()
-    {
-        return this.moveyou;
+    @Override
+    public int getMoveYou(){
+        return this.moveYou;
     }
-    public Cardinal(int typeplayer,int direction,int moveme, int moveyou)
-    {
-        this.extra=new ArrayList<Integer>();
-        this.E= new ArrayList<Effect>();
+    public Cardinal(int typePlayer, int direction, int moveMe, int moveYou){
+        this.extra=new ArrayList<>();
+        this.E= new ArrayList<>();
         this.distance =direction;
-        this.moveme=moveme;
-        this.moveyou=moveyou;
-        this.typeplayer=typeplayer;
+        this.moveMe = moveMe;
+        this.moveYou = moveYou;
+        this.typePlayer = typePlayer;
     }
 }

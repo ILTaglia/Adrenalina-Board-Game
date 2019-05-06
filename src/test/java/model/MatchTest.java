@@ -24,43 +24,43 @@ public class MatchTest {
         player3 = new Player("Hermione", "green", "18263100");
         player4 = new Player("Aries", "yellow", "18992302");
         try {
-            match.addplayer(player1);
-            match.addplayer(player2);
-            match.addplayer(player3);
-            match.addplayer(player4);
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+            match.addPlayer(player4);
         }
         catch (MaxNumberPlayerException e){}
     }
 
     @Test
     public void set_round() {
-        assertEquals(1, match.getround());
+        assertEquals(1, match.getRound());
         Player player5 = new Player("Karka", "grey", "18114320");
         try {
-            match.addplayer(player5);
+            match.addPlayer(player5);
         }
         catch (MaxNumberPlayerException e){}
         player5.setAction();
         player5.setAction();
-        match.setround();
-        assertEquals(2, match.getround());
+        match.setRound();
+        assertEquals(2, match.getRound());
     }
 
     @Test
     public void get_round() {
-        assertEquals(1, match.getround());
+        assertEquals(1, match.getRound());
     }
 
     @Test
     public void get_player_size(){
-        assertEquals(4, match.getplayerssize());
+        assertEquals(4, match.getPlayersSize());
     }
 
     @Test
     public void get_check() {
-        assertFalse(match.getcheck());
-        match.createdashboard(2);
-        assertTrue(match.getcheck());
+        assertFalse(match.getCheck());
+        match.createDashboard(2);
+        assertTrue(match.getCheck());
     }
 
     @Test
@@ -68,10 +68,10 @@ public class MatchTest {
         Player player5 = new Player("Karka", "grey", "18114320");
         Player player6 = new Player("Gemini", "grey", "10003256");
         try {
-            match.addplayer(player5);
+            match.addPlayer(player5);
         }
         catch (MaxNumberPlayerException e){}
-        assertThrows(MaxNumberPlayerException.class, () -> match.addplayer(player6));
+        assertThrows(MaxNumberPlayerException.class, () -> match.addPlayer(player6));
     }
 
     @Test
@@ -81,10 +81,10 @@ public class MatchTest {
         assertEquals("Hermione", player3.getname());
         assertEquals("Aries", player4.getname());
         try{
-            player1 = match.getplayer(1); //Hermione
-            player2 = match.getplayer(0); //Sirius
-            player3 = match.getplayer(2); //Aries
-            player4 = match.getplayer(3); //Calypso
+            player1 = match.getPlayer(1); //Hermione
+            player2 = match.getPlayer(0); //Sirius
+            player3 = match.getPlayer(2); //Aries
+            player4 = match.getPlayer(3); //Calypso
         }
         catch (InvalidColorException e){}
         assertEquals("Hermione", player1.getname());
@@ -95,30 +95,30 @@ public class MatchTest {
 
     @Test
     public void dashboard(){
-        match.createdashboard(1);
+        match.createDashboard(1);
         Dashboard d = match.getDashboard();
     }
 
     @Test
     public void exception_test(){
         try {
-            Player player6 = match.getplayer(6);
+            Player player6 = match.getPlayer(6);
         }
         catch (InvalidColorException e){}
         Player player5 = new Player("Karka", "blue", "18114320");
         Match m2 = new Match();
         try{
-            m2.addplayer(player1);
-            m2.addplayer(player2);
+            m2.addPlayer(player1);
+            m2.addPlayer(player2);
         }
         catch (MaxNumberPlayerException e){}
-        assertThrows(InvalidColorException.class, () -> m2.addplayer(player5));
-        assertEquals(1, m2.createdashboard(1));
+        assertThrows(InvalidColorException.class, () -> m2.addPlayer(player5));
+        assertEquals(1, m2.createDashboard(1));
     }
 
     @Test
     public void players_list1(){
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         player1.setCel(0, 3);
         player2.setCel(0, 1);
@@ -160,7 +160,7 @@ public class MatchTest {
 
     @Test
     public void players_list2(){
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         player1.setCel(0, 2);
         player2.setCel(0, 1);
@@ -205,7 +205,7 @@ public class MatchTest {
 
     @Test
     public void cellsTests1() {
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         player1.setCel(0, 3);
         player2.setCel(0, 1);
@@ -247,7 +247,7 @@ public class MatchTest {
     }
     @Test
     public void cardinal() {
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         player1.setCel(0, 3); //Sirius
         player2.setCel(0, 1); //Calypso
@@ -283,7 +283,7 @@ public class MatchTest {
 
     @Test
     public void cellTest2(){
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         Coordinate c1 = new Coordinate(0,3);
 
@@ -336,7 +336,7 @@ public class MatchTest {
     }
     @Test
     public void cellTest3() {
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         player1.setCel(0, 3); //Sirius
         player2.setCel(0, 3); //Calypso
@@ -358,7 +358,7 @@ public class MatchTest {
 
     @Test
     public void cellTest4() {
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         Coordinate c1 = new Coordinate(0, 3);
         Coordinate c2 = new Coordinate(0, 1);

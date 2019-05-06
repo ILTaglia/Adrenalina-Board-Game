@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class Pow_DeckTest {
+public class PowDeckTest {
 
     private PowDeck W;
     private PowCard powcard;
@@ -19,52 +19,52 @@ public class Pow_DeckTest {
     @Test
     public void testRead()
     {
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),0);
+        assertEquals(0,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),1);
+        assertEquals(1,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
         powcard = (PowCard) W.drawCard();
-        assertEquals(powcard.getColor(),2);
+        assertEquals(2,powcard.getColor());
     }
 }

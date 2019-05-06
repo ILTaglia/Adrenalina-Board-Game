@@ -73,7 +73,7 @@ public class Lettore {
                     }
                     case 4:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addextra(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addExtra(Character.getNumericValue(nextc));
                         contextra++;
                         if(contextra==3)
                         {
@@ -84,7 +84,7 @@ public class Lettore {
                     }
                     case 5:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setTypeplayer(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setTypePlayer(Character.getNumericValue(nextc));
                         CS=6;
                         break;
                     }
@@ -96,13 +96,13 @@ public class Lettore {
                     }
                     case 7:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveme(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveMe(Character.getNumericValue(nextc));
                         CS=8;
                         break;
                     }
                     case 8:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveyou(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveYou(Character.getNumericValue(nextc));
                         CS=9;
                         break;
                     }
@@ -110,18 +110,18 @@ public class Lettore {
                     {
                         if(nextc=='p')
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addeffect(new EffectFactory().getinstanceof(1,0));
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(1,0));
                         }
                         else
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addeffect(new EffectFactory().getinstanceof(2,0));
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(2,0));
                         }
                         CS=10;
                         break;
                     }
                     case 10:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).setId(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).setId(Character.getNumericValue(nextc));
                         CS=11;
                         break;
                     }
@@ -129,18 +129,18 @@ public class Lettore {
                     {
                         if(nextc=='l')
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).adddamage(1,0);
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(1,0);
                         }
                         else
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).adddamage(2,0);
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(2,0);
                         }
                         CS=12;
                         break;
                     }
                     case 12:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
                         CS=100;
                         break;
                     }
@@ -179,16 +179,16 @@ public class Lettore {
             for(int e=0;e<A.getNumberAttack();e++)
             {
                 ArrayList<Integer> u;
-                u=A.getAttack(e).getextras();
+                u=A.getAttack(e).getExtras();
                 for(int r : u)
                 {
                     System.out.println("L'extra da pagare e' "+r);
                 }
-                System.out.println("Il tipo di player e' "+ A.getAttack(e).getTypeplayer());
+                System.out.println("Il tipo di player e' "+ A.getAttack(e).getTypePlayer());
                 System.out.println("La distanza e' "+ A.getAttack(e).getDistance());
-                System.out.println("Il mio movimento e' "+ A.getAttack(e).getMoveme());
-                System.out.println("Il movimento che infliggo e' "+ A.getAttack(e).getMoveyou());
-                for(int k=0;k<A.getAttack(e).getnumbereffect();k++)
+                System.out.println("Il mio movimento e' "+ A.getAttack(e).getMoveMe());
+                System.out.println("Il movimento che infliggo e' "+ A.getAttack(e).getMoveYou());
+                for(int k=0;k<A.getAttack(e).getNumberEffect();k++)
                 {
                     System.out.println("L'id del player o cella che subisce l'effetto e' "+A.getAttack(e).getEffect(k).getId());
                 }

@@ -13,11 +13,11 @@ public class MoreDistance implements TypeAttack {
     {
         return this.distance;
     }
-    public int getTypeplayer()
+    public int getTypePlayer()
     {
         return this.typeplayer;
     }
-    public ArrayList getextras()
+    public ArrayList getExtras()
     {
         return this.extra;
     }
@@ -25,23 +25,23 @@ public class MoreDistance implements TypeAttack {
     {
         this.distance=distance;
     }
-    public void setTypeplayer(int typeplayer)
+    public void setTypePlayer(int typePlayer)
     {
-        this.typeplayer=typeplayer;
+        this.typeplayer= typePlayer;
     }
-    public void addextra(int extra)
+    public void addExtra(int extra)
     {
         this.extra.add(extra);
     }
-    public void setMoveme(int moveme)
+    public void setMoveMe(int moveMe)
     {
-        this.moveme=moveme;
+        this.moveme= moveMe;
     }
-    public void setMoveyou(int moveyou)
+    public void setMoveYou(int moveYou)
     {
-        this.moveyou=moveyou;
+        this.moveyou= moveYou;
     }
-    public void addeffect(Effect E)
+    public void addEffect(Effect E)
     {
         this.E.add(E);
     }
@@ -49,19 +49,19 @@ public class MoreDistance implements TypeAttack {
     {
         return this.E.get(i);
     }
-    public int getnumbereffect()
+    public int getNumberEffect()
     {
         return this.E.size();
     }
-    public int getnumberextra()
+    public int getNumberExtra()
     {
         return this.extra.size();
     }
-    public int getMoveme()
+    public int getMoveMe()
     {
         return this.moveme;
     }
-    public int getMoveyou()
+    public int getMoveYou()
     {
         return this.moveyou;
     }

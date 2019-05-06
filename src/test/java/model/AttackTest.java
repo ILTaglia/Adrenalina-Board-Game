@@ -13,9 +13,9 @@ public class AttackTest {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,2,3,4,5);
         assertEquals(A.getDistance(),3);
-        assertEquals(A.getMoveme(),4);
-        assertEquals(A.getMoveyou(),5);
-        assertEquals(A.getTypeplayer(),2);
+        assertEquals(A.getMoveMe(),4);
+        assertEquals(A.getMoveYou(),5);
+        assertEquals(A.getTypePlayer(),2);
     }
 
     @Test
@@ -26,17 +26,17 @@ public class AttackTest {
         A.add(new AttackFactory().getinstanceof(1,2,3,4,5));
         A.add(new AttackFactory().getinstanceof(6,7,8,9,10));
         A.add(new AttackFactory().getinstanceof(7,6,5,4,3));
-        assertEquals(A.get(0).getTypeplayer(),2);
-        assertEquals(A.get(0).getMoveyou(),5);
-        assertEquals(A.get(0).getMoveme(),4);
+        assertEquals(A.get(0).getTypePlayer(),2);
+        assertEquals(A.get(0).getMoveYou(),5);
+        assertEquals(A.get(0).getMoveMe(),4);
         assertEquals(A.get(0).getDistance(),3);
-        assertEquals(A.get(1).getTypeplayer(),7);
-        assertEquals(A.get(1).getMoveyou(),10);
-        assertEquals(A.get(1).getMoveme(),9);
+        assertEquals(A.get(1).getTypePlayer(),7);
+        assertEquals(A.get(1).getMoveYou(),10);
+        assertEquals(A.get(1).getMoveMe(),9);
         assertEquals(A.get(1).getDistance(),8);
-        assertEquals(A.get(2).getTypeplayer(),6);
-        assertEquals(A.get(2).getMoveyou(),3);
-        assertEquals(A.get(2).getMoveme(),4);
+        assertEquals(A.get(2).getTypePlayer(),6);
+        assertEquals(A.get(2).getMoveYou(),3);
+        assertEquals(A.get(2).getMoveMe(),4);
         assertEquals(A.get(2).getDistance(),5);
     }
 
@@ -46,13 +46,13 @@ public class AttackTest {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,8,8,8,8);
         A.setDistance(3);
-        A.setMoveme(4);
-        A.setMoveyou(5);
-        A.setTypeplayer(2);
+        A.setMoveMe(4);
+        A.setMoveYou(5);
+        A.setTypePlayer(2);
         assertEquals(A.getDistance(),3);
-        assertEquals(A.getMoveme(),4);
-        assertEquals(A.getMoveyou(),5);
-        assertEquals(A.getTypeplayer(),2);
+        assertEquals(A.getMoveMe(),4);
+        assertEquals(A.getMoveYou(),5);
+        assertEquals(A.getTypePlayer(),2);
     }
 
     @Test
@@ -60,8 +60,8 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,8,8,8,8);
-        assertEquals(A.getnumbereffect(),0);
-        assertEquals(A.getnumberextra(),0);
+        assertEquals(A.getNumberEffect(),0);
+        assertEquals(A.getNumberExtra(),0);
     }
 
     @Test
@@ -69,10 +69,10 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,8,8,8,8);
-        A.addextra(1);
-        A.addextra(2);
-        A.addextra(44);
-        assertEquals(A.getnumberextra(),3);
+        A.addExtra(1);
+        A.addExtra(2);
+        A.addExtra(44);
+        assertEquals(A.getNumberExtra(),3);
     }
 
 
@@ -81,11 +81,11 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,8,8,8,8);
-        A.addeffect(new EffectFactory().getinstanceof(1,2));
-        A.addeffect(new EffectFactory().getinstanceof(2,2));
-        A.addeffect(new EffectFactory().getinstanceof(1,3));
-        A.addeffect(new EffectFactory().getinstanceof(2,8));
-        assertEquals(A.getnumbereffect(),4);
+        A.addEffect(new EffectFactory().getinstanceof(1,2));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        A.addEffect(new EffectFactory().getinstanceof(1,3));
+        A.addEffect(new EffectFactory().getinstanceof(2,8));
+        assertEquals(A.getNumberEffect(),4);
     }
 
 
@@ -94,16 +94,16 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,8,8,8,8);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
         assertEquals(A.getEffect(0).getId(),1);
         A=new AttackFactory().getinstanceof(2,8,8,8,8);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
         assertEquals(A.getEffect(0).getId(),1);
         A=new AttackFactory().getinstanceof(3,8,8,8,8);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
         assertEquals(A.getEffect(0).getId(),1);
         A=new AttackFactory().getinstanceof(4,8,8,8,8);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
         assertEquals(A.getEffect(0).getId(),1);
     }
 
@@ -112,33 +112,33 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,8,8,8,8);
-        A.addextra(1);
-        A.addextra(2);
-        A.addextra(3);
-        assertEquals(A.getextras().get(0),1);
-        assertEquals(A.getextras().get(1),2);
-        assertEquals(A.getextras().get(2),3);
+        A.addExtra(1);
+        A.addExtra(2);
+        A.addExtra(3);
+        assertEquals(A.getExtras().get(0),1);
+        assertEquals(A.getExtras().get(1),2);
+        assertEquals(A.getExtras().get(2),3);
         A=new AttackFactory().getinstanceof(2,8,8,8,8);
-        A.addextra(1);
-        A.addextra(2);
-        A.addextra(3);
-        assertEquals(A.getextras().get(0),1);
-        assertEquals(A.getextras().get(1),2);
-        assertEquals(A.getextras().get(2),3);
+        A.addExtra(1);
+        A.addExtra(2);
+        A.addExtra(3);
+        assertEquals(A.getExtras().get(0),1);
+        assertEquals(A.getExtras().get(1),2);
+        assertEquals(A.getExtras().get(2),3);
         A=new AttackFactory().getinstanceof(3,8,8,8,8);
-        A.addextra(1);
-        A.addextra(2);
-        A.addextra(3);
-        assertEquals(A.getextras().get(0),1);
-        assertEquals(A.getextras().get(1),2);
-        assertEquals(A.getextras().get(2),3);
+        A.addExtra(1);
+        A.addExtra(2);
+        A.addExtra(3);
+        assertEquals(A.getExtras().get(0),1);
+        assertEquals(A.getExtras().get(1),2);
+        assertEquals(A.getExtras().get(2),3);
         A=new AttackFactory().getinstanceof(4,8,8,8,8);
-        A.addextra(1);
-        A.addextra(2);
-        A.addextra(3);
-        assertEquals(A.getextras().get(0),1);
-        assertEquals(A.getextras().get(1),2);
-        assertEquals(A.getextras().get(2),3);
+        A.addExtra(1);
+        A.addExtra(2);
+        A.addExtra(3);
+        assertEquals(A.getExtras().get(0),1);
+        assertEquals(A.getExtras().get(1),2);
+        assertEquals(A.getExtras().get(2),3);
     }
 
     @Test
@@ -186,9 +186,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,1,1,1,1);
-        assertEquals(A.getTypeplayer(),1);
-        A.setTypeplayer(2);
-        assertEquals(A.getTypeplayer(),2);
+        assertEquals(A.getTypePlayer(),1);
+        A.setTypePlayer(2);
+        assertEquals(A.getTypePlayer(),2);
     }
 
     @Test
@@ -196,9 +196,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(2,1,1,1,1);
-        assertEquals(A.getTypeplayer(),1);
-        A.setTypeplayer(2);
-        assertEquals(A.getTypeplayer(),2);
+        assertEquals(A.getTypePlayer(),1);
+        A.setTypePlayer(2);
+        assertEquals(A.getTypePlayer(),2);
     }
 
     @Test
@@ -206,9 +206,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(3,1,1,1,1);
-        assertEquals(A.getTypeplayer(),1);
-        A.setTypeplayer(2);
-        assertEquals(A.getTypeplayer(),2);
+        assertEquals(A.getTypePlayer(),1);
+        A.setTypePlayer(2);
+        assertEquals(A.getTypePlayer(),2);
     }
 
     @Test
@@ -216,9 +216,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(4,1,1,1,1);
-        assertEquals(A.getTypeplayer(),1);
-        A.setTypeplayer(2);
-        assertEquals(A.getTypeplayer(),2);
+        assertEquals(A.getTypePlayer(),1);
+        A.setTypePlayer(2);
+        assertEquals(A.getTypePlayer(),2);
     }
 
     @Test
@@ -226,9 +226,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,1,1,1,1);
-        assertEquals(A.getMoveme(),1);
-        A.setMoveme(2);
-        assertEquals(A.getMoveme(),2);
+        assertEquals(A.getMoveMe(),1);
+        A.setMoveMe(2);
+        assertEquals(A.getMoveMe(),2);
     }
 
     @Test
@@ -236,9 +236,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(2,1,1,1,1);
-        assertEquals(A.getMoveme(),1);
-        A.setMoveme(2);
-        assertEquals(A.getMoveme(),2);
+        assertEquals(A.getMoveMe(),1);
+        A.setMoveMe(2);
+        assertEquals(A.getMoveMe(),2);
     }
 
     @Test
@@ -246,9 +246,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(3,1,1,1,1);
-        assertEquals(A.getMoveme(),1);
-        A.setMoveme(2);
-        assertEquals(A.getMoveme(),2);
+        assertEquals(A.getMoveMe(),1);
+        A.setMoveMe(2);
+        assertEquals(A.getMoveMe(),2);
     }
 
     @Test
@@ -256,9 +256,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(4,1,1,1,1);
-        assertEquals(A.getMoveme(),1);
-        A.setMoveme(2);
-        assertEquals(A.getMoveme(),2);
+        assertEquals(A.getMoveMe(),1);
+        A.setMoveMe(2);
+        assertEquals(A.getMoveMe(),2);
     }
 
     @Test
@@ -266,9 +266,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,1,1,1,1);
-        assertEquals(A.getMoveyou(),1);
-        A.setMoveyou(2);
-        assertEquals(A.getMoveyou(),2);
+        assertEquals(A.getMoveYou(),1);
+        A.setMoveYou(2);
+        assertEquals(A.getMoveYou(),2);
     }
 
     @Test
@@ -276,9 +276,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(2,1,1,1,1);
-        assertEquals(A.getMoveyou(),1);
-        A.setMoveyou(2);
-        assertEquals(A.getMoveyou(),2);
+        assertEquals(A.getMoveYou(),1);
+        A.setMoveYou(2);
+        assertEquals(A.getMoveYou(),2);
     }
 
     @Test
@@ -286,9 +286,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(3,1,1,1,1);
-        assertEquals(A.getMoveyou(),1);
-        A.setMoveyou(2);
-        assertEquals(A.getMoveyou(),2);
+        assertEquals(A.getMoveYou(),1);
+        A.setMoveYou(2);
+        assertEquals(A.getMoveYou(),2);
     }
 
     @Test
@@ -296,9 +296,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(4,1,1,1,1);
-        assertEquals(A.getMoveyou(),1);
-        A.setMoveyou(2);
-        assertEquals(A.getMoveyou(),2);
+        assertEquals(A.getMoveYou(),1);
+        A.setMoveYou(2);
+        assertEquals(A.getMoveYou(),2);
     }
 
     @Test
@@ -306,9 +306,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,1,1,1,1);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
-        A.addeffect(new EffectFactory().getinstanceof(2,2));
-        assertEquals(A.getnumbereffect(),2);
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(A.getNumberEffect(),2);
         assertEquals(A.getEffect(1).getId(),2);
     }
 
@@ -317,9 +317,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(2,1,1,1,1);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
-        A.addeffect(new EffectFactory().getinstanceof(2,2));
-        assertEquals(A.getnumbereffect(),2);
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(A.getNumberEffect(),2);
         assertEquals(A.getEffect(1).getId(),2);
     }
 
@@ -328,9 +328,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(3,1,1,1,1);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
-        A.addeffect(new EffectFactory().getinstanceof(2,2));
-        assertEquals(A.getnumbereffect(),2);
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(A.getNumberEffect(),2);
         assertEquals(A.getEffect(1).getId(),2);
     }
 
@@ -339,9 +339,9 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(4,1,1,1,1);
-        A.addeffect(new EffectFactory().getinstanceof(1,1));
-        A.addeffect(new EffectFactory().getinstanceof(2,2));
-        assertEquals(A.getnumbereffect(),2);
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(A.getNumberEffect(),2);
         assertEquals(A.getEffect(1).getId(),2);
     }
 
@@ -350,10 +350,10 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,1,1,1,1);
-        A.addextra(1);
-        A.addextra(2);
-        assertEquals(A.getnumberextra(),2);
-        assertEquals(A.getextras().get(1),2);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(A.getNumberExtra(),2);
+        assertEquals(A.getExtras().get(1),2);
     }
 
     @Test
@@ -361,10 +361,10 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(2,1,1,1,1);
-        A.addextra(1);
-        A.addextra(2);
-        assertEquals(A.getnumberextra(),2);
-        assertEquals(A.getextras().get(1),2);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(A.getNumberExtra(),2);
+        assertEquals(A.getExtras().get(1),2);
     }
 
     @Test
@@ -372,10 +372,10 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(3,1,1,1,1);
-        A.addextra(1);
-        A.addextra(2);
-        assertEquals(A.getnumberextra(),2);
-        assertEquals(A.getextras().get(1),2);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(A.getNumberExtra(),2);
+        assertEquals(A.getExtras().get(1),2);
     }
 
     @Test
@@ -383,10 +383,10 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(4,1,1,1,1);
-        A.addextra(1);
-        A.addextra(2);
-        assertEquals(A.getnumberextra(),2);
-        assertEquals(A.getextras().get(1),2);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(A.getNumberExtra(),2);
+        assertEquals(A.getExtras().get(1),2);
     }
 
 

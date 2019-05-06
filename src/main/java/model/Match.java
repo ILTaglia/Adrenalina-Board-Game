@@ -25,7 +25,7 @@ public class Match {
         powdeck =new PowDeck("Pow");
     }
 
-    public void setround(){
+    public void setRound(){
         if(players.get(players.size()-1).getAction()==2) this.round++;         //TODO: lasciamo il controllo al controller e mettiamo direttamente il ++?
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
@@ -33,9 +33,9 @@ public class Match {
 
 
 
-    public int getround(){return this.round;}
+    public int getRound(){return this.round;}
 
-    public void addplayer(Player player) throws MaxNumberPlayerException, InvalidColorException {
+    public void addPlayer(Player player) throws MaxNumberPlayerException, InvalidColorException {
         if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
         for (Player p : this.players) {
             if (p.getcolor()==player.getcolor()) {
@@ -46,7 +46,7 @@ public class Match {
     }
 
     //returns player by color
-    public Player getplayer(int color) throws InvalidColorException {
+    public Player getPlayer(int color) throws InvalidColorException {
         for (Player p : this.players) {
             if (p.getcolor()==color) {
                 return p;
@@ -56,7 +56,7 @@ public class Match {
     }
 
     //i is the index of the chosen map
-    public int createdashboard(int i){
+    public int createDashboard(int i){
         if(players.size()>=3) {
             this.dashboard=new Dashboard(i);
             this.checkdashboard =true;
@@ -65,14 +65,14 @@ public class Match {
         return 1;
     }
 
-    public boolean getcheck(){
+    public boolean getCheck(){
         return this.checkdashboard;
     }
 
     //returns player by index to check their ID
-    public Player getplayerbyindex(int index){ return this.players.get(index);}
+    public Player getPlayerByIndex(int index){ return this.players.get(index);}
 
-    public int getplayerssize(){ return this.players.size();}
+    public int getPlayersSize(){ return this.players.size();}
 
     public Dashboard getDashboard(){return this.dashboard;}
 
@@ -360,7 +360,10 @@ public class Match {
 
     public int getCellsMD(Coordinate cell1, Coordinate cell2){
         int distance=-1;
-        int x1, y1, x2, y2;
+        int x1;
+        int y1;
+        int x2;
+        int y2;
         x1 = cell1.getX();
         y1 = cell1.getY();
         x2 = cell2.getX();
@@ -424,12 +427,12 @@ public class Match {
 
     public ArrayList<Player> getSameCellsPlayers(Coordinate cell){
         ArrayList<Player> list = new ArrayList<>();
-        int Xcell = cell.getX();
-        int Ycell = cell.getY();
+        int xCell = cell.getX();
+        int yCell = cell.getY();
         for (Player p : this.players) {
-            int Xplayer = p.getCel().getX();
-            int Yplayer = p.getCel().getY();
-            if (Xcell == Xplayer && Ycell==Yplayer) { list.add(p); }
+            int xPlayer = p.getCel().getX();
+            int yPlayer = p.getCel().getY();
+            if (xCell == xPlayer && yCell==yPlayer) { list.add(p); }
         }
         return list;
     }

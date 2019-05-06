@@ -102,7 +102,7 @@ public class WeaponDeck extends Deck{
                     }
                     case 4:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addextra(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addExtra(Character.getNumericValue(nextc));
                         contextra++;
                         if(contextra==3)
                         {
@@ -113,7 +113,7 @@ public class WeaponDeck extends Deck{
                     }
                     case 5:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setTypeplayer(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setTypePlayer(Character.getNumericValue(nextc));
                         CS=6;
                         break;
                     }
@@ -125,13 +125,13 @@ public class WeaponDeck extends Deck{
                     }
                     case 7:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveme(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveMe(Character.getNumericValue(nextc));
                         CS=8;
                         break;
                     }
                     case 8:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveyou(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveYou(Character.getNumericValue(nextc));
                         CS=9;
                         break;
                     }
@@ -139,18 +139,18 @@ public class WeaponDeck extends Deck{
                     {
                         if(nextc=='p')
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addeffect(new EffectFactory().getinstanceof(1,0));
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(1,0));
                         }
                         else
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addeffect(new EffectFactory().getinstanceof(2,0));
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(2,0));
                         }
                         CS=10;
                         break;
                     }
                     case 10:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).setId(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).setId(Character.getNumericValue(nextc));
                         CS=11;
                         break;
                     }
@@ -158,18 +158,18 @@ public class WeaponDeck extends Deck{
                     {
                         if(nextc=='l')
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).adddamage(1,0);
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(1,0);
                         }
                         else
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).adddamage(2,0);
+                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(2,0);
                         }
                         CS=12;
                         break;
                     }
                     case 12:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getnumbereffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
                         CS=100;
                         break;
                     }

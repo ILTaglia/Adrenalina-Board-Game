@@ -26,17 +26,17 @@ public class MaxNumberPlayerExceptionTest {
         player5 = new Player("Karka", "grey", "18114320");
         player6 = new Player("Iron", "blue", "18752344");
         try {
-            match.addplayer(player1);
-            match.addplayer(player2);
-            match.addplayer(player3);
-            match.addplayer(player4);
-            match.addplayer(player5);
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+            match.addPlayer(player4);
+            match.addPlayer(player5);
         }
         catch (MaxNumberPlayerException e){}
     }
 
     @Test
     public void test(){
-        assertThrows(MaxNumberPlayerException.class, () -> match.addplayer(player6));
+        assertThrows(MaxNumberPlayerException.class, () -> match.addPlayer(player6));
     }
 }

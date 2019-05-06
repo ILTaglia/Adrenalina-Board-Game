@@ -3,7 +3,7 @@ package controller;
 import exceptions.InvalidDirectionException;
 
 public abstract class Action {
-    private String[] CardinalPoints = {"N", "E", "S" ,"W"};
+    private String[] cardinalPoints = {"N", "E", "S" ,"W"};
     /* Conventions are:
     * 0 = North
     * 1 = East
@@ -16,7 +16,7 @@ public abstract class Action {
     public Action(){
     }
 
-    public int getdirection(String direction) throws InvalidDirectionException{
+    public int getDirection(String direction) throws InvalidDirectionException{
         int d;
         if(direction.equals("N")) d=0;
         else if(direction.equals("E")) d=1;
@@ -26,5 +26,7 @@ public abstract class Action {
         return d;
     }
 
-    public void isValid(){}
+    public void isValid(){
+        //TODO
+    }
 }

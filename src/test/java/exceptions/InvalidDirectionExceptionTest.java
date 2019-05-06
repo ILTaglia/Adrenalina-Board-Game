@@ -17,9 +17,9 @@ public class InvalidDirectionExceptionTest {
     @Before
     public void SetUp(){
         match = new Match();
-        match.createdashboard(1);
+        match.createDashboard(1);
         try{
-            match.addplayer(player);
+            match.addPlayer(player);
         }
         catch (MaxNumberPlayerException e){}
         r = new Run();
@@ -28,7 +28,7 @@ public class InvalidDirectionExceptionTest {
     }
     @Test
     public void test(){
-        assertThrows(InvalidDirectionException.class, () -> r.getdirection("H"));
+        assertThrows(InvalidDirectionException.class, () -> r.getDirection("H"));
         assertThrows(InvalidDirectionException.class, () -> r.movement(match, player,"N"));
     }
 

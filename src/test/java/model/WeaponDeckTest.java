@@ -38,17 +38,17 @@ public class WeaponDeckTest {
     @Test
     public void testfirstcardfirstattackextras()
     {
-        assertEquals(weapon.getAttack(0).getextras().get(0),4);
-        assertEquals(weapon.getAttack(0).getextras().get(1),5);
-        assertEquals(weapon.getAttack(0).getextras().get(2),6);
+        assertEquals(weapon.getAttack(0).getExtras().get(0),4);
+        assertEquals(weapon.getAttack(0).getExtras().get(1),5);
+        assertEquals(weapon.getAttack(0).getExtras().get(2),6);
     }
 
     @Test
     public void testfirstcardfirstattackTDMM() {
-        assertEquals(weapon.getAttack(0).getTypeplayer(), 1);
+        assertEquals(weapon.getAttack(0).getTypePlayer(), 1);
         assertEquals(weapon.getAttack(0).getDistance(), 2);
-        assertEquals(weapon.getAttack(0).getMoveme(), 3);
-        assertEquals(weapon.getAttack(0).getMoveyou(), 4);
+        assertEquals(weapon.getAttack(0).getMoveMe(), 3);
+        assertEquals(weapon.getAttack(0).getMoveYou(), 4);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class WeaponDeckTest {
         weapon = (Weapon) W.drawCard();
         assertEquals(weapon.getCost(1),1);
         assertEquals(weapon.getName(),"Distruttore");
-        assertEquals(weapon.getAttack(1).getextras().get(0),1);
+        assertEquals(weapon.getAttack(1).getExtras().get(0),1);
         assertEquals(weapon.getAttack(1).getEffect(0).getId(),2);
         assertEquals(weapon.getAttack(1).getEffect(0).getDamage(0).getdamage(),1);
         assertEquals(weapon.getAttack(0).getEffect(0).getDamage(1).getdamage(),1);

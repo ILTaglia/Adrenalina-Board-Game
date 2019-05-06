@@ -17,7 +17,7 @@ public class DeathAndRespawn {
     public void calculatescore(Match m, Player playerkilled, Player playerkiller, int n) throws NotExistingDashboardException {
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
-        if(m.getcheck()) m.getDashboard().setKillshottrack(playerkiller, n);
+        if(m.getCheck()) m.getDashboard().setKillshottrack(playerkiller, n);
         else throw new NotExistingDashboardException();
         //adds signals to killshot track
 
@@ -27,16 +27,16 @@ public class DeathAndRespawn {
         int playercolor;
 
         int firstblood=playerkilled.getFirstblood();
-        m.getplayer(firstblood).setScore(1);
+        m.getPlayer(firstblood).setScore(1);
 
         int flag=0;
 
         for(int k=0; k<5; k++){
             playercolor = playerkilled.getmaxdamages();
-            if(death>=5) m.getplayer(playercolor).setScore(1);
+            if(death>=5) m.getPlayer(playercolor).setScore(1);
             /*addition of the maximum number of points to the player that made
              * more damages. Use the number of death as a parameter.*/
-            m.getplayer(playercolor).setScore(points[death]);
+            m.getPlayer(playercolor).setScore(points[death]);
             death++;
             playerkilled.setdamage(0, playercolor);
             flag=1;
@@ -64,7 +64,7 @@ public class DeathAndRespawn {
         boolean s = false;
         while(!s){
             color = d.getmaxkillshot();
-            m.getplayer(color).setScore(points[in]);
+            m.getPlayer(color).setScore(points[in]);
             in++;
             s=d.stop();
         }

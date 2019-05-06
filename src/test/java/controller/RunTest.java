@@ -29,16 +29,16 @@ public class RunTest {
         player3 = new Player("Hermione", "green", "18263100");
         player4 = new Player("Aries", "yellow", "18992302");
         try {
-            match.addplayer(player1);
-            match.addplayer(player2);
-            match.addplayer(player3);
-            match.addplayer(player4);
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+            match.addPlayer(player4);
         }
         catch (MaxNumberPlayerException e){
             System.out.println("Too many players in the game.");
         }
 
-        match.createdashboard(3);
+        match.createDashboard(3);
 
         player1.setCel(0, 2);
         player2.setCel(0, 1);

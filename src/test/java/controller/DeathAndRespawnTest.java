@@ -27,14 +27,14 @@ public class DeathAndRespawnTest {
         player5 = new Player("Karka", "grey", "18114320");
         match = new Match();
         try {
-            match.addplayer(player1);
-            match.addplayer(player2);
-            match.addplayer(player3);
-            match.addplayer(player4);
-            match.addplayer(player5);
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+            match.addPlayer(player4);
+            match.addPlayer(player5);
         }
         catch (MaxNumberPlayerException e){}
-        match.createdashboard(1);
+        match.createDashboard(1);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class DeathAndRespawnTest {
         assertEquals(2, player1.getnumberdamage(1)); //from player3
         assertEquals(2, player1.getnumberdamage(2)); //from player4
         DeathAndRespawn c = new DeathAndRespawn();
-        assertTrue(match.getcheck());
+        assertTrue(match.getCheck());
         try{
             c.calculatescore(match, player1, player3, 2);
         } catch (NotExistingDashboardException e){}
