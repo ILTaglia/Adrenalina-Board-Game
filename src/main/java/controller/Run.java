@@ -36,7 +36,7 @@ public class Run extends Action {
     }
 
     //method for atomic movements
-    public void movement(Match m, Player player, String direction) throws InvalidDirectionException {
+    private void movement(Match m, Player player, String direction) throws InvalidDirectionException {
         int d = this.getDirection(direction);
         int x;
         int y;
