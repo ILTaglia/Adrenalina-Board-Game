@@ -2,12 +2,20 @@ package controller;
 
 import exceptions.InvalidDirectionException;
 import model.*;
-
 import java.util.ArrayList;
 
+
 public class Attacks {
+
+    ArrayList<Player> associationplayer = new ArrayList<Player>(); //Tiene traccia degli ID assegnati ai vari player
+
+    ArrayList<Coordinate> associationcell = new ArrayList<Coordinate>(); //Tiene traccia degli ID assegnati alle varie celle
+
+    ArrayList<Player> seconds = new ArrayList<Player>(); //rende a tutti i metodi le info aggiornate su chi attaccare, in modo da toglierli
+
     public int useattack(Match m, Player first, ArrayList<Player>second, Weapon w, int type, ArrayList<String> direction, ArrayList<Coordinate> coordinates)
     {
+
         if(m.getPlayer(first.getcolor()).equals(first) && first.weaponIspresent(w) && !w.getStatus()) //Se il player esiste e possiede l'arma indicata
         {
             int moveme; //Mi serve per tener traccia dei movimenti restanti
@@ -118,9 +126,85 @@ public class Attacks {
         return true;
     }
 
-    private void attackundefined(Match m, Player p, Player viewer, ArrayList<Player> second, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou)
+    private void attackundefined(TypeAttack t, Match m, Player p, Player viewer, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou) //Esegue un attaco undefined distance
     {
+        ArrayList<Player> visible= new ArrayList<Player>(); //Arraylist of Players I can see
+        visible=m.getVisiblePlayers(viewer);
 
+        ArrayList<Coordinate> viscel = new ArrayList<Coordinate>(); //Arraylist of cells I can see
+        viscel=m.getVisibleCells(viewer.getCel());
+        if(t.getDistance()==0) //Caso in cui ho un classico undefined attack
+        {
+            for(int i=0;i<t.getNumberEffect();i++) //Per ogni effetto contenuto
+            {
+                Effect e = t.getEffect(i);
+                if(e instanceof model.PlayerEffect) //Caso in cui ho un attacco rivolto a un player
+                {
+                    if(visible.contains(seconds.get(0))) //Caso in cui vedo chi voglio colpire
+                    {
+                        Player second= seconds.get(0);
+                        seconds.remove(second); //cancello il player dalla lista dei giocatori da colpire
+                        //CONTROLLO COMBACINO ID E ATTACCO
+                        if(checkIDplayer(e,second))
+                        {
+                            for(int j=0;j<e.getnumberdamage();j++) //Assegno tutti i damage
+                            {
+                                assigndamages(m,p,second,e.getDamage(j));
+                            }
+                        }
+                        else //Caso in cui non combaciano
+                        {
+                            //TODO GESTIRE CASO
+                        }
+                    }
+                    else
+                    {
+                        //TODO, ERRORE GIOCATORE NON ATTACCABILE
+                    }
+                }
+                else // caso in cui ho un attacco rivolto a una cella
+                {
+                    //TODO CASO ATTACCO CELLA
+                }
+            }
+        }
+        else //Caso in cui attacco chi non vedo
+        {
+            //TODO CASO ATTACCO CHI NON VEDO
+        }
+    }
+
+    private boolean checkIDplayer(Effect e, Player second)
+    {
+        if(e.getId()>associationplayer.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
+        {
+            if(!associationplayer.contains(second))
+            {
+                associationplayer.add(second);
+            }
+            else
+            {
+                return false; //Caso in cui gli ID non combaciano perchè già inserito con ID diverso
+            }
+        }
+        if(e.getId()!=associationplayer.size()-1) //Controllo che gli ID combacino
+        {
+            return false; //Non combaciano gli ID
+        }
+        return true;
+    }
+
+
+    private void assigndamages(Match m, Player first, Player second, Damage damage)
+    {
+        if(damage instanceof model.Life) //Caso in cui ho un danno di tipo vita
+        {
+            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+        }
+        else //Caso in cui ho un danno di tipo marks
+        {
+            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+        }
     }
 
 }
