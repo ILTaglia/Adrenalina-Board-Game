@@ -3,6 +3,8 @@ package controller;
 import model.Dashboard;
 import model.Player;
 import model.Match;
+import model.Cell;
+
 import exceptions.InvalidDirectionException;
 import java.util.ArrayList;
 import java.util.List;
