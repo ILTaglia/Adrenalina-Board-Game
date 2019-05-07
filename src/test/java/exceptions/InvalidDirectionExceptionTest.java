@@ -29,7 +29,6 @@ public class InvalidDirectionExceptionTest {
     @Test
     public void test(){
         assertThrows(InvalidDirectionException.class, () -> r.getDirection("H"));
-        assertThrows(InvalidDirectionException.class, () -> r.movement(match, player,"N"));
     }
 
 

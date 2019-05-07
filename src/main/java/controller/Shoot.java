@@ -5,24 +5,20 @@ import model.Weapon;
 import model.Match;
 import exceptions.InvalidDirectionException;
 
+import java.util.ArrayList;
+
 public class Shoot extends Action {
-    public Shoot(Match m, Player player, Weapon weapon, int n, String d1, String d2) {
+    public Shoot(Match m, Player player, Weapon weapon, ArrayList<String> destination) {
         //n is the number of passes a player wants to do before shooting
         //TODO Player player, Weapon weapon can be parameters?
         //you can shoot even by moving up to 1 squares before doing the action if you have at least 6 damages
 
-        if(player.gettotaldamage()>5 && n<=1){
+        if(isValid(player, destination)){
             Run r = new Run();
-            if(!d1.equals("Zero")){
-                try {
-                    r.movement(m, player, d1);
-                } catch (InvalidDirectionException e) {}
-            }
-            if(!d2.equals("Zero")){
-                try {
-                    r.movement(m, player, d2);
-                } catch (InvalidDirectionException e) {}
-            }
+            try{
+                r.getMovement(m, player, destination);
+            } catch(InvalidDirectionException e){}
+
         }
         player.setAction();
         /*Si dovrà raccogliere un'arma o un potenziamento a seconda della cella in cui ci si trova*/
@@ -33,5 +29,9 @@ public class Shoot extends Action {
         * calling the effect of the weapon, setting the fla that the weapon is used
         * recharge weapon if the player wants
         * in the part of calling the effect I mean that we must set damages and marks of other players*/
+    }
+    public boolean isValid(Player player, ArrayList<String> destination) {
+        if (player.gettotaldamage()>5 && destination.size()<=1) return true;
+        else return false;
     }
 }
