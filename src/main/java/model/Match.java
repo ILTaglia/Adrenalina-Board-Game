@@ -111,6 +111,10 @@ public class Match {
             throw new MaxNumberofCardsException();
         }
     }
+    public void discardPowCard(PowCard powCard){
+        powdeck.discardCard(powCard);
+    }
+
 
     //returns all the players seen by the given player
     public ArrayList<Player> getVisiblePlayers(Player player){
@@ -492,6 +496,8 @@ public class Match {
         }
         return list;
     }
+
+
 
 
 }

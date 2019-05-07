@@ -643,5 +643,4 @@ public class AttackGeneral {
         }
         return viewer;
     }
-
 }
