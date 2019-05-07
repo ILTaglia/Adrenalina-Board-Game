@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -51,7 +52,8 @@ public class RunTest {
         //movements test for player1
         assertEquals(0, player1.getCel().getX());
         assertEquals(2, player1.getCel().getY());
-        ArrayList<String> destination = new ArrayList<>();
+        //ArrayList<String> destination = new ArrayList<>();
+        List<String> destination = new ArrayList<>();
         destination.add("N");
 
         try{

@@ -26,7 +26,7 @@ public class Run extends Action {
 
 
     //method for complete movement, to be decomposed in atomic movements
-    public void getMovement(Match m, Player player, ArrayList<String> destination) throws InvalidDirectionException {
+    public void getMovement(Match m, Player player, List<String> destination) throws InvalidDirectionException {
         if(destination.size() > 3) throw new InvalidDirectionException();
         if(isValid(m, player, player.getCel().getX(), player.getCel().getY(), destination)){
             for(String s : destination){
@@ -42,7 +42,6 @@ public class Run extends Action {
         int y;
         x = player.getCel().getX();
         y = player.getCel().getY();
-        Dashboard map = m.getDashboard();
 
         //player wants to go to the north
         if (d == 0) {

@@ -1,14 +1,13 @@
 package controller;
 
 import model.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import exceptions.InvalidDirectionException;
 
 
 public abstract class Grab extends Action {
-        public void movementBeforeGrab(Match m, Player player, ArrayList<String> destination){
+        public void movementBeforeGrab(Match m, Player player, List<String> destination){
             //n is the number of passes the player wants to do before grabbing
             //you can grab even by moving up to 2 squares before doing the action if you have at least 3 damages
             //TODO IMPORTANTE: controllare validità azioni !
@@ -21,7 +20,7 @@ public abstract class Grab extends Action {
             }
         }
 
-    public boolean isValid(Player player, ArrayList<String> destination) {
+    public boolean isValid(Player player, List<String> destination) {
         if (player.gettotaldamage()>3 && destination.size()<2) return true;
         else return false;
     }
