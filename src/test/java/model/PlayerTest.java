@@ -26,6 +26,17 @@ class PlayerTest {
         assertEquals(0, player1.getcolor());
         assertEquals(3, player2.getcolor());
         assertEquals("10583741", player1.getid());
+        assertEquals(0, player1.getAction());
+        assertFalse(player1.getActive());
+        player1.setActive();
+        player1.setAction();
+        assertEquals(1, player1.getAction());
+        player1.setActive();
+        assertTrue(player1.getActive());
+        player1.setAction();
+        assertEquals(2, player1.getAction());
+        player1.setActive();
+        assertFalse(player1.getActive());
     }
 
     @Test
