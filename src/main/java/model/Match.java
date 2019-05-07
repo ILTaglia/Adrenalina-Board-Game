@@ -9,6 +9,7 @@ import java.util.*;
 
 public class Match {
     private int round;
+    private int id;
     private ArrayList<Player> players;
     private Dashboard dashboard;
     private AmmoDeck ammodeck;
@@ -18,6 +19,8 @@ public class Match {
 
     //i è parametro per la dashboard
     public Match(){
+        Random rand = new Random();
+        this.id = rand.nextInt(100);
         this.round=1;
         this.players=new ArrayList<>();
         ammodeck =new AmmoDeck();
@@ -32,7 +35,7 @@ public class Match {
         //has done its second action, finished its turn
     }
 
-
+    public int getId(){return this.id;}
 
     public int getRound(){return this.round;}
 

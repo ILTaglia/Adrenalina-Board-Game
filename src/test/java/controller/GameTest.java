@@ -8,17 +8,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.Assert.*;
 
 import java.util.Random;
 
 public class GameTest {
     Game game = new Game();
     Match match = new Match();
-    Player p1;
-    Player p2;
-    Player p3;
-    Player p4;
-    Player p5;
+    Player player1;
+    Player player2;
+    Player player3;
+    Player player4;
+    Player player5;
     Random r;
 
     @Before
@@ -29,51 +30,78 @@ public class GameTest {
     @Test
     public void random_id() {
         String s = game.randomId(r);
-        p1 = new Player("Sirius", "blue", s);
+        player1 = new Player("Sirius", "blue", s);
         try {
-            match.addPlayer(p1);
+            match.addPlayer(player1);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
         System.out.println(s);
 
         s = game.randomId(r);
-        p2 = new Player("Calypso", "pink", s);
+        player2 = new Player("Calypso", "pink", s);
         try {
-            match.addPlayer(p2);
+            match.addPlayer(player2);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
         System.out.println(s);
 
         s = game.randomId(r);
-        p3 = new Player("Hermione", "green", s);
+        player3 = new Player("Hermione", "green", s);
         try {
-            match.addPlayer(p3);
+            match.addPlayer(player3);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
         System.out.println(s);
 
         s = game.randomId(r);
-        p4 = new Player("Aries", "green", s);
-        assertThrows(InvalidColorException.class, () -> match.addPlayer(p4));
-        p4 = new Player("Aries", "yellow", s);
+        player4 = new Player("Aries", "green", s);
+        assertThrows(InvalidColorException.class, () -> match.addPlayer(player4));
+        player4 = new Player("Aries", "yellow", s);
         try {
-            match.addPlayer(p4);
+            match.addPlayer(player4);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
         System.out.println(s);
 
         s = game.randomId(r);
-        p5 = new Player("Karka", "grey", s);
+        player5 = new Player("Karka", "grey", s);
         try {
-            match.addPlayer(p5);
+            match.addPlayer(player5);
         }
         catch (MaxNumberPlayerException e){}
         catch (InvalidColorException e) {}
         System.out.println(s);
+    }
+
+    @Test
+    public void startingGame(){
+        String s = game.randomId(r);
+        player1 = new Player("Sirius", "blue", s);
+        s = game.randomId(r);
+        player2 = new Player("Calypso", "pink", s);
+        s = game.randomId(r);
+        player3 = new Player("Hermione", "green", s);
+        try {
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+        }
+        catch (MaxNumberPlayerException e){}
+        catch (InvalidColorException e) {}
+
+        assertEquals(0, player1.getAction());
+        assertFalse(player1.getActive());
+        assertFalse(player2.getActive());
+        assertFalse(player3.getActive());
+        game.startGame(match.getId());
+        assertEquals(0, player1.getAction());
+        assertTrue(player1.getActive());
+        assertFalse(player2.getActive());
+        assertFalse(player3.getActive());
     }
 
 }

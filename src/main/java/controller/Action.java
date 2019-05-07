@@ -1,5 +1,7 @@
 package controller;
 
+import model.Match;
+
 import exceptions.InvalidDirectionException;
 
 public abstract class Action {
@@ -26,7 +28,25 @@ public abstract class Action {
         return d;
     }
 
-    public void isValid(){
-        //TODO
+    public boolean isValid(Match match){
+        int index=-1;
+        for(int i=0; i<match.getPlayersSize(); i++){
+            if(match.getPlayerByIndex(i).getActive()){
+                index=i;
+                for(int j=1; j<match.getPlayersSize(); j++) {
+                    if (match.getPlayerByIndex(i).getActive() == match.getPlayerByIndex(j).getActive()) {
+                        return false;
+                    }
+                }
+                int action1 = match.getPlayerByIndex(i).getAction();
+                if(action1>2 || action1<0) return false;
+            }
+        }
+        for(int i=0; i<match.getPlayersSize(); i++){
+            if(match.getPlayerByIndex(i)!=match.getPlayerByIndex(index)){
+                if(match.getPlayerByIndex(i).getAction()!=0) return false;
+            }
+        }
+       return true;
     }
 }

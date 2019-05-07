@@ -60,7 +60,36 @@ public class Game{
         if(!this.matches.contains(m)) this.matches.add(m);
     }
 
+    public Match getMatch (int matchID) throws IllegalArgumentException{
+        for(Match m : this.matches){
+            if(m.getId()== matchID) return m;
+        }
+        throw new IllegalArgumentException();
+    }
+
     public Random getRand(){return this.rand;}
+
+    public void startGame(int matchID){
+        Match match;
+        try{
+            match = this.getMatch(matchID);
+        } catch(IllegalArgumentException e) { return;}
+        match.getPlayerByIndex(0).setActive();
+        for(int i=1; i<match.getPlayersSize(); i++){
+            match.getPlayerByIndex(i).resetActive();
+        }
+    }
+
+    //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
+    public void setTurn(Match match){
+        for(int i=0; i<match.getPlayersSize(); i++){
+            if(match.getPlayerByIndex(i).getActive()){
+                match.getPlayerByIndex(i).setActive();
+                i++;
+                match.getPlayerByIndex(i).setActive();
+            }
+        }
+    }
 
     public static void main(String[] args){
         Game g = new Game();

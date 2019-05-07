@@ -37,6 +37,12 @@ class PlayerTest {
         assertEquals(2, player1.getAction());
         player1.setActive();
         assertFalse(player1.getActive());
+        player1.resetAction();
+        assertEquals(0, player1.getAction());
+        player1.setActive();
+        assertTrue(player1.getActive());
+        player1.resetActive();
+        assertFalse(player1.getActive());
     }
 
     @Test

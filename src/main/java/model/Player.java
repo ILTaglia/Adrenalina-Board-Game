@@ -79,6 +79,8 @@ public class Player {
 
     public boolean getActive(){return this.active;}
 
+    public void resetActive(){this.active = false;}
+
     public void setActive(){
         //the player hasn't played its turn yet
         if(this.action==0) this.active = true;
