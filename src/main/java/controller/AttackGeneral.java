@@ -1,10 +1,12 @@
 package controller;
+import exceptions.InvalidDirectionException;
 import model.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AttackGeneral {
-    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction, Coordinate cell)
+    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction, Coordinate cell, ArrayList<String> movemebefore, ArrayList<String> movethembefore, ArrayList<String> movemeafter, ArrayList<String> movethemafter)
     {
         Player viewer=first; //used to change viewer in case of torpedine
         ArrayList<Player>A=new ArrayList<Player>();
@@ -20,7 +22,20 @@ public class AttackGeneral {
                 if(attack.getMoveMe()>5)
                 {
                     moveme=attack.getMoveMe()-5;
-                    //TODO permettere movimento a first prima del turno
+                    Run r = new Run();// permettere movimento a first prima del turno
+                    int contciclo=0;
+                    for(String s : movemebefore) //Rimuovo tutti gli spostamenti oltre il limite massimo
+                    {
+                        if(contciclo>moveme)
+                        {
+                            movemebefore.remove(s);
+                        }
+                        contciclo++;
+                    }
+                    try{
+                        r.getMovement(m,first,movemebefore);
+                    } catch (InvalidDirectionException e){}
+
                 }
                 else
                 {
@@ -29,7 +44,19 @@ public class AttackGeneral {
                 if(attack.getMoveYou()>5)
                 {
                     moveyou=attack.getMoveYou()-5;
-                    //TODO permette movimento a second prima del turno
+                    Run r = new Run();// permettere movimento a second prima del turno
+                    int contciclo=0;
+                    for(String s : movethembefore) //Rimuovo tutti gli spostamenti oltre il limite massimo
+                    {
+                        if(contciclo>moveyou)
+                        {
+                            movethembefore.remove(s);
+                        }
+                        contciclo++;
+                    }
+                    try{
+                        r.getMovement(m,second,movethembefore);
+                    } catch (InvalidDirectionException e){}
                 }
                 else
                 {
@@ -352,7 +379,36 @@ public class AttackGeneral {
                                         }
                                         else //For all the people I shoot but I also move on that direction
                                         {
-                                            //TODO PERMETTO DI SPOSTARSI NELLA DIREZIONE INDICATA
+                                            //PERMETTO DI SPOSTARSI NELLA DIREZIONE INDICATA
+                                            ArrayList<String> move= new ArrayList<String>();
+                                            if(direction==0)
+                                            {
+                                                move.add("N");
+                                            }
+                                            else
+                                                if(direction==1)
+                                                {
+                                                    move.add("E");
+                                                }
+                                                else
+                                                    if(direction==2)
+                                                    {
+                                                        move.add("S");
+                                                    }
+                                                    else
+                                                    {
+                                                        move.add("W");
+                                                    }
+                                            Run r = new Run();
+                                            try
+                                            {
+                                                r.getMovement(m,first,move);
+                                            }
+                                            catch(InvalidDirectionException e)
+                                            {
+                                            }
+
+
                                             ArrayList<Player> temporal =new ArrayList<Player>();
                                             temporal=m.getVisiblePlayers(viewer);
                                             for(Player p : temporal)
@@ -423,7 +479,35 @@ public class AttackGeneral {
                                         }
                                         else //case i shoot while moving
                                         {
-                                            //TODO PERMETTO SPOSTAMENTO NELLA DIREZIONE INDICATA
+                                            // PERMETTO SPOSTAMENTO NELLA DIREZIONE INDICATA
+                                            ArrayList<String> move= new ArrayList<String>();
+                                            if(direction==0)
+                                            {
+                                                move.add("N");
+                                            }
+                                            else
+                                            if(direction==1)
+                                            {
+                                                move.add("E");
+                                            }
+                                            else
+                                            if(direction==2)
+                                            {
+                                                move.add("S");
+                                            }
+                                            else
+                                            {
+                                                move.add("W");
+                                            }
+                                            Run r = new Run();
+                                            try
+                                            {
+                                                r.getMovement(m,first,move);
+                                            }
+                                            catch(InvalidDirectionException e)
+                                            {
+                                            }
+                                            ArrayList<Player> temporal =new ArrayList<Player>();
                                             ArrayList<Player> inmycell=new ArrayList<Player>();
                                             inmycell=m.getSameCellsPlayers(viewer.getCel());
                                             for(Player p: inmycell)
@@ -440,12 +524,38 @@ public class AttackGeneral {
                 //In caso di moveme o moveyou permetto di assegnarli
                 if(moveme!=0)
                 {
-                    //TODO assegno movimento a first
+                    // assegno movimento a first
+                    Run r = new Run();// permettere movimento a first prima del turno
+                    int contciclo=0;
+                    for(String s : movemeafter) //Rimuovo tutti gli spostamenti oltre il limite massimo
+                    {
+                        if(contciclo>moveme)
+                        {
+                            movemeafter.remove(s);
+                        }
+                        contciclo++;
+                    }
+                    try{
+                        r.getMovement(m,first,movemeafter);
+                    } catch (InvalidDirectionException e){}
                     moveme=0;
                 }
                 if(moveyou!=0)
                 {
                     //TODO assegno movimento a second
+                    Run r = new Run();// permettere movimento a second prima del turno
+                    int contciclo=0;
+                    for(String s : movethemafter) //Rimuovo tutti gli spostamenti oltre il limite massimo
+                    {
+                        if(contciclo>moveyou)
+                        {
+                            movethemafter.remove(s);
+                        }
+                        contciclo++;
+                    }
+                    try{
+                        r.getMovement(m,second,movethemafter);
+                    } catch (InvalidDirectionException e){}
                     moveyou=0;
                 }
             }
@@ -515,6 +625,7 @@ public class AttackGeneral {
         else
         {
             //TODO IMPOSSIBILE ATTACCARE GIOCATORE
+
         }
         return viewer;
     }
