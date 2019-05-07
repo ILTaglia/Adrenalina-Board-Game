@@ -12,7 +12,7 @@ public abstract class Grab extends Action {
             //you can grab even by moving up to 2 squares before doing the action if you have at least 3 damages
             //TODO IMPORTANTE: controllare validità azioni !
             //TODO I need to check the number of damages of the player to allow moving before grabbing
-            if(isValid(player, destination)) {
+            if(this.isValidMovement(m, player, destination)) {
                 Run r = new Run();
                 try{
                 r.getMovement(m, player, destination);
@@ -20,9 +20,15 @@ public abstract class Grab extends Action {
             }
         }
 
-    public boolean isValid(Player player, List<String> destination) {
-        if (player.gettotaldamage()>3 && destination.size()<2) return true;
-        else return false;
+    public boolean isValidMovement(Match match, Player player, List<String> destination) {
+        if (!(player.gettotaldamage()>3 && destination.size()<2)) return false;
+        else {
+            Run r = new Run();
+            int x = player.getCel().getX();
+            int y = player.getCel().getY();
+            if(r.isValid(match, player, x, y, destination)) return true;
+            else return false;
+        }
     }
 
         /*Bisognerà fare la collect card, lanciando eccezione se il player ha già troppe armi o potenziamenti e quindi facendo richiesta
