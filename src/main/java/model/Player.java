@@ -25,7 +25,7 @@ public class Player {
     public Player(String name, String color, String id){
         this.name=name;
         this.id=id;
-        this.active=true; //if the player is just born, it is active
+        //this.active=true; //if the player is just born, it is active
         //active will return 0 when two actions are made
         this.round=1; //first turn identified with 1
         this.damages=new ArrayList<>();
