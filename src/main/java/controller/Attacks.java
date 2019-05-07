@@ -154,7 +154,7 @@ public class Attacks {
                         }
                         else //Caso in cui non combaciano
                         {
-                            //TODO GESTIRE CASO
+                            //TODO GESTIRE CASO DI ERRORE
                         }
                     }
                     else
@@ -174,7 +174,7 @@ public class Attacks {
         }
     }
 
-    private boolean checkIDplayer(Effect e, Player second)
+    private boolean checkIDplayer(Effect e, Player second) //Controllo che gli ID combacino
     {
         if(e.getId()>associationplayer.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
         {
@@ -195,7 +195,7 @@ public class Attacks {
     }
 
 
-    private void assigndamages(Match m, Player first, Player second, Damage damage)
+    private void assigndamages(Match m, Player first, Player second, Damage damage) //Assegno i danni ad un player
     {
         if(damage instanceof model.Life) //Caso in cui ho un danno di tipo vita
         {
@@ -206,5 +206,18 @@ public class Attacks {
             m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
         }
     }
+
+    private void assigncelldamages(Match m, Coordinate c, Player first, Damage damage) //assegna i danni a tutti i player di una cella
+    {
+        ArrayList<Player> toattack = m.getSameCellsPlayers(c);
+        for(Player p : toattack)
+        {
+            if(!p.equals(first)) //Controllo di non assegnare danni allo stesso giocatore attaccante
+            {
+                assigndamages(m,first,p,damage);
+            }
+        }
+    }
+
 
 }
