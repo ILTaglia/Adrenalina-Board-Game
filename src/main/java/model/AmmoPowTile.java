@@ -9,7 +9,7 @@ public class AmmoPowTile extends AmmoCard {
         refillAmmo =new ArrayList<>();
         refillAmmo.add(new Ammo(color1));
         refillAmmo.add(new Ammo(color2));
-        type=0;
+        type=1;
         used =false;
     }
 

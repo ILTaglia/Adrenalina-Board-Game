@@ -224,6 +224,8 @@ public class Player {
         pow.remove(i);
     }
 
+    public int getnumberpow(){return this.pow.size();}
+
     public Coordinate getCel(){return this.cel;}
 
     public void setCel(int x, int y){cel.set(x, y);}

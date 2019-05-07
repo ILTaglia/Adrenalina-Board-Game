@@ -15,8 +15,8 @@ public class NormalCell extends Cell {
     }
 
     public void Add_Ammo_Card(AmmoCard ammo_card) throws FullCellException{
-        if(ammo_card!=null) throw new FullCellException();
-        this.Ammo_NormalCell =ammo_card;
+        if(this.Ammo_NormalCell!=null) throw new FullCellException();
+        this.Ammo_NormalCell = ammo_card;
     }
     //Exception must be handled by controller
     public void Collect_Card(Player player) throws CardAlreadyCollectedException{

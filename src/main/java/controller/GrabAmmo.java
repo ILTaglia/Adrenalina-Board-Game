@@ -6,6 +6,8 @@ import model.Player;
 import exceptions.CardAlreadyCollectedException;
 import exceptions.MaxNumberofCardsException;
 
+import java.util.List;
+
 public class GrabAmmo extends Grab{
     public GrabAmmo(){
         //Empty Constructor, controller has to use the method grabAmmo
@@ -29,9 +31,8 @@ public class GrabAmmo extends Grab{
         match.addAmmoCard(cell);
     }
 
-    public boolean isValid(Player player){
-
-        return true;
+    public boolean isValid(Match match, Player player, List<String> destination){
+        if(!this.isValidMovement(match, player, destination) && !destination.isEmpty()) return false;
+        else return true;
     }
-
 }
