@@ -203,6 +203,8 @@ public class Player {
         gun.remove(i);
     }
 
+    public int getnumberweapon(){return this.gun.size();}
+
     public boolean powIspresent(PowCard p){
         for(int i=0; i<pow.size(); i++){
             if(pow.get(i).equals(p)) return true;

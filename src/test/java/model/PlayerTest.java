@@ -217,65 +217,31 @@ class PlayerTest {
 
 
     @Test
-    void addWeapon() {
-        ArrayList<Integer> cost = new ArrayList<>();
-        cost.add(1);
-        cost.add(2);
-        cost.add(0);
-        Weapon weapon1 = new Weapon("Spada Laser", cost);
-        try {
-            player1.addWeapon(weapon1);
-        }
-        catch (MaxNumberofCardsException e){
-            System.out.println("You have too many Weapon Cards, please remove one.");
-        }
-        Weapon weapon2 = new Weapon("Vortex", cost);
-        Weapon weapon3 = new Weapon("Distruttore", cost);
-        Weapon weapon4 = new Weapon("Fucile di precisione", cost);
+    void testingWeapon() {
+        WeaponDeck weaponDeck = new WeaponDeck();
+        weaponDeck.setWeapons("Armi");
+        weaponDeck.drawCard();
+        Weapon weapon1 = (Weapon)weaponDeck.drawCard();
+        Weapon weapon2 = (Weapon)weaponDeck.drawCard();
+        Weapon weapon3 = (Weapon)weaponDeck.drawCard();
+        Weapon weapon4 = (Weapon)weaponDeck.drawCard();
+        assertThrows(ZeroCardsOwnedException.class, () -> player1.removeWeapon(weapon1));
+        try { player1.addWeapon(weapon1); }
+        catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please remove one."); }
+        assertTrue(player1.weaponIspresent(weapon1));
+        assertThrows(NotOwnedCardException.class, () -> player1.removeWeapon(weapon2));
         try {
             player1.addWeapon(weapon2);
-        }
-        catch (MaxNumberofCardsException e){
-            System.out.println("You have too many Weapon Cards, please remove one.");
-        }
-        try {
             player1.addWeapon(weapon3);
         }
-        catch (MaxNumberofCardsException e){
-            System.out.println("You have too many Weapon Cards, please remove one.");
-        }
+        catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please remove one."); }
         assertThrows(MaxNumberofCardsException.class, () -> player1.addWeapon(weapon4));
-    }
-
-    @Test
-    void removeWeapon() {
-        ArrayList<Integer> cost = new ArrayList<>();
-        cost.add(1);
-        cost.add(2);
-        cost.add(0);
-        Weapon weapon1 = new Weapon("Spada Laser", cost);
-        assertThrows(ZeroCardsOwnedException.class, () -> player1.removeWeapon(weapon1));
-
-        try {
-            player1.addWeapon(weapon1);
-        }
-        catch (MaxNumberofCardsException e){
-            System.out.println("You have too many Weapon Cards, please remove one.");
-        }
-        assertTrue(player1.weaponIspresent(weapon1));
-
-        Weapon weapon2 = new Weapon("Vortex", cost);
-        assertThrows(NotOwnedCardException.class, () -> player1.removeWeapon(weapon2));
 
         try{
             player1.removeWeapon(weapon1);
         }
-        catch (NotOwnedCardException e1){
-            System.out.println("You don't have this Weapon Card.");
-        }
-        catch (ZeroCardsOwnedException e2){
-            System.out.println("You have zero Weapon Cards.");
-        }
+        catch (NotOwnedCardException e1){ System.out.println("You don't have this Weapon Card."); }
+        catch (ZeroCardsOwnedException e2){ System.out.println("You have zero Weapon Cards."); }
         assertFalse(player1.weaponIspresent(weapon1));
     }
 

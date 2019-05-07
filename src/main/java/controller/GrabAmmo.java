@@ -29,4 +29,9 @@ public class GrabAmmo extends Grab{
         match.addAmmoCard(cell);
     }
 
+    public boolean isValid(Player player){
+
+        return true;
+    }
+
 }

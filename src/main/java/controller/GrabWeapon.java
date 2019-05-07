@@ -4,6 +4,7 @@ import model.Match;
 import model.Player;
 import model.SpawnPointCell;
 import exceptions.MaxNumberofCardsException;
+import java.util.List;
 
 public class GrabWeapon extends Grab{
     public GrabWeapon(){
@@ -17,6 +18,15 @@ public class GrabWeapon extends Grab{
         match.addWeaponCard(cell,indexWeapon);
 
         player.setAction();
+    }
+
+    public boolean isValid(Match match, Player player, List<String> destination, int indexWeapon){
+        if(indexWeapon<0 || indexWeapon>2) return false;
+        if(!this.isValidMovement(match, player, destination)) return false;
+        else {
+            if (player.getnumberweapon() == 3) return false;
+            else return true;
+        }
     }
 
 }

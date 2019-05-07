@@ -22,6 +22,7 @@ public class Match {
         this.players=new ArrayList<>();
         ammodeck =new AmmoDeck();
         weapondeck =new WeaponDeck();
+        weapondeck.setWeapons("Armi");
         powdeck =new PowDeck("Pow");
     }
 
@@ -88,7 +89,8 @@ public class Match {
     }
     public void addWeaponCard(SpawnPointCell cell, int index){//TODO:pensare a nome più efficace
         try{
-            cell.Add_Weapon_Card((Weapon) weapondeck.drawCard(),index);//TODO:controllare
+            Weapon weapon = (Weapon) weapondeck.drawCard();
+            cell.Add_Weapon_Card(weapon,index);//TODO:controllare
         }catch(FullCellException e){
             //TODO
         }
