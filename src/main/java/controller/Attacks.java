@@ -28,6 +28,8 @@ public class Attacks {
 
             for(TypeAttack t : attacklist) //Per ogni attacco
             {
+                ArrayList<Player> visible= elaboratelistplayer(m,t,viewer);
+                ArrayList<Coordinate> viscel = elavoratelistcell(m,t,viewer);
                 if(controlammo(m,first,t)) //Controllo che abbia le munizioni
                 {
                     //ESEGUO ORA GLI ATTACCHI A SECONDA DEL TIPO
@@ -126,14 +128,8 @@ public class Attacks {
         return true;
     }
 
-    private void attackundefined(TypeAttack t, Match m, Player p, Player viewer, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou) //Esegue un attaco undefined distance
+    private void attackundefined(TypeAttack t, Match m, Player p, ArrayList<Player> visible, ArrayList<Coordinate> viscel, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou) //Esegue un attaco undefined distance
     {
-        ArrayList<Player> visible= new ArrayList<Player>(); //Arraylist of Players I can see
-        visible=m.getVisiblePlayers(viewer);
-
-        ArrayList<Coordinate> viscel = new ArrayList<Coordinate>(); //Arraylist of cells I can see
-        viscel=m.getVisibleCells(viewer.getCel());
-
         if(t.getDistance()==0) //Caso in cui ho un classico undefined attack
         {
             for(int i=0;i<t.getNumberEffect();i++) //Per ogni effetto contenuto
@@ -187,14 +183,33 @@ public class Attacks {
     }
 
 
-    private ArrayList<Player> elaboratelistplayer(Match m, int i, Player viewer, int flagnotseen, int distance) //i=0 undefined, i=1 finite, i=2 more, i=3 cardinal
+    private ArrayList<Player> elaboratelistplayer(Match m, TypeAttack attack, Player viewer) //returns the list of all player attackable
     {
+        int i =attack.getType();
+        int flagnotseen=0;
+        int distance= attack.getDistance();
+        if(i==0 && distance!=0)
+        {
+            flagnotseen=1;
+        }
         ArrayList<Player> list =new ArrayList<Player>();
         list=m.getVisiblePlayers(viewer);
         if(i==0)
         {
-
-            return list;
+            if(flagnotseen==1)
+            {
+                ArrayList<Player> notseen=m.getPlayers();
+                for(Player p: notseen)
+                {
+                    if(list.contains(p))
+                    {
+                        notseen.remove(p);
+                    }
+                }
+                return notseen;
+            }
+            else
+                return list;
         }
         else
             if(i==1)
@@ -227,8 +242,15 @@ public class Attacks {
         return null; //Caso di errore
     }
 
-    private ArrayList<Coordinate> elavoratelistcell(Match m, int i, Player viewer, int flagnotseen, int distance) //i=0 undefined, i=1 finite, i=2 more, i=3 cardinal
+    private ArrayList<Coordinate> elavoratelistcell(Match m, TypeAttack attack, Player viewer) //returns the list of all cells attackable
     {
+        int i =attack.getType();
+        int flagnotseen=0;
+        int distance= attack.getDistance();
+        if(i==0 && distance!=0)
+        {
+            flagnotseen=1;
+        }
         ArrayList<Coordinate> list =new ArrayList<Coordinate>();
         list=m.getVisibleCells(viewer.getCel());
         if(i==0)
