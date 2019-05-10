@@ -133,6 +133,7 @@ public class Attacks {
 
         ArrayList<Coordinate> viscel = new ArrayList<Coordinate>(); //Arraylist of cells I can see
         viscel=m.getVisibleCells(viewer.getCel());
+
         if(t.getDistance()==0) //Caso in cui ho un classico undefined attack
         {
             for(int i=0;i<t.getNumberEffect();i++) //Per ogni effetto contenuto
@@ -143,9 +144,9 @@ public class Attacks {
                     if(visible.contains(seconds.get(0))) //Caso in cui vedo chi voglio colpire
                     {
                         Player second= seconds.get(0);
-                        seconds.remove(second); //cancello il player dalla lista dei giocatori da colpire
+                        seconds.remove(0); //cancello il player dalla lista dei giocatori da colpire
                         //CONTROLLO COMBACINO ID E ATTACCO
-                        if(checkIDplayer(e,second))
+                        if(checkID((PlayerEffect) e,second))
                         {
                             for(int j=0;j<e.getnumberdamage();j++) //Assegno tutti i damage
                             {
@@ -164,7 +165,18 @@ public class Attacks {
                 }
                 else // caso in cui ho un attacco rivolto a una cella
                 {
-                    //TODO CASO ATTACCO CELLA
+                    if(viscel.contains(coordinates.get(0)))
+                    {
+                        Coordinate cell= coordinates.get(0);
+                        coordinates.remove(0);
+                        if(checkID((CellEffect) e, cell ))
+                        {
+                            for(int j=0; j<e.getnumberdamage();j++)
+                            {
+                                assigncelldamages(m,cell,p,e.getDamage(j));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -174,7 +186,93 @@ public class Attacks {
         }
     }
 
-    private boolean checkIDplayer(Effect e, Player second) //Controllo che gli ID combacino
+
+    private ArrayList<Player> elaboratelistplayer(Match m, int i, Player viewer, int flagnotseen, int distance) //i=0 undefined, i=1 finite, i=2 more, i=3 cardinal
+    {
+        ArrayList<Player> list =new ArrayList<Player>();
+        list=m.getVisiblePlayers(viewer);
+        if(i==0)
+        {
+            return list;
+        }
+        else
+            if(i==1)
+            {
+                 for(Player p : list)
+                 {
+                     if(m.getPlayersMD(viewer,p)!= distance)
+                     {
+                         list.remove(p);
+                     }
+                 }
+                 return list;
+            }
+            else
+                if(i==2)
+                {
+                    for(Player p :list)
+                    {
+                        if(m.getPlayersMD(viewer,p)<distance)
+                        {
+                            list.remove(p);
+                        }
+                    }
+                    return list;
+                }
+                else
+                {
+                    //TODO CASO CARDINAL, FORSE LO TRATTO SINGOLARMENTE
+                }
+        return null; //Caso di errore
+    }
+
+    private ArrayList<Coordinate> elavoratelistcell(Match m, int i, Player viewer, int flagnotseen, int distance) //i=0 undefined, i=1 finite, i=2 more, i=3 cardinal
+    {
+        ArrayList<Coordinate> list =new ArrayList<Coordinate>();
+        list=m.getVisibleCells(viewer.getCel());
+        if(i==0)
+        {
+            return list;
+        }
+        else
+        if(i==1)
+        {
+            for(Coordinate p : list)
+            {
+                if(m.getCellsMD(viewer.getCel(),p)!= distance)
+                {
+                    list.remove(p);
+                }
+            }
+            return list;
+        }
+        else
+        if(i==2)
+        {
+            for(Coordinate p :list)
+            {
+                if(m.getCellsMD(viewer.getCel(),p)<distance)
+                {
+                    list.remove(p);
+                }
+            }
+            return list;
+        }
+        else
+        {
+            //TODO CASO CARDINAL, FORSE LO TRATTO SINGOLARMENTE
+        }
+        return null; //Caso di errore
+    }
+
+
+
+    private void attackdefined(TypeAttack t, Match m, Player p, Player viewer, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou)
+    {
+
+    }
+
+    private boolean checkID(PlayerEffect e, Player second) //Controllo che gli ID combacino
     {
         if(e.getId()>associationplayer.size()-1) //Controllo in caso di nuovi giocatori non ancora attaccati da attaccare
         {
@@ -190,6 +288,26 @@ public class Attacks {
         if(e.getId()!=associationplayer.size()-1) //Controllo che gli ID combacino
         {
             return false; //Non combaciano gli ID
+        }
+        return true;
+    }
+
+    private boolean checkID(CellEffect e, Coordinate cell )
+    {
+        if(e.getId()>associationcell.size()-1)
+        {
+            if(!associationcell.contains(cell))
+            {
+                associationcell.add(cell);
+            }
+            else
+            {
+                return false;
+            }
+        }
+        if(e.getId()!=associationcell.size()-1)
+        {
+            return false;
         }
         return true;
     }

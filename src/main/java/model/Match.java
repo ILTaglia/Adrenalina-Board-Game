@@ -59,6 +59,13 @@ public class Match {
         throw new InvalidColorException();
     }
 
+
+    //Returns all the players on the match
+    public ArrayList<Player> getPlayers()
+    {
+        return this.players;
+    }
+
     //i is the index of the chosen map
     public int createDashboard(int i){
         if(players.size()>=3) {
