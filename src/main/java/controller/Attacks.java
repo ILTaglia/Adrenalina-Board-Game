@@ -193,6 +193,7 @@ public class Attacks {
         list=m.getVisiblePlayers(viewer);
         if(i==0)
         {
+
             return list;
         }
         else

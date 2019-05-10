@@ -18,4 +18,5 @@ public interface TypeAttack {
     public int getNumberExtra();
     public int getMoveMe();
     public int getMoveYou();
+    public int getType();
 }

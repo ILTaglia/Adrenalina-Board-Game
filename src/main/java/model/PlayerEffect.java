@@ -33,6 +33,7 @@ public class PlayerEffect implements Effect {
         this.D=new ArrayList<Damage>();
     }
 
+    public int getType(){return 0;}
 
     @Override
     public int getId() {

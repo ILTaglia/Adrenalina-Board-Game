@@ -6,5 +6,5 @@ public interface Effect {
     public Damage getDamage(int i);
     public void setId(int id);
     public int getnumberdamage();
-
+    public int getType();
 }

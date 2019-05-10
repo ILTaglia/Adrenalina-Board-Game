@@ -13,6 +13,8 @@ public class Life implements Damage {
         return this.damage;
     }
 
+    public int getType(){return 0;}
+
     public Life(int damage)
     {
         this.damage=damage;

@@ -65,6 +65,7 @@ public class FiniteDistance implements TypeAttack {
     {
         return this.moveyou;
     }
+    public int getType(){return 1;}
 
 
     public FiniteDistance(int typeplayer, int distance, int moveme, int moveyou)

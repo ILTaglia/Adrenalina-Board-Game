@@ -13,6 +13,8 @@ public class Mark implements Damage {
         return this.damage;
     }
 
+    public int getType(){return 1;}
+
     public Mark(int damage)
     {
         this.damage=damage;

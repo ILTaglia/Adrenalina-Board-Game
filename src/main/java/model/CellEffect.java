@@ -35,6 +35,7 @@ public class CellEffect implements Effect {
         this.id=id;
     }
 
+    public int getType(){return 1;}
 
     @Override
     public int getId() {
