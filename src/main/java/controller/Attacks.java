@@ -128,58 +128,57 @@ public class Attacks {
         return true;
     }
 
-    private void attackundefined(TypeAttack t, Match m, Player p, ArrayList<Player> visible, ArrayList<Coordinate> viscel, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou) //Esegue un attaco undefined distance
+    private Player attackundefined(TypeAttack t, Match m, Player p, ArrayList<Player> visible, ArrayList<Coordinate> viscel, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou) //Esegue un attaco undefined distance e restituisco il player che vede
     {
-        if(t.getDistance()==0) //Caso in cui ho un classico undefined attack
+        Player returned = p;
+        for(int i=0;i<t.getNumberEffect();i++) //Per ogni effetto contenuto
         {
-            for(int i=0;i<t.getNumberEffect();i++) //Per ogni effetto contenuto
+            Effect e = t.getEffect(i);
+            if(e instanceof model.PlayerEffect) //Caso in cui ho un attacco rivolto a un player
             {
-                Effect e = t.getEffect(i);
-                if(e instanceof model.PlayerEffect) //Caso in cui ho un attacco rivolto a un player
+                if(visible.contains(seconds.get(0))) //Caso in cui vedo chi voglio colpire
                 {
-                    if(visible.contains(seconds.get(0))) //Caso in cui vedo chi voglio colpire
+                    Player second= seconds.get(0);
+                    seconds.remove(0); //cancello il player dalla lista dei giocatori da colpire
+                    //CONTROLLO COMBACINO ID E ATTACCO
+                    if(checkID((PlayerEffect) e,second))
                     {
-                        Player second= seconds.get(0);
-                        seconds.remove(0); //cancello il player dalla lista dei giocatori da colpire
-                        //CONTROLLO COMBACINO ID E ATTACCO
-                        if(checkID((PlayerEffect) e,second))
+                        if(t.getTypePlayer()==1) //Nel caso di torpedirne restituirò poi il player attaccato come viewer
                         {
-                            for(int j=0;j<e.getnumberdamage();j++) //Assegno tutti i damage
-                            {
-                                assigndamages(m,p,second,e.getDamage(j));
-                            }
+                            returned=second;
                         }
-                        else //Caso in cui non combaciano
+                        for(int j=0;j<e.getnumberdamage();j++) //Assegno tutti i damage
                         {
-                            //TODO GESTIRE CASO DI ERRORE
+                            assigndamages(m,p,second,e.getDamage(j));
                         }
                     }
-                    else
+                    else //Caso in cui non combaciano
                     {
-                        //TODO, ERRORE GIOCATORE NON ATTACCABILE
+                        //TODO GESTIRE CASO DI ERRORE
                     }
                 }
-                else // caso in cui ho un attacco rivolto a una cella
+                else
                 {
-                    if(viscel.contains(coordinates.get(0)))
+                    //TODO, ERRORE GIOCATORE NON ATTACCABILE
+                }
+            }
+            else // caso in cui ho un attacco rivolto a una cella
+            {
+                if(viscel.contains(coordinates.get(0)))
+                {
+                    Coordinate cell= coordinates.get(0);
+                    coordinates.remove(0);
+                    if(checkID((CellEffect) e, cell ))
                     {
-                        Coordinate cell= coordinates.get(0);
-                        coordinates.remove(0);
-                        if(checkID((CellEffect) e, cell ))
+                        for(int j=0; j<e.getnumberdamage();j++)
                         {
-                            for(int j=0; j<e.getnumberdamage();j++)
-                            {
-                                assigncelldamages(m,cell,p,e.getDamage(j));
-                            }
+                            assigncelldamages(m,cell,p,e.getDamage(j));
                         }
                     }
                 }
             }
         }
-        else //Caso in cui attacco chi non vedo
-        {
-            //TODO CASO ATTACCO CHI NON VEDO
-        }
+        return returned;
     }
 
 
