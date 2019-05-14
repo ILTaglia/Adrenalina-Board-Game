@@ -22,7 +22,7 @@ public class CLIBoardView extends BoardView {
 
     /* Welcome message to start*/
     @Override
-    public void welcomeMessage() {
+    public void startingMessage() {
         channelOut.println("Welcome to Adrenalina!");
     }
 

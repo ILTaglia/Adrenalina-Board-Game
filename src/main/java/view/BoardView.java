@@ -13,7 +13,7 @@ made to check that the data given by client is correct.*/
 public abstract class BoardView implements Observer{
 
     /* Welcome message to start*/
-    public abstract void welcomeMessage();
+    public abstract void startingMessage();
 
     /* End message to finish*/
     public abstract void endMessage();

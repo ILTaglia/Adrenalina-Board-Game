@@ -5,9 +5,10 @@ import exceptions.InvalidColorException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Match {
+public class Match extends Observable implements Serializable {
     private int round;
     private int id;
     private ArrayList<Player> players;
