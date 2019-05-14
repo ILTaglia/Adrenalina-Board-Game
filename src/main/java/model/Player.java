@@ -193,6 +193,11 @@ public class Player {
         return false;
     }
 
+    public List<Weapon> getWeapons(){
+        List<Weapon> list = (List)this.gun.clone();
+        return list;
+    }
+
     public void addWeapon(Weapon weapon) throws MaxNumberofCardsException{
         if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to remove a weapon, cannot have more than three
         gun.add(weapon);
@@ -224,6 +229,11 @@ public class Player {
         if(!powIspresent(p)) throw new NotOwnedCardException(); //you don't have it
         int i=pow.indexOf(p);
         pow.remove(i);
+    }
+
+    public List<PowCard> getPows(){
+        List<PowCard> list = (List)this.pow.clone();
+        return list;
     }
 
     public int getnumberpow(){return this.pow.size();}

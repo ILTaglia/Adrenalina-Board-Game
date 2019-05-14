@@ -59,6 +59,13 @@ public class Match {
         throw new InvalidColorException();
     }
 
+    //returns the active player
+    public Player getActivePlayer(){
+        for(Player p : this.players){
+            if(p.getActive()) return p;
+        }
+        return null;
+    }
 
     //Returns all the players on the match
     public ArrayList<Player> getPlayers()

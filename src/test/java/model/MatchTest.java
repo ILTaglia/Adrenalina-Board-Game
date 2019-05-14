@@ -91,6 +91,27 @@ public class MatchTest {
         assertEquals("Sirius", player2.getname());
         assertEquals("Aries", player3.getname());
         assertEquals("Calypso", player4.getname());
+
+        player1.setActive();
+        assertEquals(0, player1.getAction());
+        assertTrue(player1.getActive());
+        assertFalse(player2.getActive());
+        assertFalse(player3.getActive());
+        assertFalse(player4.getActive());
+        assertEquals(player1, match.getActivePlayer());
+        player1.setAction();
+        assertTrue(player1.getActive());
+        assertEquals(1, player1.getAction());
+        player1.setAction();
+        assertTrue(player1.getActive());
+        assertEquals(2, player1.getAction());
+        player1.setActive();
+        player2.setActive();
+        assertFalse(player1.getActive());
+        assertTrue(player2.getActive());
+        assertFalse(player3.getActive());
+        assertFalse(player4.getActive());
+        assertEquals(player2, match.getActivePlayer());
     }
 
     @Test
