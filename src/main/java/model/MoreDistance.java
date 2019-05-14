@@ -65,7 +65,7 @@ public class MoreDistance implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 2;}
+    public int getType(){return 3;}
 
     public MoreDistance(int typeplayer, int distance, int moveme, int moveyou)
     {

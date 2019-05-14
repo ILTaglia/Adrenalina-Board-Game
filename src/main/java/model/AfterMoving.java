@@ -65,7 +65,7 @@ public class AfterMoving implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 8;}
 
 
     public AfterMoving(int typeplayer, int distance, int moveme, int moveyou)

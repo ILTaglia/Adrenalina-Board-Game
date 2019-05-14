@@ -65,7 +65,7 @@ public class NotSeen implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 5;}
 
 
     public NotSeen(int typeplayer, int distance, int moveme, int moveyou)

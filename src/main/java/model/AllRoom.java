@@ -65,7 +65,7 @@ public class AllRoom implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 9;}
 
 
     public AllRoom(int typeplayer, int distance, int moveme, int moveyou)

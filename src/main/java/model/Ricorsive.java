@@ -65,7 +65,7 @@ public class Ricorsive implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 10;}
 
 
     public Ricorsive(int typeplayer, int distance, int moveme, int moveyou)

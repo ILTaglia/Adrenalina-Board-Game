@@ -74,5 +74,5 @@ public class Cardinal implements TypeAttack {
         this.moveYou = moveYou;
         this.typePlayer = typePlayer;
     }
-    public int getType(){return 3;}
+    public int getType(){return 4;}
 }

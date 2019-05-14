@@ -65,7 +65,7 @@ public class InFiniteLine implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 11;}
 
 
     public InFiniteLine(int typeplayer, int distance, int moveme, int moveyou)

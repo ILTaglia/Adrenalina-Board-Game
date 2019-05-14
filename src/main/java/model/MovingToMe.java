@@ -65,7 +65,7 @@ public class MovingToMe implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 12;}
 
     public MovingToMe(int typeplayer, int distance, int moveme, int moveyou)
     {

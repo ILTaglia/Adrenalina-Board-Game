@@ -65,7 +65,7 @@ public class UndefinedDistance implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 2;}
 
 
     public UndefinedDistance(int typeplayer, int distance, int moveme, int moveyou)

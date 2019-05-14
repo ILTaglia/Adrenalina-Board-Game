@@ -65,7 +65,7 @@ public class AllAround implements TypeAttack {
     {
         return this.moveyou;
     }
-    public int getType(){return 0;}
+    public int getType(){return 7;}
 
 
     public AllAround(int typeplayer, int distance, int moveme, int moveyou)
