@@ -1,4 +1,4 @@
-package view;
+//package view;
 
-public class RMICommunication implements Communication{
-}
+//public class RMICommunication implements Communication{
+//}

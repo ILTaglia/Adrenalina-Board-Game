@@ -25,8 +25,8 @@ public class RemoteBoardView extends BoardView{
 
     private Match match;
     private List<Object> clients;
-    private SocketCommunication socketView;
-    private RMICommunication rmiView;
+    //private SocketCommunication socketView;
+    //private RMICommunication rmiView;
     private Communication viewAdapter;
     private Object currentClient;
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -43,7 +43,7 @@ public class RemoteBoardView extends BoardView{
         match.addObserver(this);
         this.clients=clients;
         //this.socketView=new SocketCommunication(socketsOut, socketsIn);
-        this.rmiView=new RMICommunication();
+        //this.rmiView=new RMICommunication();
         LOGGER.setLevel(Level.INFO);
     }
 

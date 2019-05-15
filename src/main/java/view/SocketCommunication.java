@@ -1,4 +1,4 @@
-package view;
+//package view;
 
-public class SocketCommunication implements Communication {
-}
+//public class SocketCommunication implements Communication {
+//}

@@ -12,6 +12,9 @@ public class CheckCorrispondences {
         if(lista.size()==0)
         {
             lista.add(player);
+            risultato.add(0,lista);
+            flag.add(1);
+            risultato.add(1,flag);
         }
         else
             if(lista.size()==ID)
@@ -19,12 +22,16 @@ public class CheckCorrispondences {
                 if(!lista.contains(player))
                 {
                     lista.add(player);
+                    risultato.add(0,lista);
+                    flag.add(1);
+                    risultato.add(1,flag);
                 }
                 else
                 {
                     flag.add(-1);
-                    risultato.add(1,flag);
                     risultato.add(0,lista);
+                    risultato.add(1,flag);
+
                 }
             }
             else
