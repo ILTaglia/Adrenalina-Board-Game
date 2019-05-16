@@ -4,8 +4,8 @@ import exceptions.FullCellException;
 import exceptions.InvalidColorException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
-
 import java.io.Serializable;
+
 import java.util.*;
 
 public class Match extends Observable implements Serializable {
@@ -282,12 +282,12 @@ public class Match extends Observable implements Serializable {
                 }
             }
         }
-        for(int k=0; k<visible.size(); k++){
+        /*for(int k=0; k<visible.size(); k++){
             if(visible.get(k).getX()==x && visible.get(k).getY()==y){
                 int index = visible.indexOf(visible.get(k));
                 visible.remove(index);
             }
-        }
+        }*/
         //adds cells if there is a port
         for(int i=0; i<4; i++){
             if(cellplayer.portIsPresent(i)==1){
