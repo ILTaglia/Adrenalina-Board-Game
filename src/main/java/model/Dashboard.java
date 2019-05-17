@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 public class Dashboard {
@@ -117,4 +118,17 @@ public class Dashboard {
     }
 
     public boolean stop(){return this.stop;}
+
+    public List<Coordinate> getCells(){
+        List<Coordinate> cells = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                Coordinate c = new Coordinate(i,j);
+                if(map[i][j].getcolor()!=-1){
+                    cells.add(c);
+                }
+            }
+        }
+        return cells;
+    }
 }
