@@ -54,11 +54,11 @@ public class Player {
         //2 is yellow, you start with three yellow ammo
 
         //players color are blue(0), green(1), yellow(2), pink(3), grey(4)
-        if(color.equals("blue")) this.color=0;
-        else if(color.equals("green")) this.color=1;
-        else if(color.equals("yellow")) this.color=2;
-        else if(color.equals("pink")) this.color=3;
-        else if(color.equals("grey")) this.color=4;
+        if(color.equals("Blue")) this.color=0;
+        else if(color.equals("Green")) this.color=1;
+        else if(color.equals("Yellow")) this.color=2;
+        else if(color.equals("Pink")) this.color=3;
+        else if(color.equals("Grey")) this.color=4;
         else throw new InvalidColorException(); //invalid color
 
         this.gun= new ArrayList<>();

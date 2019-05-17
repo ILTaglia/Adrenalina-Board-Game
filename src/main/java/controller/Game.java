@@ -40,7 +40,6 @@ public class Game{
         matches.get(0).createDashboard(i);
     }
 
-    //TODO controllare random, meglio stringa char+int
     public String randomId(Random rand){
         int i = 10000000 + rand.nextInt(89999999);
         String id = Integer.toString(i);
