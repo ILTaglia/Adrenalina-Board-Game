@@ -19,11 +19,11 @@ public class Game{
         Match match = new Match();
         matches.add(match);
         //TODO communication with user, first example to be rewritten
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
-        Player player3 = new Player("Hermione", "green", "18263100");
-        Player player4 = new Player("Aries", "yellow", "18992302");
-        Player player5 = new Player("Karka", "grey", "18114320");
+        Player player1 = new Player("Sirius", "Blue", "10583741");
+        Player player2 = new Player("Calypso", "Pink", "14253954");
+        Player player3 = new Player("Hermione", "Green", "18263100");
+        Player player4 = new Player("Aries", "Yellow", "18992302");
+        Player player5 = new Player("Karka", "Grey", "18114320");
         try {
             match.addPlayer(player1);
             match.addPlayer(player2);

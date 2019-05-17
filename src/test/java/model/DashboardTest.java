@@ -8,9 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DashboardTest {
-    Player player1 = new Player("Sirius", "blue", "10583741"); //0
-    Player player2 = new Player("Calypso", "pink", "14253954"); //3
-    Player player3 = new Player("Hermione", "green", "18263100"); //1
+    Player player1 = new Player("Sirius", "Blue", "10583741"); //0
+    Player player2 = new Player("Calypso", "Pink", "14253954"); //3
+    Player player3 = new Player("Hermione", "Green", "18263100"); //1
 
 
     @Test

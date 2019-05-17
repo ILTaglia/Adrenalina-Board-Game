@@ -17,7 +17,7 @@ class Ammo_TileTest {
     @BeforeEach
     public void setUp() {
         ammo_tile=new AmmoTile(0,1,2);
-        player= new Player("test_player_name","blue","test_player_id");
+        player= new Player("test_player_name","Blue","test_player_id");
     }
 
     @Test

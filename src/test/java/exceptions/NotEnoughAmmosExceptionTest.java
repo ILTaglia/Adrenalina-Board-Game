@@ -13,7 +13,7 @@ public class NotEnoughAmmosExceptionTest {
 
     @Before
     public void setUp() throws Exception {
-        player = new Player("Sirius", "blue", "10583741");
+        player = new Player("Sirius", "Blue", "10583741");
         ammo = new Ammo(0); //new ammo blue
     }
 

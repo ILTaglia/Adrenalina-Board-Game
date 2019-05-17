@@ -23,7 +23,7 @@ public class InvalidDirectionExceptionTest {
         }
         catch (MaxNumberPlayerException e){}
         r = new Run();
-        player = new Player("Sirius", "blue", "10583741");
+        player = new Player("Sirius", "Blue", "10583741");
         player.setCel(0,0);
     }
     @Test

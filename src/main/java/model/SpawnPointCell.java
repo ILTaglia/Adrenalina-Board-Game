@@ -3,6 +3,7 @@ package model;
 import exceptions.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SpawnPointCell extends Cell {
 
@@ -33,6 +34,15 @@ public class SpawnPointCell extends Cell {
         Weapons_SpawnPoint.set(selected_weapon,null);
         //TODO controllare get o remove
 
+    }
+
+    //Returns the list of the weapons in the SpawnPoint Cell to allow the player to choose one of them
+    public List<Weapon> getSpawnPointCellWeapons(){
+        List<Weapon> weapons = new ArrayList<>();
+        for(Weapon w:Weapons_SpawnPoint){
+            weapons.add(w);
+        }
+        return weapons;
     }
 
 }
