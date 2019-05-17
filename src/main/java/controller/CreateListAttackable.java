@@ -131,6 +131,7 @@ public class CreateListAttackable {
         if(attack.getType()==12) //Caso in cui ho un moving to me
         {
 
+
         }
 
     }
