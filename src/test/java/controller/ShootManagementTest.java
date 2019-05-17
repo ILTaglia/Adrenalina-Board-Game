@@ -106,7 +106,79 @@ public class ShootManagementTest {
         }
     }
 
+    @Test
+    public void markstest()
+    {
+        ShootManagement shoot = new ShootManagement();
+        ArrayList<Player> visible = match.getVisiblePlayers(player1);
+        Damage d = new DamageFactory().getinstaceof(2,3);
+        int a =shoot.shoot(match, visible,player1,player2,0, d);
+        assertEquals(a,0);
+        Damage b = new DamageFactory().getinstaceof(2,2);
+        a= shoot.shoot(match, visible,player1,player3,1, b);
+        assertEquals(a,0);
+        visible= match.getVisiblePlayers(player1);
+        assertEquals(visible.get(0).getmarks(player1.getcolor()),3);
+        assertEquals(visible.get(1).getmarks(player1.getcolor()),2);
 
+    }
+
+    @Test
+    public void attackfirstcell()
+    {
+        player2.setCel(0, 1);
+        player3.setCel(0, 1);
+        ShootManagement shoot = new ShootManagement();
+        ArrayList<Coordinate> visible = match.getVisibleCells(player1.getCel());
+        Damage d = new DamageFactory().getinstaceof(1,3);
+        int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
+        assertEquals(a,0);
+        ArrayList<Player>visibles = match.getVisiblePlayers(player1);
+        for(Player p:visibles)
+        {
+            assertEquals(p.gettotaldamage(),3);
+        }
+    }
+
+    @Test
+    public void attackwrongIDcell()
+    {
+        player2.setCel(0, 2);
+        player3.setCel(0, 2);
+        ShootManagement shoot = new ShootManagement();
+        ArrayList<Coordinate> visible = match.getVisibleCells(player1.getCel());
+        Damage d = new DamageFactory().getinstaceof(1,3);
+        int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
+        assertEquals(a,0);
+        ArrayList<Player>visibles = match.getVisiblePlayers(player1);
+        for(Player p:visibles)
+        {
+            assertEquals(p.gettotaldamage(),3);
+        }
+        a =shoot.shoot(match,visible,player1,player2.getCel(),1,d);
+        assertEquals(a,-1);
+        for(Player p:visibles)
+        {
+            assertEquals(p.gettotaldamage(),3);
+        }
+    }
+
+    @Test
+    public void unreackblecells()
+    {
+        player2.setCel(1, 0);
+        player3.setCel(1, 0);
+        ShootManagement shoot = new ShootManagement();
+        ArrayList<Coordinate> visible = match.getVisibleCells(player1.getCel());
+        Damage d = new DamageFactory().getinstaceof(1,3);
+        int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
+        assertEquals(a,-2);
+        ArrayList<Player>visibles = match.getVisiblePlayers(player1);
+        for(Player p:visibles)
+        {
+            assertEquals(p.gettotaldamage(),0);
+        }
+    }
 
 
 
