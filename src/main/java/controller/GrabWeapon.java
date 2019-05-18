@@ -15,7 +15,7 @@ public class GrabWeapon extends Grab{
         cell = (SpawnPointCell) player.getCel().inmap(match.getDashboard(), player.getCel().getX(), player.getCel().getY());
         cell.Collect_Weapon(player,indexWeapon);
 
-        match.addWeaponCard(cell,indexWeapon);
+        match.setWeaponCard(cell,indexWeapon);
 
         player.setAction();
     }

@@ -59,6 +59,7 @@ public class CLIViewTest {
         Weapon weapon9 = (Weapon)weaponDeck.drawCard();
         Weapon weapon10 = (Weapon)weaponDeck.drawCard();
         Weapon weapon11 = (Weapon)weaponDeck.drawCard();
+
         SpawnPointCell c = (SpawnPointCell)match.getDashboard().getmap(0, 2);
         try{
             c.Add_Weapon_Card(weapon1, 0);
@@ -148,6 +149,31 @@ public class CLIViewTest {
 
     @Test
     public void showPlayerPows() {
+        PowDeck deck = new PowDeck("Pow");
+        deck.shuffleStack();
+        PowCard powcard1 = (PowCard) deck.drawCard();
+        try{ player1.addPow(powcard1); }
+        catch (MaxNumberofCardsException e){ System.out.println("You have too many Pow Cards, please remove one."); }
+        View view = new CLIView(match);
+        view.showPlayerPows();
+        PowCard powcard2 = (PowCard) deck.drawCard();
+        PowCard powcard3 = (PowCard) deck.drawCard();
+        PowCard powcard4 = (PowCard) deck.drawCard();
+        PowCard powcard5 = (PowCard) deck.drawCard();
+        try{
+            player1.addPow(powcard2);
+            player1.addPow(powcard3);
+            player2.addPow(powcard4);
+            player2.addPow(powcard5);
+        }
+        catch (MaxNumberofCardsException e){ System.out.println("You have too many Pow Cards, please remove one."); }
+        view.showPlayerPows();
+        player1.setAction();
+        player1.setAction();
+        //After having done two actions, player1 has ended its turn
+        game.setTurn(match);
+        view.showPlayerPows();
+
     }
 
     @Test
@@ -160,5 +186,9 @@ public class CLIViewTest {
 
     @Test
     public void getWeaponCard() {
+        player1.setCel(0, 2); //Sirius
+        View view = new CLIView(match);
+        view.getWeaponCard();
+
     }
 }

@@ -112,8 +112,14 @@ public class Match extends Observable implements Serializable {
         }catch(FullCellException e){
             //TODO
         }
-
     }
+
+    public void setWeaponCard(SpawnPointCell cell, int index){
+        Weapon weapon = (Weapon) weapondeck.drawCard();
+        cell.SetWeaponCard(weapon, index);
+    }
+
+
     //Metodo per controller che mescola i mazzi (per esempio a inizio partita)
     public void shuffleAllDecks(){
         ammodeck.shuffleStack();

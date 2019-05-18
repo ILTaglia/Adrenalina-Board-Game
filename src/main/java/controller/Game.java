@@ -71,13 +71,16 @@ public class Game{
 
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
     public void setTurn(Match match){
+        Player p = match.getActivePlayer();
+        int index=0;
         for(int i=0; i<match.getPlayersSize(); i++){
-            if(match.getPlayerByIndex(i).getActive()){
-                match.getPlayerByIndex(i).setActive();
-                i++;
-                match.getPlayerByIndex(i).setActive();
+            if(match.getPlayers().get(i).equals(p)){
+                index = i;
             }
         }
+        match.getPlayerByIndex(index).setActive();
+        index++;
+        match.getPlayerByIndex(index).setActive();
     }
 
     public static void main(String[] args){

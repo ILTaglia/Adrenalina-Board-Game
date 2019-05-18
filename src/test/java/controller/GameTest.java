@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class GameTest {
     Game game = new Game();
-    Match match = new Match();
+    Match match;
     Player player1;
     Player player2;
     Player player3;
@@ -24,7 +24,7 @@ public class GameTest {
 
     @Before
     public void setUp(){
-        game.addMatch(match);
+        match = game.getMatchByIndex(game.getMatchesSize()-1);
         r = game.getRand();
     }
     @Test
@@ -101,6 +101,13 @@ public class GameTest {
         assertEquals(0, player1.getAction());
         assertTrue(player1.getActive());
         assertFalse(player2.getActive());
+        assertFalse(player3.getActive());
+        player1.setAction();
+        player1.setAction();
+        //After having done two actions, player1 has ended its turn
+        game.setTurn(match);
+        assertFalse(player1.getActive());
+        assertTrue(player2.getActive());
         assertFalse(player3.getActive());
     }
 
