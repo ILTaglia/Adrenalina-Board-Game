@@ -6,47 +6,51 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+//la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente
+//entrambe le tipologie di connessione da parte dei client
+
+//TODO: per ora presente solo tecnologia Socket
 public class GameServer {
-    private final ServerSocket serverSocket;
-    private final ExecutorService pool;
-    private int serverPort;
-    private boolean isStopped=false;
 
-    public GameServer(int port) throws IOException {
-        serverSocket = new ServerSocket(port);              //TODO: try/catch da ex
-        serverPort=port;                                    //TODO: port (?)
-        pool = Executors.newCachedThreadPool();
-        System.out.println("In ascolto sulla porta:" + port);
-    }
+    private static final int MIN_PLAYER_NUMBER = 3;
+    private static final int MAX_PLAYER_NUMBER = 5;
 
-    public void run(){
-        while(!isStopped()){
-            Socket clientSocket=null;
-            try {
-                clientSocket = serverSocket.accept();
-            }catch (IOException e){
-                if(isStopped()){
-                    System.out.println("Server Closed.");                   //TODO: LOGGER
-                    return;
-                }
-                throw new RuntimeException("Error connecting",e);
-            }
-            System.out.println(">>> New connection " + clientSocket.getRemoteSocketAddress());
-            pool.submit(new ClientHandler(clientSocket));
-        }
-    }
 
-    public void close(){
-        this.isStopped=true;
+    private int socketServerPort=7218;
+    private WaitingRoom waitingRoom;        //Lista di giocatori in attesa
+
+    private GameSocketSvr gameSocketSvr;
+    //private RMIServer rmiServer;
+
+
+    public static void main() throws IOException {
+        //Per ora implemento Socket, ci sarà da completare con RMI
         try {
-            this.serverSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException("Error closing server", e);
+            GameServer gameServer = new GameServer();
+            gameServer.LaunchServer();                  //TODO: parametri, lettura da file dei parametri
+        }catch (Exception e){
+            System.out.println("Ciaone Errore 1");
         }
     }
+    private void GameServer(){
+        this.waitingRoom= new WaitingRoom();
 
-    private boolean isStopped(){        //TODO: verificare utilità metodo
-        return this.isStopped;
+
+        this.gameSocketSvr=new GameSocketSvr(this);
+    }
+
+    private void LaunchServer(){
+        gameSocketSvr.start(socketServerPort);
+        gameSocketSvr.run();
 
     }
 }
+
+
+
+
+
+
+
+
