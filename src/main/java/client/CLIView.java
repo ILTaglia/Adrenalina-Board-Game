@@ -17,7 +17,8 @@ public class CLIView implements View {
     private int PlayerID;
     private GetData getData=new GetData();
 
-    public CLIView(){
+    public CLIView(Match match){
+        this.match = match;
         LOGGER.setLevel(Level.INFO);
     }
 
@@ -29,8 +30,134 @@ public class CLIView implements View {
 
     @Override
     public void printMap() {
-        Dashboard d = match.getDashboard();
+        int indexMap = match.getDashboard().getMapType();
+        if(indexMap==1){this.printmap1();}
+        if(indexMap==2){this.printmap2();}
+        if(indexMap==3){this.printmap3();}
     }
+
+    //Supporting methods to be used only internally the print map method
+    private void printmap1(){
+        String[][] map = new String[3][4];
+
+        String s = "        ";
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                map[i][j]=s;
+            }
+        }
+        int line;
+        int column;
+        for(Player player:match.getPlayers()){
+            line = player.getCel().getX();
+            column = player.getCel().getY();
+            map[line][column] = player.getid();
+            printStream.printf("Player"+player.getid()+" is "+player.getname()+"\n");
+        }
+        printStream.printf(" _________________________________________________                 \n");
+        printStream.printf("|      Blue      |       Blue     |     Blue      |                \n");
+        printStream.printf("|                |                |               |                \n");
+        printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
+        printStream.printf("|                |                |               |                \n");
+        printStream.printf("|                |                |               |                \n");
+        printStream.printf("|                |                |   SpawnPoint  |                \n");
+        printStream.printf("|_______| |______|________________|______| |______|_______________ \n");
+        printStream.printf("|      Red       |      Red       |      Red      |    Yellow     |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   _    "+map[1][3]+"   |\n");
+        printStream.printf("|                |                |               _               |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|   SpawnPoint   |                |               |               |\n");
+        printStream.printf("|________________|______| |_______|_______________|_______________|\n");
+        printStream.printf("                 |      Grey      |      Grey     |    Yellow     |\n");
+        printStream.printf("                 |                |               |               |\n");
+        printStream.printf("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   _    "+map[2][3]+"   |\n");
+        printStream.printf("                 |                |               _               |\n");
+        printStream.printf("                 |                |               |               |\n");
+        printStream.printf("                 |                |               |   SpawnPoint  |\n");
+        printStream.printf("                 |________________|_______________|_______________|\n");
+    }
+    private void printmap2(){
+        String[][] map = new String[3][4];
+
+        String s = "        ";
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                map[i][j]=s;
+            }
+        }
+        int line;
+        int column;
+        for(Player player:match.getPlayers()){
+            line = player.getCel().getX();
+            column = player.getCel().getY();
+            map[line][column] = player.getid();
+            printStream.printf("Player"+player.getid()+" is "+player.getname()+"\n");
+        }
+        printStream.printf(" _________________________________________________________________ \n");
+        printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|    "+map[0][0]+"    _    "+map[0][1]+"    |    "+map[0][2]+"   _    "+map[0][3]+"   |\n");
+        printStream.printf("|                _                |               _               |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|                |                |   SpawnPoint  |               |\n");
+        printStream.printf("|______| |_______|________________|______| |______|______| |______|\n");
+        printStream.printf("|      Red       |      Red       |     Yellow    |    Yellow     |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|   SpawnPoint   |                |               |               |\n");
+        printStream.printf("|________________|______| |_______|_______________|_______________|\n");
+        printStream.printf("                 |      Grey      |     Yellow    |    Yellow     |\n");
+        printStream.printf("                 |                |               |               |\n");
+        printStream.printf("     "+map[2][0]+"    |    "+map[2][1]+"    _    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
+        printStream.printf("                 |                _               |               |\n");
+        printStream.printf("                 |                |               |               |\n");
+        printStream.printf("                 |                |               |   SpawnPoint  |\n");
+        printStream.printf("                 |________________|_______________|_______________|\n");
+    }
+    private void printmap3(){
+        String[][] map = new String[3][4];
+
+        String s = "        ";
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                map[i][j]=s;
+            }
+        }
+        int line;
+        int column;
+        for(Player player:match.getPlayers()){
+            line = player.getCel().getX();
+            column = player.getCel().getY();
+            map[line][column] = player.getid();
+            printStream.printf("Player"+player.getid()+" is "+player.getname()+"\n");
+        }
+        printStream.printf(" _________________________________________________________________ \n");
+        printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|    "+map[0][0]+"    _    "+map[0][1]+"    |    "+map[0][2]+"   _    "+map[0][3]+"   |\n");
+        printStream.printf("|                _                |               _               |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|                |                |   SpawnPoint  |               |\n");
+        printStream.printf("|________________|______| |_______|______| |______|______| |______|\n");
+        printStream.printf("|      Red       |     Pink       |     Yellow    |    Yellow     |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|    "+map[1][0]+"    _    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printStream.printf("|                _                |               |               |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|   SpawnPoint   |                |               |               |\n");
+        printStream.printf("|______| |_______|______| |_______|_______________|_______________|\n");
+        printStream.printf("|      Grey      |      Grey      |     Yellow    |    Yellow     |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|    "+map[2][0]+"    |    "+map[2][1]+"    _    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
+        printStream.printf("|                |                _               |               |\n");
+        printStream.printf("|                |                |               |               |\n");
+        printStream.printf("|                |                |               |   SpawnPoint  |\n");
+        printStream.printf("|________________|________________|_______________|_______________|\n");
+    }
+
 
     //Method to show player its weapon cards
     @Override
@@ -59,6 +186,23 @@ public class CLIView implements View {
             i++;
         }
     }
+
+    //Method to show Weapon Cards in SpawnPoint Cell
+    public void showSpawnPointWeapons(){
+        Player player=match.getActivePlayer();
+        int x = player.getCel().getX();
+        int y = player.getCel().getY();
+        SpawnPointCell cell = (SpawnPointCell)match.getDashboard().getmap(x, y);
+        printStream.println("In the SpawnPoint Cell at line "+x+" and column "+y+" there are these Weapon Cards: ");
+        List<Weapon> weapons = cell.getSpawnPointCellWeapons();
+
+        int i=1;
+        for(Weapon weapon:weapons){
+            System.out.println(i+". "+weapon.getName());
+            i++;
+        }
+    }
+
 
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     @Override

@@ -6,6 +6,7 @@ import java.util.Collections;
 
 public class Dashboard {
     private Cell[][] map;
+    private int maptype; //index of the chosen map
     private int trackindex;
     private int[][] killshottrack;
     private ArrayList<Integer> killshotpoints;
@@ -14,6 +15,7 @@ public class Dashboard {
 
     public Dashboard(int i){
         map = new Cell[3][4];
+        maptype = i;
 
         //i is the index of the chosen map
         //index 1 for 1° map, good for 3 or 4 players
@@ -77,6 +79,8 @@ public class Dashboard {
     public Cell getmap(int i, int j){ return this.map[i][j]; }
 
     public int getindex(){return this.trackindex;}
+
+    public int getMapType(){return this.maptype;}
 
     public void setKillshottrack(Player player, int n){
         killshottrack[0][trackindex]=player.getcolor();
