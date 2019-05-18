@@ -14,6 +14,9 @@ public interface View {
     //Method to show player its weapon cards
     void showPlayerWeapons();
 
+    //Method to show Weapon Cards in SpawnPoint Cell
+    void showSpawnPointWeapons();
+
     //Method to show player its PowCards
     void showPlayerPows();
 
