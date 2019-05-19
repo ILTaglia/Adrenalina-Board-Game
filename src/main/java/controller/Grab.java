@@ -10,8 +10,6 @@ public abstract class Grab extends Action {
         public void movementBeforeGrab(Match m, Player player, List<String> destination){
             //n is the number of passes the player wants to do before grabbing
             //you can grab even by moving up to 2 squares before doing the action if you have at least 3 damages
-            //TODO IMPORTANTE: controllare validità azioni !
-            //TODO I need to check the number of damages of the player to allow moving before grabbing
             if(this.isValidMovement(m, player, destination)) {
                 Run r = new Run();
                 try{

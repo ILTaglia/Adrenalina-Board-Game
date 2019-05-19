@@ -1,5 +1,7 @@
 package client;
 
+import model.Player;
+
 public interface View {
 
     //Message to advise the player the game has started
@@ -17,8 +19,13 @@ public interface View {
     //Method to show Weapon Cards in SpawnPoint Cell
     void showSpawnPointWeapons();
 
-    //Method to show player its PowCards
+    void notifyAttackedPlayer(Player attackedplayer);
+
+    //Method to show the active player its PowCards
     void showPlayerPows();
+
+    //Method to show a player its PowCards, used in response to an attack
+    void showPlayerPows(Player player);
 
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     int getWeaponCard();

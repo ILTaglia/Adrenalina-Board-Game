@@ -11,6 +11,7 @@ import controller.GrabWeapon;
 import exceptions.FullCellException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
+import exceptions.WeaponAlreadyUsedException;
 import model.*;
 import utils.*;
 
@@ -178,7 +179,7 @@ public class CLIView implements View {
         }
     }
 
-    //Method to show player its PowCards
+    //Method to show the active player its PowCards
     @Override
     public void showPlayerPows() {
         Player player=match.getActivePlayer();
@@ -192,7 +193,43 @@ public class CLIView implements View {
         }
     }
 
+    //Method to show a player its PowCards, used in response to an attack
+    @Override
+    public void showPlayerPows(Player player){
+        printStream.println("Player "+ player.getname()+" your PowCards are: ");
+        List<PowCard> powcards = player.getPows();
+
+        int i=1;
+        for(PowCard powcard:powcards){
+            printStream.println(i+". "+powcard.getName());
+            i++;
+        }
+    }
+
+    //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
+    @Override
+    public void notifyAttackedPlayer(Player attackedplayer){
+        printStream.println("Player "+attackedplayer.getname()+"you have being attacked. Do you want to use any Pow?");
+        printStream.println("0. Yes");
+        printStream.println("1. No");
+        int choice=this.getData.getInt(-1, 1);
+        if(choice!=-1){
+            printStream.println("Player "+attackedplayer.getname()+"which Pow do you want to use?");
+            showPlayerPows(attackedplayer);
+            int numberOfPow=this.getData.getInt(-1, 2);
+            if(numberOfPow!=-1){
+                match.getActivePlayer().getPowByIndex(numberOfPow).getLife();
+                //TODO quale metodo per l'effetto del potenziamento
+                //TODO verifica che il potenziamento sia uno di quelli che si possono usare anche non durante il proprio turno
+            }else{
+                printStream.println("You don't own this pow!");
+            }
+        }
+    }
+
+
     //Method to show Weapon Cards in SpawnPoint Cell
+    @Override
     public void showSpawnPointWeapons(){
         Player player=match.getActivePlayer();
         int x = player.getCel().getX();
@@ -265,8 +302,6 @@ public class CLIView implements View {
             CardToBuy= numberOfWeapon;
             try{
                 grabweapon.grabWeapon(match, match.getActivePlayer(), CardToBuy);
-
-                //cell.Collect_Weapon(match.getActivePlayer(), CardToBuy);
             } catch(MaxNumberofCardsException e){
                 printStream.println("You have too many Weapon cards. Please, remove one if you want to buy this card.");
             }
@@ -278,16 +313,38 @@ public class CLIView implements View {
 
     @Override
     public int getPowCard(){
-        return 0;
+        printStream.println(match.getActivePlayer().getname()+", which PowCard do you want to use?");
+        showPlayerPows();
+        int numberOfPow=this.getData.getInt(-1, 2);
+        if(numberOfPow!=-1){
+            match.getActivePlayer().getPowByIndex(numberOfPow).getLife();
+            //TODO quale metodo per l'effetto del potenziamento
+        }else{
+            printStream.println("You don't own this pow!");
+        }
+        return numberOfPow;
     }
 
     @Override
     public int getWeaponCardtoAttack(){
-        return 0;
+        printStream.println(match.getActivePlayer().getname()+", which WeaponCard do you want to use?");
+        showPlayerWeapons();
+        int numberOfWeapon=this.getData.getInt(-1, 2);
+        if(numberOfWeapon!=-1){
+            try{
+                //TODO
+                match.getActivePlayer().getWeaponByIndex(numberOfWeapon).shooted();
+            } catch(WeaponAlreadyUsedException e){
+                printStream.println("You have already use this weapon, without recharging.");
+            }
+        }else{
+            printStream.println("You don't own this weapon!");
+        }
+        return numberOfWeapon;
     }
 
     @Override
-    public void printPlayerMove(){}
+    public void printPlayerMove(){printStream.println("Player "+match.getActivePlayer()+" has moved.");}
 
     //Method to tell the player its state
     @Override
@@ -390,6 +447,7 @@ public class CLIView implements View {
 
         player1.setCel(0, 2); //Sirius
         View view = new CLIView(match);
+        view.printMap();
         view.getWeaponCard();
         view.showPlayerWeapons();
         view.showSpawnPointWeapons();

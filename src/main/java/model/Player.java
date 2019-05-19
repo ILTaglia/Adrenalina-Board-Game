@@ -198,6 +198,8 @@ public class Player {
         return list;
     }
 
+    public Weapon getWeaponByIndex (int index){return this.gun.get(index);}
+
     public void addWeapon(Weapon weapon) throws MaxNumberofCardsException{
         if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to remove a weapon, cannot have more than three
         gun.add(weapon);
@@ -235,6 +237,8 @@ public class Player {
         List<PowCard> list = (List)this.pow.clone();
         return list;
     }
+
+    public PowCard getPowByIndex(int index){return this.pow.get(index);}
 
     public int getnumberpow(){return this.pow.size();}
 
