@@ -7,12 +7,35 @@ import java.util.ArrayList;
 public class CreateListAttackable {
     private ArrayList<Player> attackableplayers;
     private ArrayList<Coordinate> attackablecells;
+    private int direction;
+    private int residualmovement;
 
     public CreateListAttackable()
     {
         attackablecells= new ArrayList<Coordinate>();
         attackableplayers= new ArrayList<Player>();
+        direction=0;
+        residualmovement=0;
     }
+
+    public CreateListAttackable(int direction, int movement)
+    {
+        attackablecells= new ArrayList<Coordinate>();
+        attackableplayers= new ArrayList<Player>();
+        this.direction=direction;
+        this.residualmovement=movement;
+    }
+
+    public ArrayList<Player> getAttackableplayers()
+    {
+        return this.attackableplayers;
+    }
+
+    public ArrayList<Coordinate> getAttackablecells()
+    {
+        return this.attackablecells;
+    }
+
 
     public void createlist(Match match, TypeAttack attack, Player player1)
     {
@@ -73,7 +96,27 @@ public class CreateListAttackable {
         }
         if(attack.getType()==4) //Caso in cui ho un cardinal
         {
-            //TODO Creare metodo con stesso nome ma paramentro lista in più, si fa poi il confronto con la lista precedente
+
+            if(this.direction==0)
+            {
+                this.attackableplayers.addAll(match.getUpPlayers(player1));
+                this.attackablecells.addAll(match.getUpCells(player1.getCel()));
+            }
+            if(this.direction==1)
+            {
+                this.attackableplayers.addAll(match.getRightPlayers(player1));
+                this.attackablecells.addAll(match.getRightCells(player1.getCel()));
+            }
+            if(this.direction==2)
+            {
+                this.attackableplayers.addAll(match.getDownPlayers(player1));
+                this.attackablecells.addAll(match.getDownCells(player1.getCel()));
+            }
+            if(this.direction==3)
+            {
+                this.attackableplayers.addAll(match.getLeftPlayers(player1));
+                this.attackablecells.addAll(match.getLeftCells(player1.getCel()));
+            }
         }
         if(attack.getType()==5) //Caso in cui ho un notseen
         {
@@ -82,7 +125,13 @@ public class CreateListAttackable {
             ArrayList<Player> playersnotseen =new ArrayList<Player>();
             ArrayList<Coordinate> cellsnotseen = new ArrayList<Coordinate>();
             playersnotseen=match.getPlayers();
-            //TODO aspetto metodo per tutte le celle possibili
+            for(Player p:playersnotseen)
+            {
+                if(!cellsnotseen.contains(p.getCel()))
+                {
+                    cellsnotseen.add(p.getCel());
+                }
+            }
             players=match.getVisiblePlayers(player1);
             cells=match.getVisibleCells(player1.getCel());
             for(Player p: playersnotseen)
@@ -110,7 +159,24 @@ public class CreateListAttackable {
         }
         if(attack.getType()==7) //Caso in cui ho un all around
         {
-
+            ArrayList<Player> players = match.getVisiblePlayers(player1);
+            ArrayList<Coordinate> coordinates= match.getVisibleCells((player1.getCel()));
+            for(Player p: players)
+            {
+                if(match.getPlayersMD(p,player1)!=1)
+                {
+                    players.remove(p);
+                }
+            }
+            for(Coordinate c : coordinates)
+            {
+                if(match.getCellsMD(player1.getCel(),c)!=1)
+                {
+                    coordinates.remove(c);
+                }
+            }
+            this.attackableplayers=players;
+            this.attackablecells=coordinates;
         }
         if(attack.getType()==8) //Caso in cui ho un after moving
         {
@@ -130,7 +196,6 @@ public class CreateListAttackable {
         }
         if(attack.getType()==12) //Caso in cui ho un moving to me
         {
-
 
         }
 
