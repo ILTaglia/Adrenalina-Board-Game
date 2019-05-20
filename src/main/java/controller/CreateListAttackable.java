@@ -9,6 +9,7 @@ public class CreateListAttackable {
     private ArrayList<Coordinate> attackablecells;
     private int direction;
     private int residualmovement;
+    private Player viewer;
 
     public CreateListAttackable()
     {
@@ -16,6 +17,7 @@ public class CreateListAttackable {
         attackableplayers= new ArrayList<Player>();
         direction=0;
         residualmovement=0;
+        viewer=null;
     }
 
     public CreateListAttackable(int direction, int movement)
@@ -24,6 +26,7 @@ public class CreateListAttackable {
         attackableplayers= new ArrayList<Player>();
         this.direction=direction;
         this.residualmovement=movement;
+        this.viewer=null;
     }
 
     public ArrayList<Player> getAttackableplayers()
@@ -153,9 +156,46 @@ public class CreateListAttackable {
             this.attackableplayers=playersnotseen;
         }
 
-        if(attack.getType()==6) //Caso in cui ho un while moving
+        if(attack.getType()==6) //Caso in cui ho un while moving, considero tale azione prima di muovermi effettivamente
         {
-            //TODO BISOGNA RAGIONARE SU EVENTI PRECEDENTI COME CON CARDINAL
+            ArrayList<Player> players = new ArrayList<Player>();
+            ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+            if(this.direction==0)
+            {
+                players.addAll(match.getUpPlayers(player1));
+                coordinates.addAll(match.getUpCells(player1.getCel()));
+            }
+            if(this.direction==1)
+            {
+                players.addAll(match.getRightPlayers(player1));
+                coordinates.addAll(match.getRightCells(player1.getCel()));
+            }
+            if(this.direction==2)
+            {
+                players.addAll(match.getDownPlayers(player1));
+                coordinates.addAll(match.getDownCells(player1.getCel()));
+            }
+            if(this.direction==3)
+            {
+                players.addAll(match.getLeftPlayers(player1));
+                coordinates.addAll(match.getLeftCells(player1.getCel()));
+            }
+            for(Player p : players)
+            {
+                if(match.getPlayersMD(p,player1)!=1)
+                {
+                    players.remove(p);
+                }
+            }
+            for(Coordinate c : coordinates)
+            {
+                if(match.getCellsMD(player1.getCel(),c)!=1)
+                {
+                    coordinates.remove(c);
+                }
+            }
+            this.attackableplayers=players;
+            this.attackablecells=coordinates;
         }
         if(attack.getType()==7) //Caso in cui ho un all around
         {
@@ -180,23 +220,77 @@ public class CreateListAttackable {
         }
         if(attack.getType()==8) //Caso in cui ho un after moving
         {
-
+            //TODO METODO CHE MI PERMETTE DI STABILIRE DOVE MI TROVERO' PER POI TROVARE I GIOCATORI VISIBILI
         }
         if(attack.getType()==9) //Caso in cui ho un all room
         {
-
+            //TODO ASPETTARE METODO PER GIOCATORI IN STANZE SE PRESENZA DI PORTA
         }
         if(attack.getType()==10) //Caso in cui ho un ricorsive
         {
-
+            if(this.viewer==null)
+            {
+                this.viewer=player1;
+            }
+            this.attackableplayers=match.getVisiblePlayers(this.viewer);
+            this.attackablecells= match.getVisibleCells(this.viewer.getCel());
         }
         if(attack.getType()==11) //Caso in cui ho un in finite line
         {
+            if(this.direction==0)
+            {
+                this.attackablecells=match.getUpCells(player1.getCel());
+                this.attackableplayers= match.getUpPlayers(player1);
+            }
+            if(this.direction==1)
+            {
+                this.attackablecells=match.getUpCells(player1.getCel());
+                this.attackableplayers= match.getUpPlayers(player1);
+            }
+            if(this.direction==2)
+            {
+                this.attackablecells=match.getUpCells(player1.getCel());
+                this.attackableplayers= match.getUpPlayers(player1);
+            }
+            if(this.direction==3)
+            {
+                this.attackablecells=match.getUpCells(player1.getCel());
+                this.attackableplayers= match.getUpPlayers(player1);
+            }
+            for(Player p : this.attackableplayers)
+            {
+                if(match.getPlayersMD(p,player1)>this.residualmovement)
+                {
+                    this.attackableplayers.remove(p);
+                }
+            }
+            for(Coordinate c : this.attackablecells)
+            {
+                if(match.getCellsMD(c,player1.getCel())>this.residualmovement)
+                {
+                    this.attackablecells.remove(c);
+                }
+            }
 
         }
         if(attack.getType()==12) //Caso in cui ho un moving to me
         {
-
+            ArrayList<Player> players = match.getPlayers();
+            ArrayList<Coordinate> visiblecoordinates = match.getVisibleCells(player1.getCel());
+            this.attackableplayers= match.getVisiblePlayers(player1);
+            for(Player p : players)
+            {
+                if(!this.attackableplayers.contains(p))
+                {
+                    for(Coordinate c : visiblecoordinates)
+                    {
+                        if(match.getCellsMD(c,p.getCel())<=attack.getMoveYou())
+                        {
+                            this.attackableplayers.add(p);
+                        }
+                    }
+                }
+            }
         }
 
     }
