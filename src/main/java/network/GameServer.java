@@ -28,22 +28,27 @@ public class GameServer {
         //Per ora implemento Socket, ci sarà da completare con RMI
         try {
             GameServer gameServer = new GameServer();
-            gameServer.LaunchServer();                  //TODO: parametri, lettura da file dei parametri
-        }catch (Exception e){
+            gameServer.launchServer();                  //TODO: parametri, lettura da file dei parametri
+        }catch (Exception e) {
             System.out.println("Ciaone Errore 1");
         }
     }
     private void GameServer(){
         this.waitingRoom= new WaitingRoom();
-
-
         this.gameSocketSvr=new GameSocketSvr(this);
     }
 
-    private void LaunchServer(){
+    private void launchServer(){
         gameSocketSvr.start(socketServerPort);
         gameSocketSvr.run();
 
+    }
+    private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
+        gameSocketSvr.close();
+    }
+
+    public void addClientToWR(Socket clientSocket,String username){
+        waitingRoom.addClientToRoom(clientSocket,username);       //TODO:completare implementazione metodo
     }
 }
 

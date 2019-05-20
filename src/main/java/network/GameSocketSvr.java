@@ -47,6 +47,10 @@ public class GameSocketSvr {
         }
     }
 
+    public void addClientToWR(Socket clientSocket,String username){
+        gameServer.addClientToWR(clientSocket,username);
+    }
+
     public void close(){
         this.isStopped=true;
         try {
