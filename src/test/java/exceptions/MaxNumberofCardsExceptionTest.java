@@ -13,7 +13,7 @@ public class MaxNumberofCardsExceptionTest {
 
     @Before
     public void SetUp(){
-        player = new Player("Sirius", "blue", "10583741");
+        player = new Player("Sirius", "Blue", "10583741");
         deck = new PowDeck("Pow");
         PowCard powcard1 = (PowCard) deck.drawCard();
         PowCard powcard2 = (PowCard) deck.drawCard();

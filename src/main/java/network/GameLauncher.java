@@ -13,7 +13,7 @@ public class GameLauncher{
         System.out.println("Inserire 0 per avviare Server, 1 per avviare Client:\t");
         if(userChoice.nextInt()==0){
             try {
-                LaunchServer.launch();
+                GameServer.main();
             } catch (IOException e) {
                 System.err.println(e.getMessage());
             }

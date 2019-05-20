@@ -19,12 +19,12 @@ public class MaxNumberPlayerExceptionTest {
     @Before
     public void setUp() throws Exception {
         match = new Match();
-        player1 = new Player("Sirius", "blue", "10583741");
-        player2 = new Player("Calypso", "pink", "14253954");
-        player3 = new Player("Hermione", "green", "18263100");
-        player4 = new Player("Aries", "yellow", "18992302");
-        player5 = new Player("Karka", "grey", "18114320");
-        player6 = new Player("Iron", "blue", "18752344");
+        player1 = new Player("Sirius", "Blue", "10583741");
+        player2 = new Player("Calypso", "Pink", "14253954");
+        player3 = new Player("Hermione", "Green", "18263100");
+        player4 = new Player("Aries", "Yellow", "18992302");
+        player5 = new Player("Karka", "Grey", "18114320");
+        player6 = new Player("Iron", "Blue", "18752344");
         try {
             match.addPlayer(player1);
             match.addPlayer(player2);

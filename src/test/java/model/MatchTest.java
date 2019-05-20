@@ -19,10 +19,10 @@ public class MatchTest {
     @Before
     public void SetUp(){
         match = new Match();
-        player1 = new Player("Sirius", "blue", "10583741");
-        player2 = new Player("Calypso", "pink", "14253954");
-        player3 = new Player("Hermione", "green", "18263100");
-        player4 = new Player("Aries", "yellow", "18992302");
+        player1 = new Player("Sirius", "Blue", "10583741");
+        player2 = new Player("Calypso", "Pink", "14253954");
+        player3 = new Player("Hermione", "Green", "18263100");
+        player4 = new Player("Aries", "Yellow", "18992302");
         try {
             match.addPlayer(player1);
             match.addPlayer(player2);
@@ -35,7 +35,7 @@ public class MatchTest {
     @Test
     public void set_round() {
         assertEquals(1, match.getRound());
-        Player player5 = new Player("Karka", "grey", "18114320");
+        Player player5 = new Player("Karka", "Grey", "18114320");
         try {
             match.addPlayer(player5);
         }
@@ -65,8 +65,8 @@ public class MatchTest {
 
     @Test
     public void add_player() {
-        Player player5 = new Player("Karka", "grey", "18114320");
-        Player player6 = new Player("Gemini", "grey", "10003256");
+        Player player5 = new Player("Karka", "Grey", "18114320");
+        Player player6 = new Player("Gemini", "Grey", "10003256");
         try {
             match.addPlayer(player5);
         }
@@ -126,7 +126,7 @@ public class MatchTest {
             Player player6 = match.getPlayer(6);
         }
         catch (InvalidColorException e){}
-        Player player5 = new Player("Karka", "blue", "18114320");
+        Player player5 = new Player("Karka", "Blue", "18114320");
         Match m2 = new Match();
         try{
             m2.addPlayer(player1);

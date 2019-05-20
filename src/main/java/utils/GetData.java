@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class GetData {
     private InputStreamReader reader= new InputStreamReader(System.in);
-    private BufferedReader myInput= new BufferedReader(reader);
+    private BufferedReader input = new BufferedReader(reader);
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private List<String> colors=new ArrayList<>();
 
@@ -36,13 +36,49 @@ public class GetData {
         String color="";
         do{
             try {
-                color=(myInput.readLine());
+                color=(input.readLine());
             } catch (IOException e) {
                 color="Color";
                 LOGGER.log(Level.FINEST,e.getMessage(),e);
 
             }
-        }while("".equals(color));
+        }while("".equals(color) || !colors.contains(color));
         return color;
+    }
+
+    public String getName() {
+        String name="";
+        do{
+            try {
+                name=(input.readLine());
+            } catch (IOException e) {}
+        }while("".equals(name));
+        return name;
+    }
+
+    public int getInt(int min,int max){
+        int k=0;
+        boolean isValid=false;
+        if(min>max){
+            k=max;
+            max=min;
+            min=k;
+        }
+
+        do{
+            try {
+                k=Integer.parseInt(input.readLine());
+                isValid=true;
+            } catch (NumberFormatException e) {
+                isValid=false;
+                LOGGER.log(Level.FINEST,e.getMessage(),e);
+
+            } catch (IOException e) {
+                isValid=false;
+                LOGGER.log(Level.FINEST,e.getMessage(),e);
+
+            }
+        }while(!isValid || (k<min || k>max));
+        return k;
     }
 }

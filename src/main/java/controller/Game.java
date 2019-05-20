@@ -19,28 +19,13 @@ public class Game{
         Match match = new Match();
         matches.add(match);
         //TODO communication with user, first example to be rewritten
-        Player player1 = new Player("Sirius", "blue", "10583741");
-        Player player2 = new Player("Calypso", "pink", "14253954");
-        Player player3 = new Player("Hermione", "green", "18263100");
-        Player player4 = new Player("Aries", "yellow", "18992302");
-        Player player5 = new Player("Karka", "grey", "18114320");
-        try {
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-            match.addPlayer(player3);
-            match.addPlayer(player4);
-            match.addPlayer(player5);
-        }
-        catch (MaxNumberPlayerException e){
-            //in case the players are more than five they have to wait for a new match
-        }
+
     }
 
     public void select(int i){
         matches.get(0).createDashboard(i);
     }
 
-    //TODO controllare random, meglio stringa char+int
     public String randomId(Random rand){
         int i = 10000000 + rand.nextInt(89999999);
         String id = Integer.toString(i);
@@ -59,6 +44,10 @@ public class Game{
     public void addMatch(Match m){
         if(!this.matches.contains(m)) this.matches.add(m);
     }
+
+    public int getMatchesSize(){return this.matches.size();}
+
+    public Match getMatchByIndex(int index){return matches.get(index);}
 
     public Match getMatch (int matchID) throws IllegalArgumentException{
         for(Match m : this.matches){
@@ -82,13 +71,16 @@ public class Game{
 
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
     public void setTurn(Match match){
+        Player p = match.getActivePlayer();
+        int index=0;
         for(int i=0; i<match.getPlayersSize(); i++){
-            if(match.getPlayerByIndex(i).getActive()){
-                match.getPlayerByIndex(i).setActive();
-                i++;
-                match.getPlayerByIndex(i).setActive();
+            if(match.getPlayers().get(i).equals(p)){
+                index = i;
             }
         }
+        match.getPlayerByIndex(index).setActive();
+        index++;
+        match.getPlayerByIndex(index).setActive();
     }
 
     public static void main(String[] args){

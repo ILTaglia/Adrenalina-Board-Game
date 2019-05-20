@@ -16,9 +16,9 @@ class PlayerTest {
 
     @BeforeEach
     void SetUp(){
-        player1 = new Player("Sirius", "blue", "10583741");
-        player2 = new Player("Calypso", "pink", "14253954");
-        player3 = new Player("Hermione", "green", "18263100");
+        player1 = new Player("Sirius", "Blue", "10583741");
+        player2 = new Player("Calypso", "Pink", "14253954");
+        player3 = new Player("Hermione", "Green", "18263100");
     }
 
     @Test
@@ -47,7 +47,7 @@ class PlayerTest {
 
     @Test
     public void whenExceptionThrown1(){
-        assertThrows(InvalidColorException.class, () -> new Player("Bellatrix", "red", "12220987"));
+        assertThrows(InvalidColorException.class, () -> new Player("Bellatrix", "Red", "12220987"));
     }
 
     @Test
@@ -98,8 +98,8 @@ class PlayerTest {
 
     @Test
     void getmaxdamages(){
-        Player player4 = new Player("Aries", "yellow", "18992302");
-        Player player5 = new Player("Karka", "grey", "18114320");
+        Player player4 = new Player("Aries", "Yellow", "18992302");
+        Player player5 = new Player("Karka", "Grey", "18114320");
         assertEquals(0, player1.gettotaldamage());
         assertEquals(0, player1.getDeath());
         player1.setdamage(3,3); //from player2

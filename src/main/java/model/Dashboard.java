@@ -1,10 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collections;
 
 public class Dashboard {
     private Cell[][] map;
+    private int maptype; //index of the chosen map
     private int trackindex;
     private int[][] killshottrack;
     private ArrayList<Integer> killshotpoints;
@@ -13,6 +15,7 @@ public class Dashboard {
 
     public Dashboard(int i){
         map = new Cell[3][4];
+        maptype = i;
 
         //i is the index of the chosen map
         //index 1 for 1° map, good for 3 or 4 players
@@ -77,6 +80,8 @@ public class Dashboard {
 
     public int getindex(){return this.trackindex;}
 
+    public int getMapType(){return this.maptype;}
+
     public void setKillshottrack(Player player, int n){
         killshottrack[0][trackindex]=player.getcolor();
         //n is the int returned by the set_damage
@@ -117,4 +122,17 @@ public class Dashboard {
     }
 
     public boolean stop(){return this.stop;}
+
+    public List<Coordinate> getCells(){
+        List<Coordinate> cells = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                Coordinate c = new Coordinate(i,j);
+                if(map[i][j].getcolor()!=-1){
+                    cells.add(c);
+                }
+            }
+        }
+        return cells;
+    }
 }

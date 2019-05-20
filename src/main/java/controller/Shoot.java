@@ -13,14 +13,6 @@ public class Shoot extends Action {
         //TODO Player player, Weapon weapon can be parameters?
         //you can shoot even by moving up to 1 squares before doing the action if you have at least 6 damages
 
-        if(isValid(player, destination)){
-            Run r = new Run();
-            try{
-                r.getMovement(m, player, destination);
-            } catch(InvalidDirectionException e){}
-
-        }
-        player.setAction();
         /*Si dovrà raccogliere un'arma o un potenziamento a seconda della cella in cui ci si trova*/
         /*l'arma dovrà avere un metodo che ritorna il numero di danni che può infliggere, e il numero
          * di marchi, scegli il bersaglio e spara*/
@@ -30,8 +22,41 @@ public class Shoot extends Action {
         * recharge weapon if the player wants
         * in the part of calling the effect I mean that we must set damages and marks of other players*/
     }
-    public boolean isValid(Player player, List<String> destination) {
-        if (player.gettotaldamage()>5 && destination.size()<=1) return true;
-        else return false;
+
+    public void shoot(Match match, Player player, Player attackedplayer, int indexWeapon){
+        //TODO
+        player.setAction();
+    }
+
+    public void movementBeforeShoot(Match m, Player player, List<String> destination){
+        if(this.isValidMovement(m, player, destination)) {
+            Run r = new Run();
+            try{
+                r.getMovement(m, player, destination);
+            } catch(InvalidDirectionException e){}
+        }
+    }
+
+    public boolean isValidMovement(Match match, Player player, List<String> destination) {
+        if (!(player.gettotaldamage()>5 && destination.size()<2)) return false;
+        else {
+            Run r = new Run();
+            int x = player.getCel().getX();
+            int y = player.getCel().getY();
+            if(r.isValid(match, player, x, y, destination)) return true;
+            else return false;
+        }
+    }
+
+    //To choose which weapon use, the index of weapon in the array of the player weapons will be used
+    public boolean isValid(Match match, Player player, Player attackedplayer, List<String> destination, int indexWeapon) {
+        if(indexWeapon<0 || indexWeapon>2) return false;
+        if(!this.isValidMovement(match, player, destination) && !destination.isEmpty()) return false;
+        else {
+            //If the player choose a weapon but it doesn't own it
+            Weapon w = player.getWeaponByIndex(indexWeapon);
+            if (!player.weaponIspresent(w)) return false;
+            else return true;
+        }
     }
 }

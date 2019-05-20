@@ -11,8 +11,8 @@ public class CorrispondencesTest {
     @Test
     public void testfirst()
     {
-        Player p1 = new Player("Giovanni", "green","12345");
-        Player p2 = new Player("Rossi", "pink", "1234567");
+        Player p1 = new Player("Giovanni", "Green","12345");
+        Player p2 = new Player("Rossi", "Pink", "1234567");
         ArrayList<Player> lista =new ArrayList<Player>();
         ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
         CheckCorrispondences check= new CheckCorrispondences();
@@ -25,8 +25,8 @@ public class CorrispondencesTest {
     @Test
     public void testsecondplayer()
     {
-        Player p1 = new Player("Giovanni", "green","12345");
-        Player p2 = new Player("Rossi", "pink", "1234567");
+        Player p1 = new Player("Giovanni", "Green","12345");
+        Player p2 = new Player("Rossi", "Pink", "1234567");
         ArrayList<Player> lista =new ArrayList<Player>();
         ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
         CheckCorrispondences check= new CheckCorrispondences();
@@ -42,9 +42,9 @@ public class CorrispondencesTest {
     @Test
     public void testalreadyinsert()
     {
-        Player p1 = new Player("Giovanni", "green","12345");
-        Player p2 = new Player("Rossi", "pink", "1234567");
-        Player p5 = new Player("Carlo", "grey", "12347");
+        Player p1 = new Player("Giovanni", "Green","12345");
+        Player p2 = new Player("Rossi", "Pink", "1234567");
+        Player p5 = new Player("Carlo", "Grey", "12347");
         ArrayList<Player> lista =new ArrayList<Player>();
         ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
         CheckCorrispondences check= new CheckCorrispondences();
@@ -60,9 +60,9 @@ public class CorrispondencesTest {
     @Test
     public void testcorrectID()
     {
-        Player p1 = new Player("Giovanni", "green","12345");
-        Player p2 = new Player("Rossi", "pink", "1234567");
-        Player p5 = new Player("Carlo", "grey", "12347");
+        Player p1 = new Player("Giovanni", "Green","12345");
+        Player p2 = new Player("Rossi", "Pink", "1234567");
+        Player p5 = new Player("Carlo", "Grey", "12347");
         ArrayList<Player> lista =new ArrayList<Player>();
         ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
         CheckCorrispondences check= new CheckCorrispondences();
