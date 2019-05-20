@@ -329,8 +329,8 @@ public class CLIView implements View {
     public int getWeaponCardtoAttack(){
         printStream.println(match.getActivePlayer().getname()+", which WeaponCard do you want to use?");
         showPlayerWeapons();
-        int numberOfWeapon=this.getData.getInt(-1, 2);
-        if(numberOfWeapon!=-1){
+        int numberOfWeapon=this.getData.getInt(1, 3);
+        /*if(numberOfWeapon!=-1){
             try{
                 //TODO
                 match.getActivePlayer().getWeaponByIndex(numberOfWeapon).shooted();
@@ -339,8 +339,38 @@ public class CLIView implements View {
             }
         }else{
             printStream.println("You don't own this weapon!");
-        }
+        }*/
         return numberOfWeapon;
+    }
+
+    //Method to ask the direction for movement
+    @Override
+    public String getDirection(){
+        printStream.println(match.getActivePlayer().getname()+", which direction do you want to move for a single step? Write:");
+        printStream.println("'N' for north");
+        printStream.println("'E' for east");
+        printStream.println("'S' for south");
+        printStream.println("'W' for west");
+        return this.getData.getValidDirectionforPlayer();
+    }
+
+    //Method to ask the list direction for movement
+    @Override
+    public List<String> getListDirection(){
+        List<String> destination = new ArrayList<>();
+        printStream.println(match.getActivePlayer().getname()+", write the sequence of movements you want to do:");
+        printStream.println("'N' for north");
+        printStream.println("'E' for east");
+        printStream.println("'S' for south");
+        printStream.println("'W' for west");
+        printStream.println("'Stop' to terminate");
+
+        //Movements are maximum of three cells, so in three direction. In special movements for some actions there are restrictions
+        //for example moving of maximum one before shooting but this method is for a general input of sequence
+        while(!this.getData.getValidDirectionforPlayer().equals("Stop") || destination.size()==3){
+            destination.add(this.getData.getValidDirectionforPlayer());
+        }
+        return destination;
     }
 
     @Override
@@ -451,5 +481,15 @@ public class CLIView implements View {
         view.getWeaponCard();
         view.showPlayerWeapons();
         view.showSpawnPointWeapons();
+
+        player1.setdamage(5, 2);
+        AmmoTile ammoTile = new AmmoTile(0,0,1);
+        AmmoPowTile ammoPowTile = new AmmoPowTile(2,1);
+        NormalCell cell1 = (NormalCell)player1.getCel().inmap(match.getDashboard(), 1,3);
+        NormalCell cell2 = (NormalCell)player1.getCel().inmap(match.getDashboard(), 1,2);
+        try{
+            cell1.Add_Ammo_Card(ammoTile);
+            cell2.Add_Ammo_Card(ammoPowTile);
+        } catch (FullCellException e){}
     }
 }

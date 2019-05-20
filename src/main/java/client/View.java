@@ -2,6 +2,8 @@ package client;
 
 import model.Player;
 
+import java.util.List;
+
 public interface View {
 
     //Message to advise the player the game has started
@@ -29,6 +31,12 @@ public interface View {
 
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     int getWeaponCard();
+
+    //Method to ask the direction for movement
+    String getDirection();
+
+    //Method to ask the list direction for movement
+    List<String> getListDirection();
 
     //Method to ask the player which PowCard he wants to use to attack or in response, @return the position of card,
     //according to the print of player cards

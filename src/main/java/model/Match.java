@@ -1,9 +1,7 @@
 package model;
 
-import exceptions.FullCellException;
-import exceptions.InvalidColorException;
-import exceptions.MaxNumberPlayerException;
-import exceptions.MaxNumberofCardsException;
+import exceptions.*;
+
 import java.io.Serializable;
 
 import java.util.*;
@@ -222,6 +220,92 @@ public class Match extends Observable implements Serializable {
         return visible;
     }
 
+    //Method that returns visible players by a port
+    public List<Player> getVisiblePlayersByPort(Player player, int direction) {
+        List<Player> visibleplayers = new ArrayList<>();
+        int x = player.getCel().getX();
+        int y = player.getCel().getY();
+        Cell playercell = this.getDashboard().getmap(x, y);
+        //north
+        if(direction==0){
+            ArrayList<Coordinate> upcells = this.getUpCells(player.getCel());
+            for(int i=0; i<upcells.size(); i++){
+                int x1 = upcells.get(i).getX();
+                int y1 = upcells.get(i).getY();
+                Cell c = this.getDashboard().getmap(x1, y1);
+                //you are looking up, so you need a cell that has a port in southern directon
+                if(c.portIsPresent(2)==1){
+                    Coordinate cell = new Coordinate(x1, y1);
+                    visibleplayers = this.getRoomPlayers(cell);
+                    return visibleplayers;
+                }
+            }
+        }
+        //east
+        else if(direction==1) {
+            ArrayList<Coordinate> rightcells = this.getRightCells(player.getCel());
+            for(int i=0; i<rightcells.size(); i++){
+                int x1 = rightcells.get(i).getX();
+                int y1 = rightcells.get(i).getY();
+                Cell c = this.getDashboard().getmap(x1, y1);
+                //you are looking east, so you need a cell that has a port in western direction
+                if(c.portIsPresent(3)==1){
+                    Coordinate cell = new Coordinate(x1, y1);
+                    visibleplayers = this.getRoomPlayers(cell);
+                    return visibleplayers;
+                }
+            }
+        }
+        //south
+        else if(direction==2) {
+            ArrayList<Coordinate> downcells = this.getDownCells(player.getCel());
+            for(int i=0; i<downcells.size(); i++){
+                int x1 = downcells.get(i).getX();
+                int y1 = downcells.get(i).getY();
+                Cell c = this.getDashboard().getmap(x1, y1);
+                //you are looking down, so you need a cell that has a port in northern direction
+                if(c.portIsPresent(0)==1){
+                    Coordinate cell = new Coordinate(x1, y1);
+                    visibleplayers = this.getRoomPlayers(cell);
+                    return visibleplayers;
+                }
+            }
+        }
+        //west
+        else if(direction==3) {
+            ArrayList<Coordinate> leftcells = this.getLeftCells(player.getCel());
+            for(int i=0; i<leftcells.size(); i++){
+                int x1 = leftcells.get(i).getX();
+                int y1 = leftcells.get(i).getY();
+                Cell c = this.getDashboard().getmap(x1, y1);
+                //you are looking west, so you need a cell that has a port in eastern direction
+                if(c.portIsPresent(1)==1){
+                    Coordinate cell = new Coordinate(x1, y1);
+                    visibleplayers = this.getRoomPlayers(cell);
+                    return visibleplayers;
+                }
+            }
+        }
+
+        return visibleplayers;
+    }
+
+    //Method to have players in a room
+    private List<Player> getRoomPlayers(Coordinate cell){
+        List<Player> roomplayers = new ArrayList<>();
+        int x = cell.getX();
+        int y = cell.getY();
+        Cell c = this.getDashboard().getmap(x, y); //cell
+        int cellcolor = c.getcolor(); //color of the cell
+
+        //adds a player if it is in the same room
+        for (Player p : this.players) {
+            int playercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
+            if(playercellcolor==cellcolor) roomplayers.add(p);
+        }
+        return roomplayers;
+    }
+
     //returns the list of players in the same line of the given player
     public ArrayList<Player> getSameLinePlayers(Player player){
         ArrayList<Player> list = new ArrayList<>();
@@ -288,12 +372,7 @@ public class Match extends Observable implements Serializable {
                 }
             }
         }
-        /*for(int k=0; k<visible.size(); k++){
-            if(visible.get(k).getX()==x && visible.get(k).getY()==y){
-                int index = visible.indexOf(visible.get(k));
-                visible.remove(index);
-            }
-        }*/
+
         //adds cells if there is a port
         for(int i=0; i<4; i++){
             if(cellplayer.portIsPresent(i)==1){

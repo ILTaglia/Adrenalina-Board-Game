@@ -13,6 +13,8 @@ public class GetData {
     private BufferedReader input = new BufferedReader(reader);
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private List<String> colors=new ArrayList<>();
+    private List<String> direction=new ArrayList<>();
+
 
     /**
      * Nel costruttore setto il livello di default del LOGGER
@@ -27,6 +29,12 @@ public class GetData {
         colors.add("Grey");
         //players color are blue(0), green(1), yellow(2), pink(3), grey(4)
 
+        direction.add("N");
+        direction.add("E");
+        direction.add("S");
+        direction.add("W");
+        direction.add("Stop");
+        //Cardinal points for player North, East, South, West
 
     }
     /* Takes a string from the board
@@ -44,6 +52,20 @@ public class GetData {
             }
         }while("".equals(color) || !colors.contains(color));
         return color;
+    }
+
+    public String getValidDirectionforPlayer() {
+        String direction="";
+        do{
+            try {
+                direction=(input.readLine());
+            } catch (IOException e) {
+                direction="Direction";
+                LOGGER.log(Level.FINEST,e.getMessage(),e);
+
+            }
+        }while("".equals(direction) || !colors.contains(direction));
+        return direction;
     }
 
     public String getName() {

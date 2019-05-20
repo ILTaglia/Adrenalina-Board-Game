@@ -7,15 +7,17 @@ import exceptions.InvalidDirectionException;
 
 
 public abstract class Grab extends Action {
-        public void movementBeforeGrab(Match m, Player player, List<String> destination){
+        public boolean movementBeforeGrab(Match m, Player player, List<String> destination){
             //n is the number of passes the player wants to do before grabbing
             //you can grab even by moving up to 2 squares before doing the action if you have at least 3 damages
             if(this.isValidMovement(m, player, destination)) {
                 Run r = new Run();
                 try{
                 r.getMovement(m, player, destination);
+                return true;
                 } catch(InvalidDirectionException e){}
             }
+            return false;
         }
 
     public boolean isValidMovement(Match match, Player player, List<String> destination) {

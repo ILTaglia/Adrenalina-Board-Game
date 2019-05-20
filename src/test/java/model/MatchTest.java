@@ -1,9 +1,13 @@
 package model;
 
 import exceptions.InvalidColorException;
+import exceptions.InvalidDirectionException;
 import exceptions.MaxNumberPlayerException;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -222,6 +226,30 @@ public class MatchTest {
         assertEquals(1, match.getPlayersMD(player1, player2));
         assertEquals(1, match.getPlayersMD(player2, player4));
         assertEquals(-1, match.getPlayersMD(player3, player4));
+    }
+
+    @Test
+    public void visiblecellsforLanciafiamme(){
+        match.createDashboard(3);
+
+        player1.setCel(0, 3); //Sirius
+        player2.setCel(0, 1); //Calypso
+        player3.setCel(2, 2); //Hermione
+        player4.setCel(2, 1); //Aries
+
+        assertEquals(1, match.getVisiblePlayersByPort(player3, 0).size());
+        assertTrue(match.getVisiblePlayersByPort(player3, 0).contains(player2));
+
+        assertEquals(1, match.getVisiblePlayersByPort(player3, 3).size());
+        assertTrue(match.getVisiblePlayersByPort(player3, 3).contains(player4));
+
+        player3.setCel(2,3);
+        assertEquals(1, match.getVisiblePlayersByPort(player3, 3).size());
+        assertTrue(match.getVisiblePlayersByPort(player3, 0).contains(player1));
+
+        assertEquals(0, match.getVisiblePlayersByPort(player2, 2).size());
+        assertEquals(1, match.getVisiblePlayersByPort(player2, 1).size());
+        assertTrue(match.getVisiblePlayersByPort(player2, 1).contains(player1));
     }
 
     @Test

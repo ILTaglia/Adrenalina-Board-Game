@@ -8,7 +8,7 @@ import exceptions.InvalidDirectionException;
 import java.util.List;
 
 public class Shoot extends Action {
-    public Shoot(Match m, Player player, Weapon weapon, List<String> destination) {
+    public Shoot() {
         //n is the number of passes a player wants to do before shooting
         //TODO Player player, Weapon weapon can be parameters?
         //you can shoot even by moving up to 1 squares before doing the action if you have at least 6 damages

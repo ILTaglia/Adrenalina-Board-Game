@@ -32,7 +32,9 @@ public class Run extends Action {
             for(String s : destination){
                 this.movement(m, player, s);
             }
+            return;
         }
+        throw new InvalidDirectionException();
     }
 
     //method for atomic movements
