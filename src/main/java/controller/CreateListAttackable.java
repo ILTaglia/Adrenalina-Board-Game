@@ -20,6 +20,11 @@ public class CreateListAttackable {
         viewer=null;
     }
 
+    public void setDirection(int direction)
+    {
+        this.direction=direction;
+    }
+
     public CreateListAttackable(int direction, int movement)
     {
         attackablecells= new ArrayList<Coordinate>();
@@ -43,6 +48,8 @@ public class CreateListAttackable {
 
     public void createlist(Match match, TypeAttack attack, Player player1)
     {
+        this.attackableplayers= new ArrayList<Player>();
+        this.attackablecells= new ArrayList<Coordinate>();
         ArrayList<Player> tocancelplayer = new ArrayList<Player>();
         ArrayList<Coordinate> tocancelcel = new ArrayList<Coordinate>();
         if(attack.getType()==1) //Caso in cui ho un finite distance
@@ -88,7 +95,7 @@ public class CreateListAttackable {
             players=match.getVisiblePlayers(player1);
             for(Player p : players)
             {
-                if(match.getPlayersMD(player1,p)<attack.getDistance())
+                if(match.getPlayersMD(player1,p)<=attack.getDistance())
                 {
                     //players.remove(p);
                     tocancelplayer.add(p);
@@ -131,6 +138,7 @@ public class CreateListAttackable {
                 this.attackableplayers.addAll(match.getLeftPlayers(player1));
                 this.attackablecells.addAll(match.getLeftCells(player1.getCel()));
             }
+
         }
         if(attack.getType()==5) //Caso in cui ho un notseen
         {
@@ -166,6 +174,8 @@ public class CreateListAttackable {
                 }
             }
             reciclebeenc(cellsnotseen,tocancelcel);
+            playersnotseen.remove(player1);
+            cellsnotseen.remove(player1.getCel());
 
             this.attackablecells=cellsnotseen;
             this.attackableplayers=playersnotseen;
