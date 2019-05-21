@@ -6,6 +6,6 @@ public class GameRoom {
 
     public GameRoom(List<String> username){
 
-        System.out.println("Fino a qua tutto OK");
+        System.out.println(username);
     }
 }

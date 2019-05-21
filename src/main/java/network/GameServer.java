@@ -35,19 +35,23 @@ public class GameServer {
     private ArrayList<GameRoom> gameRooms;
 
 
-    public static void main() throws IOException {
-        //Per ora implemento Socket, ci sarà da completare con RMI
-        try {
+    public static void main(String[] args) {
+        //try {
             GameServer gameServer = new GameServer();
-            gameServer.launchServer();                  //TODO: parametri, lettura da file dei parametri
+            gameServer.launchServer();
+            //TODO: parametri, lettura da file dei parametri
+        /*
         }catch (Exception e) {
             System.out.println("Ciaone Errore 1");
         }
+        //TODO: RMI
+        */
     }
-    private void GameServer(){
-        usernameToUserID =new HashMap<>();
+
+    private GameServer(){
         this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.gameSocketSvr=new GameSocketSvr(this);
+        usernameToUserID =new HashMap<>();
     }
 
     private void launchServer(){
@@ -76,9 +80,17 @@ public class GameServer {
     }
 
     public void newGameRoom(List<String> usernameList) {
+        GameRoom gameRoom=new GameRoom(usernameList);
         //TODO: capire come aggiungere singoli player a stessa GameRoom nella HashMap
         //Poi costruire nuova GameRoom e istanziare il tutto
     }
+    /*
+    public static void main(String[] args) {
+        String test="username casuale";
+        GameServer server=new GameServer();
+        server.assignIDtoUsername(test);
+    }
+    */
 }
 
 
