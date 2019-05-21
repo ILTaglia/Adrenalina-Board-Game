@@ -21,7 +21,7 @@ public abstract class Grab extends Action {
         }
 
     public boolean isValidMovement(Match match, Player player, List<String> destination) {
-        if (!(player.gettotaldamage()>3 && destination.size()<2)) return false;
+        if (!(player.gettotaldamage()>3 && destination.size()<=2)) return false;
         else {
             Run r = new Run();
             int x = player.getCel().getX();

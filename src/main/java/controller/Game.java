@@ -76,11 +76,20 @@ public class Game{
         for(int i=0; i<match.getPlayersSize(); i++){
             if(match.getPlayers().get(i).equals(p)){
                 index = i;
+                if(i==match.getPlayersSize()-1){
+                    this.resetTurn(match);
+                    return;
+                }
             }
         }
         match.getPlayerByIndex(index).setActive();
         index++;
         match.getPlayerByIndex(index).setActive();
+    }
+
+    private void resetTurn(Match match){
+        for(Player p:match.getPlayers()) p.resetAction();
+        match.getPlayerByIndex(0).setActive();
     }
 
     public static void main(String[] args){

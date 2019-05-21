@@ -51,8 +51,21 @@ public class Client {
         String name= getData.getName();
 
         Player player = new Player(name, color, "12345678");
-        Player player1 = new Player("Sirius", "Blue", "10583741");
-        Player player2 = new Player("Calypso", "Pink", "14253954");
+
+        printStream.println("\nPlease, choose the color of the player:");
+        printStream.println("Blue - Green - Yellow - Pink - Grey");
+        color = getData.getValidColorforPlayer();
+        printStream.println("\nPlease, enter your name to play in the game:");
+        name= getData.getName();
+        Player player1 = new Player(name, color, "10583741");
+
+        printStream.println("\nPlease, choose the color of the player:");
+        printStream.println("Blue - Green - Yellow - Pink - Grey");
+        color = getData.getValidColorforPlayer();
+        printStream.println("\nPlease, enter your name to play in the game:");
+        name= getData.getName();
+        Player player2 = new Player(name, color, "14253954");
+
         Game game = new Game();
         int index = game.getMatchesSize()-1;
         Match match = game.getMatchByIndex(index);
@@ -62,19 +75,29 @@ public class Client {
             match.addPlayer(player2);
         }
         catch (MaxNumberPlayerException e){ printStream.println("Maximum number of players reached.");}
-        match.createDashboard(3);
+
+        printStream.println("\nPlease, "+match.getPlayerByIndex(0).getname()+" choose the type of dashboard:1, 2, 3");
+        int maptype = getData.getInt(1, 3);
+        game.select(maptype);
+
         AmmoTile ammoTile1 = new AmmoTile(0,0,1);
         AmmoTile ammoTile2= new AmmoTile(0,1,0);
         AmmoTile ammoTile3 = new AmmoTile(1,0,1);
+        AmmoTile ammoTile4 = new AmmoTile(0,2,0);
         AmmoPowTile ammoPowTile1 = new AmmoPowTile(2,1);
         AmmoPowTile ammoPowTile2 = new AmmoPowTile(1,1);
         AmmoPowTile ammoPowTile3 = new AmmoPowTile(0,2);
+        AmmoPowTile ammoPowTile4 = new AmmoPowTile(1,2);
+        AmmoPowTile ammoPowTile5 = new AmmoPowTile(2,2);
         NormalCell cell1 = (NormalCell)match.getDashboard().getmap(0,0);
         NormalCell cell2 = (NormalCell)match.getDashboard().getmap(0,1);
         NormalCell cell3 = (NormalCell)match.getDashboard().getmap(0,3);
         NormalCell cell4 = (NormalCell)match.getDashboard().getmap(1,1);
         NormalCell cell5 = (NormalCell)match.getDashboard().getmap(1,2);
         NormalCell cell6 = (NormalCell)match.getDashboard().getmap(1,3);
+        NormalCell cell7 = (NormalCell)match.getDashboard().getmap(2,0);
+        NormalCell cell8 = (NormalCell)match.getDashboard().getmap(2,1);
+        NormalCell cell9 = (NormalCell)match.getDashboard().getmap(2,2);
         try{
             cell1.Add_Ammo_Card(ammoTile1);
             cell2.Add_Ammo_Card(ammoPowTile1);
@@ -82,15 +105,34 @@ public class Client {
             cell4.Add_Ammo_Card(ammoPowTile2);
             cell5.Add_Ammo_Card(ammoTile3);
             cell6.Add_Ammo_Card(ammoPowTile3);
+            cell7.Add_Ammo_Card(ammoPowTile4);
+            cell8.Add_Ammo_Card(ammoTile4);
+            cell9.Add_Ammo_Card(ammoPowTile5);
         } catch (FullCellException e){}
-        player.setCel(0,2);
-        player1.setCel(2, 3); //Sirius
-        player2.setCel(2, 1); //Calypso
+        for(Player p:match.getPlayers()){
+            printStream.println("\nPlease, "+p.getname()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
+            printStream.println("There are three SpawnPoint cells in the game:");
+            printStream.println("Line 0, column 2");
+            printStream.println("Line 1, column 0");
+            printStream.println("Line 2, column 3");
+            int x= getData.getInt(0, 2);
+            int y= getData.getInt(0, 3);
+            while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
+                printStream.println("Not a valid SpawnPoint");
+                x= getData.getInt(0, 2);
+                y= getData.getInt(0, 3);
+            }
+            p.setCel(x,y);
+        }
         game.startGame(match.getId());
         match.fillDashboard();
+
         player.setdamage(6, 0);
         //TODO serve al client a reference alla partita che sta giocando
-        c.play(match);
+        for(int i=0; i<match.getPlayersSize(); i++){
+            c.play(match);
+            game.setTurn(match);
+        }
 
 
     }
@@ -103,15 +145,16 @@ public class Client {
         View view = new CLIView(match);
         int counter=0;
         GetData getData=new GetData();
-        printStream.println("\nWhat to you want to do?");
-        printStream.println("0. Run"); //done
-        printStream.println("1. Grab"); //done
-        printStream.println("2. Shoot");
-        printStream.println("3. Grab with movement"); //done
-        printStream.println("4. Shoot with movement");
-        printStream.println("5. Recharge"); //done ATTENTA, questo è extra, il conteggio di counter per le azioni non va incrementato. Probabilmente lo metterò dopo la shoot come extra
         int choice;
         while(counter<2){
+            printStream.println("\nTurn of player "+match.getActivePlayer().getname());
+            printStream.println("\nWhat to you want to do?");
+            printStream.println("0. Run"); //done
+            printStream.println("1. Grab"); //done
+            printStream.println("2. Shoot");
+            printStream.println("3. Grab with movement"); //done
+            printStream.println("4. Shoot with movement");
+            printStream.println("5. Recharge"); //done ATTENTA, questo è extra, il conteggio di counter per le azioni non va incrementato. Probabilmente lo metterò dopo la shoot come extra
             view.printMap();
             printStream.println((counter+1)+" action.");
             choice = getData.getInt(0, 5);
@@ -123,6 +166,7 @@ public class Client {
                     Run run = new Run();
                     try{
                         run.getMovement(match, match.getActivePlayer(), destination);
+                        run.registerMovementAction(match);
                         counter++;
                     } catch(InvalidDirectionException e){
                         printStream.println("You have chosen a not valid direction");
@@ -131,17 +175,20 @@ public class Client {
                 case(1):
                     int x = match.getActivePlayer().getCel().getX();
                     int y = match.getActivePlayer().getCel().getY();
-                    if((x==0 && y==2) ||(x==1 && y==1) ||(x==2 && y==3)){
+                    if((x==0 && y==2) ||(x==1 && y==0) ||(x==2 && y==3)){
                         //this is a SpawnPoint cell
                         /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
                          * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
                          * is added to his weapon cards*/
+                        view.showPlayerWeapons();
                         view.showSpawnPointWeapons();
                         int weapontograb = view.getWeaponCard();
                         GrabWeapon grabWeapon = new GrabWeapon();
                         try{
                             grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
+                            view.showPlayerWeapons();
                             counter++;
+                            break;
                         } catch(MaxNumberofCardsException e){
                             printStream.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
                             int removing = getData.getInt(0, 1);
@@ -159,6 +206,7 @@ public class Client {
                                     counter++;
                                     try{
                                         grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
+                                        view.showPlayerWeapons();
                                     } catch(MaxNumberofCardsException ex){return;}
                             }
                         }
@@ -167,16 +215,23 @@ public class Client {
                     else {
                         //this is not a SpawnPoint cell
                         GrabAmmo grabAmmo = new GrabAmmo();
+                        printStream.println("Before grabbing");
                         view.showPlayerAmmos();
+                        view.showPlayerPows();
                         try{
                             grabAmmo.grabAmmo(match, match.getActivePlayer());
+                            printStream.println("After grabbing");
+                            view.showPlayerAmmos();
+                            view.showPlayerPows();
                             counter++;
                         } catch(MaxNumberofCardsException exc){
                             printStream.println("You have to many PowCards, if you want to remove one digit 1, 0 otherwise");
                             int removing = getData.getInt(0, 1);
                             switch(removing){
                                 case(0):
+                                    printStream.println("After grabbing without collecting the PowCard of AmmoPowTile");
                                     view.showPlayerAmmos();
+                                    view.showPlayerPows();
                                     break; //nothing to be done, just Ammos are taken
                                 case(1):
                                     printStream.println("Which PowCard do you want to remove?");
@@ -189,6 +244,7 @@ public class Client {
                                     try{
                                         match.assignPowCard(match.getActivePlayer());
                                     } catch(MaxNumberofCardsException ex){return;}
+                                    printStream.println("After grabbing collecting the PowCard of AmmoPowTile");
                                     view.showPlayerPows();
                                     view.showPlayerAmmos();
                                     break;
@@ -205,9 +261,7 @@ public class Client {
                     /*Grabbing with movement*/
                     List<String> destination2 = view.getListDirection();
                     GrabAmmo grabAmmo = new GrabAmmo();
-                    if(grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2)){
-                        grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2);
-                    } else {
+                    if(!grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2)){
                         printStream.println("You are not allowed to move this way.");
                         return;
                     }
@@ -253,12 +307,18 @@ public class Client {
                         //this is not a SpawnPoint cell
                         try{
                             grabAmmo.grabAmmo(match, match.getActivePlayer());
+                            printStream.println("Before grabbing");
+                            view.showPlayerAmmos();
+                            view.showPlayerPows();
                             counter++;
                         } catch(MaxNumberofCardsException exc){
                             printStream.println("You have to many PowCards, if you want to remove one digit 1, 0 otherwise");
                             int removing = getData.getInt(0, 1);
                             switch(removing){
                                 case(0):
+                                    printStream.println("After grabbing without collecting the PowCard of AmmoPowTile");
+                                    view.showPlayerAmmos();
+                                    view.showPlayerPows();
                                     break; //nothing to be done, just Ammos are taken
                                 case(1):
                                     printStream.println("Which PowCard do you want to remove?");
@@ -271,6 +331,9 @@ public class Client {
                                     try{
                                         match.assignPowCard(match.getActivePlayer());
                                     } catch(MaxNumberofCardsException ex){return;}
+                                    printStream.println("After grabbing collecting the PowCard of AmmoPowTile");
+                                    view.showPlayerAmmos();
+                                    view.showPlayerPows();
                             }
                         }
                     }
@@ -301,7 +364,6 @@ public class Client {
         view.printMap();
         printStream.println(match.getActivePlayer().getname()+" you have ended your turn.");
 
-        printStream.println("I made this test considering that:");
         view.printPlayerData();
     }
 

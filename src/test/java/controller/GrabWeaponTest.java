@@ -61,7 +61,7 @@ public class GrabWeaponTest {
             c.Add_Weapon_Card(weapon5, 1);
             c.Add_Weapon_Card(weapon6, 2);
         } catch (FullCellException e){}
-        assertFalse(grabweapon.isValid(match, player1, destination, 1));
+        assertTrue(grabweapon.isValid(match, player1, destination, 1));
         assertFalse(grabweapon.isValidMovement(match, player1, destination));
         assertEquals(0, player1.getAction());
         //player1 has not enough damages to move before grabbing
@@ -70,7 +70,7 @@ public class GrabWeaponTest {
         player1.setCel(1,2);
         destination.add("N");
         assertTrue(grabweapon.isValidMovement(match, player1, destination));
-        assertFalse(grabweapon.isValid(match, player1, destination, 1));
+        assertTrue(grabweapon.isValid(match, player1, destination, 1));
         try{
             player1.removeWeapon(weapon3);
         } catch (ZeroCardsOwnedException e){}
