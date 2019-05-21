@@ -72,6 +72,45 @@ public class Match extends Observable implements Serializable {
         return this.players;
     }
 
+    public void fillDashboard(){
+        if(this.checkdashboard) {
+            int maptype = this.getDashboard().getMapType();
+
+            weapondeck.drawCard();
+            Weapon weapon1 = (Weapon)weapondeck.drawCard();
+            Weapon weapon2 = (Weapon)weapondeck.drawCard();
+            Weapon weapon3 = (Weapon)weapondeck.drawCard();
+            Weapon weapon4 = (Weapon)weapondeck.drawCard();
+            Weapon weapon5 = (Weapon)weapondeck.drawCard();
+            Weapon weapon6 = (Weapon)weapondeck.drawCard();
+            Weapon weapon7 = (Weapon)weapondeck.drawCard();
+            Weapon weapon8 = (Weapon)weapondeck.drawCard();
+            Weapon weapon9 = (Weapon)weapondeck.drawCard();
+            SpawnPointCell c = (SpawnPointCell)this.getDashboard().getmap(0, 2);
+            try{
+                c.Add_Weapon_Card(weapon1, 0);
+                c.Add_Weapon_Card(weapon2, 1);
+                c.Add_Weapon_Card(weapon3, 2);
+            } catch (FullCellException e){}
+            c = (SpawnPointCell)this.getDashboard().getmap(1, 0);
+            try{
+                c.Add_Weapon_Card(weapon4, 0);
+                c.Add_Weapon_Card(weapon5, 1);
+                c.Add_Weapon_Card(weapon6, 2);
+            } catch (FullCellException e){}
+            c = (SpawnPointCell)this.getDashboard().getmap(2, 3);
+            try{
+                c.Add_Weapon_Card(weapon7, 0);
+                c.Add_Weapon_Card(weapon8, 1);
+                c.Add_Weapon_Card(weapon9, 2);
+            } catch (FullCellException e){}
+
+            if(maptype==1){}
+            if(maptype==2){}
+            if(maptype==3){}
+        }
+    }
+
     //i is the index of the chosen map
     public int createDashboard(int i){
         if(players.size()>=3) {

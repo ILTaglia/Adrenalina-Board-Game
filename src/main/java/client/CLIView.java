@@ -138,6 +138,7 @@ public class CLIView implements View {
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
+            //for(Player p1:match.getPlayers())
             printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
@@ -204,6 +205,15 @@ public class CLIView implements View {
             printStream.println(i+". "+powcard.getName());
             i++;
         }
+    }
+
+    //Method to show the active player how many ammos he has
+    @Override
+    public void showPlayerAmmos(){
+        printStream.println("You have:");
+        printStream.println(match.getActivePlayer().getAmmo(0)+" red Ammos");
+        printStream.println(match.getActivePlayer().getAmmo(1)+" blue Ammos");
+        printStream.println(match.getActivePlayer().getAmmo(2)+" yellow Ammos");
     }
 
     //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
@@ -364,12 +374,21 @@ public class CLIView implements View {
         printStream.println("'S' for south");
         printStream.println("'W' for west");
         printStream.println("'Stop' to terminate");
+        String stop = "Stop";
 
         //Movements are maximum of three cells, so in three direction. In special movements for some actions there are restrictions
         //for example moving of maximum one before shooting but this method is for a general input of sequence
-        while(!this.getData.getValidDirectionforPlayer().equals("Stop") || destination.size()==3){
-            destination.add(this.getData.getValidDirectionforPlayer());
+        for(int i=0; i<3; i++){
+            String d = this.getData.getValidDirectionforPlayer();
+            if(!d.equals(stop)) destination.add(d);
+            else {
+                System.out.println("Uscito");
+                return destination;
+            }
         }
+        /*while(!this.getData.getValidDirectionforPlayer().equals("Stop") && destination.size()==3){
+            destination.add(this.getData.getValidDirectionforPlayer());
+        }*/
         return destination;
     }
 
@@ -383,7 +402,7 @@ public class CLIView implements View {
         printStream.println("You are in cell at line "+player.getCel().getX()+" and column "+player.getCel().getY());
         printStream.println("Total damages: "+player.gettotaldamage());
         for(Player p:match.getPlayers()){
-            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+"by Player "+p.getname());
+            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+" by Player "+p.getname());
         }
         printStream.println("Actual score: "+player.getScore());
 
