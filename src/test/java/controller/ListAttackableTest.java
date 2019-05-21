@@ -1,0 +1,237 @@
+package controller;
+import exceptions.*;
+import model.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
+public class ListAttackableTest {
+    Match match;
+    Player player1;
+    Player player2;
+    Player player3;
+    Player player4;
+    Player player5;
+    GrabWeapon grabweapon;
+
+    @Before
+    public void setUp() throws Exception {
+        match = new Match();
+        player1 = new Player("Giovanni", "Blue", "10583741");
+        player2 = new Player("Marco", "Pink", "14253954");
+        player3 = new Player("Codecasa", "Green", "18263100");
+        player4 = new Player("Bussetti", "Yellow", "18263100");
+        player5 = new Player("Norma", "Grey", "18263100");
+        try {
+            match.addPlayer(player1);
+            match.addPlayer(player2);
+            match.addPlayer(player3);
+        } catch (MaxNumberPlayerException e) {
+            System.out.println("Too many players in the game.");
+        }
+
+        match.createDashboard(3);
+        grabweapon = new GrabWeapon();
+        ArrayList<String> destination = new ArrayList<>();
+        player1.setCel(1, 2);
+        player2.setCel(2, 2);
+        player3.setCel(2, 1);
+        player4.setCel(2, 0);
+        player5.setCel(0, 1);
+
+        WeaponDeck weaponDeck = new WeaponDeck();
+        weaponDeck.setWeapons("Armi");
+        weaponDeck.drawCard();
+        Weapon weapon1 = (Weapon) weaponDeck.drawCard();
+        Weapon weapon2 = (Weapon) weaponDeck.drawCard();
+        Weapon weapon3 = (Weapon) weaponDeck.drawCard();
+        Weapon weapon4 = (Weapon) weaponDeck.drawCard();
+        Weapon weapon5 = (Weapon) weaponDeck.drawCard();
+        Weapon weapon6 = (Weapon) weaponDeck.drawCard();
+        try {
+            player1.addWeapon(weapon1);
+            player1.addWeapon(weapon2);
+            player1.addWeapon(weapon3);
+
+        } catch (MaxNumberofCardsException e) {
+            System.out.println("You have too many Weapon Cards, please remove one.");
+        }
+
+    }
+
+    @Test
+    public void undefined()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(1,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+        attack = new AttackFactory().getinstanceof(1,0,1,0,0);
+
+        lister.createlist(match,attack,player2);
+        assertEquals(lister.getAttackableplayers().get(0).getname(),"Giovanni");
+        assertEquals(lister.getAttackableplayers().get(1).getname(),"Codecasa");
+        assertEquals(lister.getAttackableplayers().size(),2);
+        attack = new AttackFactory().getinstanceof(1,0,2,0,0);
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+
+        System.out.println("Stampo i visibili dal player 2");
+        for(Player p : match.getVisiblePlayers(player2))
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+
+    @Test
+    public void visible()
+    {
+        for(Player p : match.getVisiblePlayers(player2))
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void undefinedd()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(2,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void moredistanced()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(3,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void cardinald()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(4,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void notseend()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(5,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void whilemoving()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(6,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void allaroundd()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(7,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void aftermovingd()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(8,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void allroomd()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(9,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void ricorsived()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(10,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void infinitelined()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(11,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+    @Test
+    public void movingtomed()
+    {
+        TypeAttack attack = new AttackFactory().getinstanceof(12,0,1,0,0);
+        CreateListAttackable lister = new CreateListAttackable();
+        lister.createlist(match,attack,player2);
+        for(Player p : lister.getAttackableplayers())
+        {
+            System.out.println(p.getname());
+        }
+    }
+
+
+}

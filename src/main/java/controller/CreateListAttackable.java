@@ -29,6 +29,7 @@ public class CreateListAttackable {
         this.viewer=null;
     }
 
+
     public ArrayList<Player> getAttackableplayers()
     {
         return this.attackableplayers;
@@ -42,6 +43,8 @@ public class CreateListAttackable {
 
     public void createlist(Match match, TypeAttack attack, Player player1)
     {
+        ArrayList<Player> tocancelplayer = new ArrayList<Player>();
+        ArrayList<Coordinate> tocancelcel = new ArrayList<Coordinate>();
         if(attack.getType()==1) //Caso in cui ho un finite distance
         {
             ArrayList<Player> players =new ArrayList<Player>();
@@ -51,18 +54,22 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(player1,p)!=attack.getDistance())
                 {
-                    players.remove(p);
+                    //players.remove(p);
+                    tocancelplayer.add(p);
                 }
             }
+            reciclebeenp(players,tocancelplayer);
             this.attackableplayers=players;
             cells=match.getVisibleCells(player1.getCel());
             for(Coordinate c : cells)
             {
                 if(match.getCellsMD(c,player1.getCel())!=attack.getDistance())
                 {
-                    cells.remove(c);
+                    //cells.remove(c);
+                    tocancelcel.add(c);
                 }
             }
+            reciclebeenc(cells,tocancelcel);
             this.attackablecells=cells;
         }
         if(attack.getType()==2 || attack.getType()==10) //Caso in cui ho un undefined distance
@@ -83,18 +90,22 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(player1,p)<attack.getDistance())
                 {
-                    players.remove(p);
+                    //players.remove(p);
+                    tocancelplayer.add(p);
                 }
             }
+            reciclebeenp(players,tocancelplayer);
             this.attackableplayers=players;
             cells=match.getVisibleCells(player1.getCel());
             for(Coordinate c : cells)
             {
                 if(match.getCellsMD(c,player1.getCel())<attack.getDistance())
                 {
-                    cells.remove(c);
+                    //cells.remove(c);
+                    tocancelcel.add(c);
                 }
             }
+            reciclebeenc(cells,tocancelcel);
             this.attackablecells=cells;
         }
         if(attack.getType()==4) //Caso in cui ho un cardinal
@@ -141,16 +152,20 @@ public class CreateListAttackable {
             {
                 if(players.contains(p))
                 {
-                    playersnotseen.remove(p);
+                    //playersnotseen.remove(p);
+                    tocancelplayer.add(p);
                 }
             }
+            reciclebeenp(playersnotseen,tocancelplayer);
             for(Coordinate c:cellsnotseen)
             {
                 if(cells.contains(c))
                 {
-                    cellsnotseen.remove(c);
+                    //cellsnotseen.remove(c);
+                    tocancelcel.add(c);
                 }
             }
+            reciclebeenc(cellsnotseen,tocancelcel);
 
             this.attackablecells=cellsnotseen;
             this.attackableplayers=playersnotseen;
@@ -184,16 +199,20 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(p,player1)!=1)
                 {
-                    players.remove(p);
+                    //players.remove(p);
+                    tocancelplayer.add(p);
                 }
             }
+            reciclebeenp(players,tocancelplayer);
             for(Coordinate c : coordinates)
             {
                 if(match.getCellsMD(player1.getCel(),c)!=1)
                 {
-                    coordinates.remove(c);
+                    //coordinates.remove(c);
+                    tocancelcel.add(c);
                 }
             }
+            reciclebeenc(coordinates,tocancelcel);
             this.attackableplayers=players;
             this.attackablecells=coordinates;
         }
@@ -205,21 +224,26 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(p,player1)!=1)
                 {
-                    players.remove(p);
+                    //players.remove(p);
+                    tocancelplayer.add(p);
                 }
             }
+            reciclebeenp(players,tocancelplayer);
             for(Coordinate c : coordinates)
             {
                 if(match.getCellsMD(player1.getCel(),c)!=1)
                 {
-                    coordinates.remove(c);
+                    //coordinates.remove(c);
+                    tocancelcel.add(c);
                 }
             }
+            reciclebeenc(coordinates,tocancelcel);
             this.attackableplayers=players;
             this.attackablecells=coordinates;
         }
         if(attack.getType()==8) //Caso in cui ho un after moving
         {
+
             //TODO METODO CHE MI PERMETTE DI STABILIRE DOVE MI TROVERO' PER POI TROVARE I GIOCATORI VISIBILI
         }
         if(attack.getType()==9) //Caso in cui ho un all room
@@ -261,16 +285,20 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(p,player1)>this.residualmovement)
                 {
-                    this.attackableplayers.remove(p);
+                    //this.attackableplayers.remove(p);
+                    tocancelplayer.add(p);
                 }
             }
+            reciclebeenp(this.attackableplayers,tocancelplayer);
             for(Coordinate c : this.attackablecells)
             {
                 if(match.getCellsMD(c,player1.getCel())>this.residualmovement)
                 {
-                    this.attackablecells.remove(c);
+                    //this.attackablecells.remove(c);
+                    tocancelcel.add(c);
                 }
             }
+            reciclebeenc(this.attackablecells,tocancelcel);
 
         }
         if(attack.getType()==12) //Caso in cui ho un moving to me
@@ -295,5 +323,23 @@ public class CreateListAttackable {
 
     }
 
+
+    private void reciclebeenp (ArrayList<Player> effective, ArrayList<Player> tocancel)
+    {
+        for(Player p : tocancel)
+        {
+            effective.remove(p);
+        }
+        tocancel= new ArrayList<Player>();
+    }
+
+    private void reciclebeenc(ArrayList<Coordinate> effective, ArrayList<Coordinate> tocancel)
+    {
+        for(Coordinate c : tocancel)
+        {
+            effective.remove(c);
+        }
+        tocancel=new ArrayList<Coordinate>();
+    }
 
 }
