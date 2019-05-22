@@ -29,6 +29,7 @@ public interface View {
      * Metodi per Avvio Client                                *
      **********************************************************
      */
+
     //Message to advise the player the game has started
     void welcomeMessage(int idClient);
 

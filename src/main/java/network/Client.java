@@ -1,6 +1,7 @@
 package network;
 
 import client.View;
+import network.Messages.Message;
 
 import java.util.Scanner;
 
@@ -12,6 +13,10 @@ public class Client {
     private String username;
 
     private NetworkHandler networkHandler;
+
+    private final String serverIP="127.0.0.1";
+    private final int serverPort=7218;
+
 
     public Client(){
         isToUseSocket=false;            //Default RMI
@@ -52,15 +57,20 @@ public class Client {
 
     public void launchConnection(){
         if(isToUseSocket){
-
+            networkHandler=new NetworkHandler(serverIP,serverPort,this);
         }
         else{
-
+            //TODO: implementare RMI
         }
     }
 
-    public void setUsername(String username){
+    public void setUsername(String username){           //TODO: potrebbe essere anche un ID, valutare scelta
 
+    }
+
+
+    public void sendMessage(Message message){
+        networkHandler.send(message);
     }
 
 }

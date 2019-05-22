@@ -4,6 +4,7 @@ package network;
 
 import client.View;
 import model.Player;
+import network.Messages.Message;
 
 import java.util.List;
 import java.util.Scanner;
@@ -18,21 +19,29 @@ public class CLI  implements View {
     }
     //Si chiede all'utente quale tipologia di connessione voglia utilizzare.
     public void start(){
-
         Scanner userChoice;
         userChoice=new Scanner(System.in);
         System.out.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
                            "1. RMI" +
                            "2. Socket");
-        String connectionChoice=userChoice.next();
+        int connectionChoice=userChoice.nextInt();
 
-        if(connectionChoice.equals("RMI")){
+        if(connectionChoice==1){
             client.setConnection(false);
         }
         else{
             client.setConnection(true);
         }
         client.launchConnection();
+        login();
+    }
+
+    public void login(){
+        Scanner username;
+        username=new Scanner(System.in);
+        System.out.println("Digitare proprio username:");
+        Message message=new Message(username.next().toString());
+        client.sendMessage(message);
     }
 
 
