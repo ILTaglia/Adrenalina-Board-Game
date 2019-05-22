@@ -20,6 +20,11 @@ public class CreateListAttackable {
         viewer=null;
     }
 
+    public void setViewer(Player viewer)
+    {
+        this.viewer=viewer;
+    }
+
     public void setDirection(int direction)
     {
         this.direction=direction;

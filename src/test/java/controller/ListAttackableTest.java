@@ -228,18 +228,29 @@ public class ListAttackableTest {
     {
         TypeAttack attack = new AttackFactory().getinstanceof(10,0,1,0,0);
         CreateListAttackable lister = new CreateListAttackable();
+        player5.setCel(1, 1);
         lister.createlist(match,attack,player2);
-        for(Player p : lister.getAttackableplayers())
-        {
-            System.out.println(p.getname());
-        }
+        assertTrue(lister.getAttackableplayers().contains(player3));
+        assertTrue(lister.getAttackableplayers().contains(player4));
+        assertTrue(lister.getAttackableplayers().contains(player1));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertFalse(lister.getAttackableplayers().contains(player5));
+        assertEquals(lister.getAttackableplayers().size(),3);
+        lister.setViewer(player3);
+        lister.createlist(match,attack,player2);
+        assertFalse(lister.getAttackableplayers().contains(player3));
+        assertTrue(lister.getAttackableplayers().contains(player4));
+        assertTrue(lister.getAttackableplayers().contains(player5));
+        assertTrue(lister.getAttackableplayers().contains(player2));
+        assertTrue(lister.getAttackableplayers().contains(player1));
+        assertEquals(lister.getAttackableplayers().size(),4);
     }
 
     @Test
     public void infinitelined()
     {
         TypeAttack attack = new AttackFactory().getinstanceof(11,0,1,0,0);
-        CreateListAttackable lister = new CreateListAttackable();
+        CreateListAttackable lister = new CreateListAttackable(3,2);
         lister.createlist(match,attack,player2);
         for(Player p : lister.getAttackableplayers())
         {
