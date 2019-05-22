@@ -24,8 +24,9 @@ public class GrabWeapon extends Grab{
         if(indexWeapon<0 || indexWeapon>2) return false;
         if(!this.isValidMovement(match, player, destination) && !destination.isEmpty()) return false;
         else {
-            if (player.getnumberweapon() == 3) return false;
-            else return true;
+            //if (player.getnumberweapon() == 3) return false;
+            //else return true;
+            return true;
         }
     }
 

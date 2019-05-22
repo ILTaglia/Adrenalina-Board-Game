@@ -37,6 +37,13 @@ public class Run extends Action {
         throw new InvalidDirectionException();
     }
 
+    //Method to increase the number of action of the active player. It must be done because grabbing and shooting actions have in their mainly
+    //methods the increase of variable Action of the active player. If setAction was in getMovement method, as shooting and grabbing can call the
+    //method for players with a certain number of damages, action would be increased twice.
+    public void registerMovementAction(Match m){
+        m.getActivePlayer().setAction();
+    }
+
     //method for atomic movements
     private void movement(Match m, Player player, String direction) throws InvalidDirectionException {
         int d = this.getDirection(direction);

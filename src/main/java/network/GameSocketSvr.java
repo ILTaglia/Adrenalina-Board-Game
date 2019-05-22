@@ -47,10 +47,6 @@ public class GameSocketSvr {
         }
     }
 
-    public void addClientToWR(Socket clientSocket,String username){
-        gameServer.addClientToWR(clientSocket,username);
-    }
-
     public void close(){
         this.isStopped=true;
         try {
@@ -62,6 +58,17 @@ public class GameSocketSvr {
 
     private boolean isStopped(){        //TODO: verificare utilità metodo
         return this.isStopped;
+    }
 
+    public void addClientToWR(ClientHandler clientHandler,String username){
+        gameServer.addClientToWR(clientHandler,username);
+    }
+
+    public boolean isAlreadyInQueue(String requestedUsername) { //TODO: VERIFICA PARALLELISMI DI TUTTO QUESTO
+        return gameServer.isAlreadyInQueue(requestedUsername);
+    }
+
+    public synchronized void assignIDtoUsername(String playerUsername) {
+        gameServer.assignIDtoUsername(playerUsername);
     }
 }

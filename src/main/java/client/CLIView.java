@@ -53,10 +53,22 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        for(Player player:match.getPlayers()){
+        List<Player> duplication = new ArrayList<>();
+        for(int j=0; j<match.getPlayersSize(); j++){
+            duplication.add(match.getPlayers().get(j));
+        }
+        for(int h=0; h<duplication.size(); h++){
+            Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
+            for(int k=h+1; k<duplication.size(); k++){
+                Player p1 = match.getPlayerByIndex(k);
+                if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
+                    printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
+                    duplication.remove(p1);
+                }
+            }
             printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
 
@@ -94,10 +106,22 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        for(Player player:match.getPlayers()){
+        List<Player> duplication = new ArrayList<>();
+        for(int j=0; j<match.getPlayersSize(); j++){
+            duplication.add(match.getPlayers().get(j));
+        }
+        for(int h=0; h<duplication.size(); h++){
+            Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
+            for(int k=h+1; k<duplication.size(); k++){
+                Player p1 = match.getPlayerByIndex(k);
+                if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
+                    printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
+                    duplication.remove(p1);
+                }
+            }
             printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
@@ -134,10 +158,22 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        for(Player player:match.getPlayers()){
+        List<Player> duplication = new ArrayList<>();
+        for(int j=0; j<match.getPlayersSize(); j++){
+            duplication.add(match.getPlayers().get(j));
+        }
+        for(int h=0; h<duplication.size(); h++){
+            Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
+            for(int k=h+1; k<duplication.size(); k++){
+                Player p1 = match.getPlayerByIndex(k);
+                if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
+                    printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
+                    duplication.remove(p1);
+                }
+            }
             printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
@@ -150,8 +186,8 @@ public class CLIView implements View {
         printStream.printf("|________________|______| |_______|______| |______|______| |______|\n");
         printStream.printf("|      Red       |     Pink       |     Yellow    |    Yellow     |\n");
         printStream.printf("|                |                |               |               |\n");
-        printStream.printf("|    "+map[1][0]+"    _    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.printf("|                _                |               |               |\n");
+        printStream.printf("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printStream.printf("|                |                |               |               |\n");
         printStream.printf("|                |                |               |               |\n");
         printStream.printf("|   SpawnPoint   |                |               |               |\n");
         printStream.printf("|______| |_______|______| |_______|_______________|_______________|\n");
@@ -169,8 +205,9 @@ public class CLIView implements View {
     @Override
     public void showPlayerWeapons() {
         Player player=match.getActivePlayer();
-        printStream.println("Player "+ player.getname()+" your Weapon Cards are: ");
         List<Weapon> weaponcards = player.getWeapons();
+        if(!weaponcards.isEmpty()) printStream.println("Player "+ player.getname()+" your Weapon Cards are: ");
+        else printStream.println("Player "+ player.getname()+" you have no Weapon Cards");
 
         int i=1;
         for(Weapon weaponcard:weaponcards){
@@ -183,8 +220,9 @@ public class CLIView implements View {
     @Override
     public void showPlayerPows() {
         Player player=match.getActivePlayer();
-        printStream.println("Player "+ player.getname()+" your PowCards are: ");
         List<PowCard> powcards = player.getPows();
+        if(!powcards.isEmpty()) printStream.println("Player "+ player.getname()+" your PowCards are: ");
+        else printStream.println("Player "+ player.getname()+" your have no PowCards");
 
         int i=1;
         for(PowCard powcard:powcards){
@@ -196,14 +234,23 @@ public class CLIView implements View {
     //Method to show a player its PowCards, used in response to an attack
     @Override
     public void showPlayerPows(Player player){
-        printStream.println("Player "+ player.getname()+" your PowCards are: ");
         List<PowCard> powcards = player.getPows();
+        printStream.println("Player "+ player.getname()+" your PowCards are: ");
 
         int i=1;
         for(PowCard powcard:powcards){
             printStream.println(i+". "+powcard.getName());
             i++;
         }
+    }
+
+    //Method to show the active player how many ammos he has
+    @Override
+    public void showPlayerAmmos(){
+        printStream.println("You have:");
+        printStream.println(match.getActivePlayer().getAmmo(0)+" red Ammos");
+        printStream.println(match.getActivePlayer().getAmmo(1)+" blue Ammos");
+        printStream.println(match.getActivePlayer().getAmmo(2)+" yellow Ammos");
     }
 
     //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
@@ -300,11 +347,11 @@ public class CLIView implements View {
                 nBlueAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(1) &&
                 nYellowAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(2)){
             CardToBuy= numberOfWeapon;
-            try{
+            /*try{
                 grabweapon.grabWeapon(match, match.getActivePlayer(), CardToBuy);
             } catch(MaxNumberofCardsException e){
                 printStream.println("You have too many Weapon cards. Please, remove one if you want to buy this card.");
-            }
+            }*/
         }else{
             printStream.println("You don't have enough money to buy this card!");
         }
@@ -364,11 +411,16 @@ public class CLIView implements View {
         printStream.println("'S' for south");
         printStream.println("'W' for west");
         printStream.println("'Stop' to terminate");
+        String stop = "Stop";
 
         //Movements are maximum of three cells, so in three direction. In special movements for some actions there are restrictions
         //for example moving of maximum one before shooting but this method is for a general input of sequence
-        while(!this.getData.getValidDirectionforPlayer().equals("Stop") || destination.size()==3){
-            destination.add(this.getData.getValidDirectionforPlayer());
+        for(int i=0; i<3; i++){
+            String d = this.getData.getValidDirectionforPlayer();
+            if(!d.equals(stop)) destination.add(d);
+            else {
+                return destination;
+            }
         }
         return destination;
     }
@@ -383,7 +435,7 @@ public class CLIView implements View {
         printStream.println("You are in cell at line "+player.getCel().getX()+" and column "+player.getCel().getY());
         printStream.println("Total damages: "+player.gettotaldamage());
         for(Player p:match.getPlayers()){
-            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+"by Player "+p.getname());
+            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+" by Player "+p.getname());
         }
         printStream.println("Actual score: "+player.getScore());
 
@@ -434,7 +486,7 @@ public class CLIView implements View {
         player1.setCel(0, 3); //Sirius
         player2.setCel(0, 1); //Calypso
         player3.setCel(2, 2); //Hermione
-        player4.setCel(2, 0); //Aries
+        player4.setCel(2, 2); //Aries
 
         WeaponDeck weaponDeck = new WeaponDeck();
         weaponDeck.setWeapons("Armi");
@@ -451,23 +503,23 @@ public class CLIView implements View {
         Weapon weapon10 = (Weapon)weaponDeck.drawCard();
         Weapon weapon11 = (Weapon)weaponDeck.drawCard();
 
-        SpawnPointCell c = (SpawnPointCell)match.getDashboard().getmap(0, 2);
+        SpawnPointCell spawncell = (SpawnPointCell)match.getDashboard().getmap(0, 2);
         try{
-            c.Add_Weapon_Card(weapon1, 0);
-            c.Add_Weapon_Card(weapon2, 1);
-            c.Add_Weapon_Card(weapon3, 2);
+            spawncell.Add_Weapon_Card(weapon1, 0);
+            spawncell.Add_Weapon_Card(weapon2, 1);
+            spawncell.Add_Weapon_Card(weapon3, 2);
         } catch (FullCellException e){}
-        c = (SpawnPointCell)match.getDashboard().getmap(1, 0);
+        spawncell = (SpawnPointCell)match.getDashboard().getmap(1, 0);
         try{
-            c.Add_Weapon_Card(weapon4, 0);
-            c.Add_Weapon_Card(weapon5, 1);
-            c.Add_Weapon_Card(weapon6, 2);
+            spawncell.Add_Weapon_Card(weapon4, 0);
+            spawncell.Add_Weapon_Card(weapon5, 1);
+            spawncell.Add_Weapon_Card(weapon6, 2);
         } catch (FullCellException e){}
-        c = (SpawnPointCell)match.getDashboard().getmap(2, 3);
+        spawncell = (SpawnPointCell)match.getDashboard().getmap(2, 3);
         try{
-            c.Add_Weapon_Card(weapon7, 0);
-            c.Add_Weapon_Card(weapon8, 1);
-            c.Add_Weapon_Card(weapon9, 2);
+            spawncell.Add_Weapon_Card(weapon7, 0);
+            spawncell.Add_Weapon_Card(weapon8, 1);
+            spawncell.Add_Weapon_Card(weapon9, 2);
         } catch (FullCellException e){}
         try {
             player1.addWeapon(weapon10);
@@ -478,7 +530,14 @@ public class CLIView implements View {
         player1.setCel(0, 2); //Sirius
         View view = new CLIView(match);
         view.printMap();
-        view.getWeaponCard();
+        view.showPlayerWeapons();
+        int card = view.getWeaponCard();
+        try{
+            GrabWeapon grabweapon = new GrabWeapon();
+            grabweapon.grabWeapon(match, match.getActivePlayer(), card);
+        } catch(MaxNumberofCardsException e){
+            printStream.println("You have too many Weapon cards. Please, remove one if you want to buy this card.");
+        }
         view.showPlayerWeapons();
         view.showSpawnPointWeapons();
 

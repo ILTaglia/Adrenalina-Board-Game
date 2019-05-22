@@ -13,7 +13,7 @@ public class GetData {
     private BufferedReader input = new BufferedReader(reader);
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private List<String> colors=new ArrayList<>();
-    private List<String> direction=new ArrayList<>();
+    private List<String> directions=new ArrayList<>();
 
 
     /**
@@ -29,11 +29,11 @@ public class GetData {
         colors.add("Grey");
         //players color are blue(0), green(1), yellow(2), pink(3), grey(4)
 
-        direction.add("N");
-        direction.add("E");
-        direction.add("S");
-        direction.add("W");
-        direction.add("Stop");
+        directions.add("N");
+        directions.add("E");
+        directions.add("S");
+        directions.add("W");
+        directions.add("Stop");
         //Cardinal points for player North, East, South, West
 
     }
@@ -64,8 +64,18 @@ public class GetData {
                 LOGGER.log(Level.FINEST,e.getMessage(),e);
 
             }
-        }while("".equals(direction) || !colors.contains(direction));
+        }while("".equals(direction) || !directions.contains(direction));
         return direction;
+    }
+
+    public List<String> getValidListDirectionforPlayer(){
+        List<String> list = new ArrayList<>();
+        String s = this.getValidDirectionforPlayer();
+        while(!s.equals("Stop")){
+            list.add(s);
+            s = this.getValidDirectionforPlayer();
+        }
+        return list;
     }
 
     public String getName() {

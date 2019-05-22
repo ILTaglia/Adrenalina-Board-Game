@@ -29,6 +29,9 @@ public interface View {
     //Method to show a player its PowCards, used in response to an attack
     void showPlayerPows(Player player);
 
+    //Method to show the active player how many ammos he has
+    void showPlayerAmmos();
+
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     int getWeaponCard();
 
