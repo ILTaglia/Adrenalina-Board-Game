@@ -258,6 +258,11 @@ public class CreateListAttackable {
         }
         if(attack.getType()==9) //Caso in cui ho un all room
         {
+            this.attackableplayers=(ArrayList<Player>) match.getVisiblePlayersByPort(player1,this.direction);
+            for(Player p : this.attackableplayers)
+            {
+                this.attackablecells.add(p.getCel());
+            }
             //TODO ASPETTARE METODO PER GIOCATORI IN STANZE SE PRESENZA DI PORTA
         }
         if(attack.getType()==10) //Caso in cui ho un ricorsive

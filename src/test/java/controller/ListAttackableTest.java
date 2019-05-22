@@ -199,7 +199,7 @@ public class ListAttackableTest {
     @Test
     public void aftermovingd()
     {
-        //TODO MANCA ANCORA LA GESTIONE
+        //TODO NESSUNA ARMA CON TALE CARATTERISTICA, NEL CASO DI DLC BISOGNA AGGIORNARE QUESTA PARTE
         TypeAttack attack = new AttackFactory().getinstanceof(8,0,1,0,0);
         CreateListAttackable lister = new CreateListAttackable();
         lister.createlist(match,attack,player2);
@@ -212,14 +212,15 @@ public class ListAttackableTest {
     @Test
     public void allroomd()
     {
-        //TODO MANCA ANCORA LA GESTIONE
         TypeAttack attack = new AttackFactory().getinstanceof(9,0,1,0,0);
-        CreateListAttackable lister = new CreateListAttackable();
+        CreateListAttackable lister = new CreateListAttackable(3,2);
         lister.createlist(match,attack,player2);
-        for(Player p : lister.getAttackableplayers())
-        {
-            System.out.println(p.getname());
-        }
+        assertTrue(lister.getAttackableplayers().contains(player3));
+        assertTrue(lister.getAttackableplayers().contains(player4));
+        assertFalse(lister.getAttackableplayers().contains(player1));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertFalse(lister.getAttackableplayers().contains(player5));
+        assertEquals(lister.getAttackableplayers().size(),2);
     }
 
     @Test

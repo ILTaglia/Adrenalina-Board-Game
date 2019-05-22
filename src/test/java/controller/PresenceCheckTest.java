@@ -74,7 +74,7 @@ public class PresenceCheckTest {
         ArrayList<String> destination = new ArrayList<>();
         player1.setCel(0, 3);
         player2.setCel(0, 2);
-        player3.setCel(0, 1);
+        player3.setCel(2, 0);
 
         WeaponDeck weaponDeck = new WeaponDeck();
         weaponDeck.setWeapons("Armi");
@@ -96,6 +96,7 @@ public class PresenceCheckTest {
         ArrayList<Coordinate> lista =match.getVisibleCells(player2.getCel());
         CheckIFPresent check= new CheckIFPresent();
         assertEquals(check.check(player1.getCel(),lista),true);
-        assertEquals(check.check(player2.getCel(),lista),false);
+        assertEquals(check.check(player2.getCel(),lista),true);
+        assertEquals(check.check(player3.getCel(),lista),false);
     }
 }
