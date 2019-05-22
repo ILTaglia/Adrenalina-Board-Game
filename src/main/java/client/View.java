@@ -6,6 +6,29 @@ import java.util.List;
 
 public interface View {
 
+    /*
+    **********************************************************
+    * Metodi per Avvio Client                                *
+    **********************************************************
+    */
+    void start();
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+     **********************************************************
+     * Metodi per Avvio Client                                *
+     **********************************************************
+     */
     //Message to advise the player the game has started
     void welcomeMessage(int idClient);
 

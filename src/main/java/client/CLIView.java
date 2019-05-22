@@ -26,7 +26,22 @@ public class CLIView implements View {
         this.match = match;
         LOGGER.setLevel(Level.INFO);
     }
+    /*
+     **********************************************************
+     * Metodi per Avvio Client                                *
+     **********************************************************
+     */
+    @Override
+    public void start(){
+        //
+    }
 
+
+    /*
+     **********************************************************
+     * Metodi per Avvio Client                                *
+     **********************************************************
+     */
     @Override
     public void welcomeMessage(int idClient) { printStream.println("START."); }
 

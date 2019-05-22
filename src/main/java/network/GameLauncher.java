@@ -19,7 +19,7 @@ public class GameLauncher{
                 System.err.println(e.getMessage());
             }*/
         }else{
-            //
+            Client.main(args);
         }
     }
 }
