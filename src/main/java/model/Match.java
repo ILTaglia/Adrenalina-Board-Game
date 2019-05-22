@@ -516,12 +516,9 @@ public class Match extends Observable implements Serializable {
         y1 = cell1.getY();
         x2 = cell2.getX();
         y2 = cell2.getY();
-        if(x1==x2) {
-            distance = Math.abs(y2-y1);
-        }
-        else if(y1==y2) {
-            distance = Math.abs(x2-x1);
-        }
+        distance = Math.abs(y2-y1);
+        distance = distance+ Math.abs(x2-x1);
+
         return distance;
     }
 

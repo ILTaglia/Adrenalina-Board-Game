@@ -288,18 +288,18 @@ public class CreateListAttackable {
             }
             if(this.direction==1)
             {
-                this.attackablecells=match.getUpCells(player1.getCel());
-                this.attackableplayers= match.getUpPlayers(player1);
+                this.attackablecells=match.getRightCells(player1.getCel());
+                this.attackableplayers= match.getRightPlayers(player1);
             }
             if(this.direction==2)
             {
-                this.attackablecells=match.getUpCells(player1.getCel());
-                this.attackableplayers= match.getUpPlayers(player1);
+                this.attackablecells=match.getDownCells(player1.getCel());
+                this.attackableplayers= match.getDownPlayers(player1);
             }
             if(this.direction==3)
             {
-                this.attackablecells=match.getUpCells(player1.getCel());
-                this.attackableplayers= match.getUpPlayers(player1);
+                this.attackablecells=match.getLeftCells(player1.getCel());
+                this.attackableplayers= match.getLeftPlayers(player1);
             }
             for(Player p : this.attackableplayers)
             {
@@ -332,7 +332,7 @@ public class CreateListAttackable {
                 {
                     for(Coordinate c : visiblecoordinates)
                     {
-                        if(match.getCellsMD(c,p.getCel())<=attack.getMoveYou())
+                        if(match.getCellsMD(c,p.getCel())<=attack.getMoveYou()&&!this.attackableplayers.contains(p)&&p!=player1)
                         {
                             this.attackableplayers.add(p);
                         }

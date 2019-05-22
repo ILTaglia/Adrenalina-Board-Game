@@ -251,23 +251,46 @@ public class ListAttackableTest {
     {
         TypeAttack attack = new AttackFactory().getinstanceof(11,0,1,0,0);
         CreateListAttackable lister = new CreateListAttackable(3,2);
+        player2.setCel(2, 3);
         lister.createlist(match,attack,player2);
-        for(Player p : lister.getAttackableplayers())
-        {
-            System.out.println(p.getname());
-        }
+        assertFalse(lister.getAttackableplayers().contains(player4));
+        assertTrue(lister.getAttackableplayers().contains(player3));
+        assertFalse(lister.getAttackableplayers().contains(player5));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertFalse(lister.getAttackableplayers().contains(player1));
+        assertEquals(lister.getAttackableplayers().size(),1);
+        player2.setCel(2, 2);
+        lister.createlist(match,attack,player2);
+        assertTrue(lister.getAttackableplayers().contains(player4));
+        assertTrue(lister.getAttackableplayers().contains(player3));
+        assertFalse(lister.getAttackableplayers().contains(player5));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertFalse(lister.getAttackableplayers().contains(player1));
+        assertEquals(lister.getAttackableplayers().size(),2);
     }
 
     @Test
     public void movingtomed()
     {
         TypeAttack attack = new AttackFactory().getinstanceof(12,0,1,0,0);
-        CreateListAttackable lister = new CreateListAttackable();
+        CreateListAttackable lister = new CreateListAttackable(0,0);
+        player2.setCel(2, 3);
         lister.createlist(match,attack,player2);
-        for(Player p : lister.getAttackableplayers())
-        {
-            System.out.println(p.getname());
-        }
+        assertTrue(lister.getAttackableplayers().contains(player1));
+        assertFalse(lister.getAttackableplayers().contains(player3));
+        assertFalse(lister.getAttackableplayers().contains(player5));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertEquals(lister.getAttackableplayers().size(),1);
+        attack = new AttackFactory().getinstanceof(12,0,1,0,2);
+        lister.createlist(match,attack,player2);
+        assertTrue(lister.getAttackableplayers().contains(player1));
+        assertTrue(lister.getAttackableplayers().contains(player3));
+        assertTrue(lister.getAttackableplayers().contains(player4));
+        assertTrue(lister.getAttackableplayers().contains(player5));
+        assertFalse(lister.getAttackableplayers().contains(player2));
+        assertEquals(lister.getAttackableplayers().size(),4);
+
     }
 
 
