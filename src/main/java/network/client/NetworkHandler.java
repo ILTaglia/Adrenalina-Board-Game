@@ -1,12 +1,12 @@
-package network;
+package network.client;
 
-import network.Messages.Message;
+import network.client.Client;
+import network.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class NetworkHandler {
 
@@ -24,20 +24,16 @@ public class NetworkHandler {
         }catch (IOException e){
             //TODO: Implementare le catch
         }
-        istanziaStream();
-    }
-
-    public void istanziaStream(){
         try {
             this.streamOut = new ObjectOutputStream(clientSocket.getOutputStream());
             this.streamIn = new ObjectInputStream(clientSocket.getInputStream());
-        }catch (IOException e){
+        }catch (IOException|NullPointerException e){
             //TODO: Implementare le catch
         }
     }
 
     //TODO: Verificare uso reset & flush
-
+    //Metodo per inviare messaggi
     public void send(Message message){
         try {
             streamOut.reset();
@@ -46,5 +42,9 @@ public class NetworkHandler {
         }catch (IOException e){
             System.out.println("Errore nell'invio del messaggio");
         }
+    }
+
+    public void notify(Client client){
+
     }
 }

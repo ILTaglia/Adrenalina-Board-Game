@@ -1,7 +1,8 @@
-package network;
+package network.client;
 
 import client.View;
-import network.Messages.Message;
+import network.CLI;
+import network.messages.Message;
 
 import java.util.Scanner;
 

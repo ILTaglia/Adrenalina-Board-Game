@@ -1,6 +1,7 @@
-package network;
+package network.server;
 
-import java.net.Socket;
+import network.server.GameServer;
+
 import java.util.*;
 
 public class WaitingRoom {
@@ -25,12 +26,11 @@ public class WaitingRoom {
             startTimer();
         }
         waitingClients.add(username);
+        System.out.println(waitingClients);
         if(waitingClients.size()==maxNumberPlayer){
             timer.cancel();
-            newGameRoom();  //TODO: implementare metodo
+            newGameRoom();
         }
-
-        //TODO: creare lista di player in coda e aggiungere quest'ultimo
     }
 
     public void startTimer(){

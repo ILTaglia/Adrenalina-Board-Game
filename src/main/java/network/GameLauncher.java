@@ -1,11 +1,14 @@
 package network;
 
+//TODO: Main del tutto temporaneo
 
-import java.io.IOException;
+import network.client.Client;
+import network.server.GameServer;
+
 import java.util.Scanner;
 
 public class GameLauncher{
-//TODO: Main del tutto temporaneo
+
     public static void main(String[] args) {
         //Main temporaneo, scelta tra client e server a primo avvio
         Scanner userChoice;

@@ -1,6 +1,9 @@
-package network;
+package network.server;
 
-import java.io.IOException;
+import network.messages.Message;
+import network.server.socket.ClientHandler;
+import network.server.socket.GameSocketSvr;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,41 +19,37 @@ public class GameServer {
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
 
-    //TODO: HashMap per Username e Client/ID
-    private HashMap<String,String> usernameToUserID;         //Collega Username e IdPlayer
-    private HashMap<String, ClientHandler> userIDToClientHandler;   //Non per forza utile
-    private HashMap<String,String> userIDToIdGameRoom;   //Collega IdPlayer e ID Partita in cui è inserito
+    //----------------HashMap per Username e Client/ID----------------------//
+    private HashMap<String,String> usernameToUserID;                        //Collega Username e IdPlayer
+    private HashMap<String, ClientHandler> userIDToClientHandler;           //Non per forza utile
+    private HashMap<String,String> userIDToIdGameRoom;                      //Collega IdPlayer e ID Partita in cui è inserito
     //Se non è ancora in GameRoom si potrebbe mettere il campo String a "WaitingRoom"
     //Così facendo eviterei di dovermi inventare altro per i WaitingPlayers
+    //private HashMap<String,GameRoom> idGameRoomToGameRoom;                //TODO: quest'ultimo è evitabile secondo me
 
-    //private HashMap<String,GameRoom> idGameRoomToGameRoom;      //TODO: quest'ultimo è evitabile secondo me
-
+    //----------------------------------------------------------------------//
 
     private int socketServerPort=7218;
-    private WaitingRoom waitingRoom;        //Lista di giocatori in attesa
+    private WaitingRoom waitingRoom;                                        //Stanza per i giocatori in attesa
+    private ArrayList<GameRoom> gameRooms;                                  //Lista delle Stanze di Gioco in corso TODO: penso sia evitabile se si usa l'HashMap
 
+    // Implementazione vera e propria dei Server
     private GameSocketSvr gameSocketSvr;
-    //private RMIServer rmiServer;
-
-    private ArrayList<GameRoom> gameRooms;
+    //private RMIServer gameRMISvr;
 
 
     public static void main(String[] args) {
-        //try {
-            GameServer gameServer = new GameServer();
-            gameServer.launchServer();
-            //TODO: parametri, lettura da file dei parametri
-        /*
-        }catch (Exception e) {
-            System.out.println("Ciaone Errore 1");
-        }
+        GameServer gameServer = new GameServer();
+        gameServer.launchServer();
+        //TODO: parametri, lettura da file dei parametri
+
         //TODO: RMI
-        */
     }
 
     private GameServer(){
-        this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.gameSocketSvr=new GameSocketSvr(this);
+
+        this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         usernameToUserID =new HashMap<>();
     }
 
@@ -58,9 +57,13 @@ public class GameServer {
         gameSocketSvr.start(socketServerPort);
         gameSocketSvr.run();
 
+
     }
-    private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
-        gameSocketSvr.close();
+
+    //------------------------Metodi usati dal ClientHandler------------------------------------//
+
+    public void handleMessage(Message message) {
+
     }
 
     public void addClientToWR(ClientHandler clientHandler,String username){
@@ -84,18 +87,21 @@ public class GameServer {
         //TODO: capire come aggiungere singoli player a stessa GameRoom nella HashMap
         //Poi costruire nuova GameRoom e istanziare il tutto
     }
-    /*
-    public static void main(String[] args) {
-        String test="username casuale";
-        GameServer server=new GameServer();
-        server.assignIDtoUsername(test);
+
+
+
+
+    //-------------------------------Metodi da completare----------------------------//
+
+    private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
+        gameSocketSvr.close();
     }
-    */
+
+    //TODO: implementare metodi disconnessione/gestione riconnessione
 }
 
 
 
-//TODO: implementare metodi disconnessione/gestione riconnessione
 
 
 

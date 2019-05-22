@@ -4,7 +4,9 @@ package network;
 
 import client.View;
 import model.Player;
-import network.Messages.Message;
+import network.client.Client;
+import network.messages.ConnectionRequest;
+import network.messages.Message;
 
 import java.util.List;
 import java.util.Scanner;
@@ -40,8 +42,9 @@ public class CLI  implements View {
         Scanner username;
         username=new Scanner(System.in);
         System.out.println("Digitare proprio username:");
-        Message message=new Message(username.next().toString());
+        Message message=new ConnectionRequest(username.next());
         client.sendMessage(message);
+
     }
 
 
