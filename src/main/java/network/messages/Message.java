@@ -8,6 +8,7 @@ public abstract class Message implements Serializable {
 
     protected String type;
     protected String content;
+    protected String info;
 
     public String getType() {
         return type;
@@ -16,4 +17,9 @@ public abstract class Message implements Serializable {
     public String getContent() {
         return content;
     }
+
+    public String getInfo() {
+        return info;
+    }
+
 }

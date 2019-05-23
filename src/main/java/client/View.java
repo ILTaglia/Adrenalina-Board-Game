@@ -1,6 +1,7 @@
 package client;
 
 import model.Player;
+import network.messages.Message;
 
 import java.util.List;
 
@@ -13,7 +14,9 @@ public interface View {
     */
     void start();
 
+    void showInfoMessage(Message message);
 
+    void login();
 
 
 
@@ -87,4 +90,6 @@ public interface View {
 
     //Method to advise the player of the consequences of his attack
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
+
+
 }

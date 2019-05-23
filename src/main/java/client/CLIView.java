@@ -13,6 +13,7 @@ import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
 import exceptions.WeaponAlreadyUsedException;
 import model.*;
+import network.messages.Message;
 import utils.*;
 
 public class CLIView implements View {
@@ -35,6 +36,15 @@ public class CLIView implements View {
     public void start(){
         //
     }
+    @Override
+    public void showInfoMessage(Message message){
+
+    }
+    @Override
+    public void login(){
+
+    }
+
 
 
     /*

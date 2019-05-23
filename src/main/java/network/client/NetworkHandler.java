@@ -1,6 +1,7 @@
 package network.client;
 
 import network.client.Client;
+import network.messages.ConnectionError;
 import network.messages.Message;
 
 import java.io.IOException;
@@ -8,7 +9,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class NetworkHandler {
+    //TODO Aggiungere Booleani per verifiche sulla connessione
+
+
+public class NetworkHandler extends Thread{
 
     public Client client;
     private Socket clientSocket;
@@ -32,9 +36,26 @@ public class NetworkHandler {
         }
     }
 
+    @Override
+    public void run(){
+        boolean bool=true;
+        try{
+            while(bool){
+                Message message=(Message) streamIn.readObject();
+                client.handleMessage(message);
+            }
+        }catch (IOException|ClassNotFoundException e){
+            bool=false;
+            //TODO
+        }
+    }
+
+
+
+
     //TODO: Verificare uso reset & flush
     //Metodo per inviare messaggi
-    public void send(Message message){
+    public synchronized void sendMessage(Message message){
         try {
             streamOut.reset();
             streamOut.writeObject(message);
@@ -44,7 +65,4 @@ public class NetworkHandler {
         }
     }
 
-    public void notify(Client client){
-
-    }
 }

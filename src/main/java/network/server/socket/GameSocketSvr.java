@@ -1,5 +1,6 @@
 package network.server.socket;
 
+import network.client.Client;
 import network.messages.Message;
 import network.server.GameServer;
 
@@ -60,10 +61,6 @@ public class GameSocketSvr {
         return gameServer.isAlreadyInQueue(requestedUsername);
     }
 
-    public synchronized void assignIDtoUsername(String playerUsername) {
-        gameServer.assignIDtoUsername(playerUsername);
-    }
-
     public void handleMessage(Message message){
         gameServer.handleMessage(message);
     }
@@ -84,4 +81,11 @@ public class GameSocketSvr {
     private boolean isStopped(){        //TODO: verificare utilità metodo
         return this.isStopped;
     }
+
+    //---------------------------------Metodi di dubbia utilità-----------------------------------------------------------//
+    /*
+    public synchronized void saveUser(String playerUsername, ClientHandler clientHandler) {
+        gameServer.saveUser(playerUsername,clientHandler);
+    }
+    */
 }

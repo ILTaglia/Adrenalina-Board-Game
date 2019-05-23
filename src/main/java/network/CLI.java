@@ -42,9 +42,13 @@ public class CLI  implements View {
         Scanner username;
         username=new Scanner(System.in);
         System.out.println("Digitare proprio username:");
-        Message message=new ConnectionRequest(username.next());
+        String user=username.next();
+        Message message=new ConnectionRequest(user);
         client.sendMessage(message);
+    }
 
+    public void showInfoMessage(Message message){
+        System.out.println("Message received:"+message.getInfo());
     }
 
 

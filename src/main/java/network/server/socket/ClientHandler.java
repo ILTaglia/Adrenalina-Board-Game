@@ -38,18 +38,17 @@ public class ClientHandler implements Runnable {
             while(bool){
                 String requestedUsername;
                 Message message=(Message) streamIn.readObject();
-                if(message.getType().equals("Request")&&message.getContent().equals("ConnectionRequest")){
-                    ConnectionRequest connectionMessage=(ConnectionRequest) message;
-                    requestedUsername = connectionMessage.getUsername();
+                if(message.getType().equals("Request")&&message.getContent().equals("Connection Request")){
+                    requestedUsername = message.getInfo();
                     //Controllo Username in primis sulla queue, altrimenti restituisce subito errore e si chiede un nuovo username.
                     if (server.isAlreadyInQueue(requestedUsername)) {
-                        ConnectionError errorMessage = new ConnectionError();
-                        streamOut.writeObject(errorMessage);
+                        ConnectionError errorMessage = new ConnectionError("An other user has already this username in your Match, please change it");
+                        sendMessage(errorMessage);
                         //Send Error Message "An other user has already this username in your Match, please change it"
                     }
                     else {
                         playerUsername = requestedUsername;
-                        server.assignIDtoUsername(playerUsername);  // Alternativamente lo può fare direttamente quando aggiungo al WR
+                        //server.saveUser(playerUsername,this);  // Alternativamente lo può fare direttamente quando aggiungo al WR
                         //Si può evitare di controllare partite già iniziate perchè il client è univocamente collegato con ID.
                         server.addClientToWR(this, playerUsername);
                     }
@@ -60,6 +59,16 @@ public class ClientHandler implements Runnable {
             }
         }catch (IOException|ClassNotFoundException e){
             //TODO: Chiudere la connessione (?)
+        }
+    }
+
+    public void sendMessage(Message message){
+        try {
+            streamOut.reset();
+            streamOut.writeObject(message);
+            streamOut.flush();
+        }catch (IOException e){
+            System.out.println("Errore nell'invio del messaggio");
         }
     }
 

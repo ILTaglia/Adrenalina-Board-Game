@@ -1,8 +1,9 @@
 package network.messages;
 
-public class ConnectionError extends Message{
+public class ConnectionError extends ErrorMessage{
 
-    public ConnectionError(){
+    public ConnectionError(String info){
+        super(info);
         this.content="ConnectionError";
     }
 }

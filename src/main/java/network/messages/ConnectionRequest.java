@@ -4,6 +4,6 @@ public class ConnectionRequest extends RequestMessage{
 
     public ConnectionRequest(String username){
         super(username);
-        this.content="connection request";
+        this.content="Connection Request";
     }
 }

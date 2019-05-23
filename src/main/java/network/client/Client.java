@@ -7,8 +7,7 @@ import network.messages.Message;
 import java.util.Scanner;
 
 public class Client {
-    
-    private Client client;
+
     private boolean isToUseSocket;
     private View view;
     private String username;
@@ -59,19 +58,38 @@ public class Client {
     public void launchConnection(){
         if(isToUseSocket){
             networkHandler=new NetworkHandler(serverIP,serverPort,this);
+            networkHandler.start();
         }
         else{
             //TODO: implementare RMI
         }
     }
 
-    public void setUsername(String username){           //TODO: potrebbe essere anche un ID, valutare scelta
-
+    public void sendMessage(Message message){
+        networkHandler.sendMessage(message);
     }
 
+    public void handleMessage(Message message){
+        switch(message.getType()) {
+            case "ResponseMessage":
+                view.showInfoMessage(message);
+                break;
+            case "ErrorMessage":
+                handleErrorMessage(message);
+                break;
+        }
+    }
+    public void handleErrorMessage(Message message){
+        if(message.getType().equals("ConnectionError")){
+            view.showInfoMessage(message);
+            view.login();
+        }
+    }
 
-    public void sendMessage(Message message){
-        networkHandler.send(message);
+    //-------------------------------Metodi da completare----------------------------//
+
+    public void setUsername(String username){           //TODO: potrebbe essere anche un ID, valutare scelta
+
     }
 
 }

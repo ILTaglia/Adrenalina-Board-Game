@@ -1,9 +1,11 @@
 package network.server;
 
+import network.messages.InfoID;
 import network.messages.Message;
 import network.server.socket.ClientHandler;
 import network.server.socket.GameSocketSvr;
 
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +52,8 @@ public class GameServer {
         this.gameSocketSvr=new GameSocketSvr(this);
 
         this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
-        usernameToUserID =new HashMap<>();
+        this.usernameToUserID =new HashMap<>();
+        this.userIDToClientHandler=new HashMap<>();
     }
 
     private void launchServer(){
@@ -66,21 +69,31 @@ public class GameServer {
 
     }
 
-    public void addClientToWR(ClientHandler clientHandler,String username){
-        //TODO: modificare e usare clientHandler solo per associarlo con l'id, mettere in coda solo l'username
-        //Aggiungere anche numero player min/max per la coda.
-        waitingRoom.addUserToRoom(username);
-    }
-
     public boolean isAlreadyInQueue(String requestedUsername) {     //TODO: synchronized? A che livello?
         return waitingRoom.isAlreadyInQueue(requestedUsername);
     }
 
-    public synchronized void  assignIDtoUsername(String playerUsername) {
+    public synchronized void addClientToWR(ClientHandler clientHandler,String playerUsername){
+        assignIDToUsername(playerUsername);
+        assignClientHandlerToID(playerUsername,clientHandler);
+        InfoID infoID=new InfoID("You are in Waiting Room. Your ID is:" + usernameToUserID.get(playerUsername));
+        clientHandler.sendMessage(infoID);
+        waitingRoom.addUserToRoom(playerUsername);
+    }
+    //TODO: possibile semplificare il tutto, meglio chiarezza o semplicità?
+    private void  assignIDToUsername(String playerUsername) {
         UUID uid=UUID.randomUUID();
         String playerID=uid.toString();
-        usernameToUserID.put(playerUsername,playerID);      //TODO:Test
+        usernameToUserID.put(playerUsername,playerID);
     }
+    private void assignClientHandlerToID(String playerUsername,ClientHandler clientHandler){
+        String playerID=usernameToUserID.get(playerUsername);
+        userIDToClientHandler.put(playerID,clientHandler);
+    }
+
+
+
+
 
     public void newGameRoom(List<String> usernameList) {
         GameRoom gameRoom=new GameRoom(usernameList);
