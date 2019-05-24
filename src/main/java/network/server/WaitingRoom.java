@@ -38,6 +38,7 @@ public class WaitingRoom {
             @Override
             public void run() {
                 if(waitingClients.size()<minNumberPlayer){
+                    System.out.println("Only " + waitingClients.size()+" players in Queue, waiting for new players...");
                     startTimer();
                 }
                 else{

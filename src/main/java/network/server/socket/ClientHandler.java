@@ -66,6 +66,7 @@ public class ClientHandler implements Runnable {
         try {
             streamOut.reset();
             streamOut.writeObject(message);
+            System.out.println("Messaggio inviato confirmed");
             streamOut.flush();
         }catch (IOException e){
             System.out.println("Errore nell'invio del messaggio");

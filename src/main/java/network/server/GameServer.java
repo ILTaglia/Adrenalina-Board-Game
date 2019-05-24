@@ -24,7 +24,7 @@ public class GameServer {
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                        //Collega Username e IdPlayer
     private HashMap<String, ClientHandler> userIDToClientHandler;           //Non per forza utile
-    private HashMap<String,String> userIDToIdGameRoom;                      //Collega IdPlayer e ID Partita in cui è inserito
+    private HashMap<String,GameRoom> userIDToIdGameRoom;                      //Collega IdPlayer e Partita in cui è inserito
     //Se non è ancora in GameRoom si potrebbe mettere il campo String a "WaitingRoom"
     //Così facendo eviterei di dovermi inventare altro per i WaitingPlayers
     //private HashMap<String,GameRoom> idGameRoomToGameRoom;                //TODO: quest'ultimo è evitabile secondo me
@@ -54,6 +54,7 @@ public class GameServer {
         this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.usernameToUserID =new HashMap<>();
         this.userIDToClientHandler=new HashMap<>();
+        this.userIDToIdGameRoom=new HashMap<>();
     }
 
     private void launchServer(){
@@ -97,6 +98,11 @@ public class GameServer {
 
     public void newGameRoom(List<String> usernameList) {
         GameRoom gameRoom=new GameRoom(usernameList);
+        for(String playerUsername:usernameList){
+            String playerID=usernameToUserID.get(playerUsername);
+            userIDToIdGameRoom.put(playerID,gameRoom);
+        }
+
         //TODO: capire come aggiungere singoli player a stessa GameRoom nella HashMap
         //Poi costruire nuova GameRoom e istanziare il tutto
     }

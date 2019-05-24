@@ -71,16 +71,16 @@ public class Client {
 
     public void handleMessage(Message message){
         switch(message.getType()) {
-            case "ResponseMessage":
+            case "Response":
                 view.showInfoMessage(message);
                 break;
-            case "ErrorMessage":
+            case "Error":
                 handleErrorMessage(message);
                 break;
         }
     }
     public void handleErrorMessage(Message message){
-        if(message.getType().equals("ConnectionError")){
+        if(message.getContent().equals("ConnectionError")){
             view.showInfoMessage(message);
             view.login();
         }
