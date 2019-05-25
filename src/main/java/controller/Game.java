@@ -74,11 +74,10 @@ public class Game{
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
-    public void firstTurn(Match match, int powcardcolor, int x, int y) throws InvalidDirectionException {
-        Player player = match.getActivePlayer();
-        if(borningValidity(player, powcardcolor)){
+    public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
+        if(borningValidity(player, powcardIndex)){
             Spawn playerSpawn = new Spawn();
-            playerSpawn.spawn(player, x, y, powcardcolor);
+            playerSpawn.spawn(player, x, y, powcardIndex);
         }
         else throw new InvalidColorException();
     }
