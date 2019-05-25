@@ -31,7 +31,7 @@ public class Client {
         GetData getData=new GetData();
 
 
-        /*Speedy test*/
+        /*Speedy test
         Game game2 = new Game();
         int index2 = game2.getMatchesSize()-1;
         Match match2 = game2.getMatchByIndex(index2);
@@ -56,7 +56,7 @@ public class Client {
         p3.setCel(1,0);
         p4.setCel(1,0);
         p5.setCel(1,0);
-        view2.printMap();
+        view2.printMap();*/
 
         printStream.println("Welcome to Adrenalina!");
 
@@ -157,9 +157,10 @@ public class Client {
             int y= getData.getInt(0, 3);
             int powindex = getData.getInt(1, 2);
             while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
-                printStream.println("Not a valid SpawnPoint");
+                printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
                 x= getData.getInt(0, 2);
                 y= getData.getInt(0, 3);
+                powindex = getData.getInt(1, 2);
             }
             powindex--;
             int flag=0;

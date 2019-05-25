@@ -20,8 +20,8 @@ public class Spawn {
     }
 
     public boolean bornValidity(Player player, int x, int y, int powcardcolor){
-        if(x==0 && y==2 && powcardcolor==0) return true; //blue spawnpoint cell at line 0, column2
-        else if(x==0 && y==2 && powcardcolor==5) return true; //red spawnpoint cell at line 1, column0
+        if(x==0 && y==2 && powcardcolor==1) return true; //blue spawnpoint cell at line 0, column2
+        else if(x==1 && y==0 && powcardcolor==0) return true; //red spawnpoint cell at line 1, column0
         else if(x==2 && y==3 && powcardcolor==2) return true; //yellow spawnpoint cell at line 2, column3
         return false;
     }

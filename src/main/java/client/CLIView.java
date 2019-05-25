@@ -265,14 +265,10 @@ public class CLIView implements View {
 
         int i=1;
         for(PowCard powcard:powcards){
-            //colors green, pink and grey are useless for the method spawn but are included as this method can be useful for other purpose.
             //Spawn point cell are just blue, red and yellow. Check of validity is made in controller class.
-            if(powcard.getColor()==0) color = "Blue";
-            else if(powcard.getColor()==1) color = "Green";
+            if(powcard.getColor()==0) color = "Red";
+            else if(powcard.getColor()==1) color = "Blue";
             else if(powcard.getColor()==2) color = "Yellow";
-            else if(powcard.getColor()==3) color = "Pink";
-            else if(powcard.getColor()==4) color = "Grey";
-            else if(powcard.getColor()==5) color = "Red";
             printStream.println(i+". "+powcard.getName()+" with the color "+color);
             i++;
         }
