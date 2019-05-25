@@ -1,13 +1,17 @@
 package controller;
+import exceptions.InvalidColorException;
+import exceptions.InvalidDirectionException;
 import model.Match;
 import model.Player;
 import exceptions.MaxNumberPlayerException;
+import model.PowCard;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 //TODO: Capire se la view va istanziata nel controller oppure se va passata negli eventi che lancia al controller
 
@@ -67,6 +71,24 @@ public class Game{
         for(int i=1; i<match.getPlayersSize(); i++){
             match.getPlayerByIndex(i).resetActive();
         }
+        match.firstTurnPows(); //assign two powcards to each players to start
+    }
+
+    public void firstTurn(Match match, int powcardcolor, int x, int y) throws InvalidDirectionException {
+        Player player = match.getActivePlayer();
+        if(borningValidity(player, powcardcolor)){
+            Spawn playerSpawn = new Spawn();
+            playerSpawn.spawn(player, x, y, powcardcolor);
+        }
+        else throw new InvalidColorException();
+    }
+
+    private boolean borningValidity(Player player, int powcardcolor){
+        List<PowCard> playerPows = player.getPows();
+        for(PowCard pow: playerPows){
+            if(pow.getColor()==powcardcolor) return true;
+        }
+        return false;
     }
 
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione

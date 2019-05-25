@@ -98,6 +98,11 @@ public class CLI  implements View {
     }
 
     @Override
+    public void showPlayerPowsColors(Player player) {
+
+    }
+
+    @Override
     public void showPlayerAmmos() {
 
     }

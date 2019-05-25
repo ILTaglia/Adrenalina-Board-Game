@@ -11,7 +11,6 @@ import controller.GrabWeapon;
 import exceptions.FullCellException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
-import exceptions.WeaponAlreadyUsedException;
 import model.*;
 import network.messages.Message;
 import utils.*;
@@ -252,6 +251,28 @@ public class CLIView implements View {
         int i=1;
         for(PowCard powcard:powcards){
             printStream.println(i+". "+powcard.getName());
+            i++;
+        }
+    }
+
+    //Method to show a player its PowCards, and colors to choose the spawn point cell
+    @Override
+    public void showPlayerPowsColors(Player player) {
+        List<PowCard> powcards = player.getPows();
+        printStream.println("Player "+ player.getname()+" your PowCards are: ");
+        String color = "";
+
+        int i=1;
+        for(PowCard powcard:powcards){
+            //colors green, pink and grey are useless for the method spawn but are included as this method can be useful for other purpose.
+            //Spawn point cell are just blue, red and yellow. Check of validity is made in controller class.
+            if(powcard.getColor()==0) color = "Blue";
+            else if(powcard.getColor()==1) color = "Green";
+            else if(powcard.getColor()==2) color = "Yellow";
+            else if(powcard.getColor()==3) color = "Pink";
+            else if(powcard.getColor()==4) color = "Grey";
+            else if(powcard.getColor()==5) color = "Red";
+            printStream.println(i+". "+powcard.getName()+" with the color "+color);
             i++;
         }
     }

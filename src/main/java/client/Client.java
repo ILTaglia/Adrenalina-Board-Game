@@ -109,28 +109,45 @@ public class Client {
             cell8.Add_Ammo_Card(ammoTile4);
             cell9.Add_Ammo_Card(ammoPowTile5);
         } catch (FullCellException e){}
+        game.startGame(match.getId());
+        View view = new CLIView(match);
         for(Player p:match.getPlayers()){
             printStream.println("\nPlease, "+p.getname()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
             printStream.println("There are three SpawnPoint cells in the game:");
-            printStream.println("Line 0, column 2");
-            printStream.println("Line 1, column 0");
-            printStream.println("Line 2, column 3");
+            printStream.println("Line 0, column 2 - Blue cell");
+            printStream.println("Line 1, column 0 - Red cell");
+            printStream.println("Line 2, column 3 - Yellow cell");
+            printStream.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
+            printStream.println("Insert: \nLine\nColumn\nPowCard color to use");
+            view.showPlayerPowsColors(p);
             int x= getData.getInt(0, 2);
             int y= getData.getInt(0, 3);
+            int powindex = getData.getInt(1, 2);
             while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
                 printStream.println("Not a valid SpawnPoint");
                 x= getData.getInt(0, 2);
                 y= getData.getInt(0, 3);
             }
-            p.setCel(x,y);
+            powindex--;
+            Spawn spawn = new Spawn();
+            int flag=0;
+            while(flag==0){
+                try{
+                    spawn.spawn(p, x, y, powindex);
+                    flag=1;
+                } catch(InvalidColorException e){
+                    printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nPowCard color to use");
+                    x= getData.getInt(0, 2);
+                    y= getData.getInt(0, 3);
+                    powindex = getData.getInt(1, 2);}
+            }
         }
-        game.startGame(match.getId());
-        match.fillDashboard();
 
+        match.fillDashboard();
         player.setdamage(6, 0);
         //TODO serve al client a reference alla partita che sta giocando
         for(int i=0; i<match.getPlayersSize(); i++){
-            c.play(match);
+            c.play(match, view);
             game.setTurn(match);
         }
 
@@ -141,8 +158,7 @@ public class Client {
      */
 
     //metodo per turno di gioco del player in mode CLI
-    public void play(Match match){
-        View view = new CLIView(match);
+    public void play(Match match, View view){
         int counter=0;
         GetData getData=new GetData();
         int choice;
