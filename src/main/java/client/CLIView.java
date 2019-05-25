@@ -11,8 +11,8 @@ import controller.GrabWeapon;
 import exceptions.FullCellException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
-import exceptions.WeaponAlreadyUsedException;
 import model.*;
+import network.messages.Message;
 import utils.*;
 
 public class CLIView implements View {
@@ -26,7 +26,31 @@ public class CLIView implements View {
         this.match = match;
         LOGGER.setLevel(Level.INFO);
     }
+    /*
+     **********************************************************
+     * Metodi per Avvio Client                                *
+     **********************************************************
+     */
+    @Override
+    public void start(){
+        //
+    }
+    @Override
+    public void showInfoMessage(Message message){
 
+    }
+    @Override
+    public void login(){
+
+    }
+
+
+
+    /*
+     **********************************************************
+     * Metodi per Avvio Client                                *
+     **********************************************************
+     */
     @Override
     public void welcomeMessage(int idClient) { printStream.println("START."); }
 
@@ -56,20 +80,20 @@ public class CLIView implements View {
         List<Player> duplication = new ArrayList<>();
         for(int j=0; j<match.getPlayersSize(); j++){
             duplication.add(match.getPlayers().get(j));
+            printStream.printf("Player "+match.getPlayers().get(j).getid()+" is "+match.getPlayers().get(j).getname()+"\n");
         }
-        for(int h=0; h<duplication.size(); h++){
+        for(int h=0; h<duplication.size()+1; h++){
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
-            for(int k=h+1; k<duplication.size(); k++){
+            for(int k=h; k<duplication.size()+1; k++){
                 Player p1 = match.getPlayerByIndex(k);
                 if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
                     printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
                     duplication.remove(p1);
                 }
             }
-            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
 
         printStream.printf(" _________________________________________________                 \n");
@@ -109,20 +133,20 @@ public class CLIView implements View {
         List<Player> duplication = new ArrayList<>();
         for(int j=0; j<match.getPlayersSize(); j++){
             duplication.add(match.getPlayers().get(j));
+            printStream.printf("Player "+match.getPlayers().get(j).getid()+" is "+match.getPlayers().get(j).getname()+"\n");
         }
-        for(int h=0; h<duplication.size(); h++){
+        for(int h=0; h<duplication.size()+1; h++){
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
-            for(int k=h+1; k<duplication.size(); k++){
+            for(int k=h; k<duplication.size()+1; k++){
                 Player p1 = match.getPlayerByIndex(k);
                 if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
                     printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
                     duplication.remove(p1);
                 }
             }
-            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
@@ -160,6 +184,7 @@ public class CLIView implements View {
         int column;
         List<Player> duplication = new ArrayList<>();
         for(int j=0; j<match.getPlayersSize(); j++){
+            printStream.printf("Player "+match.getPlayers().get(j).getid()+" is "+match.getPlayers().get(j).getname()+"\n");
             duplication.add(match.getPlayers().get(j));
         }
         for(int h=0; h<duplication.size(); h++){
@@ -167,14 +192,14 @@ public class CLIView implements View {
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
-            for(int k=h+1; k<duplication.size(); k++){
+            for(int k=h; k<duplication.size(); k++){
                 Player p1 = match.getPlayerByIndex(k);
                 if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
                     printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
-                    duplication.remove(p1);
+                    duplication.remove(player);
+                    map[line][column] = p1.getid();
                 }
             }
-            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
@@ -227,6 +252,28 @@ public class CLIView implements View {
         int i=1;
         for(PowCard powcard:powcards){
             printStream.println(i+". "+powcard.getName());
+            i++;
+        }
+    }
+
+    //Method to show a player its PowCards, and colors to choose the spawn point cell
+    @Override
+    public void showPlayerPowsColors(Player player) {
+        List<PowCard> powcards = player.getPows();
+        printStream.println("Player "+ player.getname()+" your PowCards are: ");
+        String color = "";
+
+        int i=1;
+        for(PowCard powcard:powcards){
+            //colors green, pink and grey are useless for the method spawn but are included as this method can be useful for other purpose.
+            //Spawn point cell are just blue, red and yellow. Check of validity is made in controller class.
+            if(powcard.getColor()==0) color = "Blue";
+            else if(powcard.getColor()==1) color = "Green";
+            else if(powcard.getColor()==2) color = "Yellow";
+            else if(powcard.getColor()==3) color = "Pink";
+            else if(powcard.getColor()==4) color = "Grey";
+            else if(powcard.getColor()==5) color = "Red";
+            printStream.println(i+". "+powcard.getName()+" with the color "+color);
             i++;
         }
     }

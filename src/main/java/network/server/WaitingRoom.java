@@ -1,6 +1,7 @@
-package network;
+package network.server;
 
-import java.net.Socket;
+import network.server.GameServer;
+
 import java.util.*;
 
 public class WaitingRoom {
@@ -10,7 +11,7 @@ public class WaitingRoom {
     private final int minNumberPlayer;
     private final int maxNumberPlayer;
     private Timer timer;
-    private final int queueTimer=600000;            //in ms queue timer is 60*10^(3) ms pari a 60 s
+    private final int queueTimer=10000;            //in ms queue timer is 60*10^(3) ms pari a 60 s
 
 
     public WaitingRoom(GameServer server,int min,int max){
@@ -25,12 +26,11 @@ public class WaitingRoom {
             startTimer();
         }
         waitingClients.add(username);
+        System.out.println("New Client Added! Queue: ["+waitingClients+"]");
         if(waitingClients.size()==maxNumberPlayer){
             timer.cancel();
-            newGameRoom();  //TODO: implementare metodo
+            newGameRoom();
         }
-
-        //TODO: creare lista di player in coda e aggiungere quest'ultimo
     }
 
     public void startTimer(){
@@ -38,6 +38,7 @@ public class WaitingRoom {
             @Override
             public void run() {
                 if(waitingClients.size()<minNumberPlayer){
+                    System.out.println("Only " + waitingClients.size()+" players in Queue, waiting for new players...");
                     startTimer();
                 }
                 else{
@@ -53,7 +54,11 @@ public class WaitingRoom {
         return waitingClients.contains(requestedUsername);
     }
 
+    //A scadenza di timer si lancia una nuova GameRoom e lì vengono aggiunti i giocatori.
     public void newGameRoom(){
+
+        System.out.println("Now New Game Room");
+
         List<String> usernameList=new ArrayList<>();
         while(!waitingClients.isEmpty()){
             usernameList.add(waitingClients.poll());
@@ -61,7 +66,6 @@ public class WaitingRoom {
         gameServer.newGameRoom(usernameList);
     }
 
-    //A scadenza di timer si lancia una nuova GameRoom e lì vengono aggiunti i giocatori. Controllare prima se numero
-    //giocatori è sufficiente
+
 }
 

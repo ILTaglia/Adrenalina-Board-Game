@@ -30,6 +30,34 @@ public class Client {
         Client c = new Client();
         GetData getData=new GetData();
 
+
+        /*Speedy test*/
+        Game game2 = new Game();
+        int index2 = game2.getMatchesSize()-1;
+        Match match2 = game2.getMatchByIndex(index2);
+        Player p1 = new Player("Sirius", "Blue", "10583741");
+        Player p2 = new Player("Calypso", "Pink", "14253954");
+        Player p3 = new Player("Hermione", "Green", "18263100");
+        Player p4 = new Player("Jackie", "Yellow", "13299954");
+        Player p5 = new Player("Kate", "Grey", "19263542");
+        try {
+            match2.addPlayer(p1);
+            match2.addPlayer(p2);
+            match2.addPlayer(p3);
+            match2.addPlayer(p4);
+            match2.addPlayer(p5);
+        }
+        catch (MaxNumberPlayerException e){ printStream.println("Maximum number of players reached.");}
+        game2.select(3);
+        game2.startGame(match2.getId());
+        View view2 = new CLIView(match2);
+        p1.setCel(2,3);
+        p2.setCel(0,2);
+        p3.setCel(1,0);
+        p4.setCel(1,0);
+        p5.setCel(1,0);
+        view2.printMap();
+
         printStream.println("Welcome to Adrenalina!");
 
         printStream.println("\nPlease, choose which communication protocol you want to use:");
@@ -109,28 +137,50 @@ public class Client {
             cell8.Add_Ammo_Card(ammoTile4);
             cell9.Add_Ammo_Card(ammoPowTile5);
         } catch (FullCellException e){}
+        game.startGame(match.getId());
+        View view = new CLIView(match);
+        for(Player p:match.getPlayers()){
+            printStream.println(p.getname());
+            view.showPlayerPowsColors(p);
+        }
+
         for(Player p:match.getPlayers()){
             printStream.println("\nPlease, "+p.getname()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
             printStream.println("There are three SpawnPoint cells in the game:");
-            printStream.println("Line 0, column 2");
-            printStream.println("Line 1, column 0");
-            printStream.println("Line 2, column 3");
+            printStream.println("Line 0, column 2 - Blue cell");
+            printStream.println("Line 1, column 0 - Red cell");
+            printStream.println("Line 2, column 3 - Yellow cell");
+            printStream.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
+            view.showPlayerPowsColors(p);
+            printStream.println("Insert: \nLine\nColumn\nNumber PowCard to use");
             int x= getData.getInt(0, 2);
             int y= getData.getInt(0, 3);
+            int powindex = getData.getInt(1, 2);
             while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
                 printStream.println("Not a valid SpawnPoint");
                 x= getData.getInt(0, 2);
                 y= getData.getInt(0, 3);
             }
-            p.setCel(x,y);
+            powindex--;
+            int flag=0;
+            while(flag==0){
+                try{
+                    game.firstTurn(p, powindex, x, y);
+                    flag=1;
+                } catch(InvalidColorException e){
+                    printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
+                    x= getData.getInt(0, 2);
+                    y= getData.getInt(0, 3);
+                    powindex = getData.getInt(1, 2);
+                    powindex--;}
+            }
+            view.showPlayerPows(p);
         }
-        game.startGame(match.getId());
         match.fillDashboard();
-
         player.setdamage(6, 0);
         //TODO serve al client a reference alla partita che sta giocando
         for(int i=0; i<match.getPlayersSize(); i++){
-            c.play(match);
+            c.play(match, view);
             game.setTurn(match);
         }
 
@@ -141,8 +191,7 @@ public class Client {
      */
 
     //metodo per turno di gioco del player in mode CLI
-    public void play(Match match){
-        View view = new CLIView(match);
+    public void play(Match match, View view){
         int counter=0;
         GetData getData=new GetData();
         int choice;

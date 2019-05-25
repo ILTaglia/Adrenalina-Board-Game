@@ -55,7 +55,7 @@ public abstract class BoardView implements Observer{
 
     public abstract void printMap3();
 
-    /*Used to send the player a message @param message
+    /*Used to sendMessage the player a message @param message
      */
     public abstract void printMessage(String message);
 
@@ -83,7 +83,7 @@ public abstract class BoardView implements Observer{
     public abstract void getPriceofRechargeWeapons(Weapon weapon);
 
 
-    /*Used to send message to all players
+    /*Used to sendMessage message to all players
      @param message
      * @throws DisconnectionException
      */

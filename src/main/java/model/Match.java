@@ -26,6 +26,7 @@ public class Match extends Observable implements Serializable {
         weapondeck =new WeaponDeck();
         weapondeck.setWeapons("Armi");
         powdeck =new PowDeck("Pow");
+        powdeck.shuffleStack();
     }
 
     public void setRound(){
@@ -108,6 +109,15 @@ public class Match extends Observable implements Serializable {
             if(maptype==1){}
             if(maptype==2){}
             if(maptype==3){}
+        }
+    }
+
+    public void firstTurnPows(){
+        for(Player p:this.players){
+            try{
+                this.assignPowCard(p);
+                this.assignPowCard(p);
+            } catch(MaxNumberofCardsException e) {return;}
         }
     }
 

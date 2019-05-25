@@ -1,10 +1,37 @@
 package client;
 
 import model.Player;
+import network.messages.Message;
 
 import java.util.List;
 
 public interface View {
+
+    /*
+    **********************************************************
+    * Metodi per Avvio Client                                *
+    **********************************************************
+    */
+    void start();
+
+    void showInfoMessage(Message message);
+
+    void login();
+
+
+
+
+
+
+
+
+
+
+    /*
+     **********************************************************
+     * Metodi per Avvio Client                                *
+     **********************************************************
+     */
 
     //Message to advise the player the game has started
     void welcomeMessage(int idClient);
@@ -28,6 +55,9 @@ public interface View {
 
     //Method to show a player its PowCards, used in response to an attack
     void showPlayerPows(Player player);
+
+    //Method to show a player its PowCards, and colors to choose the spawn point cell
+    void showPlayerPowsColors(Player player);
 
     //Method to show the active player how many ammos he has
     void showPlayerAmmos();
@@ -63,4 +93,6 @@ public interface View {
 
     //Method to advise the player of the consequences of his attack
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
+
+
 }
