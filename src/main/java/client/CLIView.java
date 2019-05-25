@@ -77,25 +77,14 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        List<Player> duplication = new ArrayList<>();
-        for(int j=0; j<match.getPlayersSize(); j++){
-            duplication.add(match.getPlayers().get(j));
-            printStream.printf("Player "+match.getPlayers().get(j).getid()+" is "+match.getPlayers().get(j).getname()+"\n");
-        }
-        for(int h=0; h<duplication.size()+1; h++){
+        for(int h=0; h<match.getPlayersSize(); h++){
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
-            for(int k=h; k<duplication.size()+1; k++){
-                Player p1 = match.getPlayerByIndex(k);
-                if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
-                    printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
-                    duplication.remove(p1);
-                }
-            }
+            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
+            printStream.println("Player "+player.getname()+" is in the cell at line: "+line+", column: "+column);
         }
-
         printStream.printf(" _________________________________________________                 \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |                \n");
         printStream.printf("|                |                |               |                \n");
@@ -130,23 +119,13 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        List<Player> duplication = new ArrayList<>();
-        for(int j=0; j<match.getPlayersSize(); j++){
-            duplication.add(match.getPlayers().get(j));
-            printStream.printf("Player "+match.getPlayers().get(j).getid()+" is "+match.getPlayers().get(j).getname()+"\n");
-        }
-        for(int h=0; h<duplication.size()+1; h++){
+        for(int h=0; h<match.getPlayersSize(); h++){
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
-            for(int k=h; k<duplication.size()+1; k++){
-                Player p1 = match.getPlayerByIndex(k);
-                if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
-                    printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
-                    duplication.remove(p1);
-                }
-            }
+            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
+            printStream.println("Player "+player.getname()+" is in the cell at line: "+line+", column: "+column);
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
@@ -182,24 +161,13 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        List<Player> duplication = new ArrayList<>();
-        for(int j=0; j<match.getPlayersSize(); j++){
-            printStream.printf("Player "+match.getPlayers().get(j).getid()+" is "+match.getPlayers().get(j).getname()+"\n");
-            duplication.add(match.getPlayers().get(j));
-        }
-        for(int h=0; h<duplication.size(); h++){
+        for(int h=0; h<match.getPlayersSize(); h++){
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
             map[line][column] = player.getid();
-            for(int k=h; k<duplication.size(); k++){
-                Player p1 = match.getPlayerByIndex(k);
-                if(!p1.equals(player) && p1.getCel().getX()==player.getCel().getX() && p1.getCel().getY()==player.getCel().getY()){
-                    printStream.println("Player "+p1.getname()+" and "+player.getname()+" are in the same cell");
-                    duplication.remove(player);
-                    map[line][column] = p1.getid();
-                }
-            }
+            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
+            printStream.println("Player "+player.getname()+" is in the cell at line: "+line+", column: "+column);
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
@@ -265,14 +233,10 @@ public class CLIView implements View {
 
         int i=1;
         for(PowCard powcard:powcards){
-            //colors green, pink and grey are useless for the method spawn but are included as this method can be useful for other purpose.
             //Spawn point cell are just blue, red and yellow. Check of validity is made in controller class.
-            if(powcard.getColor()==0) color = "Blue";
-            else if(powcard.getColor()==1) color = "Green";
+            if(powcard.getColor()==0) color = "Red";
+            else if(powcard.getColor()==1) color = "Blue";
             else if(powcard.getColor()==2) color = "Yellow";
-            else if(powcard.getColor()==3) color = "Pink";
-            else if(powcard.getColor()==4) color = "Grey";
-            else if(powcard.getColor()==5) color = "Red";
             printStream.println(i+". "+powcard.getName()+" with the color "+color);
             i++;
         }

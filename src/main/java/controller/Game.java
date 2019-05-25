@@ -75,19 +75,8 @@ public class Game{
     }
 
     public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
-        if(borningValidity(player, powcardIndex)){
-            Spawn playerSpawn = new Spawn();
-            playerSpawn.spawn(player, x, y, powcardIndex);
-        }
-        else throw new InvalidColorException();
-    }
-
-    private boolean borningValidity(Player player, int powcardcolor){
-        List<PowCard> playerPows = player.getPows();
-        for(PowCard pow: playerPows){
-            if(pow.getColor()==powcardcolor) return true;
-        }
-        return false;
+        Spawn playerSpawn = new Spawn();
+        playerSpawn.spawn(player, x, y, powcardIndex);
     }
 
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
