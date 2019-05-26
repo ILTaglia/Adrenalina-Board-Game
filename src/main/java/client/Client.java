@@ -13,7 +13,7 @@ import exceptions.*;
 import model.*;
 import utils.GetData;
 
-/*In this class the client has its main, it is allowed to choose whether RMI or socket, or CLI or GUI
+/*In this class the client has its main, it is allowed to choose whether RMI or socket, or CLI or GUIView
 * as well*/
 public class Client {
 
@@ -78,7 +78,7 @@ public class Client {
 
         printStream.println("\nPlease, choose which graphics you want to play with:");
         printStream.println("1. CLI");
-        printStream.println("2. GUI");
+        printStream.println("2. GUIView");
         int GraphicChoice=getData.getInt(1, 2);
 
         printStream.println("\nPlease, choose the color of the player:");

@@ -26,7 +26,7 @@ public class Client {
 
         Scanner userChoice;
         userChoice=new Scanner(System.in);
-        System.out.println("Inserire 0 per usare GUI, 1 per CLI:\t");
+        System.out.println("Inserire 0 per usare GUIView, 1 per CLI:\t");
 
         //Ad ogni View si associa un Client e viceversa
         if(userChoice.nextInt()==1){
@@ -36,7 +36,7 @@ public class Client {
             cli.start();
         }
         else{
-            //Avvia GUI
+            //Avvia GUIView
         }
         //Una volta avviata la View si devono fare le richieste che servono alla View e avviare le connessioni.
 
