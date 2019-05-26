@@ -30,6 +30,44 @@ public class Client {
         Client c = new Client();
         GetData getData=new GetData();
 
+        /*Speedy test*/
+        Game game2 = new Game();
+        int index2 = game2.getMatchesSize()-1;
+        Match match2 = game2.getMatchByIndex(index2);
+        Player p1 = new Player("Sirius", "Blue", "10583741");
+        Player p2 = new Player("Calypso", "Pink", "14253954");
+        Player p3 = new Player("Hermione", "Green", "18263100");
+        Player p4 = new Player("Jackie", "Yellow", "13299954");
+        Player p5 = new Player("Kate", "Grey", "19263542");
+        try {
+            match2.addPlayer(p1);
+            match2.addPlayer(p2);
+            match2.addPlayer(p3);
+            match2.addPlayer(p4);
+            match2.addPlayer(p5);
+        }
+        catch (MaxNumberPlayerException e){ printStream.println("Maximum number of players reached.");}
+        game2.select(3);
+        game2.startGame(match2.getId());
+        View view2 = new CLIView(match2);
+        p1.setCel(2,3);
+        p2.setCel(0,2);
+        p3.setCel(1,0);
+        p4.setCel(1,0);
+        p5.setCel(1,0);
+        view2.printMap();
+        int f=1;
+        Client c3 = new Client();
+        while(f==1){
+            for(Player pl:match2.getPlayers()){
+                c3.play(match2, view2);
+                game2.setTurn(match2);
+            }
+            printStream.println("Insert flag");
+            f= getData.getInt(0,1);
+        }
+
+        /*Test to try*/
         printStream.println("Welcome to Adrenalina!");
 
         printStream.println("\nPlease, choose which communication protocol you want to use:");
