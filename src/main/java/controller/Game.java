@@ -67,6 +67,7 @@ public class Game{
         try{
             match = this.getMatch(matchID);
         } catch(IllegalArgumentException e) { return;}
+        match.fillDashboard();
         match.getPlayerByIndex(0).setActive();
         for(int i=1; i<match.getPlayersSize(); i++){
             match.getPlayerByIndex(i).resetActive();

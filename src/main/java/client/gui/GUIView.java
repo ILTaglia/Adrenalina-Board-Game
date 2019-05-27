@@ -1,6 +1,5 @@
 package client.gui;
 
-import jdk.javadoc.internal.doclets.formats.html.HtmlConfiguration;
 import model.Match;
 
 import javax.imageio.ImageIO;

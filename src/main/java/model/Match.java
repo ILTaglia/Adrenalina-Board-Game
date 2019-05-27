@@ -106,9 +106,32 @@ public class Match extends Observable implements Serializable {
                 c.Add_Weapon_Card(weapon9, 2);
             } catch (FullCellException e){}
 
-            if(maptype==1){}
-            if(maptype==2){}
-            if(maptype==3){}
+            NormalCell normalcell = (NormalCell)this.getDashboard().getmap(0, 0);
+            this.addAmmoCard(normalcell);
+            normalcell = (NormalCell)this.getDashboard().getmap(0, 1);
+            this.addAmmoCard(normalcell);
+
+            normalcell = (NormalCell)this.getDashboard().getmap(1, 1);
+            this.addAmmoCard(normalcell);
+            normalcell = (NormalCell)this.getDashboard().getmap(1, 2);
+            this.addAmmoCard(normalcell);
+            normalcell = (NormalCell)this.getDashboard().getmap(1, 3);
+            this.addAmmoCard(normalcell);
+
+            normalcell = (NormalCell)this.getDashboard().getmap(2, 1);
+            this.addAmmoCard(normalcell);
+            normalcell = (NormalCell)this.getDashboard().getmap(2, 2);
+            this.addAmmoCard(normalcell);
+
+            if(maptype!=1){
+                normalcell = (NormalCell)this.getDashboard().getmap(0, 3);
+                this.addAmmoCard(normalcell);
+                if(maptype==3){
+                    normalcell = (NormalCell)this.getDashboard().getmap(2, 0);
+                    this.addAmmoCard(normalcell);
+                }
+            }
+
         }
     }
 
