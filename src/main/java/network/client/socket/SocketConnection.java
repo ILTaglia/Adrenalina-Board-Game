@@ -1,7 +1,6 @@
-package network.client;
+package network.client.socket;
 
 import network.client.Client;
-import network.messages.ConnectionError;
 import network.messages.Message;
 
 import java.io.IOException;
@@ -9,10 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-    //TODO Aggiungere Booleani per verifiche sulla connessione
-
-
-public class NetworkHandler extends Thread{
+public class SocketConnection extends Thread {
 
     public Client client;
     private Socket clientSocket;
@@ -21,7 +17,7 @@ public class NetworkHandler extends Thread{
     private ObjectInputStream streamIn;
     private ObjectOutputStream streamOut;
 
-    public NetworkHandler(String host, int port, Client client){
+    public SocketConnection(String host, int port, Client client){
         this.client=client;
         try{
             this.clientSocket = new Socket(host, port);
@@ -44,14 +40,11 @@ public class NetworkHandler extends Thread{
                 Message message=(Message) streamIn.readObject();
                 client.handleMessage(message);
             }
-        }catch (IOException|ClassNotFoundException e){
+        }catch (IOException |ClassNotFoundException e){
             bool=false;
             //TODO
         }
     }
-
-
-
 
     //TODO: Verificare uso reset & flush
     //Metodo per inviare messaggi
@@ -64,5 +57,4 @@ public class NetworkHandler extends Thread{
             System.out.println("Errore nell'invio del messaggio");
         }
     }
-
 }

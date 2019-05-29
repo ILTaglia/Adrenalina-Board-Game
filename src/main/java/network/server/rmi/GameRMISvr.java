@@ -21,7 +21,7 @@ public class GameRMISvr implements Remote {
 
         try {
             Registry registry = LocateRegistry.createRegistry(port);
-            registry.rebind("ServerImplementation", serverImplementation );
+            registry.rebind("Server", serverImplementation );
         }catch (Exception e){
             //TODO: STUDIARE ECCEZIONI RMI
         }

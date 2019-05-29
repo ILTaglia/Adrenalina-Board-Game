@@ -13,7 +13,6 @@ import java.util.concurrent.Executors;
 public class GameSocketSvr {
 
     private ExecutorService pool;
-    private int serverPort;
     private boolean isStopped=false;
     private ServerSocket serverSocket;
     private GameServer gameServer;      //Necessario avere il GameServer in modo da poter chiamare metodi su quello
@@ -54,7 +53,7 @@ public class GameSocketSvr {
     //------------------------Metodi usati dal ClientHandler----------------------------------------------------------//
 
     public void addClientToWR(ClientHandler clientHandler,String username){
-        gameServer.addClientToWR(clientHandler,username);
+        gameServer.addClientToWR(username,clientHandler);
     }
 
     public boolean isAlreadyInQueue(String requestedUsername) { //TODO: VERIFICA PARALLELISMI DI TUTTO QUESTO
@@ -83,9 +82,5 @@ public class GameSocketSvr {
     }
 
     //---------------------------------Metodi di dubbia utilità-----------------------------------------------------------//
-    /*
-    public synchronized void saveUser(String playerUsername, ClientHandler clientHandler) {
-        gameServer.saveUser(playerUsername,clientHandler);
-    }
-    */
+
 }

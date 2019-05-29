@@ -6,7 +6,7 @@ import network.server.ClientInterface;
 
 import java.rmi.Remote;
 
-interface ServerInterface extends Remote {
+public interface ServerInterface extends Remote {
 
     void registerToQueue(String username, ClientInterface clientInterface) throws UsernameAlreadyUsedException;
 

@@ -2,6 +2,8 @@ package network.client;
 
 import client.View;
 import network.CLI;
+import network.client.rmi.RMIHandler;
+import network.client.socket.SocketHandler;
 import network.messages.Message;
 
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public class Client {
     private View view;
     private String username;
 
-    private NetworkHandler networkHandler;
+    private ConnectionHandler connectionHandler;
 
     private final String serverIP="127.0.0.1";
     private final int serverPort=7218;
@@ -57,16 +59,22 @@ public class Client {
 
     public void launchConnection(){
         if(isToUseSocket){
-            networkHandler=new NetworkHandler(serverIP,serverPort,this);
-            networkHandler.start();
+            connectionHandler=new SocketHandler(serverIP,serverPort,this);
+            connectionHandler.start();
         }
         else{
-            //TODO: implementare RMI
+            rmiHandler= new RMIHandler(this);
+
+
         }
     }
 
+    public void requestToWR(String username){
+
+    }
+
     public void sendMessage(Message message){
-        networkHandler.sendMessage(message);
+        connectionHandler.sendMessage(message);
     }
 
     public void handleMessage(Message message){
