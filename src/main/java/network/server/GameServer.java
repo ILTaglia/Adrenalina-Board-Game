@@ -2,10 +2,10 @@ package network.server;
 
 import network.messages.InfoID;
 import network.messages.Message;
-import network.server.socket.ClientHandler;
+import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 
-import javax.sound.sampled.Line;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +23,7 @@ public class GameServer {
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                        //Collega Username e IdPlayer
-    private HashMap<String, ClientHandler> userIDToClientHandler;           //Non per forza utile
+    private HashMap<String, ClientInterface> userIDToClientHandler;           //Non per forza utile
     private HashMap<String,GameRoom> userIDToIdGameRoom;                      //Collega IdPlayer e Partita in cui è inserito
     //Se non è ancora in GameRoom si potrebbe mettere il campo String a "WaitingRoom"
     //Così facendo eviterei di dovermi inventare altro per i WaitingPlayers
@@ -32,12 +32,13 @@ public class GameServer {
     //----------------------------------------------------------------------//
 
     private int socketServerPort=7218;
+    private int rmiServerPort=1099;
     private WaitingRoom waitingRoom;                                        //Stanza per i giocatori in attesa
     private ArrayList<GameRoom> gameRooms;                                  //Lista delle Stanze di Gioco in corso TODO: penso sia evitabile se si usa l'HashMap
 
     // Implementazione vera e propria dei Server
     private GameSocketSvr gameSocketSvr;
-    //private RMIServer gameRMISvr;
+    private GameRMISvr gameRMISvr;
 
 
     public static void main(String[] args) {
@@ -50,16 +51,22 @@ public class GameServer {
 
     private GameServer(){
         this.gameSocketSvr=new GameSocketSvr(this);
+        this.gameRMISvr=new GameRMISvr(this);
 
         this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.usernameToUserID =new HashMap<>();
-        this.userIDToClientHandler=new HashMap<>();
+        this.userIDToClientHandler=new HashMap<String, ClientInterface>();
         this.userIDToIdGameRoom=new HashMap<>();
     }
 
     private void launchServer(){
         gameSocketSvr.start(socketServerPort);
         gameSocketSvr.run();
+        try {
+            gameRMISvr.start(rmiServerPort);
+        }catch (RemoteException e){
+            //TODO
+        }
 
 
     }
@@ -74,11 +81,14 @@ public class GameServer {
         return waitingRoom.isAlreadyInQueue(requestedUsername);
     }
 
-    public synchronized void addClientToWR(ClientHandler clientHandler,String playerUsername){
+    public synchronized void addClientToWR(ClientInterface clientInterface,String playerUsername){
         assignIDToUsername(playerUsername);
-        assignClientHandlerToID(playerUsername,clientHandler);
+
+        //TODO: sistemare con ClientInterface
+
+        assignClientHandlerToID(playerUsername,clientInterface);
         InfoID infoID=new InfoID("You are in Waiting Room. Your ID is:" + usernameToUserID.get(playerUsername));
-        clientHandler.sendMessage(infoID);
+        clientInterface.sendMessage(infoID);
         waitingRoom.addUserToRoom(playerUsername);
     }
     //TODO: possibile semplificare il tutto, meglio chiarezza o semplicità?
@@ -87,7 +97,7 @@ public class GameServer {
         String playerID=uid.toString();
         usernameToUserID.put(playerUsername,playerID);
     }
-    private void assignClientHandlerToID(String playerUsername,ClientHandler clientHandler){
+    private void assignClientHandlerToID(String playerUsername, ClientInterface clientHandler){
         String playerID=usernameToUserID.get(playerUsername);
         userIDToClientHandler.put(playerID,clientHandler);
     }

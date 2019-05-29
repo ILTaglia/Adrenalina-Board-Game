@@ -3,6 +3,7 @@ package network.server.socket;
 import network.messages.ConnectionError;
 import network.messages.ConnectionRequest;
 import network.messages.Message;
+import network.server.ClientInterface;
 import network.server.socket.GameSocketSvr;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class ClientHandler implements Runnable {
+public class ClientHandler implements Runnable, ClientInterface {
     private final Socket clientSocket;
     private final GameSocketSvr server;
     private String playerUsername;
