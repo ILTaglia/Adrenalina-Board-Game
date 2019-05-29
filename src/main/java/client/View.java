@@ -14,6 +14,8 @@ public interface View {
     */
     void start();
 
+    void showException(String message);
+
     void showInfoMessage(Message message);
 
     void login();
@@ -39,7 +41,7 @@ public interface View {
     //Message to advise the player the game has finished
     void endMessage();
 
-    //Method to print the map to the client
+    //Method to print the map to the connectionHandler
     void printMap();
 
     //Method to show player its weapon cards

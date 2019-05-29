@@ -50,7 +50,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                     else {
                         playerUsername = requestedUsername;
                         //server.saveUser(playerUsername,this);  // Alternativamente lo può fare direttamente quando aggiungo al WR
-                        //Si può evitare di controllare partite già iniziate perchè il client è univocamente collegato con ID.
+                        //Si può evitare di controllare partite già iniziate perchè il connectionHandler è univocamente collegato con ID.
                         server.addClientToWR(this, playerUsername);
                     }
                 }

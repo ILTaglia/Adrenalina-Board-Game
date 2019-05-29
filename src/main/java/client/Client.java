@@ -13,7 +13,7 @@ import exceptions.*;
 import model.*;
 import utils.GetData;
 
-/*In this class the client has its main, it is allowed to choose whether RMI or socket, or CLI or GUIView
+/*In this class the connectionHandler has its main, it is allowed to choose whether RMI or socket, or CLI or GUIView
 * as well*/
 public class Client {
 
@@ -149,7 +149,7 @@ public class Client {
             view.showPlayerPows(p);
         }
         player.setdamage(6, 0);
-        //TODO serve al client a reference alla partita che sta giocando
+        //TODO serve al connectionHandler a reference alla partita che sta giocando
         for(int i=0; i<match.getPlayersSize(); i++){
             c.play(match, view);
             game.setTurn(match);
@@ -157,7 +157,7 @@ public class Client {
 
 
     }
-    /*TODO in questa classe bisognerà implementare la waiting room del client. Una volta che ha scelto il
+    /*TODO in questa classe bisognerà implementare la waiting room del connectionHandler. Una volta che ha scelto il
     modo di comunicazione e la grafica da usare vengono lanciati gli appositi comandi per far partire le connessioni.
      */
 

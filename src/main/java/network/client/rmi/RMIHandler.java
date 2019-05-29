@@ -1,9 +1,9 @@
 package network.client.rmi;
 
 
+import exceptions.UsernameAlreadyUsedException;
 import network.client.Client;
 import network.client.ConnectionHandler;
-import network.client.rmi.RMIConnection;
 import network.messages.Message;
 import network.server.ClientInterface;
 import network.server.rmi.ServerInterface;
@@ -26,12 +26,20 @@ public class RMIHandler implements ConnectionHandler {
         clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(rmiConnection, 0);
     }
 
-    public void registerToQueue(String username){
-        server.registerToQueue(username,clientInterface);
+    public void registerToWR(String username) throws UsernameAlreadyUsedException {
+        try {
+            server.registerToQueue(username, clientInterface);
+        }catch (RemoteException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void sendMessage(Message message){
-        server.handleMessage(message);
+        try {
+            server.handleMessage(message);
+        } catch (RemoteException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }

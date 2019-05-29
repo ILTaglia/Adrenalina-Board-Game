@@ -13,7 +13,7 @@ import java.util.UUID;
 
 
 //la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente
-//entrambe le tipologie di connessione da parte dei client
+//entrambe le tipologie di connessione da parte dei connectionHandler
 
 //TODO: per ora presente solo tecnologia Socket
 public class GameServer {
@@ -60,11 +60,12 @@ public class GameServer {
 
     private void launchServer(){
         gameSocketSvr.start(socketServerPort);
-        gameSocketSvr.run();
+        gameSocketSvr.start();
         try {
             gameRMISvr.start(rmiServerPort);
         }catch (RemoteException e){
-            //TODO
+
+            System.out.println(e.getMessage());
         }
 
 
@@ -84,7 +85,11 @@ public class GameServer {
         assignIDToUsername(playerUsername);
         assignClientHandlerToID(playerUsername,clientInterface);
         InfoID infoID=new InfoID("You are in Waiting Room. Your ID is:" + usernameToUserID.get(playerUsername));
-        clientInterface.sendMessage(infoID);
+        try {
+            clientInterface.sendMessage(infoID);
+        }catch (RemoteException e) {
+            e.printStackTrace();
+        }
         waitingRoom.addUserToRoom(playerUsername);
     }
 

@@ -16,7 +16,6 @@ public class GameRMISvr implements Remote {
     }
 
     public void start(int port) throws RemoteException {
-
         ServerImplementation serverImplementation= new ServerImplementation(gameServer);
 
         try {
@@ -25,6 +24,6 @@ public class GameRMISvr implements Remote {
         }catch (Exception e){
             //TODO: STUDIARE ECCEZIONI RMI
         }
-
+        System.out.println("RMI ON");
     }
 }

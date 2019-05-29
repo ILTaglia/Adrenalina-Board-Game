@@ -25,6 +25,11 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
+    public void showException(String message) {
+
+    }
+
+    @Override
     public void showInfoMessage(Message message) {
 
     }

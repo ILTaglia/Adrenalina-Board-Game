@@ -1,24 +1,25 @@
 package network.client.socket;
 
-import network.client.Client;
+import network.client.ConnectionHandler;
 import network.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.Connection;
 
 public class SocketConnection extends Thread {
 
-    public Client client;
+    private SocketHandler connectionHandler;
     private Socket clientSocket;
 
     //Stream per serializzazione|de-serializzazione
     private ObjectInputStream streamIn;
     private ObjectOutputStream streamOut;
 
-    public SocketConnection(String host, int port, Client client){
-        this.client=client;
+    public SocketConnection(String host, int port, SocketHandler connectionHandler){
+        this.connectionHandler = connectionHandler;
         try{
             this.clientSocket = new Socket(host, port);
         }catch (IOException e){
@@ -38,7 +39,7 @@ public class SocketConnection extends Thread {
         try{
             while(bool){
                 Message message=(Message) streamIn.readObject();
-                client.handleMessage(message);
+                connectionHandler.handleMessage(message);
             }
         }catch (IOException |ClassNotFoundException e){
             bool=false;

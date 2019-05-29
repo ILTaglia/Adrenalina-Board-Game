@@ -1,6 +1,6 @@
 package network.client.rmi;
 
-//Questa classe funziona da RMI Callback, necessaria al server per inviare messaggi al client. È questa che viene salvata sul server in coda/stanza
+//Questa classe funziona da RMI Callback, necessaria al server per inviare messaggi al connectionHandler. È questa che viene salvata sul server in coda/stanza
 
 import network.client.Client;
 import network.messages.Message;

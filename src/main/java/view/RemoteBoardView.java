@@ -13,13 +13,13 @@ import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/* This class represents the remote interface. When you have to communicate with a client first of all the method selectCommunicator is called.
+/* This class represents the remote interface. When you have to communicate with a connectionHandler first of all the method selectCommunicator is called.
 *  It gives back the the type of communicator that is for socket or RMI. In this way the RemoteBoardView remains independent from the effective type of
 *  communication you choose to use.
 *
 *  In this way mixed matches are allowed, that is a match in which some clients use socket, others RMI.
 *
-*  Besides when a client is asked some data, the remote board view makes the check that the returned value is really a valid value.
+*  Besides when a connectionHandler is asked some data, the remote board view makes the check that the returned value is really a valid value.
  */
 public class RemoteBoardView extends BoardView{
 
@@ -36,7 +36,7 @@ public class RemoteBoardView extends BoardView{
      * @param boardModel
      * @param socketsIn
      * @param socketsOut
-     * @param clients: contiene la lista di Object che possono essere: il socket collegato al client oppure la sua RMIClient
+     * @param clients: contiene la lista di Object che possono essere: il socket collegato al connectionHandler oppure la sua RMIClient
      */
     public RemoteBoardView(Match match, List<Object> clients, Map<Socket, ObjectOutputStream> socketsOut, Map<Socket, ObjectInputStream> socketsIn){
         this.match = match;
@@ -51,7 +51,7 @@ public class RemoteBoardView extends BoardView{
     //Game is started
     @Override
     public void startingMessage(){
-        // TODO settaggio del client, selezione della comunicazione
+        // TODO settaggio del connectionHandler, selezione della comunicazione
         //this.viewAdapter=this.selectCommunicator(currentClient);
         try {
             viewAdapter.startingMessage(currentClient,match.getActivePlayer().getcolor());

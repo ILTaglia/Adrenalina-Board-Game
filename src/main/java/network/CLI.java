@@ -51,6 +51,11 @@ public class CLI  implements View {
     }
 
 
+    public void showException(String message){
+        System.out.println(message);
+    }
+
+
     public void showInfoMessage(Message message){
         System.out.println("Message received:"+message.getInfo());
     }

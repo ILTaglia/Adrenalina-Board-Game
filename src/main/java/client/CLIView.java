@@ -35,6 +35,13 @@ public class CLIView implements View {
     public void start(){
         //
     }
+
+    @Override
+    public void showException(String message) {
+
+    }
+
+
     @Override
     public void showInfoMessage(Message message){
 

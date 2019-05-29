@@ -1,11 +1,14 @@
 package network.client;
 
 import client.View;
+import exceptions.UsernameAlreadyUsedException;
 import network.CLI;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Client {
@@ -59,17 +62,30 @@ public class Client {
 
     public void launchConnection(){
         if(isToUseSocket){
-            connectionHandler=new SocketHandler(serverIP,serverPort,this);
-            connectionHandler.start();
+            connectionHandler=new SocketHandler(serverIP, serverPort, this);
         }
         else{
-            rmiHandler= new RMIHandler(this);
-
-
+            try {
+                connectionHandler= new RMIHandler(this);
+            } catch (RemoteException e) {
+                e.printStackTrace();    //TODO: Solita roba delle eccezioni
+            } catch (NotBoundException e) {
+                e.printStackTrace();
+            }
         }
     }
-
+    /*Unico metodo di Login
+    * nel caso di Socket si manda il messaggio con la richiesta di login e in caso di insuccesso si gestirà tramite altri messaggi
+    * diverso il caso dell'RMI in cui gestisco con un try/catch, utile SOLO ALL'RMI (va bene così?)
+    */
     public void requestToWR(String username){
+        try {
+            connectionHandler.registerToWR(username);
+        }catch (UsernameAlreadyUsedException e){
+            //Stampare sulla view la presenza dell'errore
+            view.showException(e.getMessage());
+            view.login();
+        }
 
     }
 
