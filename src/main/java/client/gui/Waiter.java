@@ -3,7 +3,7 @@ package client.gui;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-/*Class used to allow the adapter to be put in wait of a response by the client. GUIView wakes GUIViewAdapter the response is ready */
+/*Class used to allow the adapter to be put in wait of a response by the connectionHandler. GUIView wakes GUIViewAdapter the response is ready */
 public class Waiter {
 
     private GUIViewAdapter guiViewAdapter;
@@ -19,7 +19,7 @@ public class Waiter {
         this.guiViewAdapter=guiViewAdapter;
     }
 
-    /*Stop thread of client*/
+    /*Stop thread of connectionHandler*/
     public synchronized void stopAdapter(){
         try {
             wait();
@@ -28,7 +28,7 @@ public class Waiter {
         }
     }
 
-    /*Returns the selected value by the client if this value is an integer*/
+    /*Returns the selected value by the connectionHandler if this value is an integer*/
     @SuppressWarnings("unchecked")
     public synchronized void wakeUpGuiViewAdapter(Object returnValue){
         notify();

@@ -23,7 +23,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             throw new UsernameAlreadyUsedException();
         }
         else{
-            gameServer.addClientToWR(clientInterface,requestedUsername);
+            gameServer.addClientToWR(requestedUsername,clientInterface);
         }
     }
 

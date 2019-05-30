@@ -10,10 +10,9 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class GameSocketSvr {
+public class GameSocketSvr extends Thread {
 
     private ExecutorService pool;
-    private int serverPort;
     private boolean isStopped=false;
     private ServerSocket serverSocket;
     private GameServer gameServer;      //Necessario avere il GameServer in modo da poter chiamare metodi su quello
@@ -29,11 +28,12 @@ public class GameSocketSvr {
         }catch (IOException e){
             System.out.println(e.getMessage());
         }
-        System.out.println("Listening on port:" + port);
+        System.out.println("Socket ON");
         pool = Executors.newCachedThreadPool();
     }
 
-    //Metodo che runna il SocketServer, accetta le connessioni e per ciascun client collegato istanzia un ClientHandler
+    //Metodo che runna il SocketServer, accetta le connessioni e per ciascun connectionHandler collegato istanzia un ClientHandler
+    @Override
     public void run(){
         while(!isStopped()){
             Socket clientSocket;
@@ -54,7 +54,7 @@ public class GameSocketSvr {
     //------------------------Metodi usati dal ClientHandler----------------------------------------------------------//
 
     public void addClientToWR(ClientHandler clientHandler,String username){
-        gameServer.addClientToWR(clientHandler,username);
+        gameServer.addClientToWR(username,clientHandler);
     }
 
     public boolean isAlreadyInQueue(String requestedUsername) { //TODO: VERIFICA PARALLELISMI DI TUTTO QUESTO
@@ -83,9 +83,5 @@ public class GameSocketSvr {
     }
 
     //---------------------------------Metodi di dubbia utilità-----------------------------------------------------------//
-    /*
-    public synchronized void saveUser(String playerUsername, ClientHandler clientHandler) {
-        gameServer.saveUser(playerUsername,clientHandler);
-    }
-    */
+
 }

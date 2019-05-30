@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Observer;
 
 /* Abstract class that describes methods that view must have. There is a local view, and a remote view that communicates with clients. Remote View is
-made to check that the data given by client is correct.*/
+made to check that the data given by connectionHandler is correct.*/
 
 public abstract class BoardView implements Observer{
 
@@ -63,13 +63,13 @@ public abstract class BoardView implements Observer{
      */
     public abstract Action getaction();
 
-    /*Asks a Weapon to client if it has too many cards*/
+    /*Asks a Weapon to connectionHandler if it has too many cards*/
     public abstract Weapon getweapon();
 
-    /*Asks a Pow to client if it has too many cards*/
+    /*Asks a Pow to connectionHandler if it has too many cards*/
     public abstract PowCard getPow();
 
-    /*Asks client the index of card he wants to buy in a spawn point cell
+    /*Asks connectionHandler the index of card he wants to buy in a spawn point cell
      */
     public abstract int getcard();
 

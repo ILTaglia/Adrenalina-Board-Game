@@ -1,8 +1,11 @@
 package network.server;
 
-import network.messages.InfoID;
+import network.messages.Message;
 
-public interface ClientInterface {
-    void sendMessage(InfoID infoID);
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface ClientInterface extends Remote {
+    void sendMessage(Message message) throws RemoteException;
 
 }

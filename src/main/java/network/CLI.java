@@ -21,11 +21,16 @@ public class CLI  implements View {
     }
     //Si chiede all'utente quale tipologia di connessione voglia utilizzare.
     public void start(){
+        setConnection();
+        login();
+    }
+
+    public void setConnection(){
         Scanner userChoice;
         userChoice=new Scanner(System.in);
         System.out.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
-                           "1. RMI" +
-                           "2. Socket");
+                "1. RMI" +
+                "2. Socket");
         int connectionChoice=userChoice.nextInt();
 
         if(connectionChoice==1){
@@ -35,7 +40,6 @@ public class CLI  implements View {
             client.setConnection(true);
         }
         client.launchConnection();
-        login();
     }
 
     public void login(){
@@ -43,9 +47,14 @@ public class CLI  implements View {
         username=new Scanner(System.in);
         System.out.println("Digitare proprio username:");
         String user=username.next();
-        Message message=new ConnectionRequest(user);
-        client.sendMessage(message);
+        client.requestToWR(user);
     }
+
+
+    public void showException(String message){
+        System.out.println(message);
+    }
+
 
     public void showInfoMessage(Message message){
         System.out.println("Message received:"+message.getInfo());

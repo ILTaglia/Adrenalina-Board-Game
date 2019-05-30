@@ -1,28 +1,25 @@
-package network.client;
+package network.client.socket;
 
-import network.client.Client;
-import network.messages.ConnectionError;
+import network.client.ConnectionHandler;
 import network.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.Connection;
 
-    //TODO Aggiungere Booleani per verifiche sulla connessione
+public class SocketConnection extends Thread {
 
-
-public class NetworkHandler extends Thread{
-
-    public Client client;
+    private SocketHandler connectionHandler;
     private Socket clientSocket;
 
     //Stream per serializzazione|de-serializzazione
     private ObjectInputStream streamIn;
     private ObjectOutputStream streamOut;
 
-    public NetworkHandler(String host, int port, Client client){
-        this.client=client;
+    public SocketConnection(String host, int port, SocketHandler connectionHandler){
+        this.connectionHandler = connectionHandler;
         try{
             this.clientSocket = new Socket(host, port);
         }catch (IOException e){
@@ -42,16 +39,13 @@ public class NetworkHandler extends Thread{
         try{
             while(bool){
                 Message message=(Message) streamIn.readObject();
-                client.handleMessage(message);
+                connectionHandler.handleMessage(message);
             }
-        }catch (IOException|ClassNotFoundException e){
+        }catch (IOException |ClassNotFoundException e){
             bool=false;
             //TODO
         }
     }
-
-
-
 
     //TODO: Verificare uso reset & flush
     //Metodo per inviare messaggi
@@ -64,5 +58,4 @@ public class NetworkHandler extends Thread{
             System.out.println("Errore nell'invio del messaggio");
         }
     }
-
 }

@@ -16,15 +16,14 @@ public class GameRMISvr implements Remote {
     }
 
     public void start(int port) throws RemoteException {
-
         ServerImplementation serverImplementation= new ServerImplementation(gameServer);
 
         try {
             Registry registry = LocateRegistry.createRegistry(port);
-            registry.rebind("ServerImplementation", serverImplementation );
+            registry.rebind("Server", serverImplementation );
         }catch (Exception e){
             //TODO: STUDIARE ECCEZIONI RMI
         }
-
+        System.out.println("RMI ON");
     }
 }

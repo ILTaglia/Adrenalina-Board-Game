@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class GameLauncher{
 
     public static void main(String[] args) {
-        //Main temporaneo, scelta tra client e server a primo avvio
+        //Main temporaneo, scelta tra connectionHandler e server a primo avvio
         Scanner userChoice;
         userChoice=new Scanner(System.in);
         System.out.println("Inserire 0 per avviare Server, 1 per avviare Client:\t");
