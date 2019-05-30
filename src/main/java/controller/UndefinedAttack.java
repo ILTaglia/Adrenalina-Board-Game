@@ -112,7 +112,7 @@ public class UndefinedAttack {
                     for(int i=0;i<t.getNumberEffect();i++)
                     {
                         Effect e = t.getEffect(i);
-                        if(e.getType()==0)
+                        if(e.getType()==0) //Se ho dei player effect
                         {
                             int scelta;
                             int cont;
@@ -131,7 +131,29 @@ public class UndefinedAttack {
                             for(int k=0;k<e.getnumberdamage();k++)
                             {
                                 Damage damage = e.getDamage(k);
-                                this.manageplayerattack(second,e.getId(),damage);
+                                System.out.println("Status attacco : " +this.manageplayerattack(second,e.getId(),damage));
+                            }
+                        }
+                        else
+                        {
+                            int scelta;
+                            int cont;
+                            do {
+                                cont=0;
+                                for( Coordinate p : this.listAttackable.getAttackablecells())
+                                {
+                                    System.out.println("Digita "+ cont+ " Per attaccare "+ p.getX()+";"+p.getY());
+                                    cont++;
+                                }
+                                Scanner input = new Scanner (System.in);
+                                scelta=input.nextInt();
+                            }
+                            while(scelta<0||scelta>cont-1);
+                            Coordinate second = this.listAttackable.getAttackablecells().get(scelta);
+                            for(int k=0;k<e.getnumberdamage();k++)
+                            {
+                                Damage damage = e.getDamage(k);
+                                System.out.println("Status attacco : " +this.managecellattack(second,e.getId(),damage));
                             }
                         }
                     }
@@ -171,7 +193,7 @@ public class UndefinedAttack {
         ArrayList<String> destination = new ArrayList<>();
         player1.setCel(1, 2);
         player2.setCel(2, 2);
-        player3.setCel(2, 1);
+        player3.setCel(0, 2);
         player4.setCel(2, 0);
         player5.setCel(0, 1);
 
@@ -188,11 +210,28 @@ public class UndefinedAttack {
             player1.addWeapon(weapon1);
             player1.addWeapon(weapon2);
             player1.addWeapon(weapon3);
+            player2.addWeapon(weapon4);
+            player2.addWeapon(weapon5);
+            player2.addWeapon(weapon6);
 
         } catch (MaxNumberofCardsException e) {
             System.out.println("You have too many Weapon Cards, please remove one.");
         }
-
+        System.out.println(weapon1.getName());
+        System.out.println(weapon2.getName());
+        System.out.println(weapon3.getName());
+        UndefinedAttack attack = new UndefinedAttack(match,player1,weapon1,0);
+        attack.usecard();
+        System.out.println("Danni di "+player2.getname() + " = " + player2.gettotaldamage());
+        System.out.println("Danni di "+player3.getname() + " = " + player3.gettotaldamage());
+        System.out.println("Danni di "+player4.getname() + " = " + player4.gettotaldamage());
+        System.out.println("Danni di "+player5.getname() + " = " + player5.gettotaldamage());
+        attack = new UndefinedAttack(match,player1,weapon4,0);
+        attack.usecard();
+        System.out.println(weapon4.getName());
+        System.out.println(weapon5.getName());
+        System.out.println(weapon6.getName());
     }
+
 
 }
