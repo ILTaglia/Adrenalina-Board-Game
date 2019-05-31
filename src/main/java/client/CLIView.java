@@ -8,9 +8,11 @@ import java.util.logging.Logger;
 
 import controller.Game;
 import controller.GrabWeapon;
+import controller.ManagingWeapons;
 import exceptions.FullCellException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
+import exceptions.NotEnoughAmmosException;
 import model.*;
 import network.messages.Message;
 import utils.*;
@@ -291,7 +293,7 @@ public class CLIView implements View {
         }
     }
 
-    //Method to show a player its PowCards, and colors to choose the spawn point cell
+    //Method to show a player its PowCards, and colors to choose the spawn point cell and to convert Pows in Ammos
     @Override
     public void showPlayerPowsColors(Player player) {
         List<PowCard> powcards = player.getPows();
@@ -398,24 +400,17 @@ public class CLIView implements View {
         List<Integer> nRedAmmos = new ArrayList<>();
         List<Integer> nBlueAmmos = new ArrayList<>();
         List<Integer> nYellowAmmos = new ArrayList<>();
+
         for(int i=0;i<weaponcards.size();i++){
-            numberRedAmmos=0;
-            numberBlueAmmos=0;
-            numberYellowAmmos=0;
+            List<Integer> price = weaponcards.get(i).returnPrice();
+            numberRedAmmos=price.get(0);
+            numberBlueAmmos=price.get(1);
+            numberYellowAmmos=price.get(2);
             printStream.println(i+". "+weaponcards.get(i).getName()+" \nPrice:");
-            for(int j=0; j<weaponcards.get(i).getCost().size(); j++){
-               if(weaponcards.get(i).getCost().get(j)==0) numberRedAmmos++;
-            }
             printStream.println(numberRedAmmos+" red Ammos");
             nRedAmmos.add(numberRedAmmos);
-            for(int j=0; j<weaponcards.get(i).getCost().size(); j++){
-                if(weaponcards.get(i).getCost().get(j)==1) numberBlueAmmos++;
-            }
             printStream.println(numberBlueAmmos+" blue Ammos");
             nBlueAmmos.add(numberBlueAmmos);
-            for(int j=0; j<weaponcards.get(i).getCost().size(); j++){
-                if(weaponcards.get(i).getCost().get(j)==2) numberYellowAmmos++;
-            }
             printStream.println(numberYellowAmmos+" yellow Ammos\n");
             nYellowAmmos.add(numberYellowAmmos);
         }
@@ -425,11 +420,6 @@ public class CLIView implements View {
                 nBlueAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(1) &&
                 nYellowAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(2)){
             CardToBuy= numberOfWeapon;
-            /*try{
-                grabweapon.grabWeapon(match, match.getActivePlayer(), CardToBuy);
-            } catch(MaxNumberofCardsException e){
-                printStream.println("You have too many Weapon cards. Please, remove one if you want to buy this card.");
-            }*/
         }else{
             printStream.println("You don't have enough money to buy this card!");
         }

@@ -4,6 +4,7 @@ import exceptions.WeaponAlreadyLoadedException;
 import exceptions.WeaponAlreadyUsedException;
 
 import java.util.ArrayList;
+import java.util.List;
 //TODO IMPORTANTE: Classe Card da Usare !
 public class Weapon extends Card{
     private String name;
@@ -60,5 +61,21 @@ public class Weapon extends Card{
         this.cost=new ArrayList<>();
         this.attack =new ArrayList<>();
         this.used=false;
+    }
+
+    public List<Integer> returnPrice(){
+        List<Integer> weaponcost = new ArrayList<>();
+        int numberRedAmmos=0;
+        int numberBlueAmmos=0;
+        int numberYellowAmmos=0;
+        for(int j=0; j<this.getCost().size(); j++){
+            if(this.getCost().get(j)==0) numberRedAmmos++;
+            else if(this.getCost().get(j)==1) numberBlueAmmos++;
+            else if(this.getCost().get(j)==2) numberYellowAmmos++;
+        }
+        weaponcost.add(numberRedAmmos);
+        weaponcost.add(numberBlueAmmos);
+        weaponcost.add(numberYellowAmmos);
+        return weaponcost;
     }
 }
