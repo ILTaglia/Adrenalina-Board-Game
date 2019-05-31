@@ -14,62 +14,23 @@ import java.util.Random;
 //TODO: Capire se la view va istanziata nel controller oppure se va passata negli eventi che lancia al controller
 
 public class Game{
-    private ArrayList<Match> matches = new ArrayList<>();
-    Random rand = new Random();
+
+    private Match match;
 
     public Game(){
-        Match match = new Match();
-        matches.add(match);
-        //TODO communication with user, first example to be rewritten
-
+        match = new Match();
     }
 
     public void select(int i){
-        matches.get(0).createDashboard(i);
+        match.createDashboard(i);
     }
 
-    public String randomId(Random rand){
-        int i = 10000000 + rand.nextInt(89999999);
-        String id = Integer.toString(i);
-        for (Match match : this.matches){
-            //check to avoid different players have the same id
-            for(int index = 0; index< match.getPlayersSize(); index++){
-                if (match.getPlayerByIndex(index).getid().equals(id)){
-                    id=id+7;
-                }
-            }
-        }
-        if(Integer.parseInt(id)>99999999) id = randomId(rand);
-        return id;
-    }
-
-    public void addMatch(Match m){
-        if(!this.matches.contains(m)) this.matches.add(m);
-    }
-
-    public int getMatchesSize(){return this.matches.size();}
-
-    public Match getMatchByIndex(int index){return matches.get(index);}
-
-    public Match getMatch (int matchID) throws IllegalArgumentException{
-        for(Match m : this.matches){
-            if(m.getId()== matchID) return m;
-        }
-        throw new IllegalArgumentException();
-    }
-
-    public Random getRand(){return this.rand;}
-
-    public void startGame(int matchID){
-        Match match;
-        try{
-            match = this.getMatch(matchID);
-        } catch(IllegalArgumentException e) { return;}
+    public void startGame(){
         match.fillDashboard();
         match.getPlayerByIndex(0).setActive();
         for(int i=1; i<match.getPlayersSize(); i++){
             match.getPlayerByIndex(i).resetActive();
-        }
+    }
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
@@ -391,8 +352,7 @@ public class Game{
         Player player2 = new Player(name, color, "14253954");
 
         Game game = new Game();
-        int index = game.getMatchesSize()-1;
-        Match match = game.getMatchByIndex(index);
+        Match match = game.match;
         try {
             match.addPlayer(player);
             match.addPlayer(player1);
@@ -404,7 +364,7 @@ public class Game{
         int maptype = getData.getInt(1, 3);
         game.select(maptype);
 
-        game.startGame(match.getId());
+        game.startGame();
         View view = new CLIView(match);
         for(Player p:match.getPlayers()){
             printStream.println(p.getname());
