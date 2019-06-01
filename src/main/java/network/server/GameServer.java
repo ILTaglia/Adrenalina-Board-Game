@@ -6,10 +6,9 @@ import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 //la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente
@@ -23,7 +22,7 @@ public class GameServer {
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                        //Collega Username e IdPlayer
-    private HashMap<String, ClientInterface> userIDToClientHandler;           //Non per forza utile
+    private HashMap<String, ClientInterface> userIDToClientInterface;           //Non per forza utile
     private HashMap<String,GameRoom> userIDToIdGameRoom;                      //Collega IdPlayer e Partita in cui è inserito
     //Se non è ancora in GameRoom si potrebbe mettere il campo String a "WaitingRoom"
     //Così facendo eviterei di dovermi inventare altro per i WaitingPlayers
@@ -54,7 +53,7 @@ public class GameServer {
 
         this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.usernameToUserID =new HashMap<>();
-        this.userIDToClientHandler=new HashMap<>();
+        this.userIDToClientInterface =new HashMap<>();
         this.userIDToIdGameRoom=new HashMap<>();
     }
 
@@ -102,16 +101,36 @@ public class GameServer {
     }
     private void assignClientHandlerToID(String playerUsername, ClientInterface clientHandler){
         String playerID=usernameToUserID.get(playerUsername);
-        userIDToClientHandler.put(playerID,clientHandler);
+        userIDToClientInterface.put(playerID,clientHandler);
     }
 
     public void newGameRoom(List<String> usernameList) {
-        GameRoom gameRoom=new GameRoom(usernameList);
+        HashMap<String, String> userList=new HashMap<>();
+        for(String username:usernameList){
+            userList.put(username,usernameToUserID.get(username));
+        }
+        GameRoom gameRoom=new GameRoom(userList,this);
         for(String playerUsername:usernameList){
             String playerID=usernameToUserID.get(playerUsername);
             userIDToIdGameRoom.put(playerID,gameRoom);
         }
     }
+
+    //------------------------Metodi usati per la gestione dei messaggi di rete------------------------------------//
+
+    public void sendMessageToAll(Set<String> userID, Message message){
+        userIDToClientInterface.forEach((id,clientInterface)-> {
+            if(userID.contains(id)) {
+                try {
+                    clientInterface.sendMessage(message);
+                } catch (RemoteException e) {
+                    //TODO
+                }
+            }
+        });
+    }
+
+
 
     //-------------------------------Metodi da completare----------------------------//
 

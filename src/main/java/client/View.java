@@ -20,6 +20,8 @@ public interface View {
 
     void login();
 
+    void createPlayer();
+
 
 
 
@@ -95,6 +97,7 @@ public interface View {
 
     //Method to advise the player of the consequences of his attack
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
+
 
 
 }

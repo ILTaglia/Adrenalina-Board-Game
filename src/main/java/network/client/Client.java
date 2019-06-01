@@ -101,8 +101,19 @@ public class Client {
             case "Error":
                 handleErrorMessage(message);
                 break;
+            case "Request":
+                handleRequestMessage(message);
+                break;
         }
     }
+
+    private void handleRequestMessage(Message message) {
+        if(message.getContent().equals("PlayerDataRequest")){
+            view.showInfoMessage(message);
+            view.createPlayer();
+        }
+    }
+
     public void handleErrorMessage(Message message){
         if(message.getContent().equals("ConnectionError")){
             view.showInfoMessage(message);

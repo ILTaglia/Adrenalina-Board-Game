@@ -30,7 +30,7 @@ public class Game{
         match.getPlayerByIndex(0).setActive();
         for(int i=1; i<match.getPlayersSize(); i++){
             match.getPlayerByIndex(i).resetActive();
-    }
+        }
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
