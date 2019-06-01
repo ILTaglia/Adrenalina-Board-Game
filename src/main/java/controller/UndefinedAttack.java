@@ -169,6 +169,10 @@ public class UndefinedAttack {
                     stato = this.manageplayerattack(second, effect.getId(), damage);
                     System.out.println("Status attacco : " + stato);
                 }
+                if(this.ricorsivebit==1&&stato==0)
+                {
+                    setviewer(second);
+                }
             }
         }
         while(stato!=0);
