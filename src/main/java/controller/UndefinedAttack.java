@@ -87,79 +87,195 @@ public class UndefinedAttack {
         return this.shootManagement.shoot(match,this.listAttackable.getAttackablecells(),this.player,second,ID,damage);
     }
 
+    public boolean checkammo(ArrayList<Integer> extra) //Returns true if there are ammos needed
+    {
+        for(int i=0; i<extra.size();i++)
+        {
+            if(this.player.getAmmo(i)<extra.get(i))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void payextras(ArrayList<Integer> extra)
+    {
+        for(int i=0; i<extra.size();i++)
+        {
+            //TODO CANCELLARE MUNIZIONI
+        }
+    }
+
+    public void movefirstplayer(int n)
+    {
+        //TODO CONSENTIRE MOVIMENTO
+    }
+
+    public void chosedirection()
+    {
+        do {
+            System.out.println("Inserire una direzione");
+            Scanner input = new Scanner (System.in);
+            this.direction=input.nextInt();
+        }
+        while(this.direction<0||this.direction>3);
+
+    }
+
+    public void simpleattack(TypeAttack attack)
+    {
+        for(int i=0;i<attack.getNumberEffect();i++)
+        {
+            refreshvisible(attack);
+            Effect effect = attack.getEffect(i);
+            if(effect.getType()==0) //Caso Player effect
+            {
+
+            }
+            else //caso cell effect
+            {
+
+            }
+        }
+    }
+
+    public void playereffect(Effect effect)
+    {
+        int scelta;
+        int cont;
+        int stato=0;
+        do {
+            do {
+                cont = 0;
+                for (Player p : this.listAttackable.getAttackableplayers()) {
+                    System.out.println("Digita " + cont + " Per attaccare " + p.getname());
+                    cont++;
+                }
+                System.out.println("Se desideri interrompere l'attacco digita -1");
+                Scanner input = new Scanner(System.in);
+                scelta = input.nextInt();
+            }
+            while (scelta < -1 || scelta > cont - 1);
+            stato = 0;
+            if (scelta != -1) {
+                Player second = this.listAttackable.getAttackableplayers().get(scelta);
+                for (int k = 0; k < effect.getnumberdamage(); k++) {
+                    Damage damage = effect.getDamage(k);
+                    stato = this.manageplayerattack(second, effect.getId(), damage);
+                    System.out.println("Status attacco : " + stato);
+                }
+            }
+        }
+        while(stato!=0);
+
+    }
+
+    public void celleffect()
+    {
+
+    }
 
 
     //IMPORTANTE: TUTTE LE RICHIESTE ED ACQUISIZIONI ANDRANNO FATTE MEDIANTE OPPORTUNI METODI DELLA VIEW
     public void usecard()
     {
+        int attacco=0, chose=1;
         if(!checkpresenceweapon())
         {
             System.out.println("Arma non presente!");
         }
         else
         {
-            if(!checktype())
+            while(!checktype())
             {
                 System.out.println("Nessun attacco possibile con questo ID");
+                System.out.println("Inserire un nuovo id");
+                Scanner input = new Scanner (System.in);
+                this.setType(input.nextInt());
             }
-            else
-            {
                 createlistattacks(); //Creo lista di attacchi
                 //TODO CONTROLLO MUNIZIONI PER EXTRA
                 for(TypeAttack t : this.attacks)
                 {
-                    refreshvisible(t);
-                    for(int i=0;i<t.getNumberEffect();i++)
+                    if(attacco!=0)
                     {
-                        Effect e = t.getEffect(i);
-                        if(e.getType()==0) //Se ho dei player effect
+                        System.out.println("Digitare 1 se si desidera usare questro effetto");
+                        Scanner input2 = new Scanner (System.in);
+                        chose=input2.nextInt();
+                    }
+                    if(attacco==0||(chose==1&&checkammo(t.getExtras()))) //Caso in cui decido di attaccare o si tratta del primo attacco
+                    {
+                        attacco++;
+                        refreshvisible(t);
+
+                        if(t.getType()==1||t.getType()==2||t.getType()==3||t.getType()==4||t.getType()==5||t.getType()==7||t.getType()==9||t.getType()==10||t.getType()==11||t.getType()==12) //Caso in cui posso muovermi subito
                         {
-                            int scelta;
-                            int cont;
-                            do {
-                                cont=0;
-                                for( Player p : this.listAttackable.getAttackableplayers())
-                                {
-                                    System.out.println("Digita "+ cont+ " Per attaccare "+ p.getname());
-                                    cont++;
-                                }
-                                Scanner input = new Scanner (System.in);
-                                scelta=input.nextInt();
-                            }
-                            while(scelta<0||scelta>cont-1);
-                            Player second = this.listAttackable.getAttackableplayers().get(scelta);
-                            for(int k=0;k<e.getnumberdamage();k++)
-                            {
-                                Damage damage = e.getDamage(k);
-                                System.out.println("Status attacco : " +this.manageplayerattack(second,e.getId(),damage));
-                            }
+                            movefirstplayer(t.getMoveMe());
                         }
-                        else
+
+                        if(t.getType()==4||t.getType()==6||t.getType()==9||t.getType()==11) //Caso in cui devo scegliere una direzione
                         {
-                            int scelta;
-                            int cont;
-                            do {
-                                cont=0;
-                                for( Coordinate p : this.listAttackable.getAttackablecells())
-                                {
-                                    System.out.println("Digita "+ cont+ " Per attaccare "+ p.getX()+";"+p.getY());
-                                    cont++;
-                                }
-                                Scanner input = new Scanner (System.in);
-                                scelta=input.nextInt();
-                            }
-                            while(scelta<0||scelta>cont-1);
-                            Coordinate second = this.listAttackable.getAttackablecells().get(scelta);
-                            for(int k=0;k<e.getnumberdamage();k++)
+                            chosedirection();
+                        }
+
+                        if(t.getType()==1||t.getType()==2||t.getType()==3||t.getType()==4||t.getType()==5) //Gestione attacco semplice
+                        {
+                            simpleattack(t);
+                        }
+
+                        for(int i=0;i<t.getNumberEffect();i++)
+                        {
+                            Effect e = t.getEffect(i);
+                            if(e.getType()==0) //Se ho dei player effect
                             {
-                                Damage damage = e.getDamage(k);
-                                System.out.println("Status attacco : " +this.managecellattack(second,e.getId(),damage));
+                                int scelta;
+                                int cont;
+                                do {
+                                    cont=0;
+                                    for( Player p : this.listAttackable.getAttackableplayers())
+                                    {
+                                        System.out.println("Digita "+ cont+ " Per attaccare "+ p.getname());
+                                        cont++;
+                                    }
+                                    Scanner input = new Scanner (System.in);
+                                    scelta=input.nextInt();
+                                }
+                                while(scelta<0||scelta>cont-1);
+                                Player second = this.listAttackable.getAttackableplayers().get(scelta);
+                                for(int k=0;k<e.getnumberdamage();k++)
+                                {
+                                    Damage damage = e.getDamage(k);
+                                    System.out.println("Status attacco : " +this.manageplayerattack(second,e.getId(),damage));
+                                }
+                            }
+                            else
+                            {
+                                int scelta;
+                                int cont;
+                                do {
+                                    cont=0;
+                                    for( Coordinate p : this.listAttackable.getAttackablecells())
+                                    {
+                                        System.out.println("Digita "+ cont+ " Per attaccare "+ p.getX()+";"+p.getY());
+                                        cont++;
+                                    }
+                                    Scanner input = new Scanner (System.in);
+                                    scelta=input.nextInt();
+                                }
+                                while(scelta<0||scelta>cont-1);
+                                Coordinate second = this.listAttackable.getAttackablecells().get(scelta);
+                                for(int k=0;k<e.getnumberdamage();k++)
+                                {
+                                    Damage damage = e.getDamage(k);
+                                    System.out.println("Status attacco : " +this.managecellattack(second,e.getId(),damage));
+                                }
                             }
                         }
                     }
+
                 }
             }
-        }
     }
 
     public static void main(String args[])
