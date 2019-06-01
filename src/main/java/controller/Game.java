@@ -68,6 +68,7 @@ public class Game{
         PrintStream printStream=System.out;
         int counter=0;
         GetData getData=new GetData();
+        ManagingWeapons manage = new ManagingWeapons(); //class for the managing of weapons and pows in particular cases
         int choice;
         while(counter<2){
             printStream.println("\nTurn of player "+match.getActivePlayer().getname());
@@ -107,6 +108,27 @@ public class Game{
                         view.showSpawnPointWeapons();
                         int weapontograb = view.getWeaponCard();
                         GrabWeapon grabWeapon = new GrabWeapon();
+                        if(!manage.EnoughMoneytoBuy(match.getActivePlayer(), weapontograb)){
+                            //case if you don't have enough ammos and you want to convert a PowCard
+                            printStream.println("You don't have enough ammos, if you want to convert a PowCard digit 1, 0 otherwise");
+                            int convert = getData.getInt(0, 1);
+                            switch(convert){
+                                case(0):
+                                    //nothing to be done
+                                    break;
+                                case(1):
+                                    printStream.println("Which Pow do you want to use?");
+                                    view.showPlayerPowsColors(match.getActivePlayer());
+                                    int convertpow = getData.getInt(1, 3);
+                                    convertpow--;
+                                    try {
+                                        manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
+                                    } catch(NotEnoughAmmosException e){
+                                        printStream.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
+                                    }
+                                    view.showPlayerWeapons();
+                            }
+                        }
                         try{
                             grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
                             view.showPlayerWeapons();
@@ -115,6 +137,7 @@ public class Game{
                         } catch(MaxNumberofCardsException e){
                             printStream.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
                             int removing = getData.getInt(0, 1);
+                            //TODO powcard buy
                             switch(removing){
                                 case(0):
                                     //invalid action for the player, choice will be repeated
@@ -199,7 +222,6 @@ public class Game{
                         view.showSpawnPointWeapons();
                         int weapontograb = view.getWeaponCard();
                         GrabWeapon grabWeapon = new GrabWeapon();
-                        ManagingWeapons manage = new ManagingWeapons();
                         if(manage.EnoughMoneytoBuy(match.getActivePlayer(), weapontograb)){
                             //case if you don't have enough ammos and you want to convert a PowCard
                             printStream.println("You don't have enough ammos, if you want to convert a PowCard digit 1, 0 otherwise");
@@ -215,7 +237,9 @@ public class Game{
                                     convertpow--;
                                     try {
                                         manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
-                                    } catch(NotEnoughAmmosException e){return;}
+                                    } catch(NotEnoughAmmosException e){
+                                        printStream.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
+                                    }
                                     view.showPlayerWeapons();
                             }
                         }
@@ -235,8 +259,7 @@ public class Game{
                                     view.showPlayerWeapons();
                                     int removedweapon = getData.getInt(1, 3);
                                     removedweapon--;
-                                    ManagingWeapons remove = new ManagingWeapons();
-                                    remove.Remove(match.getActivePlayer(), removedweapon);
+                                    manage.Remove(match.getActivePlayer(), removedweapon);
                                     counter++;
                                     try{
                                         grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
@@ -268,8 +291,7 @@ public class Game{
                                     view.showPlayerPows();
                                     int removedpow = getData.getInt(1, 3);
                                     removedpow--;
-                                    ManagingWeapons removepow = new ManagingWeapons();
-                                    removepow.RemovePow(match.getActivePlayer(), removedpow);
+                                    manage.RemovePow(match.getActivePlayer(), removedpow);
 
                                     try{
                                         match.assignPowCard(match.getActivePlayer());
@@ -293,7 +315,6 @@ public class Game{
                     view.showPlayerWeapons();
                     int weapontorecharge = view.getWeaponCard();
                     weapontorecharge--;
-                    ManagingWeapons manage = new ManagingWeapons();
                     try{
                         manage.Recharge(match.getActivePlayer(), weapontorecharge);
                     } catch(WeaponAlreadyLoadedException e){
