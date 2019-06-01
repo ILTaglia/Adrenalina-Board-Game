@@ -184,6 +184,11 @@ public class Match extends Observable implements Serializable {
         }
     }
 
+    public void removeAmmo(int numberAmmos, Ammo ammo)throws NotEnoughAmmosException {
+        Player player = this.getActivePlayer();
+        player.removeAmmo(numberAmmos, ammo);
+    }
+
     public void setWeaponCard(SpawnPointCell cell, int index){
         Weapon weapon = (Weapon) weapondeck.drawCard();
         cell.SetWeaponCard(weapon, index);
@@ -670,8 +675,4 @@ public class Match extends Observable implements Serializable {
         }
         return list;
     }
-
-
-
-
 }

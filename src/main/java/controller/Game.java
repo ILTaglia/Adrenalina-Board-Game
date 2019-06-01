@@ -34,13 +34,17 @@ public class Game{
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
+    public void addPlayer(Player player) throws MaxNumberPlayerException{
+        match.addPlayer(player);
+    }
+
     public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
         Spawn playerSpawn = new Spawn();
         playerSpawn.spawn(player, x, y, powcardIndex);
     }
 
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
-    public void setTurn(Match match){
+    public void setTurn(){
         Player p = match.getActivePlayer();
         int index=0;
         for(int i=0; i<match.getPlayersSize(); i++){
@@ -428,7 +432,7 @@ public class Game{
         //TODO serve al connectionHandler a reference alla partita che sta giocando
         for(int i=0; i<match.getPlayersSize(); i++){
             game.play(match, view);
-            game.setTurn(match);
+            game.setTurn();
         }
     }
 }
