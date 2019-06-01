@@ -17,6 +17,7 @@ public class UndefinedAttack {
     Weapon weapon;
     int type;
     int direction;
+    int ricorsivebit;
 
     public UndefinedAttack(Match match, Player player, Weapon weapon, int type)
     {
@@ -27,6 +28,7 @@ public class UndefinedAttack {
         this.weapon=weapon;
         this.type=type;
         this.shootManagement=new ShootManagement();
+        this.ricorsivebit=0;
     }
 
     public boolean checkpresenceweapon()
@@ -73,7 +75,9 @@ public class UndefinedAttack {
 
     public void refreshvisible(TypeAttack attack)
     {
+
         this.listAttackable=new CreateListAttackable();
+        this.listAttackable.setDirection(this.direction);
         this.listAttackable.createlist(this.match,attack,this.player);
     }
 
@@ -131,11 +135,11 @@ public class UndefinedAttack {
             Effect effect = attack.getEffect(i);
             if(effect.getType()==0) //Caso Player effect
             {
-
+                playereffect(effect);
             }
             else //caso cell effect
             {
-
+                celleffect(effect);
             }
         }
     }
@@ -171,9 +175,77 @@ public class UndefinedAttack {
 
     }
 
-    public void celleffect()
+    public void celleffect(Effect effect)
     {
+        int scelta;
+        int cont;
+        int stato=0;
+        do {
+            do {
+                cont = 0;
+                for (Coordinate c : this.listAttackable.getAttackablecells()) {
+                    System.out.println("Digita " + cont + " Per attaccare " + c.getX()+";"+c.getY());
+                    cont++;
+                }
+                System.out.println("Se desideri interrompere l'attacco digita -1");
+                Scanner input = new Scanner(System.in);
+                scelta = input.nextInt();
+            }
+            while (scelta < -1 || scelta > cont - 1);
+            stato = 0;
+            if (scelta != -1) {
+                Coordinate second = this.listAttackable.getAttackablecells().get(scelta);
+                for (int k = 0; k < effect.getnumberdamage(); k++) {
+                    Damage damage = effect.getDamage(k);
+                    stato = this.managecellattack(second, effect.getId(), damage);
+                    System.out.println("Status attacco : " + stato);
+                }
+            }
+        }
+        while(stato!=0);
+    }
 
+    public void whilemovingattack(TypeAttack attack)
+    {
+        for(int j=0;j<attack.getMoveMe();j++)
+        {
+            for(int i=0;i<attack.getNumberEffect();i++)
+            {
+                Effect effect = attack.getEffect(i);
+                refreshvisible(attack);
+                if(effect.getType()==0) //Caso Player effect
+                {
+                    playereffect(effect);
+                }
+                else //caso cell effect
+                {
+                    celleffect(effect);
+                }
+            }
+            //TODO MOVIMENTO IN QUELLA POSIZIONE INDICATA DALLA DIRECTION
+        }
+
+    }
+
+    public void allaroundattack(TypeAttack attack)
+    {
+        for(int j=0;j<4;j++)
+        {
+            this.direction=j;
+            for(int i=0;i<attack.getNumberEffect();i++)
+            {
+                Effect effect = attack.getEffect(i);
+                refreshvisible(attack);
+                if(effect.getType()==0) //Caso Player effect
+                {
+                    playereffect(effect);
+                }
+                else //caso cell effect
+                {
+                    celleffect(effect);
+                }
+            }
+        }
     }
 
 
@@ -219,11 +291,24 @@ public class UndefinedAttack {
                             chosedirection();
                         }
 
-                        if(t.getType()==1||t.getType()==2||t.getType()==3||t.getType()==4||t.getType()==5) //Gestione attacco semplice
+                        if(t.getType()==1||t.getType()==2||t.getType()==3||t.getType()==4||t.getType()==5||t.getType()==11) //Gestione attacco semplice
                         {
                             simpleattack(t);
                         }
-
+                        if(t.getType()==6)
+                        {
+                            whilemovingattack(t);
+                        }
+                        if(t.getType()==7)
+                        {
+                            allaroundattack(t);
+                        }
+                        if(t.getType()==11)
+                        {
+                            this.ricorsivebit=1;
+                            simpleattack(t);
+                        }
+/*
                         for(int i=0;i<t.getNumberEffect();i++)
                         {
                             Effect e = t.getEffect(i);
@@ -271,7 +356,7 @@ public class UndefinedAttack {
                                     System.out.println("Status attacco : " +this.managecellattack(second,e.getId(),damage));
                                 }
                             }
-                        }
+                        }*/
                     }
 
                 }

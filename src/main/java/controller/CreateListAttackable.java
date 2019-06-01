@@ -235,9 +235,26 @@ public class CreateListAttackable {
         {
             ArrayList<Player> players = match.getVisiblePlayers(player1);
             ArrayList<Coordinate> coordinates= match.getVisibleCells((player1.getCel()));
+            ArrayList<Player> directed = new ArrayList<Player>();
+            if(this.direction==0)
+            {
+                directed=match.getUpPlayers(player1);
+            }
+            if(direction==1)
+            {
+                directed=match.getRightPlayers(player1);
+            }
+            if(direction==2)
+            {
+                directed=match.getDownPlayers(player1);
+            }
+            if(direction==3)
+            {
+                directed=match.getLeftPlayers(player1);
+            }
             for(Player p: players)
             {
-                if(match.getPlayersMD(p,player1)!=1)
+                if(match.getPlayersMD(p,player1)!=1||!directed.contains(p))
                 {
                     //players.remove(p);
                     tocancelplayer.add(p);
