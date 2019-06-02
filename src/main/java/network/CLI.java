@@ -51,20 +51,21 @@ public class CLI  implements View {
         client.requestToWR(user);
     }
 
+
+    //TODO: i messaggi li creo direttamente sulla view o se ne occupa il client?
     public void createPlayer() {
         Scanner color;
         color=new Scanner(System.in);
         System.out.println("Digitare proprio colore:"+ "players available colors are blue, green, yellow, pink, grey");
-        //TODO: i messaggi li creo direttamente sulla view o se ne occupa il client?
         String colorRequired=color.next();
         while(!(colorRequired.equals("blue")||colorRequired.equals("green")||colorRequired.equals("yellow")||colorRequired.equals("pink")||colorRequired.equals("grey"))){
-            System.out.println("Il colore inserito non è valido.");
-            System.out.println("Digitare proprio colore:"+ "players available colors are blue, green, yellow, pink, grey");
+            System.out.println(colorRequired + "is not a color.");
+            System.out.println("Choose a color:"+ "players available colors are blue, green, yellow, pink, grey");
             colorRequired=color.next();
         }
         ColorRequest colorRequest=new ColorRequest(colorRequired);
         colorRequest.setUserID(client.getUserID());
-        System.out.println(client.getUserID()+colorRequired);
+        System.out.println("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
 
     }

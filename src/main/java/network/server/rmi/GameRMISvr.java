@@ -26,4 +26,5 @@ public class GameRMISvr implements Remote {
         }
         System.out.println("RMI ON");
     }
+
 }

@@ -18,13 +18,15 @@ public class GameRoom {
     private GameServer gameServer;
     private Game gameController;
     private HashMap<String,String> userList;
+    private HashMap<String,String> userIDtoColor;
 
     public GameRoom(Map<String,String> userList, GameServer gameServer){
-        System.out.println("ciiaone"+userList);
         this.gameServer=gameServer;
         this.userList=(HashMap<String, String>) userList;
+        this.userIDtoColor=new HashMap<>();
         createGame();
         startGame();
+
     }
 
 
@@ -34,26 +36,26 @@ public class GameRoom {
         //TODO: SISTEMARE MESSAGGI
         Message registrationRequest= new PlayerDataRequest("This message is to require a color to Client");
         gameServer.sendMessageToAll(userList.values(),registrationRequest);
-
-
-    //    chooseMap();                //Only for the first player
+        chooseMap();                //Only for the first player
 
 
 
 
     }
 
-    public synchronized void registerPlayerColor(String userID,String color) {
-        HashMap<String,String> userIDtoColor=new HashMap<>();
+    public void registerPlayerColor(String userID,String color) {
         if(!userIDtoColor.values().contains(color)){
             userIDtoColor.put(userID,color);
         }
         else{
             Message colorError= new ColorError("Color Already Used, please change it. Choose an other color:");
             gameServer.sendMessageToID(userID,colorError);
-            //TODO: implementare seconda richiesta per colore
         }
         if(userIDtoColor.size()==userList.size()){
+
+            //TODO: creazione oggetto Player e aggiunta alla classe match
+
+            System.out.println("OKAY");
             userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
         }
     }

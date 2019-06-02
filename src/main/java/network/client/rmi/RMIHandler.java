@@ -25,7 +25,7 @@ public class RMIHandler implements ConnectionHandler {
         RMIConnection rmiConnection =new RMIConnection(client);
         clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(rmiConnection, 0);
     }
-
+    @Override
     public void registerToWR(String username) throws UsernameAlreadyUsedException {
         try {
             server.registerToQueue(username, clientInterface);
@@ -33,7 +33,7 @@ public class RMIHandler implements ConnectionHandler {
             System.out.println(e.getMessage());
         }
     }
-
+    @Override
     public void sendMessage(Message message){
         try {
             server.handleMessage(message);

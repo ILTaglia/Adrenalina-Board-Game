@@ -77,13 +77,16 @@ public class GameServer {
         switch(message.getType()) {
             case "Request":
                 handleRequest(message);
+                System.out.println("Messaggio ricevuto");
                 break;
+
         }
     }
 
-    private synchronized void handleRequest(Message message) {
+    private void handleRequest(Message message) {
         if(message.getContent().equals("ColorRequest")){
             ColorRequest colorRequest=(ColorRequest) message;
+            System.out.println("Messaggio gestito");
             userIDToIdGameRoom.get(colorRequest.getUserID()).registerPlayerColor(colorRequest.getUserID(),colorRequest.getInfo());
         }
     }
@@ -130,21 +133,21 @@ public class GameServer {
 
     //------------------------Metodi usati per la gestione dei messaggi di rete------------------------------------//
 
-    public void sendMessageToAll(Collection<String> userID, Message message){
+    public synchronized void sendMessageToAll(Collection<String> userID, Message message){
         userIDToClientInterface.forEach((id,clientInterface)-> {
             if(userID.contains(id)) {
                 try {
                     clientInterface.sendMessage(message);
-                    System.out.println("Messaggio inviato a"+userID);
+                    System.out.println("Messaggio inviato a"+ id);
                 } catch (RemoteException e) {
                     //TODO
                 }
             }
-            else System.out.println("Messaggio non inviato a"+userID);
+            else System.out.println("Messaggio non inviato a"+ id);
         });
     }
 
-    public void sendMessageToID(String userID, Message colorError) {
+    public synchronized void sendMessageToID(String userID, Message colorError) {
         try {
             userIDToClientInterface.get(userID).sendMessage(colorError);
         } catch (RemoteException e) {

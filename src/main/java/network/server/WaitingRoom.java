@@ -11,7 +11,7 @@ public class WaitingRoom {
     private final int minNumberPlayer;
     private final int maxNumberPlayer;
     private Timer timer;
-    private final int queueTimer=10000;            //in ms queue timer is 60*10^(3) ms pari a 60 s
+    private final int queueTimer=30000;            //in ms queue timer is 60*10^(3) ms pari a 60 s
 
 
     public WaitingRoom(GameServer server,int min,int max){
@@ -27,7 +27,7 @@ public class WaitingRoom {
         }
         waitingClients.add(username);
         System.out.println("New Client Added! Queue: ["+waitingClients+"]");
-        if(waitingClients.size()==1){//!!!!!!!!!!TODO: ATTENZIONE MODIFICA PER TEST!!!!!!!!!!!!!!!
+        if(waitingClients.size()==maxNumberPlayer){
             timer.cancel();
             newGameRoom();
         }
