@@ -77,7 +77,6 @@ public class GameServer {
         switch(message.getType()) {
             case "Request":
                 handleRequest(message);
-                System.out.println("Messaggio ricevuto");
                 break;
 
         }
@@ -86,7 +85,6 @@ public class GameServer {
     private void handleRequest(Message message) {
         if(message.getContent().equals("ColorRequest")){
             ColorRequest colorRequest=(ColorRequest) message;
-            System.out.println("Messaggio gestito");
             userIDToIdGameRoom.get(colorRequest.getUserID()).registerPlayerColor(colorRequest.getUserID(),colorRequest.getInfo());
         }
     }
@@ -138,12 +136,10 @@ public class GameServer {
             if(userID.contains(id)) {
                 try {
                     clientInterface.sendMessage(message);
-                    System.out.println("Messaggio inviato a"+ id);
                 } catch (RemoteException e) {
                     //TODO
                 }
             }
-            else System.out.println("Messaggio non inviato a"+ id);
         });
     }
 

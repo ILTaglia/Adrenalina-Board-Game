@@ -55,6 +55,7 @@ public class GameRoom {
 
             //TODO: creazione oggetto Player e aggiunta alla classe match
 
+            //print solo per verificare che i colori siano assegnati correttamente quando tutti hanno risposto
             System.out.println("OKAY");
             userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
         }
