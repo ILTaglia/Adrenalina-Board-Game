@@ -40,6 +40,11 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
+    public void createPlayer() {
+
+    }
+
+    @Override
     public void welcomeMessage(int idClient) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {

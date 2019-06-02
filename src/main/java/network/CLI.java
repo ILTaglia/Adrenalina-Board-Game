@@ -5,6 +5,7 @@ package network;
 import client.View;
 import model.Player;
 import network.client.Client;
+import network.messages.ColorRequest;
 import network.messages.ConnectionRequest;
 import network.messages.Message;
 
@@ -50,6 +51,24 @@ public class CLI  implements View {
         client.requestToWR(user);
     }
 
+    public void createPlayer() {
+        Scanner color;
+        color=new Scanner(System.in);
+        System.out.println("Digitare proprio colore:"+ "players available colors are blue, green, yellow, pink, grey");
+        //TODO: i messaggi li creo direttamente sulla view o se ne occupa il client?
+        String colorRequired=color.next();
+        while(!(colorRequired.equals("blue")||colorRequired.equals("green")||colorRequired.equals("yellow")||colorRequired.equals("pink")||colorRequired.equals("grey"))){
+            System.out.println("Il colore inserito non è valido.");
+            System.out.println("Digitare proprio colore:"+ "players available colors are blue, green, yellow, pink, grey");
+            colorRequired=color.next();
+        }
+        ColorRequest colorRequest=new ColorRequest(colorRequired);
+        colorRequest.setUserID(client.getUserID());
+        System.out.println(client.getUserID()+colorRequired);
+        client.sendMessage(colorRequest);
+
+    }
+
 
     public void showException(String message){
         System.out.println(message);
@@ -57,8 +76,15 @@ public class CLI  implements View {
 
 
     public void showInfoMessage(Message message){
-        System.out.println("Message received:"+message.getInfo());
+        if(message.getContent().equals("InfoID")) {
+            System.out.println("You are in Waiting Room. Your ID is:" + message.getInfo());
+        }
+        else {
+            System.out.println("Message received:" + message.getInfo());
+        }
     }
+
+
 
 
 

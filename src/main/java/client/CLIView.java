@@ -52,6 +52,10 @@ public class CLIView implements View {
     public void login(){
 
     }
+    @Override
+    public void createPlayer(){
+
+    }
 
 
 

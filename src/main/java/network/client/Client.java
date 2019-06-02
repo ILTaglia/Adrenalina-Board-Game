@@ -15,7 +15,7 @@ public class Client {
 
     private boolean isToUseSocket;
     private View view;
-    private String username;
+    private String userID;
 
     private ConnectionHandler connectionHandler;
 
@@ -89,6 +89,7 @@ public class Client {
 
     }
 
+
     public void sendMessage(Message message){
         connectionHandler.sendMessage(message);
     }
@@ -97,6 +98,7 @@ public class Client {
         switch(message.getType()) {
             case "Response":
                 view.showInfoMessage(message);
+                if(message.getContent().equals("InfoID")) this.userID =message.getInfo();
                 break;
             case "Error":
                 handleErrorMessage(message);
@@ -119,12 +121,17 @@ public class Client {
             view.showInfoMessage(message);
             view.login();
         }
+        if(message.getContent().equals("ColorError")){
+            view.showInfoMessage(message);
+            view.createPlayer();
+        }
     }
 
     //-------------------------------Metodi da completare----------------------------//
 
-    public void setUsername(String username){           //TODO: potrebbe essere anche un ID, valutare scelta
-
+    public String getUserID(){           //TODO: potrebbe essere anche un ID, valutare scelta
+        return this.userID;
     }
+
 
 }

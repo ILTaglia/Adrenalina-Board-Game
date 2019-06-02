@@ -1,12 +1,11 @@
 package network.server;
 
 import controller.Game;
+import network.messages.ColorError;
 import network.messages.Message;
 import network.messages.PlayerDataRequest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GameRoom {
@@ -21,20 +20,42 @@ public class GameRoom {
     private HashMap<String,String> userList;
 
     public GameRoom(Map<String,String> userList, GameServer gameServer){
+        System.out.println("ciiaone"+userList);
         this.gameServer=gameServer;
-        this.gameController=new Game();
         this.userList=(HashMap<String, String>) userList;
-        registerPlayers();
+        createGame();
         startGame();
     }
 
 
     //Metodo necessario per istanziare effettivamente dei player nel model e darne conto al client
-    private void registerPlayers(){
+    private void createGame(){
+        this.gameController=new Game();
         //TODO: SISTEMARE MESSAGGI
         Message registrationRequest= new PlayerDataRequest("This message is to require a color to Client");
-        gameServer.sendMessageToAll(userList.keySet(),registrationRequest);
-        chooseMap();                //Only for the first player
+        gameServer.sendMessageToAll(userList.values(),registrationRequest);
+
+
+    //    chooseMap();                //Only for the first player
+
+
+
+
+    }
+
+    public synchronized void registerPlayerColor(String userID,String color) {
+        HashMap<String,String> userIDtoColor=new HashMap<>();
+        if(!userIDtoColor.values().contains(color)){
+            userIDtoColor.put(userID,color);
+        }
+        else{
+            Message colorError= new ColorError("Color Already Used, please change it. Choose an other color:");
+            gameServer.sendMessageToID(userID,colorError);
+            //TODO: implementare seconda richiesta per colore
+        }
+        if(userIDtoColor.size()==userList.size()){
+            userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
+        }
     }
 
     //Metodo necessario per la scelta della mappa, viene fatta richiesta a un solo client
@@ -46,6 +67,7 @@ public class GameRoom {
     private void startGame(){
 
     }
+
 
 
 }

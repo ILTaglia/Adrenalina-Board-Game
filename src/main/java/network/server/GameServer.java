@@ -1,5 +1,6 @@
 package network.server;
 
+import network.messages.ColorRequest;
 import network.messages.InfoID;
 import network.messages.Message;
 import network.server.rmi.GameRMISvr;
@@ -72,8 +73,19 @@ public class GameServer {
     //TODO: synchronized? A che livello?
     //------------------------Metodi usati dalle ClientInterface------------------------------------//
 
-    public void handleMessage(Message message) {
+    public synchronized void handleMessage(Message message) {
+        switch(message.getType()) {
+            case "Request":
+                handleRequest(message);
+                break;
+        }
+    }
 
+    private synchronized void handleRequest(Message message) {
+        if(message.getContent().equals("ColorRequest")){
+            ColorRequest colorRequest=(ColorRequest) message;
+            userIDToIdGameRoom.get(colorRequest.getUserID()).registerPlayerColor(colorRequest.getUserID(),colorRequest.getInfo());
+        }
     }
 
     public boolean isAlreadyInQueue(String requestedUsername) {
@@ -83,7 +95,7 @@ public class GameServer {
     public synchronized void addClientToWR(String playerUsername, ClientInterface clientInterface){
         assignIDToUsername(playerUsername);
         assignClientHandlerToID(playerUsername,clientInterface);
-        InfoID infoID=new InfoID("You are in Waiting Room. Your ID is:" + usernameToUserID.get(playerUsername));
+        InfoID infoID=new InfoID( usernameToUserID.get(playerUsername));
         try {
             clientInterface.sendMessage(infoID);
         }catch (RemoteException e) {
@@ -118,16 +130,26 @@ public class GameServer {
 
     //------------------------Metodi usati per la gestione dei messaggi di rete------------------------------------//
 
-    public void sendMessageToAll(Set<String> userID, Message message){
+    public void sendMessageToAll(Collection<String> userID, Message message){
         userIDToClientInterface.forEach((id,clientInterface)-> {
             if(userID.contains(id)) {
                 try {
                     clientInterface.sendMessage(message);
+                    System.out.println("Messaggio inviato a"+userID);
                 } catch (RemoteException e) {
                     //TODO
                 }
             }
+            else System.out.println("Messaggio non inviato a"+userID);
         });
+    }
+
+    public void sendMessageToID(String userID, Message colorError) {
+        try {
+            userIDToClientInterface.get(userID).sendMessage(colorError);
+        } catch (RemoteException e) {
+            //TODO
+        }
     }
 
 
@@ -137,6 +159,8 @@ public class GameServer {
     private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
         gameSocketSvr.close();
     }
+
+
 
     //TODO: implementare metodi disconnessione/gestione riconnessione
 }

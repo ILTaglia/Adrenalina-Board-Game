@@ -27,7 +27,7 @@ public class WaitingRoom {
         }
         waitingClients.add(username);
         System.out.println("New Client Added! Queue: ["+waitingClients+"]");
-        if(waitingClients.size()==maxNumberPlayer){
+        if(waitingClients.size()==1){//!!!!!!!!!!TODO: ATTENZIONE MODIFICA PER TEST!!!!!!!!!!!!!!!
             timer.cancel();
             newGameRoom();
         }
