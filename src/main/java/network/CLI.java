@@ -5,9 +5,7 @@ package network;
 import client.View;
 import model.Player;
 import network.client.Client;
-import network.messages.ColorRequest;
-import network.messages.ConnectionRequest;
-import network.messages.Message;
+import network.messages.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -67,7 +65,24 @@ public class CLI  implements View {
         colorRequest.setUserID(client.getUserID());
         System.out.println("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
+    }
 
+    @Override
+    public void chooseMap() {
+        //TODO Stampare le scelte e chiedere di inserire il numero della mappa  scelta
+        System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
+        Scanner map;
+        map=new Scanner(System.in);
+        String mapRequired=map.next();
+        while(!(mapRequired.equals("0")||mapRequired.equals("1")||mapRequired.equals("2")||mapRequired.equals("3"))){
+            System.out.println(mapRequired + "is not a map.");
+            System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
+            mapRequired=map.next();
+        }
+        //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
+        MapUserRequest mapRequest=new MapUserRequest(mapRequired);
+        mapRequest.setUserID(client.getUserID());
+        client.sendMessage(mapRequest);
     }
 
 

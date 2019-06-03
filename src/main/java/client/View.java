@@ -22,7 +22,7 @@ public interface View {
 
     void createPlayer();
 
-
+    void chooseMap();
 
 
 

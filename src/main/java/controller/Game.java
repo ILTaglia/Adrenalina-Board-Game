@@ -47,6 +47,12 @@ public class Game{
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
+    public void setMap(String mapRequired) {
+        //TODO: aggiungere controllo validità mappa!!
+        //TODO: se viene lanciata un'eccezione, si chiama l'errore sulla view e si richiede una nuova mappa
+        match.createDashboard(Integer.valueOf(mapRequired));
+    }
+
 
 
     public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
@@ -345,6 +351,8 @@ public class Game{
 
         view.printPlayerData();
     }
+
+
 
     //TODO: Non deve esserci main nel controller
     /*

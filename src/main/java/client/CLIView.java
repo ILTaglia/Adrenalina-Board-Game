@@ -24,6 +24,10 @@ public class CLIView implements View {
     private int PlayerID;
     private GetData getData=new GetData();
 
+
+    //TODO: validare input utente (Per ora ci sono cicli while poco "eleganti")
+
+
     public CLIView(Match match){
         this.match = match;
         LOGGER.setLevel(Level.INFO);
@@ -57,6 +61,10 @@ public class CLIView implements View {
 
     }
 
+    @Override
+    public void chooseMap() {
+
+    }
 
 
     /*

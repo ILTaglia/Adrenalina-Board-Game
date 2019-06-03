@@ -114,6 +114,10 @@ public class Client {
             view.showInfoMessage(message);
             view.createPlayer();
         }
+        if(message.getContent().equals("MapRequest")){
+            view.showInfoMessage(message);
+            view.chooseMap();
+        }
     }
 
     public void handleErrorMessage(Message message){

@@ -2,6 +2,7 @@ package network.server;
 
 import network.messages.ColorRequest;
 import network.messages.InfoID;
+import network.messages.MapUserRequest;
 import network.messages.Message;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
@@ -84,6 +85,10 @@ public class GameServer {
         if(message.getContent().equals("ColorRequest")){
             ColorRequest colorRequest=(ColorRequest) message;
             userIDToIdGameRoom.get(colorRequest.getUserID()).registerPlayerColor(colorRequest.getUserID(),colorRequest.getInfo());
+        }
+        if(message.getContent().equals("MapUserRequest")){
+            MapUserRequest mapUserRequest=(MapUserRequest) message;
+            userIDToIdGameRoom.get(mapUserRequest.getUserID()).setMapChoice(mapUserRequest.getInfo());
         }
     }
 
