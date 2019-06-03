@@ -18,29 +18,24 @@ public class GameRoom {
     private GameServer gameServer;
     private Game gameController;
     private HashMap<String,String> userList;
-    private HashMap<String,String> userIDtoColor;
+    private HashMap<String,String> userIDtoColor;       //Variabile sarebbe da evitare ma non saprei come
 
     public GameRoom(Map<String,String> userList, GameServer gameServer){
+
         this.gameServer=gameServer;
         this.userList=(HashMap<String, String>) userList;
         this.userIDtoColor=new HashMap<>();
-        createGame();
-        startGame();
-
     }
+
+    //------------------------Metodi per il set up iniziale della partita------------------------------------//
 
 
     //Metodo necessario per istanziare effettivamente dei player nel model e darne conto al client
-    private void createGame(){
-        this.gameController=new Game();
+    public void setUpGame(){
         //TODO: SISTEMARE MESSAGGI
+        this.gameController=new Game(this);
         Message registrationRequest= new PlayerDataRequest("This message is to require a color to Client");
         gameServer.sendMessageToAll(userList.values(),registrationRequest);
-        chooseMap();                //Only for the first player
-
-
-
-
     }
 
     public void registerPlayerColor(String userID,String color) {
@@ -54,7 +49,7 @@ public class GameRoom {
         if(userIDtoColor.size()==userList.size()){
 
             //TODO: creazione oggetto Player e aggiunta alla classe match
-
+            gameController.addPlayers(userList,userIDtoColor);
             //print solo per verificare che i colori siano assegnati correttamente quando tutti hanno risposto
             System.out.println("OKAY");
             userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
@@ -70,7 +65,5 @@ public class GameRoom {
     private void startGame(){
 
     }
-
-
 
 }

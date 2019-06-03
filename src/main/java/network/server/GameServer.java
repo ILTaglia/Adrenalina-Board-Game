@@ -8,14 +8,12 @@ import network.server.socket.GameSocketSvr;
 
 import java.rmi.RemoteException;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
 
 
 //la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente
 //entrambe le tipologie di connessione da parte dei connectionHandler
 
-//TODO: per ora presente solo tecnologia Socket
 public class GameServer {
 
     private static final int MIN_PLAYER_NUMBER = 3;
@@ -116,7 +114,8 @@ public class GameServer {
         String playerID=usernameToUserID.get(playerUsername);
         userIDToClientInterface.put(playerID,clientHandler);
     }
-
+    //Metodo in cui viene lanciato effettivamente il gioco, si crea una stanza per i giocatori che hanno effettuato il login e
+    //si chiama il metodo per runnare la partita.
     public void newGameRoom(List<String> usernameList) {
         HashMap<String, String> userList=new HashMap<>();
         for(String username:usernameList){
@@ -127,6 +126,7 @@ public class GameServer {
             String playerID=usernameToUserID.get(playerUsername);
             userIDToIdGameRoom.put(playerID,gameRoom);
         }
+        gameRoom.setUpGame();
     }
 
     //------------------------Metodi usati per la gestione dei messaggi di rete------------------------------------//

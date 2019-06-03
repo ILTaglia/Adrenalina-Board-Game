@@ -5,25 +5,38 @@ import exceptions.*;
 import model.Match;
 import model.Player;
 import model.PowCard;
+import network.server.GameRoom;
+import network.server.GameServer;
 import utils.GetData;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 //TODO: Capire se la view va istanziata nel controller oppure se va passata negli eventi che lancia al controller
 
 public class Game{
 
     private Match match;
+    private GameRoom gameRoom;      //TODO: Capire dove mettere questa variabile??
 
-    public Game(){
-        match = new Match();
+    public Game(GameRoom gameRoom){
+        this.gameRoom=gameRoom;
+        this.match = new Match();
     }
+
+    //------------------------Metodi da modificare/implementare------------------------------------//
+    public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor){
+        //TODO: metodo nella match utile a inizio partita per la creazione delle istanze dei singoli player.
+        //match.addPlayer();
+    }
+
 
     public void select(int i){
         match.createDashboard(i);
     }
+
 
     public void startGame(){
         match.fillDashboard();
@@ -34,9 +47,7 @@ public class Game{
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
-    public void addPlayer(Player player) throws MaxNumberPlayerException{
-        match.addPlayer(player);
-    }
+
 
     public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
         Spawn playerSpawn = new Spawn();
@@ -335,6 +346,8 @@ public class Game{
         view.printPlayerData();
     }
 
+    //TODO: Non deve esserci main nel controller
+    /*
     //TODO anche qui bisogna scrivere i messaggi. Questo è il main del controller
     public static void main(String[] args){
         PrintStream printStream=System.out;
@@ -435,4 +448,6 @@ public class Game{
             game.setTurn();
         }
     }
+    */
+
 }
