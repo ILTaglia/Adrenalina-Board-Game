@@ -3,7 +3,7 @@ package controller;
 import model.Dashboard;
 import model.Player;
 import model.Match;
-import model.Cell;
+import model.Coordinate;
 
 import exceptions.InvalidDirectionException;
 import java.util.ArrayList;
@@ -134,5 +134,9 @@ public class Run extends Action {
             if(direction==3){y--;}
         }
         return true;
+    }
+
+    public void resetPosition(Player player, Coordinate cell){
+        player.setCel(cell.getX(), cell.getY());
     }
 }

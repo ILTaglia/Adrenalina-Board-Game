@@ -4,17 +4,18 @@ package network;
 
 import network.client.Client;
 import network.server.GameServer;
+import utils.GetData;
 
 import java.util.Scanner;
 
 public class GameLauncher{
 
     public static void main(String[] args) {
+        GetData getData = new GetData();
         //Main temporaneo, scelta tra connectionHandler e server a primo avvio
-        Scanner userChoice;
-        userChoice=new Scanner(System.in);
         System.out.println("Inserire 0 per avviare Server, 1 per avviare Client:\t");
-        if(userChoice.nextInt()==0){
+        int userChoice=getData.getInt(0, 1);
+        if(userChoice==0){
             GameServer.main(args);
             /*try {
                 GameServer.main(args);
