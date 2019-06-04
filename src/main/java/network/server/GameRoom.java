@@ -59,7 +59,7 @@ public class GameRoom {
     }
 
     //Metodo necessario per la scelta della mappa, viene fatta richiesta a un solo client
-    private void askToChooseMap(String userID){
+    public void askToChooseMap(String userID){
         Message message=new MapGameRequest("This message is to ask to choose a Map to the first Player");
         gameServer.sendMessageToID(userID,message);
     }

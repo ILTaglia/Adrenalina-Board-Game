@@ -20,7 +20,6 @@ public class Game{
 
     private Match match;
     private GameRoom gameRoom;      //TODO: Capire dove mettere questa variabile??
-
     public Game(GameRoom gameRoom){
         this.gameRoom=gameRoom;
         this.match = new Match();
@@ -30,6 +29,9 @@ public class Game{
     public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor){
         //TODO: metodo nella match utile a inizio partita per la creazione delle istanze dei singoli player.
         //match.addPlayer();
+        //TODO:Inserisco qua la chiamata al metodo successivo per il SetUp della partita, non mi convince come soluzione
+        //Chiamata temporanaea per testing
+        gameRoom.askToChooseMap(userList.values().stream().findFirst().get());
     }
 
 
@@ -49,8 +51,10 @@ public class Game{
 
     public void setMap(String mapRequired) {
         //TODO: aggiungere controllo validità mappa!!
-        //TODO: se viene lanciata un'eccezione, si chiama l'errore sulla view e si richiede una nuova mappa
+        // se viene lanciata un'eccezione, si chiama l'errore sulla view e si richiede una nuova mappa
+        System.out.println("Ok, mappa scelta:"+mapRequired);
         match.createDashboard(Integer.valueOf(mapRequired));
+        //Anche in questo caso bisognerà notificare dal Model l'avvenuta modifica
     }
 
 
