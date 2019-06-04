@@ -15,10 +15,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import static utils.NotifyClient.notifyAllClients;
-import static utils.NotifyClient.registerNewMatch;
+import static utils.NotifyClient.*;
 
 public class Game{
 
@@ -49,20 +47,27 @@ public class Game{
         //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
         Message notification = new InfoMatch("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
         notifyAllClients(match,notification);
-        startGame();
+        setGameReady();
     }
 
     //-------------------------Gestisco il primo turno-----------------------------------------------------//
     //Questo metodo si pone l'obiettivo di iniziare la partita, poi chiamera il metodo per il primo turno (forse)
-    public void startGame(){
-        match.shuffleAllDecks();
-        match.fillDashboard();
+    //Nel Model sono già stati istanziati i mazzi e i Player, questo metodo gestisce la prima fase di gioco in cui
+    //si distribuiscono carte ecc.
+    private void setGameReady(){
+        match.shuffleAllDecks();            //shuffle all the decks
+        match.fillDashboard();              //this method assign 3 Weapons for each SpawnPoint Cell and an AmmoCard for each NormalCell
+        setPlayerReady();
+    }
+
+    private void setPlayerReady(){
+        //first Player is the first in Players List in Model. It would be the first logged on Server.
         match.getPlayerByIndex(0).setActive();
         for(int i=1; i<match.getPlayersSize(); i++){
             match.getPlayerByIndex(i).resetActive();
         }
-        match.firstTurnPows(); //assign two powcards to each players to start
-
+        match.firstTurnPows();
+        //TODO: Metodo per far iniziare lo Spawn del primo giocatore
     }
 
     public void select(int i){

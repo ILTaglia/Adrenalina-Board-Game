@@ -6,7 +6,7 @@ import java.util.*;
 public class Player {
     private String name;
     private String id;
-    private boolean active; //if 1 the player is active, if 0 the player is waiting its turn
+    private boolean active; //if true the player is active, if false the player is waiting its turn
     private ArrayList<Integer> damages; //list to sign every possible damage
     private ArrayList<Integer> marks; //list for marks given to this player by others
     private ArrayList<Ammo> ammos; //list to show how many ammo for each color you have

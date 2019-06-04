@@ -32,7 +32,9 @@ public class Match implements Serializable {
     }
 
     public void setRound(){
-        if(players.get(players.size()-1).getAction()==2) this.round++;         //TODO: lasciamo il controllo al controller e mettiamo direttamente il ++?
+        this.round++;
+        //Chiamo metodo per nuovo round.
+        //if(players.get(players.size()-1).getAction()==2) this.round++;         //TODO: lasciamo il controllo al controller e mettiamo direttamente il ++?
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
