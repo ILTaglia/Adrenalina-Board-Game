@@ -3,6 +3,7 @@ package utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -46,9 +47,9 @@ public class GetData {
             try {
                 color=(input.readLine());
             } catch (IOException e) {
+                System.out.println("Invalid color");
                 color="Color";
                 LOGGER.log(Level.FINEST,e.getMessage(),e);
-
             }
         }while("".equals(color) || !colors.contains(color));
         return color;
@@ -104,12 +105,14 @@ public class GetData {
             } catch (NumberFormatException e) {
                 isValid=false;
                 LOGGER.log(Level.FINEST,e.getMessage(),e);
+                System.out.println("Not a valid number\n");
 
             } catch (IOException e) {
                 isValid=false;
                 LOGGER.log(Level.FINEST,e.getMessage(),e);
-
+                System.out.println("Not a valid number\n");
             }
+
         }while(!isValid || (k<min || k>max));
         return k;
     }

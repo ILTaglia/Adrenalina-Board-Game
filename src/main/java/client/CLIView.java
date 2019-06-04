@@ -45,12 +45,10 @@ public class CLIView implements View {
 
     @Override
     public void setConnection(){
-        Scanner userChoice;
-        userChoice=new Scanner(System.in);
         System.out.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
                 "1. RMI" +
                 "2. Socket");
-        int connectionChoice=userChoice.nextInt();
+        int connectionChoice=getData.getInt(1, 2);
 
         if(connectionChoice==1){
             client.setConnection(false);
@@ -63,10 +61,8 @@ public class CLIView implements View {
 
     @Override
     public void login(){
-        Scanner username;
-        username=new Scanner(System.in);
         System.out.println("Digitare proprio username:");
-        String user=username.next();
+        String user=getData.getName();
         client.requestToWR(user);
     }
 
@@ -100,15 +96,8 @@ public class CLIView implements View {
 
     @Override
     public void createPlayer(){
-        Scanner color;
-        color=new Scanner(System.in);
-        System.out.println("Digitare proprio colore:"+ "players available colors are blue, green, yellow, pink, grey");
-        String colorRequired=color.next();
-        while(!(colorRequired.equals("blue")||colorRequired.equals("green")||colorRequired.equals("yellow")||colorRequired.equals("pink")||colorRequired.equals("grey"))){
-            System.out.println(colorRequired + "is not a color.");
-            System.out.println("Choose a color:"+ "players available colors are blue, green, yellow, pink, grey");
-            colorRequired=color.next();
-        }
+        System.out.println("Digitare proprio colore:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
+        String colorRequired=getData.getValidColorforPlayer();
         ColorClientRequest colorRequest=new ColorClientRequest(colorRequired,client.getUserID());
         System.out.println("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
@@ -116,16 +105,24 @@ public class CLIView implements View {
 
     @Override
     public void chooseMap() {
-        //TODO Stampare le scelte e chiedere di inserire il numero della mappa  scelta
-        System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
-        Scanner map;
+        System.out.println("Mappa 1");
+        this.printmap1();
+        System.out.println("Mappa 2");
+        this.printmap2();
+        System.out.println("Mappa 3");
+        this.printmap3();
+        System.out.println("Digitare mappa prescelta: 1, 2, 3");
+        GetData getData = new GetData();
+        int choice = getData.getInt(1, 3);
+        String mapRequired = toString().valueOf(choice);
+        /*Scanner map;
         map=new Scanner(System.in);
         String mapRequired=map.next();
         while(!(mapRequired.equals("0")||mapRequired.equals("1")||mapRequired.equals("2")||mapRequired.equals("3"))){
             System.out.println(mapRequired + "is not a map.");
             System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
             mapRequired=map.next();
-        }
+        }*/
         //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
         MapClientRequest mapRequest=new MapClientRequest(mapRequired,client.getUserID());
         mapRequest.setUserID(client.getUserID());
