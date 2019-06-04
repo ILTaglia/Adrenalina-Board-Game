@@ -3,33 +3,32 @@ package client;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import controller.Game;
 import controller.GrabWeapon;
-import controller.ManagingWeapons;
-import exceptions.FullCellException;
-import exceptions.MaxNumberPlayerException;
-import exceptions.MaxNumberofCardsException;
-import exceptions.NotEnoughAmmosException;
 import model.*;
+import network.messages.ColorRequest;
+import network.messages.MapUserRequest;
 import network.messages.Message;
+import network.client.Client;
 import utils.*;
 
 public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private static PrintStream printStream=System.out;
     private Match match;
-    private int PlayerID;
+    private Client client;
     private GetData getData=new GetData();
 
 
     //TODO: validare input utente (Per ora ci sono cicli while poco "eleganti")
 
 
-    public CLIView(Match match){
-        this.match = match;
+    public CLIView(Client client){
+        this.client=client;
+        this.match = new Match();             //TODO ! IMPORTANTE! SULLA VIEW NO MATCH
         LOGGER.setLevel(Level.INFO);
     }
     /*
@@ -39,31 +38,98 @@ public class CLIView implements View {
      */
     @Override
     public void start(){
-        //
+        setConnection();
+        login();
     }
 
     @Override
-    public void showException(String message) {
+    public void setConnection(){
+        Scanner userChoice;
+        userChoice=new Scanner(System.in);
+        System.out.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
+                "1. RMI" +
+                "2. Socket");
+        int connectionChoice=userChoice.nextInt();
 
+        if(connectionChoice==1){
+            client.setConnection(false);
+        }
+        else{
+            client.setConnection(true);
+        }
+        client.launchConnection();
+    }
+
+    @Override
+    public void login(){
+        Scanner username;
+        username=new Scanner(System.in);
+        System.out.println("Digitare proprio username:");
+        String user=username.next();
+        client.requestToWR(user);
+    }
+
+    /*
+     **********************************************************
+     * Metodi per Eventi/Eccezioni                              *
+     **********************************************************
+     */
+
+    @Override
+    public void showException(String message) {
+        System.out.println(message);
     }
 
 
     @Override
     public void showInfoMessage(Message message){
-
+        if(message.getContent().equals("InfoID")) {
+            System.out.println("You are in Waiting Room. Your ID is:" + message.getInfo());
+        }
+        else {
+            System.out.println("Message received:" + message.getInfo());
+        }
     }
-    @Override
-    public void login(){
 
-    }
+    /*
+     **********************************************************
+     * Metodi per Setup Match                              *
+     **********************************************************
+     */
+
     @Override
     public void createPlayer(){
-
+        Scanner color;
+        color=new Scanner(System.in);
+        System.out.println("Digitare proprio colore:"+ "players available colors are blue, green, yellow, pink, grey");
+        String colorRequired=color.next();
+        while(!(colorRequired.equals("blue")||colorRequired.equals("green")||colorRequired.equals("yellow")||colorRequired.equals("pink")||colorRequired.equals("grey"))){
+            System.out.println(colorRequired + "is not a color.");
+            System.out.println("Choose a color:"+ "players available colors are blue, green, yellow, pink, grey");
+            colorRequired=color.next();
+        }
+        ColorRequest colorRequest=new ColorRequest(colorRequired);
+        colorRequest.setUserID(client.getUserID());
+        System.out.println("Your required the color: "+ colorRequired);
+        client.sendMessage(colorRequest);
     }
 
     @Override
     public void chooseMap() {
-
+        //TODO Stampare le scelte e chiedere di inserire il numero della mappa  scelta
+        System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
+        Scanner map;
+        map=new Scanner(System.in);
+        String mapRequired=map.next();
+        while(!(mapRequired.equals("0")||mapRequired.equals("1")||mapRequired.equals("2")||mapRequired.equals("3"))){
+            System.out.println(mapRequired + "is not a map.");
+            System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
+            mapRequired=map.next();
+        }
+        //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
+        MapUserRequest mapRequest=new MapUserRequest(mapRequired);
+        mapRequest.setUserID(client.getUserID());
+        client.sendMessage(mapRequest);
     }
 
 

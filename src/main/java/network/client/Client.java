@@ -1,8 +1,8 @@
 package network.client;
 
+import client.CLIView;
 import client.View;
 import exceptions.UsernameAlreadyUsedException;
-import network.CLI;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
@@ -36,9 +36,9 @@ public class Client {
         //Ad ogni View si associa un Client e viceversa
         if(userChoice.nextInt()==1){
             Client client=new Client();
-            CLI cli =new CLI(client);
-            client.addView(cli);
-            cli.start();
+            View cliView =new CLIView(client);
+            client.addView(cliView);
+            cliView.start();
         }
         else{
             //Avvia GUIView

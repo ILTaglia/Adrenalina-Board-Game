@@ -14,11 +14,27 @@ public interface View {
     */
     void start();
 
+    void setConnection();
+
+    void login();
+
+    /*
+     **********************************************************
+     * Metodi per Eventi/Eccezioni                              *
+     **********************************************************
+     */
+
+
     void showException(String message);
 
     void showInfoMessage(Message message);
 
-    void login();
+    /*
+     **********************************************************
+     * Metodi per Setup Match                              *
+     **********************************************************
+     */
+
 
     void createPlayer();
 
@@ -31,11 +47,6 @@ public interface View {
 
 
 
-    /*
-     **********************************************************
-     * Metodi per Avvio Client                                *
-     **********************************************************
-     */
 
     //Message to advise the player the game has started
     void welcomeMessage(int idClient);
