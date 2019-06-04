@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 import java.util.*;
 
-public class Match extends Observable implements Serializable {
+public class Match implements Serializable {
     private int round;
     private int id;
     private ArrayList<Player> players;
@@ -15,6 +15,11 @@ public class Match extends Observable implements Serializable {
     private WeaponDeck weapondeck;
     private PowDeck powdeck;
     private boolean checkdashboard =false;
+
+    //TODO: implementazione metodo per la notifica a tutti i client delle modifiche sul model
+    private void notifyClient(){
+
+    }
 
     //i è parametro per la dashboard
     public Match(){
