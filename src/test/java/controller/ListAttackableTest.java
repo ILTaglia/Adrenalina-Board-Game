@@ -19,20 +19,20 @@ public class ListAttackableTest {
     @Before
     public void setUp() throws Exception {
         match = new Match();
-        player1 = new Player("Giovanni", "Blue", "10583741");
-        player2 = new Player("Marco", "Pink", "14253954");
-        player3 = new Player("Codecasa", "Green", "18263100");
-        player4 = new Player("Bussetti", "Yellow", "18263100");
-        player5 = new Player("Norma", "Grey", "18263100");
         try {
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-            match.addPlayer(player3);
-            match.addPlayer(player4);
-            match.addPlayer(player5);
+            match.createPlayer("Giovanni", "Blue", "10583741");
+            match.createPlayer("Marco", "Pink", "14253954");
+            match.createPlayer("Codecasa", "Green", "18263100");
+            match.createPlayer("Bussetti", "Yellow", "18263100");
+            match.createPlayer("Norma", "Grey", "18263100");
         } catch (MaxNumberPlayerException e) {
             System.out.println("Too many players in the game.");
         }
+        player1 = match.getPlayerByIndex(0);
+        player2 = match.getPlayerByIndex(1);
+        player3 = match.getPlayerByIndex(2);
+        player4 = match.getPlayerByIndex(3);
+        player5 = match.getPlayerByIndex(4);
 
         match.createDashboard(3);
         grabweapon = new GrabWeapon();

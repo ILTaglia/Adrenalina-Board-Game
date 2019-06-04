@@ -137,7 +137,6 @@ public class MatchTest {
             m2.createPlayer("Calypso", "Pink", "14253954");
         }
         catch (MaxNumberPlayerException e){}
-        assertThrows(InvalidColorException.class, () -> m2.createPlayer("Karka", "Blue", "18114320"));
         assertEquals(1, m2.createDashboard(1));
     }
 

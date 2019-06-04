@@ -20,16 +20,16 @@ public class ShootManagementTest {
     @Before
     public void setUp() throws Exception {
         match = new Match();
-        player1 = new Player("Sirius", "Blue", "10583741");
-        player2 = new Player("Calypso", "Pink", "14253954");
-        player3 = new Player("Hermione", "Green", "18263100");
         try {
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-            match.addPlayer(player3);
+            match.createPlayer("Sirius", "Blue", "10583741");
+            match.createPlayer("Calypso", "Pink", "14253954");
+            match.createPlayer("Hermione", "Green", "18263100");
         } catch (MaxNumberPlayerException e) {
             System.out.println("Too many players in the game.");
         }
+        player1 = match.getPlayerByIndex(0);
+        player2 = match.getPlayerByIndex(1);
+        player3 = match.getPlayerByIndex(2);
 
         match.createDashboard(3);
         grabweapon = new GrabWeapon();
