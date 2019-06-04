@@ -74,9 +74,9 @@ public class Client {
             }
         }
     }
-    /*Unico metodo di Login
-    * nel caso di Socket si manda il messaggio con la richiesta di login e in caso di insuccesso si gestirà tramite altri messaggi
-    * diverso il caso dell'RMI in cui gestisco con un try/catch, utile SOLO ALL'RMI (va bene così?)
+    /* Unico metodo di Login
+    *  nel caso di Socket si manda il messaggio con la richiesta di login e in caso di insuccesso si gestirà tramite altri messaggi
+    *  diverso il caso dell'RMI in cui gestisco con un try/catch, utile SOLO ALL'RMI (va bene così?)
     */
     public void requestToWR(String username){
         try {
@@ -86,7 +86,6 @@ public class Client {
             view.showException(e.getMessage());
             view.login();
         }
-
     }
 
 

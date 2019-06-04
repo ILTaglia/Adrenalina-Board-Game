@@ -1,7 +1,7 @@
 package model;
 
 import exceptions.*;
-import network.messages.ConfirmationMessage;
+import network.messages.InfoMatch;
 import network.messages.InfoPlayer;
 import network.messages.Message;
 
@@ -14,26 +14,21 @@ import static utils.NotifyClient.notifySpecificClient;
 
 public class Match implements Serializable {
     private int round;
-    private int id;
     private ArrayList<Player> players;
     private Dashboard dashboard;
-    private AmmoDeck ammodeck;
-    private WeaponDeck weapondeck;
-    private PowDeck powdeck;
-    private boolean checkdashboard =false;
+    private AmmoDeck ammoDeck;
+    private WeaponDeck weaponDeck;
+    private PowDeck powDeck;
+    private boolean checkDashboard =false;
 
 
-    //i è parametro per la dashboard
     public Match(){
-        Random rand = new Random();
-        this.id = rand.nextInt(100);
         this.round=1;
         this.players=new ArrayList<>();
-        ammodeck =new AmmoDeck();
-        weapondeck =new WeaponDeck();
-        weapondeck.setWeapons("Armi");
-        powdeck =new PowDeck("Pow");
-        powdeck.shuffleStack();
+        ammoDeck =new AmmoDeck();
+        weaponDeck =new WeaponDeck();
+        weaponDeck.setWeapons("Armi");
+        powDeck =new PowDeck("Pow");
     }
 
     public void setRound(){
@@ -42,22 +37,32 @@ public class Match implements Serializable {
         //has done its second action, finished its turn
     }
 
-    public int getId(){return this.id;}
-
     public int getRound(){return this.round;}
 
     public void createPlayer(String name, String color, String id){
         Player player = new Player(name, color, id);
-        this.addPlayer(player);
+        addPlayer(player);
     }
-
     private void addPlayer(Player player) {
-        //if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
         players.add(player);
         Message message=new InfoPlayer("Assigned color: "+player.getcolor());
         notifySpecificClient(player.getid(),message);
         Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getname());
         notifyAllClients(this,message1);
+    }
+
+    //selectedDashboard is the index of the chosen map
+    //TODO: Necessario che restituisca un int?
+    public void createDashboard(int selectedDashboard){
+        this.dashboard=new Dashboard(selectedDashboard);
+        Message infoMap=new InfoMatch("La mappa selezionata è quella di indice: "+selectedDashboard+". Stampata di seguito:\n" );
+        notifyAllClients(this,infoMap);
+        /*if(players.size()>=3) {
+            this.dashboard=new Dashboard(i);
+            this.checkDashboard =true;
+            //return 0;
+        }
+        return 1;*/
     }
 
     //returns player by color
@@ -85,19 +90,19 @@ public class Match implements Serializable {
     }
 
     public void fillDashboard(){
-        if(this.checkdashboard) {
+        if(this.checkDashboard) {
             int maptype = this.getDashboard().getMapType();
 
-            weapondeck.drawCard();
-            Weapon weapon1 = (Weapon)weapondeck.drawCard();
-            Weapon weapon2 = (Weapon)weapondeck.drawCard();
-            Weapon weapon3 = (Weapon)weapondeck.drawCard();
-            Weapon weapon4 = (Weapon)weapondeck.drawCard();
-            Weapon weapon5 = (Weapon)weapondeck.drawCard();
-            Weapon weapon6 = (Weapon)weapondeck.drawCard();
-            Weapon weapon7 = (Weapon)weapondeck.drawCard();
-            Weapon weapon8 = (Weapon)weapondeck.drawCard();
-            Weapon weapon9 = (Weapon)weapondeck.drawCard();
+            weaponDeck.drawCard();
+            Weapon weapon1 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon2 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon3 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon4 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon5 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon6 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon7 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon8 = (Weapon) weaponDeck.drawCard();
+            Weapon weapon9 = (Weapon) weaponDeck.drawCard();
             SpawnPointCell c = (SpawnPointCell)this.getDashboard().getmap(0, 2);
             try{
                 c.Add_Weapon_Card(weapon1, 0);
@@ -155,18 +160,10 @@ public class Match implements Serializable {
         }
     }
 
-    //i is the index of the chosen map
-    public int createDashboard(int i){
-        if(players.size()>=3) {
-            this.dashboard=new Dashboard(i);
-            this.checkdashboard =true;
-            return 0;
-        }
-        return 1;
-    }
+
 
     public boolean getCheck(){
-        return this.checkdashboard;
+        return this.checkDashboard;
     }
 
     //returns player by index to check their ID
@@ -180,7 +177,7 @@ public class Match implements Serializable {
     //Riaggiunge la carta Ammo dopo che è stata usata
     public void addAmmoCard(NormalCell cell){//TODO:pensare a nome più efficace
         try{
-            cell.Add_Ammo_Card((AmmoCard) ammodeck.drawCard());
+            cell.Add_Ammo_Card((AmmoCard) ammoDeck.drawCard());
         }catch(FullCellException e){
             //TODO
         }
@@ -188,7 +185,7 @@ public class Match implements Serializable {
     }
     public void addWeaponCard(SpawnPointCell cell, int index){//TODO:pensare a nome più efficace
         try{
-            Weapon weapon = (Weapon) weapondeck.drawCard();
+            Weapon weapon = (Weapon) weaponDeck.drawCard();
             cell.Add_Weapon_Card(weapon,index);//TODO:controllare
         }catch(FullCellException e){
             //TODO
@@ -201,30 +198,30 @@ public class Match implements Serializable {
     }
 
     public void setWeaponCard(SpawnPointCell cell, int index){
-        Weapon weapon = (Weapon) weapondeck.drawCard();
+        Weapon weapon = (Weapon) weaponDeck.drawCard();
         cell.SetWeaponCard(weapon, index);
     }
 
 
     //Metodo per controller che mescola i mazzi (per esempio a inizio partita)
     public void shuffleAllDecks(){
-        ammodeck.shuffleStack();
-        weapondeck.shuffleStack();
-        powdeck.shuffleStack();
+        ammoDeck.shuffleStack();
+        weaponDeck.shuffleStack();
+        powDeck.shuffleStack();
     }
     //Method to assign powCard to player
     public void assignPowCard(Player player) throws MaxNumberofCardsException {     //TODO:Verificare se ha senso fare catch di una eccezione e poi rilanciarla
         PowCard powcard;
-        powcard=(PowCard) powdeck.drawCard();
+        powcard=(PowCard) powDeck.drawCard();
         try{
             player.addPow(powcard);
         }catch (MaxNumberofCardsException e){
-            powdeck.discardCard(powcard);
+            powDeck.discardCard(powcard);
             throw new MaxNumberofCardsException();
         }
     }
     public void discardPowCard(PowCard powCard){
-        powdeck.discardCard(powCard);
+        powDeck.discardCard(powCard);
     }
 
 

@@ -15,13 +15,10 @@ public class GameRoom {
 
     //In questa stanza istanzio il controller e da qua inizia la partita in cui vengono aggiunti i giocatori ecc.
 
-    //TODO: capire se i messaggi vadano gestiti direttamente qua o inoltrati al controller
-
-
     private GameServer gameServer;
     private Game gameController;
     private HashMap<String,String> userList;
-    private HashMap<String,String> userIDtoColor;       //Variabile sarebbe da evitare ma non saprei come
+    private HashMap<String,String> userIDtoColor;       //TODO:Variabile sarebbe da evitare ma non saprei come
 
     public GameRoom(Map<String,String> userList, GameServer gameServer){
         this.gameServer=gameServer;
@@ -32,16 +29,15 @@ public class GameRoom {
 
     //------------------------Metodi per il set up iniziale della partita------------------------------------//
 
-
-    //Metodo necessario per istanziare effettivamente dei player nel model e darne conto al client
+    //Metodo chiamato direttamente dal GameServer che da l'avvio della GameRoom
+    //Nel metodo viene richiesto il colore al Player tramite un messaggio di richiesta
     public void setUpGame(){
-        //TODO: SISTEMARE MESSAGGI
-        //TODO: PRIMA SI CHIEDONO INFORMAZIONI PLAYER O PRIMA SI SCEGLIE LA MAPPA DA USARE?
         this.gameController=new Game(this);
         Message registrationRequest= new ColorGameRequest("This message is to require a color to Client");
         gameServer.sendMessageToAll(userList.values(),registrationRequest);
     }
-
+    //Quando viene ricevuto il messaggio con i dettagli del PLayer questo metodo raccoglie i dati in un HashMap
+    //Quando l'HashMap ha la dimensione pari al #utenti collegati allora si passa il tutto al Controller che istanzia i Player nel Model
     public void registerPlayerColor(String userID,String color) {
         if(!userIDtoColor.values().contains(color)){
             userIDtoColor.put(userID,color);
@@ -51,22 +47,17 @@ public class GameRoom {
             gameServer.sendMessageToID(userID,colorError);
         }
         if(userIDtoColor.size()==userList.size()){
-
-            //TODO: creazione oggetto Player e aggiunta alla classe match
-            System.out.println("OKAY");
+            System.out.println("Sono stati assegnati i seguenti colori ai rispettivi PlayerID");
             userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
             gameController.addPlayers(userList,userIDtoColor);
-            //print solo per verificare che i colori siano assegnati correttamente quando tutti hanno risposto
-
         }
     }
-
-    //Metodo necessario per la scelta della mappa, viene fatta richiesta a un solo client
+    //Metodo che viene chiamato dal Controller per la scelta della mappa. Viene scelta da parte del primo utente ad essersi collegato
     public void askToChooseMap(String userID){
         Message message=new MapGameRequest("This message is to ask to choose a Map to the first Player");
         gameServer.sendMessageToID(userID,message);
     }
-
+    //Quando viene ricevuto il messaggio viene settata nella classe gameController la mappa scelta dal primo player
     public void setMapChoice(String mapRequired) {
         gameController.setMap(mapRequired);
     }

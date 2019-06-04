@@ -5,6 +5,8 @@ import exceptions.*;
 import model.Match;
 import model.Player;
 import model.PowCard;
+import network.messages.InfoMatch;
+import network.messages.Message;
 import network.server.GameRoom;
 import network.server.GameServer;
 import utils.GetData;
@@ -15,53 +17,52 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import static utils.NotifyClient.notifyAllClients;
 import static utils.NotifyClient.registerNewMatch;
-
-//TODO: Capire se la view va istanziata nel controller oppure se va passata negli eventi che lancia al controller
 
 public class Game{
 
     private Match match;
-    private GameRoom gameRoom;      //TODO: Capire dove mettere questa variabile??
+    private GameRoom gameRoom;      //CAPIRE SE USARE QUESTO O PREFERIRE LAVORARE DIRETTAMENTE CON NotifyClient
     public Game(GameRoom gameRoom){
         this.gameRoom=gameRoom;
         this.match = new Match();
-        //TODO: controllare il senso metodo
         registerNewMatch(gameRoom,match);
     }
 
-    //------------------------Metodi da completare-----------------------------------------------------------//
+    //------------------------Metodi per il SetUp della partita-----------------------------------------------------------//
+    //Vado a creare i singoli Player e quindi ad aggiungerli al Model (li istanzio singolarmente)
     public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor) {
-        for(String username:userList.keySet()){
-            match.createPlayer(username,userIDtoColor.get(userList.get(username)),userList.get(username));
-        }
-        //TODO: metodo nella match utile a inizio partita per la creazione delle istanze dei singoli player.
-        //match.addPlayer();
-        //TODO:Inserisco qua la chiamata al metodo successivo per il SetUp della partita, non mi convince come soluzione
-        //Chiamata temporanaea per testing
-        System.out.println("ciaoOKAY");
-        gameRoom.askToChooseMap(userList.values().stream().findFirst().get());
+
+        userList.keySet().forEach(username -> match.createPlayer(username, userIDtoColor.get(userList.get(username)), userList.get(username)));
+
+        askMap((String)userList.values().toArray()[0]);
+    }
+
+    private void askMap(String userID){
+        gameRoom.askToChooseMap(userID);
     }
 
     public void setMap(String mapRequired) {
-        //TODO: aggiungere controllo validità mappa!!
-        // se viene lanciata un'eccezione, si chiama l'errore sulla view e si richiede una nuova mappa
-        System.out.println("Ok, mappa scelta:"+mapRequired);
+        System.out.println("Ok, mappa scelta: " + mapRequired);
         match.createDashboard(Integer.valueOf(mapRequired));
-        //Anche in questo caso bisognerà notificare dal Model l'avvenuta modifica
-        //startGame(); //TODO: Posso inviare da qui notifica per start Game?
+        //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
+        Message notification = new InfoMatch("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
+        notifyAllClients(match,notification);
+        startGame();
     }
 
-
-
-    //-----------------------------------------------------------------------------------------------------//
+    //-------------------------Gestisco il primo turno-----------------------------------------------------//
+    //Questo metodo si pone l'obiettivo di iniziare la partita, poi chiamera il metodo per il primo turno (forse)
     public void startGame(){
+        match.shuffleAllDecks();
         match.fillDashboard();
         match.getPlayerByIndex(0).setActive();
         for(int i=1; i<match.getPlayersSize(); i++){
             match.getPlayerByIndex(i).resetActive();
         }
         match.firstTurnPows(); //assign two powcards to each players to start
+
     }
 
     public void select(int i){
