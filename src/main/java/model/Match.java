@@ -45,6 +45,7 @@ public class Match implements Serializable {
         Player player = new Player(name, color, id);
         addPlayer(player);
     }
+
     private void addPlayer(Player player) {
         players.add(player);
         Message message=new InfoPlayer("Assigned color: "+player.getcolor());

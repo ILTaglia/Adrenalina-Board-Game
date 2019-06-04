@@ -8,9 +8,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import controller.GrabWeapon;
+import exceptions.InvalidColorException;
 import model.*;
 import network.messages.ColorClientRequest;
-import network.messages.ColorGameRequest;
+import controller.Game;
 import network.messages.MapClientRequest;
 import network.messages.Message;
 import network.client.Client;
@@ -19,6 +20,7 @@ import utils.*;
 public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private static PrintStream printStream=System.out;
+    private Game game;
     private Match match;
     private Client client;
     private GetData getData=new GetData();
@@ -115,18 +117,48 @@ public class CLIView implements View {
         GetData getData = new GetData();
         int choice = getData.getInt(1, 3);
         String mapRequired = toString().valueOf(choice);
-        /*Scanner map;
-        map=new Scanner(System.in);
-        String mapRequired=map.next();
-        while(!(mapRequired.equals("0")||mapRequired.equals("1")||mapRequired.equals("2")||mapRequired.equals("3"))){
-            System.out.println(mapRequired + "is not a map.");
-            System.out.println("Digitare mappa prescelta:"+ "codici disponibili (?)");
-            mapRequired=map.next();
-        }*/
+
         //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
         MapClientRequest mapRequest=new MapClientRequest(mapRequired,client.getUserID());
         mapRequest.setUserID(client.getUserID());
         client.sendMessage(mapRequest);
+    }
+
+    @Override
+    public void chooseStartingCell(){
+        for(Player p:match.getPlayers()){
+            System.out.println("\nPlease, "+p.getname()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
+            System.out.println("There are three SpawnPoint cells in the game:");
+            System.out.println("Line 0, column 2 - Blue cell");
+            System.out.println("Line 1, column 0 - Red cell");
+            System.out.println("Line 2, column 3 - Yellow cell");
+            System.out.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
+            this.showPlayerPowsColors(p);
+            System.out.println("Insert: \nLine\nColumn\nNumber PowCard to use");
+            int x= getData.getInt(0, 2);
+            int y= getData.getInt(0, 3);
+            int powindex = getData.getInt(1, 2);
+            while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
+                System.out.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
+                x= getData.getInt(0, 2);
+                y= getData.getInt(0, 3);
+                powindex = getData.getInt(1, 2);
+            }
+            powindex--;
+            int flag=0;
+            while(flag==0){
+                try{
+                    game.firstTurn(p, powindex, x, y);
+                    flag=1;
+                } catch(InvalidColorException e){
+                    System.out.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
+                    x= getData.getInt(0, 2);
+                    y= getData.getInt(0, 3);
+                    powindex = getData.getInt(1, 2);
+                    powindex--;}
+            }
+            this.showPlayerPows(p);
+        }
     }
 
 

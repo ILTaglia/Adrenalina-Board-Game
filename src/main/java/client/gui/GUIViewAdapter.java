@@ -55,6 +55,9 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
+    public void chooseStartingCell(){}
+
+    @Override
     public void welcomeMessage(int idClient) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {

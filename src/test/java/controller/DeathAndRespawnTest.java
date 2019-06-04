@@ -109,4 +109,16 @@ public class DeathAndRespawnTest {
 
     }
 
+    @Test
+    public void winner(){
+        player1.setScore(23);
+        player2.setScore(18);
+        player3.setScore(25);
+        player4.setScore(28);
+        player5.setScore(20);
+        DeathAndRespawn c = new DeathAndRespawn();
+        String winnerplayerID = player4.getid();
+        assertEquals(winnerplayerID, c.winner(match));
+    }
+
 }

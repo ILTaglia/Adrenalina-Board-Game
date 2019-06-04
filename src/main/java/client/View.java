@@ -40,6 +40,7 @@ public interface View {
 
     void chooseMap();
 
+    void chooseStartingCell();
 
 
 

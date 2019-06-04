@@ -4,6 +4,9 @@ import model.Match;
 import model.Dashboard;
 import exceptions.NotExistingDashboardException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
     private int death;
@@ -68,6 +71,19 @@ public class DeathAndRespawn {
             in++;
             s=d.stop();
         }
+    }
+
+    public String winner(Match m){
+        //returns the color of the winner player
+        String id = "";
+        Player player=m.getPlayerByIndex(0);
+        for(int i=0; i<m.getPlayersSize(); i++){
+            for(int j=i+1; j<m.getPlayersSize(); j++){
+                if(player.getScore()<m.getPlayerByIndex(j).getScore()) player=m.getPlayerByIndex(j);
+            }
+            id=player.getid();
+        }
+        return id;
     }
 
 
