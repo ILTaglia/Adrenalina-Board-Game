@@ -1,10 +1,16 @@
 package model;
 
 import exceptions.*;
+import network.messages.ConfirmationMessage;
+import network.messages.InfoPlayer;
+import network.messages.Message;
 
 import java.io.Serializable;
 
 import java.util.*;
+
+import static utils.NotifyClient.notifyAllClients;
+import static utils.NotifyClient.notifySpecificClient;
 
 public class Match implements Serializable {
     private int round;
@@ -16,10 +22,6 @@ public class Match implements Serializable {
     private PowDeck powdeck;
     private boolean checkdashboard =false;
 
-    //TODO: implementazione metodo per la notifica a tutti i client delle modifiche sul model
-    private void notifyClient(){
-
-    }
 
     //i è parametro per la dashboard
     public Match(){
@@ -44,14 +46,18 @@ public class Match implements Serializable {
 
     public int getRound(){return this.round;}
 
-    public void createPlayer(String name, String color, String id) throws MaxNumberPlayerException {
+    public void createPlayer(String name, String color, String id){
         Player player = new Player(name, color, id);
         this.addPlayer(player);
     }
 
-    private void addPlayer(Player player) throws MaxNumberPlayerException {
-        if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
+    private void addPlayer(Player player) {
+        //if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
         players.add(player);
+        Message message=new InfoPlayer("Assigned color: "+player.getcolor());
+        notifySpecificClient(player.getid(),message);
+        Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getname());
+        notifyAllClients(this,message1);
     }
 
     //returns player by color

@@ -3,10 +3,12 @@ package network.server;
 import network.messages.*;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
+import utils.NotifyClient;
 
 import java.rmi.RemoteException;
 import java.util.*;
 
+import static utils.NotifyClient.registerServer;
 
 
 //la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente
@@ -16,6 +18,7 @@ public class GameServer {
 
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
+    private NotifyClient notifyClient;
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                        //Collega Username e IdPlayer
@@ -47,7 +50,6 @@ public class GameServer {
     private GameServer(){
         this.gameSocketSvr=new GameSocketSvr(this);
         this.gameRMISvr=new GameRMISvr(this);
-
         this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.usernameToUserID =new HashMap<>();
         this.userIDToClientInterface =new HashMap<>();
@@ -63,6 +65,7 @@ public class GameServer {
 
             System.out.println(e.getMessage());
         }
+        registerServer(this);
 
 
     }

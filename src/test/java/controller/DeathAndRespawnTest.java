@@ -21,13 +21,11 @@ public class DeathAndRespawnTest {
     @Before
     public void setUp(){
         match = new Match();
-        try {
-            match.createPlayer("Sirius", "Blue", "10583741");
-            match.createPlayer("Calypso", "Pink", "14253954");
-            match.createPlayer("Hermione", "Green", "18263100");
-            match.createPlayer("Aries", "Yellow", "18992302");
-            match.createPlayer("Karka", "Grey", "18114320");        }
-        catch (MaxNumberPlayerException e){}
+        match.createPlayer("Sirius", "Blue", "10583741");
+        match.createPlayer("Calypso", "Pink", "14253954");
+        match.createPlayer("Hermione", "Green", "18263100");
+        match.createPlayer("Aries", "Yellow", "18992302");
+        match.createPlayer("Karka", "Grey", "18114320");
         match.createDashboard(1);
         player1 = match.getPlayerByIndex(0);
         player2 = match.getPlayerByIndex(1);

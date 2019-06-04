@@ -20,12 +20,12 @@ public class DashboardTest {
         Dashboard d3 = new Dashboard(3);
         Match match = new Match();
 
-        try {
+        //try {
             match.createPlayer("Sirius", "Blue", "10583741");
             match.createPlayer("Calypso", "Pink", "14253954");
             match.createPlayer("Hermione", "Green", "18263100");
-        }
-        catch (MaxNumberPlayerException e){}
+        //}
+        //catch (MaxNumberPlayerException e){}
         match.createDashboard(1);
         player1 = match.getPlayerByIndex(0);
         player2 = match.getPlayerByIndex(1);

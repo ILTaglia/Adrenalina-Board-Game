@@ -22,15 +22,12 @@ public class MatchTest {
 
 
     @Before
-    public void SetUp(){
+    public void SetUp() throws MaxNumberPlayerException {
         match = new Match();
-        try {
-            match.createPlayer("Sirius", "Blue", "10583741");
-            match.createPlayer("Calypso", "Pink", "14253954");
-            match.createPlayer("Hermione", "Green", "18263100");
-            match.createPlayer("Aries", "Yellow", "18992302");
-        }
-        catch (MaxNumberPlayerException e){}
+        match.createPlayer("Sirius", "Blue", "10583741");
+        match.createPlayer("Calypso", "Pink", "14253954");
+        match.createPlayer("Hermione", "Green", "18263100");
+        match.createPlayer("Aries", "Yellow", "18992302");
 
         player1 = match.getPlayerByIndex(0);
         player2 = match.getPlayerByIndex(1);
@@ -41,10 +38,7 @@ public class MatchTest {
     @Test
     public void set_round() {
         assertEquals(1, match.getRound());
-        try {
-            match.createPlayer("Karka", "Grey", "18114320");
-        }
-        catch (MaxNumberPlayerException e){}
+        match.createPlayer("Karka", "Grey", "18114320");
         player5 = match.getPlayerByIndex(4);
         player5.setAction();
         player5.setAction();
@@ -71,10 +65,7 @@ public class MatchTest {
 
     @Test
     public void add_player() {
-        try {
-            match.createPlayer("Karka", "Grey", "18114320");
-        }
-        catch (MaxNumberPlayerException e){}
+        match.createPlayer("Karka", "Grey", "18114320");
         assertThrows(MaxNumberPlayerException.class, () -> match.createPlayer("Gemini", "Grey", "10003256"));
     }
 
@@ -132,11 +123,8 @@ public class MatchTest {
         catch (InvalidColorException e){}
         Player player5 = new Player("Karka", "Blue", "18114320");
         Match m2 = new Match();
-        try{
-            m2.createPlayer("Sirius", "Blue", "10583741");
-            m2.createPlayer("Calypso", "Pink", "14253954");
-        }
-        catch (MaxNumberPlayerException e){}
+        m2.createPlayer("Sirius", "Blue", "10583741");
+        m2.createPlayer("Calypso", "Pink", "14253954");
         assertEquals(1, m2.createDashboard(1));
     }
 

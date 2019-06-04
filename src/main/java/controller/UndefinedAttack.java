@@ -366,7 +366,7 @@ public class UndefinedAttack {
                 }
             }
     }
-
+    /*
     public static void main(String args[])
     {
         Match match;
@@ -439,6 +439,6 @@ public class UndefinedAttack {
         System.out.println(weapon5.getName());
         System.out.println(weapon6.getName());
     }
-
+    */
 
 }

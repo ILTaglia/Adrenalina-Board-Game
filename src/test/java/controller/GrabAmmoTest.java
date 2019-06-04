@@ -22,11 +22,9 @@ public class GrabAmmoTest {
     @Before
     public void setUp() throws Exception {
         match = new Match();
-        try {
-            match.createPlayer("Sirius", "Blue", "10583741");
-            match.createPlayer("Calypso", "Pink", "14253954");
-            match.createPlayer("Hermione", "Green", "18263100");
-        } catch(MaxNumberPlayerException e){System.out.println("Too many players in the game.");}
+        match.createPlayer("Sirius", "Blue", "10583741");
+        match.createPlayer("Calypso", "Pink", "14253954");
+        match.createPlayer("Hermione", "Green", "18263100");
 
         match.createDashboard(3);
         player1 = match.getPlayerByIndex(0);

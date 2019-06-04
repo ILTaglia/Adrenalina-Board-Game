@@ -9,6 +9,8 @@ import network.messages.Message;
 import java.util.HashMap;
 import java.util.Map;
 
+import static utils.NotifyClient.registerNewGame;
+
 public class GameRoom {
 
     //In questa stanza istanzio il controller e da qua inizia la partita in cui vengono aggiunti i giocatori ecc.
@@ -22,10 +24,10 @@ public class GameRoom {
     private HashMap<String,String> userIDtoColor;       //Variabile sarebbe da evitare ma non saprei come
 
     public GameRoom(Map<String,String> userList, GameServer gameServer){
-
         this.gameServer=gameServer;
         this.userList=(HashMap<String, String>) userList;
         this.userIDtoColor=new HashMap<>();
+        registerNewGame(userList.values(),this);
     }
 
     //------------------------Metodi per il set up iniziale della partita------------------------------------//
@@ -51,10 +53,11 @@ public class GameRoom {
         if(userIDtoColor.size()==userList.size()){
 
             //TODO: creazione oggetto Player e aggiunta alla classe match
-            gameController.addPlayers(userList,userIDtoColor);
-            //print solo per verificare che i colori siano assegnati correttamente quando tutti hanno risposto
             System.out.println("OKAY");
             userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
+            gameController.addPlayers(userList,userIDtoColor);
+            //print solo per verificare che i colori siano assegnati correttamente quando tutti hanno risposto
+
         }
     }
 

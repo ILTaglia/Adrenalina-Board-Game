@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import static utils.NotifyClient.registerNewMatch;
+
 //TODO: Capire se la view va istanziata nel controller oppure se va passata negli eventi che lancia al controller
 
 public class Game{
@@ -23,23 +26,35 @@ public class Game{
     public Game(GameRoom gameRoom){
         this.gameRoom=gameRoom;
         this.match = new Match();
+        //TODO: controllare il senso metodo
+        registerNewMatch(gameRoom,match);
     }
 
-    //------------------------Metodi da modificare/implementare------------------------------------//
-    public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor){
+    //------------------------Metodi da completare-----------------------------------------------------------//
+    public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor) {
+        for(String username:userList.keySet()){
+            match.createPlayer(username,userIDtoColor.get(userList.get(username)),userList.get(username));
+        }
         //TODO: metodo nella match utile a inizio partita per la creazione delle istanze dei singoli player.
         //match.addPlayer();
         //TODO:Inserisco qua la chiamata al metodo successivo per il SetUp della partita, non mi convince come soluzione
         //Chiamata temporanaea per testing
+        System.out.println("ciaoOKAY");
         gameRoom.askToChooseMap(userList.values().stream().findFirst().get());
     }
 
-
-    public void select(int i){
-        match.createDashboard(i);
+    public void setMap(String mapRequired) {
+        //TODO: aggiungere controllo validità mappa!!
+        // se viene lanciata un'eccezione, si chiama l'errore sulla view e si richiede una nuova mappa
+        System.out.println("Ok, mappa scelta:"+mapRequired);
+        match.createDashboard(Integer.valueOf(mapRequired));
+        //Anche in questo caso bisognerà notificare dal Model l'avvenuta modifica
+        //startGame(); //TODO: Posso inviare da qui notifica per start Game?
     }
 
 
+
+    //-----------------------------------------------------------------------------------------------------//
     public void startGame(){
         match.fillDashboard();
         match.getPlayerByIndex(0).setActive();
@@ -49,14 +64,9 @@ public class Game{
         match.firstTurnPows(); //assign two powcards to each players to start
     }
 
-    public void setMap(String mapRequired) {
-        //TODO: aggiungere controllo validità mappa!!
-        // se viene lanciata un'eccezione, si chiama l'errore sulla view e si richiede una nuova mappa
-        System.out.println("Ok, mappa scelta:"+mapRequired);
-        match.createDashboard(Integer.valueOf(mapRequired));
-        //Anche in questo caso bisognerà notificare dal Model l'avvenuta modifica
+    public void select(int i){
+        match.createDashboard(i);
     }
-
 
 
     public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
