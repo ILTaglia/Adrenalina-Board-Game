@@ -44,13 +44,13 @@ public class Match implements Serializable {
 
     public int getRound(){return this.round;}
 
-    public void addPlayer(Player player) throws MaxNumberPlayerException, InvalidColorException {
+    public void createPlayer(String name, String color, String id) throws MaxNumberPlayerException {
+        Player player = new Player(name, color, id);
+        this.addPlayer(player);
+    }
+
+    private void addPlayer(Player player) throws MaxNumberPlayerException {
         if(players.size()==5) throw new MaxNumberPlayerException(); //max number of players in the classical mode
-        for (Player p : this.players) {
-            if (p.getcolor()==player.getcolor()) {
-                throw new InvalidColorException();
-            }
-        }
         players.add(player);
     }
 

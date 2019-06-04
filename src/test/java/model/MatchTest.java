@@ -18,32 +18,34 @@ public class MatchTest {
     Player player2;
     Player player3;
     Player player4;
+    Player player5;
 
 
     @Before
     public void SetUp(){
         match = new Match();
-        player1 = new Player("Sirius", "Blue", "10583741");
-        player2 = new Player("Calypso", "Pink", "14253954");
-        player3 = new Player("Hermione", "Green", "18263100");
-        player4 = new Player("Aries", "Yellow", "18992302");
         try {
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-            match.addPlayer(player3);
-            match.addPlayer(player4);
+            match.createPlayer("Sirius", "Blue", "10583741");
+            match.createPlayer("Calypso", "Pink", "14253954");
+            match.createPlayer("Hermione", "Green", "18263100");
+            match.createPlayer("Aries", "Yellow", "18992302");
         }
         catch (MaxNumberPlayerException e){}
+
+        player1 = match.getPlayerByIndex(0);
+        player2 = match.getPlayerByIndex(1);
+        player3 = match.getPlayerByIndex(2);
+        player4 = match.getPlayerByIndex(3);
     }
 
     @Test
     public void set_round() {
         assertEquals(1, match.getRound());
-        Player player5 = new Player("Karka", "Grey", "18114320");
         try {
-            match.addPlayer(player5);
+            match.createPlayer("Karka", "Grey", "18114320");
         }
         catch (MaxNumberPlayerException e){}
+        player5 = match.getPlayerByIndex(4);
         player5.setAction();
         player5.setAction();
         match.setRound();
@@ -69,13 +71,11 @@ public class MatchTest {
 
     @Test
     public void add_player() {
-        Player player5 = new Player("Karka", "Grey", "18114320");
-        Player player6 = new Player("Gemini", "Grey", "10003256");
         try {
-            match.addPlayer(player5);
+            match.createPlayer("Karka", "Grey", "18114320");
         }
         catch (MaxNumberPlayerException e){}
-        assertThrows(MaxNumberPlayerException.class, () -> match.addPlayer(player6));
+        assertThrows(MaxNumberPlayerException.class, () -> match.createPlayer("Gemini", "Grey", "10003256"));
     }
 
     @Test
@@ -133,11 +133,11 @@ public class MatchTest {
         Player player5 = new Player("Karka", "Blue", "18114320");
         Match m2 = new Match();
         try{
-            m2.addPlayer(player1);
-            m2.addPlayer(player2);
+            m2.createPlayer("Sirius", "Blue", "10583741");
+            m2.createPlayer("Calypso", "Pink", "14253954");
         }
         catch (MaxNumberPlayerException e){}
-        assertThrows(InvalidColorException.class, () -> m2.addPlayer(player5));
+        assertThrows(InvalidColorException.class, () -> m2.createPlayer("Karka", "Blue", "18114320"));
         assertEquals(1, m2.createDashboard(1));
     }
 

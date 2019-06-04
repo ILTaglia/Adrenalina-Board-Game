@@ -25,21 +25,23 @@ public class RunTest {
     public void setUp() throws Exception {
         match = new Match();
         r = new Run();
-        player1 = new Player("Sirius", "Blue", "10583741");
-        player2 = new Player("Calypso", "Pink", "14253954");
-        player3 = new Player("Hermione", "Green", "18263100");
-        player4 = new Player("Aries", "Yellow", "18992302");
         try {
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-            match.addPlayer(player3);
-            match.addPlayer(player4);
+            match.createPlayer("Sirius", "Blue", "10583741");
+            match.createPlayer("Calypso", "Pink", "14253954");
+            match.createPlayer("Hermione", "Green", "18263100");
+            match.createPlayer("Aries", "Yellow", "18992302");
+
         }
         catch (MaxNumberPlayerException e){
             System.out.println("Too many players in the game.");
         }
 
         match.createDashboard(3);
+
+        player1 = match.getPlayerByIndex(0);
+        player2 = match.getPlayerByIndex(1);
+        player3 = match.getPlayerByIndex(2);
+        player4 = match.getPlayerByIndex(3);
 
         player1.setCel(0, 2);
         player2.setCel(0, 1);

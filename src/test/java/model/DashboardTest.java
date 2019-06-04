@@ -8,9 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DashboardTest {
-    Player player1 = new Player("Sirius", "Blue", "10583741"); //0
-    Player player2 = new Player("Calypso", "Pink", "14253954"); //3
-    Player player3 = new Player("Hermione", "Green", "18263100"); //1
+    Player player1;
+    Player player2;
+    Player player3;
 
 
     @Test
@@ -21,12 +21,15 @@ public class DashboardTest {
         Match match = new Match();
 
         try {
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-            match.addPlayer(player3);
+            match.createPlayer("Sirius", "Blue", "10583741");
+            match.createPlayer("Calypso", "Pink", "14253954");
+            match.createPlayer("Hermione", "Green", "18263100");
         }
         catch (MaxNumberPlayerException e){}
         match.createDashboard(1);
+        player1 = match.getPlayerByIndex(0);
+        player2 = match.getPlayerByIndex(1);
+        player3 = match.getPlayerByIndex(2);
 
         assertEquals(0, match.getDashboard().getindex());
         match.getDashboard().setKillshottrack(player1,2);

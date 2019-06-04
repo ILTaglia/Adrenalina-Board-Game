@@ -40,7 +40,7 @@ public class RemoteBoardView extends BoardView{
      */
     public RemoteBoardView(Match match, List<Object> clients, Map<Socket, ObjectOutputStream> socketsOut, Map<Socket, ObjectInputStream> socketsIn){
         this.match = match;
-        match.addObserver(this);
+        //match.addObserver(this);
         this.clients=clients;
         //this.socketView=new SocketCommunication(socketsOut, socketsIn);
         //this.rmiView=new RMICommunication();
