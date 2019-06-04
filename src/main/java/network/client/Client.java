@@ -96,44 +96,42 @@ public class Client {
 
     public void handleMessage(Message message){
         switch(message.getType()) {
-            case "Response":
+            case "Confirmation":
                 view.showInfoMessage(message);
                 if(message.getContent().equals("InfoID")) this.userID =message.getInfo();
                 break;
             case "Error":
+                view.showInfoMessage(message);
                 handleErrorMessage(message);
                 break;
-            case "Request":
+            case "GameRequest":
+                view.showInfoMessage(message);
                 handleRequestMessage(message);
                 break;
         }
     }
 
     private void handleRequestMessage(Message message) {
-        if(message.getContent().equals("PlayerDataRequest")){
-            view.showInfoMessage(message);
+        if(message.getContent().equals("ColorRequest")){
             view.createPlayer();
         }
         if(message.getContent().equals("MapRequest")){
-            view.showInfoMessage(message);
             view.chooseMap();
         }
     }
 
-    public void handleErrorMessage(Message message){
+    private void handleErrorMessage(Message message){
         if(message.getContent().equals("ConnectionError")){
-            view.showInfoMessage(message);
             view.login();
         }
         if(message.getContent().equals("ColorError")){
-            view.showInfoMessage(message);
             view.createPlayer();
         }
     }
 
     //-------------------------------Metodi da completare----------------------------//
 
-    public String getUserID(){           //TODO: potrebbe essere anche un ID, valutare scelta
+    public String getUserID(){
         return this.userID;
     }
 

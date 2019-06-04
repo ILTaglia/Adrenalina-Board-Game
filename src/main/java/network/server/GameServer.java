@@ -1,9 +1,6 @@
 package network.server;
 
-import network.messages.ColorRequest;
-import network.messages.InfoID;
-import network.messages.MapUserRequest;
-import network.messages.Message;
+import network.messages.*;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 
@@ -74,21 +71,22 @@ public class GameServer {
 
     public synchronized void handleMessage(Message message) {
         switch(message.getType()) {
-            case "Request":
-                handleRequest(message);
+            case "ClientRequest":
+                ClientRequestMessage requestMessage=(ClientRequestMessage) message;
+                handleRequest(requestMessage);
                 break;
 
         }
     }
 
-    private void handleRequest(Message message) {
-        if(message.getContent().equals("ColorRequest")){
-            ColorRequest colorRequest=(ColorRequest) message;
-            userIDToIdGameRoom.get(colorRequest.getUserID()).registerPlayerColor(colorRequest.getUserID(),colorRequest.getInfo());
-        }
-        if(message.getContent().equals("MapUserRequest")){
-            MapUserRequest mapUserRequest=(MapUserRequest) message;
-            userIDToIdGameRoom.get(mapUserRequest.getUserID()).setMapChoice(mapUserRequest.getInfo());
+    private void handleRequest(ClientRequestMessage requestMessage) {
+        switch(requestMessage.getContent()){
+            case "ColorRequest":
+                userIDToIdGameRoom.get(requestMessage.getUserID()).registerPlayerColor(requestMessage.getUserID(),requestMessage.getInfo());
+                break;
+            case "MapRequest":
+                userIDToIdGameRoom.get(requestMessage.getUserID()).setMapChoice(requestMessage.getInfo());
+                break;
         }
     }
 
@@ -135,7 +133,7 @@ public class GameServer {
     }
 
     //------------------------Metodi usati per la gestione dei messaggi di rete------------------------------------//
-
+    //Metodo per inviare un messaggio a tutti i giocatori di una partita (si richiede in ingresso una collection di userID)
     public synchronized void sendMessageToAll(Collection<String> userID, Message message){
         userIDToClientInterface.forEach((id,clientInterface)-> {
             if(userID.contains(id)) {
@@ -147,7 +145,7 @@ public class GameServer {
             }
         });
     }
-
+    //Metodo per inviare un messaggio a un giocatore specifico.
     public synchronized void sendMessageToID(String userID, Message colorError) {
         try {
             userIDToClientInterface.get(userID).sendMessage(colorError);

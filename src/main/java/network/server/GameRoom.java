@@ -2,9 +2,9 @@ package network.server;
 
 import controller.Game;
 import network.messages.ColorError;
-import network.messages.MapRequest;
+import network.messages.ColorGameRequest;
+import network.messages.MapGameRequest;
 import network.messages.Message;
-import network.messages.PlayerDataRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class GameRoom {
         //TODO: SISTEMARE MESSAGGI
         //TODO: PRIMA SI CHIEDONO INFORMAZIONI PLAYER O PRIMA SI SCEGLIE LA MAPPA DA USARE?
         this.gameController=new Game(this);
-        Message registrationRequest= new PlayerDataRequest("This message is to require a color to Client");
+        Message registrationRequest= new ColorGameRequest("This message is to require a color to Client");
         gameServer.sendMessageToAll(userList.values(),registrationRequest);
     }
 
@@ -60,7 +60,7 @@ public class GameRoom {
 
     //Metodo necessario per la scelta della mappa, viene fatta richiesta a un solo client
     private void askToChooseMap(String userID){
-        Message message=new MapRequest("This message is to ask to choose a Map to the first Player");
+        Message message=new MapGameRequest("This message is to ask to choose a Map to the first Player");
         gameServer.sendMessageToID(userID,message);
     }
 

@@ -1,7 +1,6 @@
 package network.server.socket;
 
 import network.messages.ConnectionError;
-import network.messages.ConnectionRequest;
 import network.messages.Message;
 import network.server.ClientInterface;
 import network.server.socket.GameSocketSvr;
@@ -39,7 +38,7 @@ public class ClientHandler implements Runnable, ClientInterface {
             while(bool){
                 String requestedUsername;
                 Message message=(Message) streamIn.readObject();
-                if(message.getType().equals("Request")&&message.getContent().equals("Connection Request")){
+                if(message.getType().equals("ClientRequest")&&message.getContent().equals("ConnectionRequest")){
                     requestedUsername = message.getInfo();
                     //Controllo Username in primis sulla queue, altrimenti restituisce subito errore e si chiede un nuovo username.
                     if (server.isAlreadyInQueue(requestedUsername)) {
@@ -62,12 +61,11 @@ public class ClientHandler implements Runnable, ClientInterface {
             //TODO: Chiudere la connessione (?)
         }
     }
-
+    @Override
     public void sendMessage(Message message){
         try {
             streamOut.reset();
             streamOut.writeObject(message);
-            System.out.println("Messaggio inviato confirmed");
             streamOut.flush();
         }catch (IOException e){
             System.out.println("Errore nell'invio del messaggio");

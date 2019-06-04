@@ -64,7 +64,7 @@ public class CLI {
             System.out.println("Choose a color:"+ "players available colors are blue, green, yellow, pink, grey");
             colorRequired=color.next();
         }
-        ColorRequest colorRequest=new ColorRequest(colorRequired);
+        ColorGameRequest colorRequest=new ColorGameRequest(colorRequired);
         colorRequest.setUserID(client.getUserID());
         System.out.println("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
@@ -83,7 +83,7 @@ public class CLI {
             mapRequired=map.next();
         }
         //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
-        MapUserRequest mapRequest=new MapUserRequest(mapRequired);
+        MapClientRequest mapRequest=new MapClientRequest(mapRequired);
         mapRequest.setUserID(client.getUserID());
         client.sendMessage(mapRequest);
     }

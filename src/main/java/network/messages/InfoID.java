@@ -1,6 +1,6 @@
 package network.messages;
 
-public class InfoID extends ResponseMessage {
+public class InfoID extends ConfirmationMessage {
 
     public InfoID(String info){
         super(info);

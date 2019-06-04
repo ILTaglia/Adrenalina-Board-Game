@@ -2,8 +2,7 @@ package network.client.socket;
 
 import network.client.Client;
 import network.client.ConnectionHandler;
-import network.messages.ConnectionError;
-import network.messages.ConnectionRequest;
+import network.messages.ConnectionClientRequest;
 import network.messages.Message;
 import network.server.rmi.ServerInterface;
 
@@ -28,7 +27,7 @@ public class SocketHandler implements ConnectionHandler {
 
     @Override
     public void registerToWR(String username) {
-        sendMessage(new ConnectionRequest(username));
+        sendMessage(new ConnectionClientRequest(username));
     }
     //METODO USATO DAL SERVER PER INVIARE MESSAGGI AL CLIENT
     @Override

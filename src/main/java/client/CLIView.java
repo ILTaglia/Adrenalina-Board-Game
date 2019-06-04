@@ -9,8 +9,9 @@ import java.util.logging.Logger;
 
 import controller.GrabWeapon;
 import model.*;
-import network.messages.ColorRequest;
-import network.messages.MapUserRequest;
+import network.messages.ColorClientRequest;
+import network.messages.ColorGameRequest;
+import network.messages.MapClientRequest;
 import network.messages.Message;
 import network.client.Client;
 import utils.*;
@@ -108,8 +109,7 @@ public class CLIView implements View {
             System.out.println("Choose a color:"+ "players available colors are blue, green, yellow, pink, grey");
             colorRequired=color.next();
         }
-        ColorRequest colorRequest=new ColorRequest(colorRequired);
-        colorRequest.setUserID(client.getUserID());
+        ColorClientRequest colorRequest=new ColorClientRequest(colorRequired,client.getUserID());
         System.out.println("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
     }
@@ -127,7 +127,7 @@ public class CLIView implements View {
             mapRequired=map.next();
         }
         //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
-        MapUserRequest mapRequest=new MapUserRequest(mapRequired);
+        MapClientRequest mapRequest=new MapClientRequest(mapRequired,client.getUserID());
         mapRequest.setUserID(client.getUserID());
         client.sendMessage(mapRequest);
     }

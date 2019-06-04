@@ -25,6 +25,11 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
+    public void setConnection() {
+
+    }
+
+    @Override
     public void showException(String message) {
 
     }
@@ -41,6 +46,11 @@ public class GUIViewAdapter implements View {
 
     @Override
     public void createPlayer() {
+
+    }
+
+    @Override
+    public void chooseMap() {
 
     }
 
