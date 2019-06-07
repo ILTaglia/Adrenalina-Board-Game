@@ -1,18 +1,14 @@
 package controller;
-import client.CLIView;
 import client.View;
 import exceptions.*;
 import model.Match;
 import model.Player;
-import model.PowCard;
 import network.messages.InfoMatch;
 import network.messages.Message;
 import network.server.GameRoom;
-import network.server.GameServer;
 import utils.GetData;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +23,8 @@ public class Game{
         this.match = new Match();
         registerNewMatch(gameRoom,match);
     }
+
+    //TODO: Coda giocatori in partita
 
     //------------------------Metodi per il SetUp della partita-----------------------------------------------------------//
     //Vado a creare i singoli Player e quindi ad aggiungerli al Model (li istanzio singolarmente)
@@ -61,23 +59,29 @@ public class Game{
     }
 
     private void setPlayerReady(){
+
+        //Assign to each player two pows card.
+        match.firstTurnPows();      //TODO: gestire messaggio per Player per info di che Pow gli sono stati assegnati
+
         //first Player is the first in Players List in Model. It would be the first logged on Server.
+        //Set active the first player, set not-active the rest of players
         match.getPlayerByIndex(0).setActive();
-        for(int i=1; i<match.getPlayersSize(); i++){
-            match.getPlayerByIndex(i).resetActive();
-        }
-        match.firstTurnPows();
-        //TODO: Metodo per far iniziare lo Spawn del primo giocatore
+        for(int i=1; i<match.getPlayersSize(); i++) match.getPlayerByIndex(i).resetActive();
+
+        askSpawnPoint();
+
     }
 
-    public void select(int i){
-        match.createDashboard(i);
-    }
+    private void askSpawnPoint() throws InvalidColorException {
 
+        gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getid());
 
-    public void firstTurn(Player player, int powcardIndex, int x, int y) throws InvalidColorException {
         Spawn playerSpawn = new Spawn();
-        playerSpawn.spawn(player, x, y, powcardIndex);
+        //playerSpawn.spawn(player, x, y, powcardIndex);
+    }
+
+    private void spawn(){
+
     }
 
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione

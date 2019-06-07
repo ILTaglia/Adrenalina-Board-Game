@@ -2,16 +2,10 @@ package network.client.socket;
 
 import network.client.Client;
 import network.client.ConnectionHandler;
-import network.messages.ConnectionClientRequest;
+import network.messages.ClientRequest.ConnectionClientRequest;
 import network.messages.Message;
-import network.server.rmi.ServerInterface;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-
-    //TODO Aggiungere Booleani per verifiche sulla connessione
+//TODO Aggiungere Booleani per verifiche sulla connessione
 
 
 public class SocketHandler implements ConnectionHandler {

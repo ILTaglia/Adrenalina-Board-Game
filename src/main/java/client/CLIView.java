@@ -3,16 +3,15 @@ package client;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import controller.GrabWeapon;
 import exceptions.InvalidColorException;
 import model.*;
-import network.messages.ColorClientRequest;
+import network.messages.ClientRequest.ColorClientRequest;
 import controller.Game;
-import network.messages.MapClientRequest;
+import network.messages.ClientRequest.MapClientRequest;
 import network.messages.Message;
 import network.client.Client;
 import utils.*;

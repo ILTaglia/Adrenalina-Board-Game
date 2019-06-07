@@ -23,7 +23,7 @@ public class Match implements Serializable {
 
 
     public Match(){
-        this.round=1;
+        this.round=0;
         this.players=new ArrayList<>();
         ammoDeck =new AmmoDeck();
         weaponDeck =new WeaponDeck();
@@ -159,11 +159,11 @@ public class Match implements Serializable {
             try{
                 this.assignPowCard(p);
                 this.assignPowCard(p);
-            } catch(MaxNumberofCardsException e) {return;}
+            } catch(MaxNumberofCardsException e) {
+                //Nothing to do in this case, this method is called at the beginning of the match.
+            }
         }
     }
-
-
 
     public boolean getCheck(){
         return this.checkDashboard;
@@ -222,7 +222,10 @@ public class Match implements Serializable {
             powDeck.discardCard(powcard);
             throw new MaxNumberofCardsException();
         }
+
+        //TODO IMPORTANTE: NotifyView del cambiamento sulle PowCard
     }
+
     public void discardPowCard(PowCard powCard){
         powDeck.discardCard(powCard);
     }

@@ -1,10 +1,7 @@
 package network.server;
 
 import controller.Game;
-import network.messages.ColorError;
-import network.messages.ColorGameRequest;
-import network.messages.MapGameRequest;
-import network.messages.Message;
+import network.messages.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,4 +58,11 @@ public class GameRoom {
     public void setMapChoice(String mapRequired) {
         gameController.setMap(mapRequired);
     }
+
+    //Metodo per la richiesta al PLayer per dove Spawnare
+    public void askToChooseSpawnPoint(String userID){
+        Message message=new SpawnGameRequest("This message is to ask to choose a SpawnPoint");
+        gameServer.sendMessageToID(userID,message);
+    }
+
 }

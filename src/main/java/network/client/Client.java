@@ -6,6 +6,7 @@ import exceptions.UsernameAlreadyUsedException;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
+import network.messages.ClientRequest.VisitorRequest;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

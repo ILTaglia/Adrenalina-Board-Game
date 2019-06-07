@@ -1,6 +1,7 @@
 package network.server;
 
 import network.messages.*;
+import network.messages.ClientRequest.ClientRequestMessage;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 import utils.NotifyClient;
@@ -43,8 +44,6 @@ public class GameServer {
         GameServer gameServer = new GameServer();
         gameServer.launchServer();
         //TODO: parametri, lettura da file dei parametri
-
-        //TODO: RMI
     }
 
     private GameServer(){

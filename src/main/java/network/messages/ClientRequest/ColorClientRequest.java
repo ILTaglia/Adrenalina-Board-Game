@@ -1,4 +1,6 @@
-package network.messages;
+package network.messages.ClientRequest;
+
+import network.messages.ClientRequest.ClientRequestMessage;
 
 public class ColorClientRequest extends ClientRequestMessage {
 

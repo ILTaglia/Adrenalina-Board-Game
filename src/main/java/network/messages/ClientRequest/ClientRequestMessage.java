@@ -1,6 +1,8 @@
-package network.messages;
+package network.messages.ClientRequest;
 
-public abstract class ClientRequestMessage extends Message{
+import network.messages.Message;
+
+public abstract class ClientRequestMessage extends Message {
 
     protected String userID;
 
