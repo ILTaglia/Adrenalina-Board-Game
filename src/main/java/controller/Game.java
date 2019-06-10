@@ -129,6 +129,172 @@ public class Game{
 
 
     //metodo per turno di gioco del player in mode CLI
+    //TODO lista dei metodi per le azioni in un turno
+    //TODO mettere messaggi al posto delle print
+
+    private void run(View view, int counter){
+        //TODO il counter serve al controller per fare il check di quante azioni lecite ha fatto un player in un turno, va incrementato solo in caso di
+        //TODO di corretta esecuzione quindi serve passarlo come parametro
+        /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
+         * the player can take an other action*/
+        //TODO viene chiesta all'utente la sequenza da percorrere
+        List<String> destination = view.getListDirection();
+        Run run = new Run();
+        try{
+            run.getMovement(match, match.getActivePlayer(), destination);
+            run.registerMovementAction(match);
+            counter++;
+        } catch(InvalidDirectionException e){
+            //TODO azione non valida
+            System.out.println("You have chosen a not valid direction");
+        }
+    }
+
+    private void grab(View view, int counter){
+        int x = match.getActivePlayer().getCel().getX();
+        int y = match.getActivePlayer().getCel().getY();
+        if((x==0 && y==2) ||(x==1 && y==0) ||(x==2 && y==3)){
+            //this is a SpawnPoint cell
+            /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
+             * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
+             * is added to his weapon cards*/
+            this.grabWeapon(view, counter);
+        }
+        else {
+            //this is not a SpawnPoint cell
+            this.grabAmmoTile(view, counter);
+        }
+    }
+
+    private void grabWeapon(View view, int counter){
+        ManagingWeapons manage = new ManagingWeapons();
+        GetData getData = new GetData();
+        //TODO stampa al player delle armi perché si chiede quale arma vuole comprare
+        view.showPlayerWeapons();
+        view.showSpawnPointWeapons();
+        int weapontograb = view.getWeaponCard();
+        GrabWeapon grabWeapon = new GrabWeapon();
+        if(!manage.EnoughMoneytoBuy(match.getActivePlayer(), weapontograb)){
+            //case if you don't have enough ammos and you want to convert a PowCard
+            //TODO il giocatore non ha abbastanza ammo per comprare arma, gli viene chiesto se vuole usare una carta potenziamento per comprare
+            System.out.println("You don't have enough ammos, if you want to convert a PowCard digit 1, 0 otherwise");
+            int convert = getData.getInt(0, 1);
+            switch(convert){
+                case(0):
+                    //nothing to be done
+                    break;
+                case(1):
+                    //TODO gli viene chiesto se ha risposto in modo affermativo alla richiesta di prima QUALE powcard vuole usare
+                    System.out.println("Which Pow do you want to use?");
+                    view.showPlayerPowsColors(match.getActivePlayer());
+                    int convertpow = getData.getInt(1, 3);
+                    convertpow--;
+                    try {
+                        manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
+                    } catch(NotEnoughAmmosException e){
+                        //TODO azione non valida perché anche convertendo quella powcard non si hanno abbastanza ammo per comprare
+                        System.out.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
+                    }
+                    view.showPlayerWeapons();
+                    //TODO stampa delle armi dopo l'acquisto
+                    return;
+            }
+        }
+        try{
+            grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
+            view.showPlayerWeapons();
+            counter++;
+        } catch(MaxNumberofCardsException e){
+            System.out.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
+            int removing = getData.getInt(0, 1);
+            //TODO in questo caso il player ha abbastanza ammo per comprare ma ha troppe armi, gli viene chiesto se ne vuole scartare una e in caso affermativo
+            //TODO (alla riga sotto) QUALE arma vuole rimuovere
+            switch(removing){
+                case(0):
+                    //invalid action for the player, choice will be repeated
+                    break;
+                case(1):
+                    System.out.println("Which weapon do you want to remove?");
+                    view.showPlayerWeapons();
+                    int removedweapon = getData.getInt(1, 3);
+                    removedweapon--;
+                    ManagingWeapons remove = new ManagingWeapons();
+                    remove.Remove(match.getActivePlayer(), removedweapon);
+                    counter++;
+                    try{
+                        grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
+                        view.showPlayerWeapons();
+                    } catch(MaxNumberofCardsException ex){return;}
+            }
+        }
+    }
+
+    private void grabAmmoTile(View view, int counter){
+        ManagingWeapons manage = new ManagingWeapons();
+        GetData getData = new GetData();
+        GrabAmmo grabAmmo = new GrabAmmo();
+        //TODO stampa al player il numero di ammo prima e dopo la raccolta
+        System.out.println("Before grabbing");
+        view.showPlayerAmmos();
+        view.showPlayerPows();
+        //TODO stampa il numero di potenziamenti prima della raccolta e prova ad aggiungere al player una Powcard se la carta ammo ne prevedeva
+        //TODO se il player ha già tre potenziamenti chiede se ne vuole scartare uno e in case affermativo quale vuole scartare
+        try{
+            grabAmmo.grabAmmo(match, match.getActivePlayer());
+            System.out.println("After grabbing");
+            view.showPlayerAmmos();
+            view.showPlayerPows();
+            counter++;
+        } catch(MaxNumberofCardsException exc){
+            System.out.println("You have to many PowCards, if you want to remove one digit 1, 0 otherwise");
+            //TODO vuoi scartare una carta POT?
+            int removing = getData.getInt(0, 1);
+            switch(removing){
+                case(0):
+                    //TODO non l'hai voluta scartare, quindi le tue ammo aggiornate sono queste
+                    System.out.println("After grabbing without collecting the PowCard of AmmoPowTile");
+                    view.showPlayerAmmos();
+                    view.showPlayerPows();
+                    break; //nothing to be done, just Ammos are taken
+                case(1):
+                    //TODO quale carta POT vuoi scartare?
+                    System.out.println("Which PowCard do you want to remove?");
+                    view.showPlayerPows();
+                    int removedpow = getData.getInt(1, 3);
+                    removedpow--;
+                    ManagingWeapons removepow = new ManagingWeapons();
+                    removepow.RemovePow(match.getActivePlayer(), removedpow);
+
+                    try{
+                        match.assignPowCard(match.getActivePlayer());
+                    } catch(MaxNumberofCardsException ex){return;}
+                    System.out.println("After grabbing collecting the PowCard of AmmoPowTile");
+                    view.showPlayerPows();
+                    view.showPlayerAmmos();
+                    break;
+            }
+        }
+    }
+
+    private void shoot(){
+
+    }
+
+    private void recharge(View view){
+        ManagingWeapons manage = new ManagingWeapons();
+        /*Recharge a weapon checking if the weapon is already loaded*/
+        System.out.println("Which weapon do you want to recharge?");
+        view.showPlayerWeapons();
+        int weapontorecharge = view.getWeaponCard();
+        weapontorecharge--;
+        try{
+            manage.Recharge(match.getActivePlayer(), weapontorecharge);
+        } catch(WeaponAlreadyLoadedException e){
+            System.out.println("You have already loaded this weapon");
+        }
+    }
+
+
     //TODO bisogna sostituire le print con dei messaggi per la comunicazione tra client e server
     public void play(Match match, View view){
         PrintStream printStream=System.out;
@@ -150,124 +316,17 @@ public class Game{
             choice = getData.getInt(0, 5);
             switch(choice){
                 case(0):
-                    /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
-                     * the player can take an other action*/
-                    List<String> destination = view.getListDirection();
-                    Run run = new Run();
-                    try{
-                        run.getMovement(match, match.getActivePlayer(), destination);
-                        run.registerMovementAction(match);
-                        counter++;
-                    } catch(InvalidDirectionException e){
-                        printStream.println("You have chosen a not valid direction");
-                    }
+                    this.run(view, counter);
                     break;
                 case(1):
-                    int x = match.getActivePlayer().getCel().getX();
-                    int y = match.getActivePlayer().getCel().getY();
-                    if((x==0 && y==2) ||(x==1 && y==0) ||(x==2 && y==3)){
-                        //this is a SpawnPoint cell
-                        /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
-                         * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
-                         * is added to his weapon cards*/
-                        view.showPlayerWeapons();
-                        view.showSpawnPointWeapons();
-                        int weapontograb = view.getWeaponCard();
-                        GrabWeapon grabWeapon = new GrabWeapon();
-                        if(!manage.EnoughMoneytoBuy(match.getActivePlayer(), weapontograb)){
-                            //case if you don't have enough ammos and you want to convert a PowCard
-                            printStream.println("You don't have enough ammos, if you want to convert a PowCard digit 1, 0 otherwise");
-                            int convert = getData.getInt(0, 1);
-                            switch(convert){
-                                case(0):
-                                    //nothing to be done
-                                    break;
-                                case(1):
-                                    printStream.println("Which Pow do you want to use?");
-                                    view.showPlayerPowsColors(match.getActivePlayer());
-                                    int convertpow = getData.getInt(1, 3);
-                                    convertpow--;
-                                    try {
-                                        manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
-                                    } catch(NotEnoughAmmosException e){
-                                        printStream.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
-                                    }
-                                    view.showPlayerWeapons();
-                            }
-                        }
-                        try{
-                            grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                            view.showPlayerWeapons();
-                            counter++;
-                            break;
-                        } catch(MaxNumberofCardsException e){
-                            printStream.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
-                            int removing = getData.getInt(0, 1);
-                            //TODO powcard buy
-                            switch(removing){
-                                case(0):
-                                    //invalid action for the player, choice will be repeated
-                                    break;
-                                case(1):
-                                    printStream.println("Which weapon do you want to remove?");
-                                    view.showPlayerWeapons();
-                                    int removedweapon = getData.getInt(1, 3);
-                                    removedweapon--;
-                                    ManagingWeapons remove = new ManagingWeapons();
-                                    remove.Remove(match.getActivePlayer(), removedweapon);
-                                    counter++;
-                                    try{
-                                        grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                                        view.showPlayerWeapons();
-                                    } catch(MaxNumberofCardsException ex){return;}
-                            }
-                        }
-                        break;
-                    }
-                    else {
-                        //this is not a SpawnPoint cell
-                        GrabAmmo grabAmmo = new GrabAmmo();
-                        printStream.println("Before grabbing");
-                        view.showPlayerAmmos();
-                        view.showPlayerPows();
-                        try{
-                            grabAmmo.grabAmmo(match, match.getActivePlayer());
-                            printStream.println("After grabbing");
-                            view.showPlayerAmmos();
-                            view.showPlayerPows();
-                            counter++;
-                        } catch(MaxNumberofCardsException exc){
-                            printStream.println("You have to many PowCards, if you want to remove one digit 1, 0 otherwise");
-                            int removing = getData.getInt(0, 1);
-                            switch(removing){
-                                case(0):
-                                    printStream.println("After grabbing without collecting the PowCard of AmmoPowTile");
-                                    view.showPlayerAmmos();
-                                    view.showPlayerPows();
-                                    break; //nothing to be done, just Ammos are taken
-                                case(1):
-                                    printStream.println("Which PowCard do you want to remove?");
-                                    view.showPlayerPows();
-                                    int removedpow = getData.getInt(1, 3);
-                                    removedpow--;
-                                    ManagingWeapons removepow = new ManagingWeapons();
-                                    removepow.RemovePow(match.getActivePlayer(), removedpow);
-
-                                    try{
-                                        match.assignPowCard(match.getActivePlayer());
-                                    } catch(MaxNumberofCardsException ex){return;}
-                                    printStream.println("After grabbing collecting the PowCard of AmmoPowTile");
-                                    view.showPlayerPows();
-                                    view.showPlayerAmmos();
-                                    break;
-                            }
-                        }
-                    }
+                    this.grab(view, counter);
                     break;
                 case(2):
                     int attackingweapon = view.getWeaponCardtoAttack();
+                    //TODO chiede al giocatore con che arma (restituisce l'indice) vuole attaccare
                     attackingweapon--;
-                    Shoot shoot = new Shoot();
+                    this.shoot();
+                    //TODO LE ARMIIIII
                     break;
                 case(3):
                     /*Grabbing with movement*/
@@ -277,115 +336,21 @@ public class Game{
                         printStream.println("You are not allowed to move this way.");
                         return;
                     }
-                    int x3 = match.getActivePlayer().getCel().getX();
-                    int y3 = match.getActivePlayer().getCel().getY();
-                    if((x3==0 && y3==2) ||(x3==1 && y3==1) ||(x3==2 && y3==3)){
-                        //this is a SpawnPoint cell
-                        /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
-                         * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
-                         * is added to his weapon cards*/
-                        view.showPlayerWeapons();
-                        view.showSpawnPointWeapons();
-                        int weapontograb = view.getWeaponCard();
-                        GrabWeapon grabWeapon = new GrabWeapon();
-                        if(manage.EnoughMoneytoBuy(match.getActivePlayer(), weapontograb)){
-                            //case if you don't have enough ammos and you want to convert a PowCard
-                            printStream.println("You don't have enough ammos, if you want to convert a PowCard digit 1, 0 otherwise");
-                            int convert = getData.getInt(0, 1);
-                            switch(convert){
-                                case(0):
-                                    //nothing to be done
-                                    break;
-                                case(1):
-                                    printStream.println("Which Pow do you want to use?");
-                                    view.showPlayerPowsColors(match.getActivePlayer());
-                                    int convertpow = getData.getInt(1, 3);
-                                    convertpow--;
-                                    try {
-                                        manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
-                                    } catch(NotEnoughAmmosException e){
-                                        printStream.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
-                                    }
-                                    view.showPlayerWeapons();
-                            }
-                        }
-                        try{
-                            grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                            view.showPlayerWeapons();
-                            counter++;
-                        } catch(MaxNumberofCardsException e){
-                            printStream.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
-                            int removing = getData.getInt(0, 1);
-                            switch(removing){
-                                case(0):
-                                    //invalid action for the player, choice will be repeated
-                                    break;
-                                case(1):
-                                    printStream.println("Which weapon do you want to remove?");
-                                    view.showPlayerWeapons();
-                                    int removedweapon = getData.getInt(1, 3);
-                                    removedweapon--;
-                                    manage.Remove(match.getActivePlayer(), removedweapon);
-                                    counter++;
-                                    try{
-                                        grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                                        view.showPlayerWeapons();
-                                    } catch(MaxNumberofCardsException ex){return;}
-                            }
-                        }
-                        break;
-                    }
-                    else {
-                        //this is not a SpawnPoint cell
-                        try{
-                            grabAmmo.grabAmmo(match, match.getActivePlayer());
-                            printStream.println("Before grabbing");
-                            view.showPlayerAmmos();
-                            view.showPlayerPows();
-                            counter++;
-                        } catch(MaxNumberofCardsException exc){
-                            printStream.println("You have to many PowCards, if you want to remove one digit 1, 0 otherwise");
-                            int removing = getData.getInt(0, 1);
-                            switch(removing){
-                                case(0):
-                                    printStream.println("After grabbing without collecting the PowCard of AmmoPowTile");
-                                    view.showPlayerAmmos();
-                                    view.showPlayerPows();
-                                    break; //nothing to be done, just Ammos are taken
-                                case(1):
-                                    printStream.println("Which PowCard do you want to remove?");
-                                    view.showPlayerPows();
-                                    int removedpow = getData.getInt(1, 3);
-                                    removedpow--;
-                                    manage.RemovePow(match.getActivePlayer(), removedpow);
-
-                                    try{
-                                        match.assignPowCard(match.getActivePlayer());
-                                    } catch(MaxNumberofCardsException ex){return;}
-                                    printStream.println("After grabbing collecting the PowCard of AmmoPowTile");
-                                    view.showPlayerAmmos();
-                                    view.showPlayerPows();
-                            }
-                        }
-                    }
-
-                    //TODO ho bisogno di distinguere tra normal e spawn point cell per creare un oggetto grabammo o grabweapon
+                    this.grab(view, counter);
                     break;
                 case(4):
                     List<String> destination3 = view.getListDirection();
-
+                    Shoot shoot = new Shoot();
+                    if(!shoot.movementBeforeShoot(match, match.getActivePlayer(), destination3)){
+                        printStream.println("You are not allowed to move this way.");
+                        return;
+                    }
+                    //controllo di validità movimento già fatto, mancano solo gli effetti arma
+                    this.shoot();
+                    //TODO LE ARMIIIII
                     break;
                 case(5):
-                    /*Recharge a weapon checking if the weapon is already loaded*/
-                    printStream.println("Which weapon do you want to recharge?");
-                    view.showPlayerWeapons();
-                    int weapontorecharge = view.getWeaponCard();
-                    weapontorecharge--;
-                    try{
-                        manage.Recharge(match.getActivePlayer(), weapontorecharge);
-                    } catch(WeaponAlreadyLoadedException e){
-                        printStream.println("You have already loaded this weapon");
-                    }
+                    this.recharge(view);
                     break;
 
                 //TODO aziona di ricarica sarà fatta dopo l'uso dell'arma e alla fine del turno giocatore
