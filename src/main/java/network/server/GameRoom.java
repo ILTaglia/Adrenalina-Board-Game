@@ -1,7 +1,9 @@
 package network.server;
 
 import controller.Game;
+import model.PowCard;
 import network.messages.*;
+import network.messages.ClientRequest.ActionClientRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -65,4 +67,17 @@ public class GameRoom {
         gameServer.sendMessageToID(userID,message);
     }
 
+    public void setSpawnPoint(String userID, PowCard powCard) {
+        gameController.setSpawn(userID,powCard);
+    }
+
+
+    public void askToChooseNextAction(String userID) {
+        Message message=new ActionGameRequest("Choose an action between these:");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void performAction(String userID,int chosenAction){
+        gameController.performAction(userID,chosenAction); //TODO: DA FARE
+    }
 }

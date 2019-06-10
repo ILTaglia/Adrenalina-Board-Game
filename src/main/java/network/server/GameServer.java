@@ -2,6 +2,7 @@ package network.server;
 
 import network.messages.*;
 import network.messages.ClientRequest.ClientRequestMessage;
+import network.messages.ClientRequest.SpawnPointClientRequest;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 import utils.NotifyClient;
@@ -89,6 +90,10 @@ public class GameServer {
             case "MapRequest":
                 userIDToIdGameRoom.get(requestMessage.getUserID()).setMapChoice(requestMessage.getInfo());
                 break;
+            case "SpawnPointRequest":
+                SpawnPointClientRequest message=(SpawnPointClientRequest) requestMessage;
+                userIDToIdGameRoom.get(message.getUserID()).setSpawnPoint(message.getUserID(),message.getPowCard());
+
         }
     }
 

@@ -108,6 +108,7 @@ public class Client {
                 view.showInfoMessage(message);
                 handleRequestMessage(message);
                 break;
+
         }
     }
 
@@ -117,6 +118,12 @@ public class Client {
         }
         if(message.getContent().equals("MapRequest")){
             view.chooseMap();
+        }
+        if(message.getContent().equals("SpawnRequest")){
+            view.chooseStartingCell();  //TODO:Sistemare funzione in base a quanto visto
+        }
+        if(message.getContent().equals("ActionRequest")){
+           //TODO: view.chooseAction();
         }
     }
 

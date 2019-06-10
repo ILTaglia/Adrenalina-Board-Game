@@ -3,7 +3,9 @@ package model;
 import exceptions.*;
 import network.messages.InfoMatch;
 import network.messages.InfoPlayer;
+import network.messages.InfoPowCard;
 import network.messages.Message;
+import utils.NotifyClient;
 
 import java.io.Serializable;
 
@@ -155,10 +157,10 @@ public class Match implements Serializable {
     }
 
     public void firstTurnPows(){
-        for(Player p:this.players){
+        for(Player player:this.players){
             try{
-                this.assignPowCard(p);
-                this.assignPowCard(p);
+                this.assignPowCard(player);
+                this.assignPowCard(player);
             } catch(MaxNumberofCardsException e) {
                 //Nothing to do in this case, this method is called at the beginning of the match.
             }
@@ -222,7 +224,8 @@ public class Match implements Serializable {
             powDeck.discardCard(powcard);
             throw new MaxNumberofCardsException();
         }
-
+        Message infoPowCard=new InfoPowCard(powcard);
+        notifySpecificClient(player.getid(),infoPowCard);
         //TODO IMPORTANTE: NotifyView del cambiamento sulle PowCard
     }
 

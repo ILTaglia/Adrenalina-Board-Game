@@ -1,6 +1,8 @@
 package model;
 
-public abstract class PowCard extends Card{
+import java.io.Serializable;
+
+public abstract class PowCard extends Card implements Serializable {
     public abstract void setColor(int color);
     public abstract int getColor();
     public abstract void setCost(int cost);

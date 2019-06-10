@@ -69,7 +69,7 @@ public class CLIView implements View {
 
     /*
      **********************************************************
-     * Metodi per Eventi/Eccezioni                              *
+     * Metodi per Eventi/Eccezioni                            *
      **********************************************************
      */
 
@@ -83,6 +83,10 @@ public class CLIView implements View {
     public void showInfoMessage(Message message){
         if(message.getContent().equals("InfoID")) {
             System.out.println("You are in Waiting Room. Your ID is:" + message.getInfo());
+        }
+        else if(message.getContent().equals("InfoPowCard")){
+            System.out.println("You are drawn a Pow Card:" + message.getInfo());
+            //TODO: Chiamare metodo che stampa Pow Card
         }
         else {
             System.out.println("Message received:" + message.getInfo());
@@ -147,7 +151,7 @@ public class CLIView implements View {
             int flag=0;
             while(flag==0){
                 try{
-                    game.firstTurn(p, powindex, x, y);
+                    //game.firstTurn(p, powindex, x, y);
                     flag=1;
                 } catch(InvalidColorException e){
                     System.out.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");

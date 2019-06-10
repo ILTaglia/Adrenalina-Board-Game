@@ -3,6 +3,7 @@ import client.View;
 import exceptions.*;
 import model.Match;
 import model.Player;
+import model.PowCard;
 import network.messages.InfoMatch;
 import network.messages.Message;
 import network.server.GameRoom;
@@ -67,23 +68,40 @@ public class Game{
         //Set active the first player, set not-active the rest of players
         match.getPlayerByIndex(0).setActive();
         for(int i=1; i<match.getPlayersSize(); i++) match.getPlayerByIndex(i).resetActive();
-
+        //Da adesso si chiamano tutti i metodi per la gestione della partita del primo giocatore, poi aggiorno e passo al secondo
+        //richiamando gli stessi
+        //Poi bisogna sviluppare dei cicli sensati di turni
         askSpawnPoint();
 
     }
 
-    private void askSpawnPoint() throws InvalidColorException {
-
+    private void askSpawnPoint() {
         gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getid());
-
+    }
+    //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
+    public void setSpawn(String userID, PowCard powCard){
         Spawn playerSpawn = new Spawn();
+        //TODO: Capire come gestisce
         //playerSpawn.spawn(player, x, y, powcardIndex);
+
+        //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
+        //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
+        //che ha terminato il turno
+
+        askFirstAction();
+
+    }
+    //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
+    private void askFirstAction(){
+        gameRoom.askToChooseNextAction(match.getActivePlayer().getid());
     }
 
-    private void spawn(){
+    public void performAction(String userID, int chosenAction) {
 
+        //Da aumentare di una lazione già sfruttata
     }
 
+    //----------------------------Metodi utili per set turno----------------------------------------------------------//
     //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
     public void setTurn(){
         Player p = match.getActivePlayer();
@@ -106,6 +124,9 @@ public class Game{
         for(Player p:match.getPlayers()) p.resetAction();
         match.getPlayerByIndex(0).setActive();
     }
+
+
+
 
     //metodo per turno di gioco del player in mode CLI
     //TODO bisogna sostituire le print con dei messaggi per la comunicazione tra client e server
@@ -375,6 +396,7 @@ public class Game{
 
         view.printPlayerData();
     }
+
 
 
 
