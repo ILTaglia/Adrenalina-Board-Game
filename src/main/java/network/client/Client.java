@@ -123,7 +123,7 @@ public class Client {
             view.chooseStartingCell();  //TODO:Sistemare funzione in base a quanto visto
         }
         if(message.getContent().equals("ActionRequest")){
-           //TODO: view.chooseAction();
+            view.chooseAction();
         }
     }
 

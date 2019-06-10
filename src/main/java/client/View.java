@@ -111,5 +111,5 @@ public interface View {
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
 
 
-
+    void chooseAction();
 }

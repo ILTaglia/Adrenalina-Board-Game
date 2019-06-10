@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import controller.GrabWeapon;
 import exceptions.InvalidColorException;
 import model.*;
+import network.messages.ClientRequest.ActionClientRequest;
 import network.messages.ClientRequest.ColorClientRequest;
 import controller.Game;
 import network.messages.ClientRequest.MapClientRequest;
@@ -121,10 +122,23 @@ public class CLIView implements View {
         int choice = getData.getInt(1, 3);
         String mapRequired = toString().valueOf(choice);
 
-        //TODO: pensare a messaggi "di risposta" e non di conferma da Client a Server
-        MapClientRequest mapRequest=new MapClientRequest(mapRequired,client.getUserID());
-        mapRequest.setUserID(client.getUserID());
+        Message mapRequest=new MapClientRequest(mapRequired,client.getUserID());
         client.sendMessage(mapRequest);
+    }
+
+    public void chooseAction(){
+        printStream.println("0. Run"); //done
+        printStream.println("1. Grab"); //done
+        printStream.println("2. Shoot");
+        printStream.println("3. Grab with movement");
+        printStream.println("4. Shoot with movement");
+        printStream.println("5. Recharge");
+        int choice = getData.getInt(1, 3);
+        String indexAction = toString().valueOf(choice);
+        //TODO: LETTURA SCELTA CON getData?
+
+        Message actionRequest=new ActionClientRequest(indexAction,client.getUserID());
+        client.sendMessage(actionRequest);
     }
 
     @Override
@@ -167,7 +181,7 @@ public class CLIView implements View {
 
     /*
      **********************************************************
-     * Metodi per Avvio Client                                *
+     * Metodi per Avvio Client   FINE                         *
      **********************************************************
      */
     @Override

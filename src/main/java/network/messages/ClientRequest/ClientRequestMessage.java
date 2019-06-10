@@ -4,18 +4,15 @@ import network.messages.Message;
 
 public abstract class ClientRequestMessage extends Message {
 
-    protected String userID;
+    private String userID;
 
-    public ClientRequestMessage(String requiredContent, String userID){
-        this.info=requiredContent;
-        this.type="ClientRequest";
-        this.userID=userID;
+    public ClientRequestMessage(String requiredContent, String userID) {
+        this.info = requiredContent;
+        this.type = "ClientRequest";
+        this.userID = userID;
     }
 
-    public String getUserID(){
+    public String getUserID() {
         return userID;
-    }
-    public void setUserID(String userID){
-        this.userID=userID;
     }
 }

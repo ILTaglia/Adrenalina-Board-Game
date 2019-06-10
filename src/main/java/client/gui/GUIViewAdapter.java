@@ -160,4 +160,9 @@ public class GUIViewAdapter implements View {
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername) {
 
     }
+
+    @Override
+    public void chooseAction() {
+
+    }
 }

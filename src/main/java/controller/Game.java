@@ -88,17 +88,17 @@ public class Game{
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
 
-        askFirstAction();
+        askAction();
 
     }
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
-    private void askFirstAction(){
+    private void askAction(){
         gameRoom.askToChooseNextAction(match.getActivePlayer().getid());
     }
 
     public void performAction(String userID, int chosenAction) {
-
-        //Da aumentare di una lazione già sfruttata
+        //TODO: in base alla chosenAction si chiama una funzione del Controller che va a gestire quell'azione, con eventuali ulteriori chiamate al client
+        //Da aumentare di una l'azione già sfruttata
     }
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
