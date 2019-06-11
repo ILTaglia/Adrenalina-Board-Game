@@ -6,8 +6,6 @@ import model.Match;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MapPanel extends JLayeredPane {
     private static final long serialVersionUID = -4687295452861842127L;
@@ -83,14 +81,14 @@ public class MapPanel extends JLayeredPane {
         //TODO offset?
 
         for(Player p:match.getPlayers()){
-            if(!p.getid().equals(idClient)){
+            if(!p.getID().equals(idClient)){
                 //Stampo una label col nome del giocatore
                 JLabel label=new JLabel();
                 font=new Font(TEXT_FONT, Font.BOLD, 20);
                 label.setForeground(new Color(255,170,30));
                 label.setFont(font);
                 label.setHorizontalAlignment(SwingConstants.CENTER);
-                label.setText(p.getname());
+                label.setText(p.getName());
                 label.setBounds(30-30+offset+110*i, 200, 150, 50);
                 label.setBackground(new Color(0,0,255,180));
                 label.setOpaque(true);

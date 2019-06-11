@@ -2,6 +2,7 @@ package network.server;
 
 import network.messages.*;
 import network.messages.ClientRequest.ClientRequestMessage;
+import network.messages.ClientRequest.RunClientRequest;
 import network.messages.ClientRequest.SpawnPointClientRequest;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
@@ -91,11 +92,15 @@ public class GameServer {
                 userIDToIdGameRoom.get(requestMessage.getUserID()).setMapChoice(requestMessage.getInfo());
                 break;
             case "SpawnPointRequest":
-                SpawnPointClientRequest message=(SpawnPointClientRequest) requestMessage;
-                userIDToIdGameRoom.get(message.getUserID()).setSpawnPoint(message.getUserID(),message.getPowCard());
+                SpawnPointClientRequest spawnPointRequest=(SpawnPointClientRequest) requestMessage;
+                userIDToIdGameRoom.get(spawnPointRequest.getUserID()).setSpawnPoint(spawnPointRequest.getUserID(),spawnPointRequest.getPowCard());
                 break;
             case "ActionRequest":
                 userIDToIdGameRoom.get(requestMessage.getUserID()).performAction(requestMessage.getUserID(), Integer.parseInt(requestMessage.getInfo()));
+                break;
+            case "RunRequest":
+                RunClientRequest runRequest=(RunClientRequest) requestMessage;
+                userIDToIdGameRoom.get(runRequest.getUserID()).performRun(requestMessage.getUserID(),runRequest.getDirection());
                 break;
         }
     }

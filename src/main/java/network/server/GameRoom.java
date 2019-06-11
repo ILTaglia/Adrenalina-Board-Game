@@ -6,6 +6,7 @@ import network.messages.*;
 import network.messages.ClientRequest.ActionClientRequest;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static utils.NotifyClient.registerNewGame;
@@ -51,6 +52,11 @@ public class GameRoom {
             gameController.addPlayers(userList,userIDtoColor);
         }
     }
+
+    public void sendErrorMessage(String userID,Message message){
+        gameServer.sendMessageToID(userID,message);
+    }
+
     //Metodo che viene chiamato dal Controller per la scelta della mappa. Viene scelta da parte del primo utente ad essersi collegato
     public void askToChooseMap(String userID){
         Message message=new MapGameRequest("This message is to ask to choose a Map to the first Player");
@@ -73,11 +79,23 @@ public class GameRoom {
 
 
     public void askToChooseNextAction(String userID) {
-        Message message=new ActionGameRequest("Choose an action between these:");
+        Message message=new ActionGameRequest("Choose an action between....");
         gameServer.sendMessageToID(userID,message);
     }
 
     public void performAction(String userID,int chosenAction){
-        gameController.performAction(userID,chosenAction); //TODO: DA FARE
+        gameController.performAction(userID,chosenAction);
     }
+
+    public void askDestinationRun(String userID){
+        Message message=new RunDirectionGameRequest("Choose direction "+"TODO per la View stampare le direzioni una volta ricevuto questo messaggio");
+        gameServer.sendMessageToID(userID,message);
+    }
+    public void performRun(String userID, List<String> direction){
+        gameController.performRun(userID,direction);
+
+    }
+
+
+
 }

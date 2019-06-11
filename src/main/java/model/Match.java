@@ -5,7 +5,6 @@ import network.messages.InfoMatch;
 import network.messages.InfoPlayer;
 import network.messages.InfoPowCard;
 import network.messages.Message;
-import utils.NotifyClient;
 
 import java.io.Serializable;
 
@@ -51,8 +50,8 @@ public class Match implements Serializable {
     private void addPlayer(Player player) {
         players.add(player);
         Message message=new InfoPlayer("Assigned color: "+player.getcolor());
-        notifySpecificClient(player.getid(),message);
-        Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getname());
+        notifySpecificClient(player.getID(),message);
+        Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getName());
         notifyAllClients(this,message1);
     }
 
@@ -225,7 +224,7 @@ public class Match implements Serializable {
             throw new MaxNumberofCardsException();
         }
         Message infoPowCard=new InfoPowCard(powcard);
-        notifySpecificClient(player.getid(),infoPowCard);
+        notifySpecificClient(player.getID(),infoPowCard);
         //TODO IMPORTANTE: NotifyView del cambiamento sulle PowCard
     }
 

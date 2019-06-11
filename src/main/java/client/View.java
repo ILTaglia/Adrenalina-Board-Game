@@ -31,7 +31,7 @@ public interface View {
 
     /*
      **********************************************************
-     * Metodi per Setup Match                              *
+     * Metodi per  Match                              *
      **********************************************************
      */
 
@@ -42,6 +42,9 @@ public interface View {
 
     void chooseStartingCell();
 
+    void chooseAction();
+
+    void chooseRunDirection();
 
 
 
@@ -111,5 +114,5 @@ public interface View {
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
 
 
-    void chooseAction();
+
 }

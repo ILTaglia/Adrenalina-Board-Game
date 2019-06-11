@@ -125,6 +125,9 @@ public class Client {
         if(message.getContent().equals("ActionRequest")){
             view.chooseAction();
         }
+        if(message.getContent().equals("RunDirectionRequest")){
+            view.chooseRunDirection();
+        }
     }
 
     private void handleErrorMessage(Message message){
@@ -133,6 +136,9 @@ public class Client {
         }
         if(message.getContent().equals("ColorError")){
             view.createPlayer();
+        }
+        if(message.getContent().equals("ActionError")){
+            //Nothing to do, not handled //TODO
         }
     }
 

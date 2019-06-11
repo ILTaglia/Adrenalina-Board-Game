@@ -3,7 +3,6 @@ package controller;
 import model.Coordinate;
 import model.Player;
 import model.Match;
-import exceptions.MaxNumberPlayerException;
 import exceptions.NotExistingDashboardException;
 import org.junit.Before;
 import org.junit.Test;
@@ -117,7 +116,7 @@ public class DeathAndRespawnTest {
         player4.setScore(28);
         player5.setScore(20);
         DeathAndRespawn c = new DeathAndRespawn();
-        String winnerplayerID = player4.getid();
+        String winnerplayerID = player4.getID();
         assertEquals(winnerplayerID, c.winner(match));
     }
 

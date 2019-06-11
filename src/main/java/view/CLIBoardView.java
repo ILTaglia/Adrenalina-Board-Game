@@ -6,7 +6,6 @@ import controller.Action;
 import model.*;
 import utils.GetData;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -126,7 +125,7 @@ public class CLIBoardView extends BoardView {
     public void printCurrentPlayerState(Match match) {
         Player player = match.getActivePlayer();
         channelOut.println("Player:");
-        channelOut.println(player.getname()+"Id"+player.getid());
+        channelOut.println(player.getName()+"Id"+player.getID());
         channelOut.print("Weapon Cards: ");
         List<Weapon> weapons = player.getWeapons();
         if(!weapons.isEmpty()){

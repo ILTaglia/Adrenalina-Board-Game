@@ -4,8 +4,6 @@ import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +23,7 @@ class PlayerTest {
     void get(){
         assertEquals(0, player1.getcolor());
         assertEquals(3, player2.getcolor());
-        assertEquals("10583741", player1.getid());
+        assertEquals("10583741", player1.getID());
         assertEquals(0, player1.getAction());
         assertFalse(player1.getActive());
         player1.setActive();

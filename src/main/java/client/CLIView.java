@@ -15,23 +15,21 @@ import controller.Game;
 import network.messages.ClientRequest.MapClientRequest;
 import network.messages.Message;
 import network.client.Client;
+import network.messages.ClientRequest.RunClientRequest;
 import utils.*;
 
 public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private static PrintStream printStream=System.out;
     private Game game;
-    private Match match;
+    private Match match;        //TODO: Da sostituire con una classe apposita in cui la view conserva dati Player
     private Client client;
     private GetData getData=new GetData();
 
-
-    //TODO: validare input utente (Per ora ci sono cicli while poco "eleganti")
-
+    //TODO: sostituire System.out con printStream
 
     public CLIView(Client client){
         this.client=client;
-        this.match = new Match();             //TODO ! IMPORTANTE! SULLA VIEW NO MATCH
         LOGGER.setLevel(Level.INFO);
     }
     /*
@@ -47,7 +45,7 @@ public class CLIView implements View {
 
     @Override
     public void setConnection(){
-        System.out.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
+        printStream.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
                 "1. RMI" +
                 "2. Socket");
         int connectionChoice=getData.getInt(1, 2);
@@ -120,31 +118,38 @@ public class CLIView implements View {
         System.out.println("Digitare mappa prescelta: 1, 2, 3");
         GetData getData = new GetData();
         int choice = getData.getInt(1, 3);
-        String mapRequired = toString().valueOf(choice);
+        String mapRequired = Integer.toString(choice);
 
         Message mapRequest=new MapClientRequest(mapRequired,client.getUserID());
         client.sendMessage(mapRequest);
     }
 
     public void chooseAction(){
-        printStream.println("0. Run"); //done
-        printStream.println("1. Grab"); //done
+        printStream.println("0. Run");
+        printStream.println("1. Grab");
         printStream.println("2. Shoot");
         printStream.println("3. Grab with movement");
         printStream.println("4. Shoot with movement");
         printStream.println("5. Recharge");
-        int choice = getData.getInt(1, 3);
-        String indexAction = toString().valueOf(choice);
-        //TODO: LETTURA SCELTA CON getData?
+        int choice = getData.getInt(0, 5);
+        String indexAction = Integer.toString(choice);
 
         Message actionRequest=new ActionClientRequest(indexAction,client.getUserID());
         client.sendMessage(actionRequest);
     }
 
     @Override
+    public void chooseRunDirection() {      //TODO: nomi delle variabili sensati?
+        List<String> direction=new ArrayList<>();
+        //TODO: richiesta
+        Message message=new RunClientRequest(direction,client.getUserID());
+        client.sendMessage(message);
+    }
+
+    @Override
     public void chooseStartingCell(){
         for(Player p:match.getPlayers()){
-            System.out.println("\nPlease, "+p.getname()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
+            System.out.println("\nPlease, "+p.getName()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
             System.out.println("There are three SpawnPoint cells in the game:");
             System.out.println("Line 0, column 2 - Blue cell");
             System.out.println("Line 1, column 0 - Red cell");
@@ -222,18 +227,18 @@ public class CLIView implements View {
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
-            if(map[line][column].equals(s)) map[line][column] = player.getid();
+            if(map[line][column].equals(s)) map[line][column] = player.getID();
             else {
-                if(map1[line][column].equals(s)) map1[line][column] = player.getid();
+                if(map1[line][column].equals(s)) map1[line][column] = player.getID();
                 else{
-                    if(map2[line][column].equals(s)) map2[line][column] = player.getid();
+                    if(map2[line][column].equals(s)) map2[line][column] = player.getID();
                     else {
-                        if(map3[line][column].equals(s)) map3[line][column] = player.getid();
-                        else map4[line][column] = player.getid();
+                        if(map3[line][column].equals(s)) map3[line][column] = player.getID();
+                        else map4[line][column] = player.getID();
                     }
                 }
             }
-            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
+            printStream.printf("Player "+player.getID()+" is "+player.getName()+"\n");
         }
         printStream.printf(" _________________________________________________                 \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |                \n");
@@ -284,18 +289,18 @@ public class CLIView implements View {
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
-            if(map[line][column].equals(s)) map[line][column] = player.getid();
+            if(map[line][column].equals(s)) map[line][column] = player.getID();
             else {
-                if(map1[line][column].equals(s)) map1[line][column] = player.getid();
+                if(map1[line][column].equals(s)) map1[line][column] = player.getID();
                 else{
-                    if(map2[line][column].equals(s)) map2[line][column] = player.getid();
+                    if(map2[line][column].equals(s)) map2[line][column] = player.getID();
                     else {
-                        if(map3[line][column].equals(s)) map3[line][column] = player.getid();
-                        else map4[line][column] = player.getid();
+                        if(map3[line][column].equals(s)) map3[line][column] = player.getID();
+                        else map4[line][column] = player.getID();
                     }
                 }
             }
-            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
+            printStream.printf("Player "+player.getID()+" is "+player.getName()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
@@ -346,18 +351,18 @@ public class CLIView implements View {
             Player player = match.getPlayerByIndex(h);
             line = player.getCel().getX();
             column = player.getCel().getY();
-            if(map[line][column].equals(s)) map[line][column] = player.getid();
+            if(map[line][column].equals(s)) map[line][column] = player.getID();
             else {
-                if(map1[line][column].equals(s)) map1[line][column] = player.getid();
+                if(map1[line][column].equals(s)) map1[line][column] = player.getID();
                 else{
-                    if(map2[line][column].equals(s)) map2[line][column] = player.getid();
+                    if(map2[line][column].equals(s)) map2[line][column] = player.getID();
                     else {
-                        if(map3[line][column].equals(s)) map3[line][column] = player.getid();
-                        else map4[line][column] = player.getid();
+                        if(map3[line][column].equals(s)) map3[line][column] = player.getID();
+                        else map4[line][column] = player.getID();
                     }
                 }
             }
-            printStream.printf("Player "+player.getid()+" is "+player.getname()+"\n");
+            printStream.printf("Player "+player.getID()+" is "+player.getName()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
@@ -392,8 +397,8 @@ public class CLIView implements View {
     public void showPlayerWeapons() {
         Player player=match.getActivePlayer();
         List<Weapon> weaponcards = player.getWeapons();
-        if(!weaponcards.isEmpty()) printStream.println("Player "+ player.getname()+" your Weapon Cards are: ");
-        else printStream.println("Player "+ player.getname()+" you have no Weapon Cards");
+        if(!weaponcards.isEmpty()) printStream.println("Player "+ player.getName()+" your Weapon Cards are: ");
+        else printStream.println("Player "+ player.getName()+" you have no Weapon Cards");
 
         int i=1;
         for(Weapon weaponcard:weaponcards){
@@ -407,8 +412,8 @@ public class CLIView implements View {
     public void showPlayerPows() {
         Player player=match.getActivePlayer();
         List<PowCard> powcards = player.getPows();
-        if(!powcards.isEmpty()) printStream.println("Player "+ player.getname()+" your PowCards are: ");
-        else printStream.println("Player "+ player.getname()+" your have no PowCards");
+        if(!powcards.isEmpty()) printStream.println("Player "+ player.getName()+" your PowCards are: ");
+        else printStream.println("Player "+ player.getName()+" your have no PowCards");
 
         int i=1;
         for(PowCard powcard:powcards){
@@ -421,7 +426,7 @@ public class CLIView implements View {
     @Override
     public void showPlayerPowsColors(Player player) {
         List<PowCard> powcards = player.getPows();
-        printStream.println("Player "+ player.getname()+" your PowCards are: ");
+        printStream.println("Player "+ player.getName()+" your PowCards are: ");
         String color = "";
 
         int i=1;
@@ -439,7 +444,7 @@ public class CLIView implements View {
     @Override
     public void showPlayerPows(Player player){
         List<PowCard> powcards = player.getPows();
-        printStream.println("Player "+ player.getname()+" your PowCards are: ");
+        printStream.println("Player "+ player.getName()+" your PowCards are: ");
 
         int i=1;
         for(PowCard powcard:powcards){
@@ -460,12 +465,12 @@ public class CLIView implements View {
     //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
     @Override
     public void notifyAttackedPlayer(Player attackedplayer){
-        printStream.println("Player "+attackedplayer.getname()+"you have being attacked. Do you want to use any Pow?");
+        printStream.println("Player "+attackedplayer.getName()+"you have being attacked. Do you want to use any Pow?");
         printStream.println("0. Yes");
         printStream.println("1. No");
         int choice=this.getData.getInt(-1, 1);
         if(choice!=-1){
-            printStream.println("Player "+attackedplayer.getname()+"which Pow do you want to use?");
+            printStream.println("Player "+attackedplayer.getName()+"which Pow do you want to use?");
             showPlayerPows(attackedplayer);
             int numberOfPow=this.getData.getInt(-1, 2);
             if(numberOfPow!=-1){
@@ -501,7 +506,7 @@ public class CLIView implements View {
     @Override
     public int getWeaponCard(){
         GrabWeapon grabweapon = new GrabWeapon();
-        printStream.println(match.getActivePlayer().getname()+", which WeaponCard do you want to buy?");
+        printStream.println(match.getActivePlayer().getName()+", which WeaponCard do you want to buy?");
         int numberOfWeapon=0;
         List<Weapon> weaponcards=new ArrayList<>();
         int CardToBuy=-1;
@@ -552,7 +557,7 @@ public class CLIView implements View {
 
     @Override
     public int getPowCard(){
-        printStream.println(match.getActivePlayer().getname()+", which PowCard do you want to use?");
+        printStream.println(match.getActivePlayer().getName()+", which PowCard do you want to use?");
         showPlayerPows();
         int numberOfPow=this.getData.getInt(-1, 2);
         if(numberOfPow!=-1){
@@ -566,7 +571,7 @@ public class CLIView implements View {
 
     @Override
     public int getWeaponCardtoAttack(){
-        printStream.println(match.getActivePlayer().getname()+", which WeaponCard do you want to use?");
+        printStream.println(match.getActivePlayer().getName()+", which WeaponCard do you want to use?");
         showPlayerWeapons();
         int numberOfWeapon=this.getData.getInt(1, 3);
         /*if(numberOfWeapon!=-1){
@@ -585,7 +590,7 @@ public class CLIView implements View {
     //Method to ask the direction for movement
     @Override
     public String getDirection(){
-        printStream.println(match.getActivePlayer().getname()+", which direction do you want to move for a single step? Write:");
+        printStream.println(match.getActivePlayer().getName()+", which direction do you want to move for a single step? Write:");
         printStream.println("'N' for north");
         printStream.println("'E' for east");
         printStream.println("'S' for south");
@@ -597,7 +602,7 @@ public class CLIView implements View {
     @Override
     public List<String> getListDirection(){
         List<String> destination = new ArrayList<>();
-        printStream.println(match.getActivePlayer().getname()+", write the sequence of movements you want to do:");
+        printStream.println(match.getActivePlayer().getName()+", write the sequence of movements you want to do:");
         printStream.println("'N' for north");
         printStream.println("'E' for east");
         printStream.println("'S' for south");
@@ -627,7 +632,7 @@ public class CLIView implements View {
         printStream.println("You are in cell at line "+player.getCel().getX()+" and column "+player.getCel().getY());
         printStream.println("Total damages: "+player.gettotaldamage());
         for(Player p:match.getPlayers()){
-            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+" by Player "+p.getname());
+            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+" by Player "+p.getName());
         }
         printStream.println("Actual score: "+player.getScore());
 

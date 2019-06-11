@@ -4,12 +4,12 @@ import exceptions.*;
 import model.Match;
 import model.Player;
 import model.PowCard;
+import network.messages.ActionError;
 import network.messages.InfoMatch;
 import network.messages.Message;
 import network.server.GameRoom;
 import utils.GetData;
 
-import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class Game{
     private void setPlayerReady(){
 
         //Assign to each player two pows card.
-        match.firstTurnPows();      //TODO: gestire messaggio per Player per info di che Pow gli sono stati assegnati
+        match.firstTurnPows();
 
         //first Player is the first in Players List in Model. It would be the first logged on Server.
         //Set active the first player, set not-active the rest of players
@@ -76,7 +76,7 @@ public class Game{
     }
 
     private void askSpawnPoint() {
-        gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getid());
+        gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getID());
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
     public void setSpawn(String userID, PowCard powCard){
@@ -87,86 +87,118 @@ public class Game{
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
-
         askAction();
 
     }
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
+
+    //TODO: verificare utilità metodo
+    private void checkUserAction(String userID){
+        if(!match.getActivePlayer().getID().equals(userID)){
+            Message message=new ActionError("Not your turn");
+            gameRoom.sendErrorMessage(userID,message);
+            askAction();        //TODO: verificare che metodo chiamare
+        }
+    }
+
+
     private void askAction(){
-        gameRoom.askToChooseNextAction(match.getActivePlayer().getid());
+        gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
 
     public void performAction(String userID, int chosenAction) {
+        checkUserAction(userID);
+        switch(chosenAction) {
+            case (0):
+                askRun();
+                break;
+            case (1):
+                this.performGrab();
+                break;
+            case (2):
+                int attackingweapon = view.getWeaponCardtoAttack();
+                //TODO chiede al giocatore con che arma (restituisce l'indice) vuole attaccare
+                attackingweapon--;
+                this.shoot();
+                //TODO LE ARMIIIII
+                break;
+            case (3):
+                /*Grabbing with movement*/
+                List<String> destination2 = view.getListDirection();
+                GrabAmmo grabAmmo = new GrabAmmo();
+                if (!grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2)) {
+                    printStream.println("You are not allowed to move this way.");
+                    return;
+                }
+                this.grab(view, counter);
+                break;
+            case (4):
+                List<String> destination3 = view.getListDirection();
+                Shoot shoot = new Shoot();
+                if (!shoot.movementBeforeShoot(match, match.getActivePlayer(), destination3)) {
+                    printStream.println("You are not allowed to move this way.");
+                    return;
+                }
+                //controllo di validità movimento già fatto, mancano solo gli effetti arma
+                this.shoot();
+                //TODO LE ARMIIIII
+                break;
+            case (5):
+                this.recharge(view);
+                break;
+        }
+            //TODO aziona di ricarica sarà fatta dopo l'uso dell'arma e alla fine del turno giocatore
         //TODO: in base alla chosenAction si chiama una funzione del Controller che va a gestire quell'azione, con eventuali ulteriori chiamate al client
         //Da aumentare di una l'azione già sfruttata
     }
-
-    //----------------------------Metodi utili per set turno----------------------------------------------------------//
-    //TODO da fare già prima della chiamata il controllo sulla validità dell'azione
-    public void setTurn(){
-        Player p = match.getActivePlayer();
-        int index=0;
-        for(int i=0; i<match.getPlayersSize(); i++){
-            if(match.getPlayers().get(i).equals(p)){
-                index = i;
-                if(i==match.getPlayersSize()-1){
-                    this.resetTurn(match);
-                    return;
-                }
-            }
-        }
-        match.getPlayerByIndex(index).setActive();
-        index++;
-        match.getPlayerByIndex(index).setActive();
-    }
-
-    private void resetTurn(Match match){
-        for(Player p:match.getPlayers()) p.resetAction();
-        match.getPlayerByIndex(0).setActive();
-    }
-
 
 
 
     //metodo per turno di gioco del player in mode CLI
     //TODO lista dei metodi per le azioni in un turno
     //TODO mettere messaggi al posto delle print
+    private void askRun(){
+        gameRoom.askDestinationRun(match.getActivePlayer().getID());
+    }
 
-    private void run(View view, int counter){
-        //TODO il counter serve al controller per fare il check di quante azioni lecite ha fatto un player in un turno, va incrementato solo in caso di
-        //TODO di corretta esecuzione quindi serve passarlo come parametro
+    public void performRun(String userID,List<String> destination){
         /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
          * the player can take an other action*/
-        //TODO viene chiesta all'utente la sequenza da percorrere
-        List<String> destination = view.getListDirection();
+        //Sequenza ricevuta dall'utente via Evento di rete
+        checkUserAction(userID);
         Run run = new Run();
         try{
             run.getMovement(match, match.getActivePlayer(), destination);
             run.registerMovementAction(match);
-            counter++;
+            //In caso di successo dell'azione aumento di 1 la variabile azione del Player
+            match.getActivePlayer().setAction();
+            //Chiamo metodo per la gestione della successiva azione
+            nextStep();
         } catch(InvalidDirectionException e){
             //TODO azione non valida
             System.out.println("You have chosen a not valid direction");
         }
     }
 
-    private void grab(View view, int counter){
+
+
+    public void performGrab(){
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
-        if((x==0 && y==2) ||(x==1 && y==0) ||(x==2 && y==3)){
+        if((x==0 && y==2) ||(x==1 && y==0) ||(x==2 && y==3)){       //TODO: non è forse meglio sostituire con un tipo nella cella? Poco elegante ma così si limita un po' la mappa
             //this is a SpawnPoint cell
             /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
              * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
              * is added to his weapon cards*/
-            this.grabWeapon(view, counter);
+            this.grabWeapon();
         }
         else {
             //this is not a SpawnPoint cell
-            this.grabAmmoTile(view, counter);
+            this.grabAmmoTile();
         }
     }
 
-    private void grabWeapon(View view, int counter){
+    private void grabWeapon(){
         ManagingWeapons manage = new ManagingWeapons();
         GetData getData = new GetData();
         //TODO stampa al player delle armi perché si chiede quale arma vuole comprare
@@ -229,7 +261,7 @@ public class Game{
         }
     }
 
-    private void grabAmmoTile(View view, int counter){
+    private void grabAmmoTile(){
         ManagingWeapons manage = new ManagingWeapons();
         GetData getData = new GetData();
         GrabAmmo grabAmmo = new GrabAmmo();
@@ -297,72 +329,54 @@ public class Game{
 
     //TODO bisogna sostituire le print con dei messaggi per la comunicazione tra client e server
     public void play(Match match, View view){
-        PrintStream printStream=System.out;
         int counter=0;
         GetData getData=new GetData();
         ManagingWeapons manage = new ManagingWeapons(); //class for the managing of weapons and pows in particular cases
         int choice;
         while(counter<2){
-            printStream.println("\nTurn of player "+match.getActivePlayer().getname());
-            printStream.println("\nWhat to you want to do?");
-            printStream.println("0. Run"); //done
-            printStream.println("1. Grab"); //done
-            printStream.println("2. Shoot");
-            printStream.println("3. Grab with movement"); //done
-            printStream.println("4. Shoot with movement");
-            printStream.println("5. Recharge"); //done ATTENTA, questo è extra, il conteggio di counter per le azioni non va incrementato. Probabilmente lo metterò dopo la shoot come extra
-            view.printMap();
-            printStream.println((counter+1)+" action.");
-            choice = getData.getInt(0, 5);
-            switch(choice){
-                case(0):
-                    this.run(view, counter);
-                    break;
-                case(1):
-                    this.grab(view, counter);
-                    break;
-                case(2):
-                    int attackingweapon = view.getWeaponCardtoAttack();
-                    //TODO chiede al giocatore con che arma (restituisce l'indice) vuole attaccare
-                    attackingweapon--;
-                    this.shoot();
-                    //TODO LE ARMIIIII
-                    break;
-                case(3):
-                    /*Grabbing with movement*/
-                    List<String> destination2 = view.getListDirection();
-                    GrabAmmo grabAmmo = new GrabAmmo();
-                    if(!grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2)){
-                        printStream.println("You are not allowed to move this way.");
-                        return;
-                    }
-                    this.grab(view, counter);
-                    break;
-                case(4):
-                    List<String> destination3 = view.getListDirection();
-                    Shoot shoot = new Shoot();
-                    if(!shoot.movementBeforeShoot(match, match.getActivePlayer(), destination3)){
-                        printStream.println("You are not allowed to move this way.");
-                        return;
-                    }
-                    //controllo di validità movimento già fatto, mancano solo gli effetti arma
-                    this.shoot();
-                    //TODO LE ARMIIIII
-                    break;
-                case(5):
-                    this.recharge(view);
-                    break;
 
-                //TODO aziona di ricarica sarà fatta dopo l'uso dell'arma e alla fine del turno giocatore
             }
-        }
+
         view.printMap();
-        printStream.println(match.getActivePlayer().getname()+" you have ended your turn.");
+        System.out.println(match.getActivePlayer().getName()+" you have ended your turn.");
 
         view.printPlayerData();
     }
 
+    //----------------------------Metodi utili per set turno----------------------------------------------------------//
+    private void nextStep() {
+        //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
+        if(match.getActivePlayer().getAction()<2) {
+            askAction();
+        }
+        else if(match.getActivePlayer().getAction()==2){
+            //TODO: messaggio fine turno, sulla View fare in modo che si stampino le info aggiornate del Player
+            //TODO: modificare coda Players e giocatore attivo
+        }
+    }
 
+
+    public void setTurn(){
+        Player p = match.getActivePlayer();
+        int index=0;
+        for(int i=0; i<match.getPlayersSize(); i++){
+            if(match.getPlayers().get(i).equals(p)){
+                index = i;
+                if(i==match.getPlayersSize()-1){
+                    this.resetTurn(match);
+                    return;
+                }
+            }
+        }
+        match.getPlayerByIndex(index).setActive();
+        index++;
+        match.getPlayerByIndex(index).setActive();
+    }
+
+    private void resetTurn(Match match){
+        for(Player p:match.getPlayers()) p.resetAction();
+        match.getPlayerByIndex(0).setActive();
+    }
 
 
     //TODO: Non deve esserci main nel controller
@@ -417,18 +431,18 @@ public class Game{
         }
         catch (MaxNumberPlayerException e){ printStream.println("Maximum number of players reached.");}
 
-        printStream.println("\nPlease, "+match.getPlayerByIndex(0).getname()+" choose the type of dashboard:1, 2, 3");
+        printStream.println("\nPlease, "+match.getPlayerByIndex(0).getName()+" choose the type of dashboard:1, 2, 3");
         int maptype = getData.getInt(1, 3);
         game.select(maptype);
 
         game.startGame();
         View view = new CLIView(match);
         for(Player p:match.getPlayers()){
-            printStream.println(p.getname());
+            printStream.println(p.getName());
             view.showPlayerPowsColors(p);
         }
         for(Player p:match.getPlayers()){
-            printStream.println("\nPlease, "+p.getname()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
+            printStream.println("\nPlease, "+p.getName()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
             printStream.println("There are three SpawnPoint cells in the game:");
             printStream.println("Line 0, column 2 - Blue cell");
             printStream.println("Line 1, column 0 - Red cell");
