@@ -21,8 +21,6 @@ import utils.*;
 public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private static PrintStream printStream=System.out;
-    private Game game;
-    private Match match;        //TODO: Da sostituire con una classe apposita in cui la view conserva dati Player
     private Client client;
     private GetData getData=new GetData();
 
@@ -147,39 +145,37 @@ public class CLIView implements View {
 
     @Override
     public void chooseStartingCell(){
-        for(Player p:match.getPlayers()){
-            System.out.println("\nPlease, "+p.getName()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
-            System.out.println("There are three SpawnPoint cells in the game:");
-            System.out.println("Line 0, column 2 - Blue cell");
-            System.out.println("Line 1, column 0 - Red cell");
-            System.out.println("Line 2, column 3 - Yellow cell");
-            System.out.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
-            this.showPlayerPowsColors(p);
-            System.out.println("Insert: \nLine\nColumn\nNumber PowCard to use");
-            int x= getData.getInt(0, 2);
-            int y= getData.getInt(0, 3);
-            int powindex = getData.getInt(1, 2);
-            while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
+        System.out.println("\nSelect the SpawnPoint cell where you want to start. Write number of line, then column.");
+        System.out.println("There are three SpawnPoint cells in the game:");
+        System.out.println("Line 0, column 2 - Blue cell");
+        System.out.println("Line 1, column 0 - Red cell");
+        System.out.println("Line 2, column 3 - Yellow cell");
+        System.out.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
+        this.showPlayerPowsColors();
+        System.out.println("Insert: \nLine\nColumn\nNumber PowCard to use");
+        int x= getData.getInt(0, 2);
+        int y= getData.getInt(0, 3);
+        int powindex = getData.getInt(1, 2);
+        while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
+            System.out.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
+            x= getData.getInt(0, 2);
+            y= getData.getInt(0, 3);
+            powindex = getData.getInt(1, 2);
+        }
+        powindex--;
+        int flag=0;
+        while(flag==0){
+            try{
+                //game.firstTurn(p, powindex, x, y);
+                flag=1;
+            } catch(InvalidColorException e){
                 System.out.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
                 x= getData.getInt(0, 2);
                 y= getData.getInt(0, 3);
                 powindex = getData.getInt(1, 2);
-            }
-            powindex--;
-            int flag=0;
-            while(flag==0){
-                try{
-                    //game.firstTurn(p, powindex, x, y);
-                    flag=1;
-                } catch(InvalidColorException e){
-                    System.out.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
-                    x= getData.getInt(0, 2);
-                    y= getData.getInt(0, 3);
-                    powindex = getData.getInt(1, 2);
-                    powindex--;}
-            }
-            this.showPlayerPows(p);
+                powindex--;}
         }
+        this.showPlayerPows();
     }
 
 
@@ -196,7 +192,7 @@ public class CLIView implements View {
 
     @Override
     public void printMap() {
-        int indexMap = match.getDashboard().getMapType();
+        int indexMap = client.getPlayerVisibleDATA().getSingleDashboard().getMapType();
         if(indexMap==1){this.printmap1();}
         if(indexMap==2){this.printmap2();}
         if(indexMap==3){this.printmap3();}
@@ -222,22 +218,21 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        for(int h=0; h<match.getPlayersSize(); h++){
-            Player player = match.getPlayerByIndex(h);
-            line = player.getCel().getX();
-            column = player.getCel().getY();
-            if(map[line][column].equals(s)) map[line][column] = player.getID();
+        List<Coordinate> position = client.getPlayerVisibleDATA().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
             else {
-                if(map1[line][column].equals(s)) map1[line][column] = player.getID();
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
                 else{
-                    if(map2[line][column].equals(s)) map2[line][column] = player.getID();
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
                     else {
-                        if(map3[line][column].equals(s)) map3[line][column] = player.getID();
-                        else map4[line][column] = player.getID();
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
                     }
                 }
             }
-            printStream.printf("Player "+player.getID()+" is "+player.getName()+"\n");
         }
         printStream.printf(" _________________________________________________                 \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |                \n");
@@ -284,22 +279,21 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        for(int h=0; h<match.getPlayersSize(); h++){
-            Player player = match.getPlayerByIndex(h);
-            line = player.getCel().getX();
-            column = player.getCel().getY();
-            if(map[line][column].equals(s)) map[line][column] = player.getID();
+        List<Coordinate> position = client.getPlayerVisibleDATA().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
             else {
-                if(map1[line][column].equals(s)) map1[line][column] = player.getID();
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
                 else{
-                    if(map2[line][column].equals(s)) map2[line][column] = player.getID();
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
                     else {
-                        if(map3[line][column].equals(s)) map3[line][column] = player.getID();
-                        else map4[line][column] = player.getID();
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
                     }
                 }
             }
-            printStream.printf("Player "+player.getID()+" is "+player.getName()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
@@ -346,22 +340,21 @@ public class CLIView implements View {
         }
         int line;
         int column;
-        for(int h=0; h<match.getPlayersSize(); h++){
-            Player player = match.getPlayerByIndex(h);
-            line = player.getCel().getX();
-            column = player.getCel().getY();
-            if(map[line][column].equals(s)) map[line][column] = player.getID();
+        List<Coordinate> position = client.getPlayerVisibleDATA().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
             else {
-                if(map1[line][column].equals(s)) map1[line][column] = player.getID();
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
                 else{
-                    if(map2[line][column].equals(s)) map2[line][column] = player.getID();
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
                     else {
-                        if(map3[line][column].equals(s)) map3[line][column] = player.getID();
-                        else map4[line][column] = player.getID();
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
                     }
                 }
             }
-            printStream.printf("Player "+player.getID()+" is "+player.getName()+"\n");
         }
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
@@ -394,10 +387,9 @@ public class CLIView implements View {
     //Method to show player its weapon cards
     @Override
     public void showPlayerWeapons() {
-        Player player=match.getActivePlayer();
-        List<Weapon> weaponcards = player.getWeapons();
-        if(!weaponcards.isEmpty()) printStream.println("Player "+ player.getName()+" your Weapon Cards are: ");
-        else printStream.println("Player "+ player.getName()+" you have no Weapon Cards");
+        List<Weapon> weaponcards = client.getPlayerVisibleDATA().getSinglePlayer().getWeapons();
+        if(!weaponcards.isEmpty()) printStream.println("Your Weapon Cards are: ");
+        else printStream.println("You have no Weapon Cards");
 
         int i=1;
         for(Weapon weaponcard:weaponcards){
@@ -409,10 +401,9 @@ public class CLIView implements View {
     //Method to show the active player its PowCards
     @Override
     public void showPlayerPows() {
-        Player player=match.getActivePlayer();
-        List<PowCard> powcards = player.getPows();
-        if(!powcards.isEmpty()) printStream.println("Player "+ player.getName()+" your PowCards are: ");
-        else printStream.println("Player "+ player.getName()+" your have no PowCards");
+        List<PowCard> powcards = client.getPlayerVisibleDATA().getSinglePlayer().getPows();
+        if(!powcards.isEmpty()) printStream.println("Your PowCards are: ");
+        else printStream.println("Your have no PowCards");
 
         int i=1;
         for(PowCard powcard:powcards){
@@ -423,9 +414,9 @@ public class CLIView implements View {
 
     //Method to show a player its PowCards, and colors to choose the spawn point cell and to convert Pows in Ammos
     @Override
-    public void showPlayerPowsColors(Player player) {
-        List<PowCard> powcards = player.getPows();
-        printStream.println("Player "+ player.getName()+" your PowCards are: ");
+    public void showPlayerPowsColors() {
+        List<PowCard> powcards = client.getPlayerVisibleDATA().getSinglePlayer().getPows();
+        printStream.println("Your PowCards are: ");
         String color = "";
 
         int i=1;
@@ -441,9 +432,9 @@ public class CLIView implements View {
 
     //Method to show a player its PowCards, used in response to an attack
     @Override
-    public void showPlayerPows(Player player){
-        List<PowCard> powcards = player.getPows();
-        printStream.println("Player "+ player.getName()+" your PowCards are: ");
+    public void showPlayerPowsForAttack(){
+        List<PowCard> powcards = client.getPlayerVisibleDATA().getSinglePlayer().getPows();
+        printStream.println("Player "+ client.getPlayerVisibleDATA().getSinglePlayer().getName()+" your PowCards are: ");
 
         int i=1;
         for(PowCard powcard:powcards){
@@ -456,13 +447,14 @@ public class CLIView implements View {
     @Override
     public void showPlayerAmmos(){
         printStream.println("You have:");
-        printStream.println(match.getActivePlayer().getAmmo(0)+" red Ammos");
-        printStream.println(match.getActivePlayer().getAmmo(1)+" blue Ammos");
-        printStream.println(match.getActivePlayer().getAmmo(2)+" yellow Ammos");
+        printStream.println(client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(0)+" red Ammos");
+        printStream.println(client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(1)+" blue Ammos");
+        printStream.println(client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(2)+" yellow Ammos");
     }
 
     //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
     @Override
+    //TODO da rivedere serve notificare a chi è attaccato
     public void notifyAttackedPlayer(Player attackedplayer){
         printStream.println("Player "+attackedplayer.getName()+"you have being attacked. Do you want to use any Pow?");
         printStream.println("0. Yes");
@@ -470,10 +462,10 @@ public class CLIView implements View {
         int choice=this.getData.getInt(-1, 1);
         if(choice!=-1){
             printStream.println("Player "+attackedplayer.getName()+"which Pow do you want to use?");
-            showPlayerPows(attackedplayer);
+            showPlayerPows();
             int numberOfPow=this.getData.getInt(-1, 2);
             if(numberOfPow!=-1){
-                match.getActivePlayer().getPowByIndex(numberOfPow).getLife();
+                client.getPlayerVisibleDATA().getSinglePlayer().getPowByIndex(numberOfPow).getLife();
                 //TODO quale metodo per l'effetto del potenziamento
                 //TODO verifica che il potenziamento sia uno di quelli che si possono usare anche non durante il proprio turno
             }else{
@@ -486,10 +478,9 @@ public class CLIView implements View {
     //Method to show Weapon Cards in SpawnPoint Cell
     @Override
     public void showSpawnPointWeapons(){
-        Player player=match.getActivePlayer();
-        int x = player.getCel().getX();
-        int y = player.getCel().getY();
-        SpawnPointCell cell = (SpawnPointCell)match.getDashboard().getmap(x, y);
+        int x = client.getPlayerVisibleDATA().getSinglePlayer().getCel().getX();
+        int y = client.getPlayerVisibleDATA().getSinglePlayer().getCel().getY();
+        SpawnPointCell cell = (SpawnPointCell)client.getPlayerVisibleDATA().getSingleDashboard().getmap(x, y);
         printStream.println("In the SpawnPoint Cell at line "+x+" and column "+y+" there are these Weapon Cards: ");
         List<Weapon> weapons = cell.getSpawnPointCellWeapons();
 
@@ -504,23 +495,22 @@ public class CLIView implements View {
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     @Override
     public int getWeaponCard(){
-        GrabWeapon grabweapon = new GrabWeapon();
-        printStream.println(match.getActivePlayer().getName()+", which WeaponCard do you want to buy?");
+        printStream.println("Which WeaponCard do you want to buy?");
         int numberOfWeapon=0;
         List<Weapon> weaponcards=new ArrayList<>();
         int CardToBuy=-1;
         //player can choose card 1, 2, 3. I take all the weapons in the spawn point cell
-        int x = match.getActivePlayer().getCel().getX();
-        int y = match.getActivePlayer().getCel().getY();
-        SpawnPointCell cell = (SpawnPointCell) match.getDashboard().getmap(x, y);
+        int x = client.getPlayerVisibleDATA().getSinglePlayer().getCel().getX();
+        int y = client.getPlayerVisibleDATA().getSinglePlayer().getCel().getY();
+        SpawnPointCell cell = (SpawnPointCell) client.getPlayerVisibleDATA().getSingleDashboard().getmap(x, y);
         for(Weapon w:cell.getSpawnPointCellWeapons()){
            weaponcards.add(w);
         }
 
         //Print of weapon cards with their index and price and money of the player
-        printStream.println("You have "+match.getActivePlayer().getAmmo(0)+" red Ammos");
-        printStream.println("You have "+match.getActivePlayer().getAmmo(1)+" blue Ammos");
-        printStream.println("You have "+match.getActivePlayer().getAmmo(2)+" yellow Ammos");
+        printStream.println("You have "+client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(0)+" red Ammos");
+        printStream.println("You have "+client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(1)+" blue Ammos");
+        printStream.println("You have "+client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(2)+" yellow Ammos");
         printStream.println("Choose -1 not to buy.\n");
         int numberRedAmmos;
         int numberBlueAmmos;
@@ -544,9 +534,10 @@ public class CLIView implements View {
         }
 
         numberOfWeapon=this.getData.getInt(-1, 2);
-        if(numberOfWeapon!=-1 && nRedAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(0) &&
-                nBlueAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(1) &&
-                nYellowAmmos.get(numberOfWeapon)<=match.getActivePlayer().getAmmo(2)){
+        //TODO questo serve per dire al player che non ha abbastanza soldi per comprare la carta selezionata
+        if(numberOfWeapon!=-1 && nRedAmmos.get(numberOfWeapon)<=client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(0) &&
+                nBlueAmmos.get(numberOfWeapon)<=client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(1) &&
+                nYellowAmmos.get(numberOfWeapon)<=client.getPlayerVisibleDATA().getSinglePlayer().getAmmo(2)){
             CardToBuy= numberOfWeapon;
         }else{
             printStream.println("You don't have enough money to buy this card!");
@@ -556,11 +547,11 @@ public class CLIView implements View {
 
     @Override
     public int getPowCard(){
-        printStream.println(match.getActivePlayer().getName()+", which PowCard do you want to use?");
+        printStream.println("Which PowCard do you want to use?");
         showPlayerPows();
         int numberOfPow=this.getData.getInt(-1, 2);
         if(numberOfPow!=-1){
-            match.getActivePlayer().getPowByIndex(numberOfPow).getLife();
+            client.getPlayerVisibleDATA().getSinglePlayer().getPowByIndex(numberOfPow).getLife();
             //TODO quale metodo per l'effetto del potenziamento
         }else{
             printStream.println("You don't own this pow!");
@@ -570,26 +561,16 @@ public class CLIView implements View {
 
     @Override
     public int getWeaponCardtoAttack(){
-        printStream.println(match.getActivePlayer().getName()+", which WeaponCard do you want to use?");
+        printStream.println("Which WeaponCard do you want to use?");
         showPlayerWeapons();
         int numberOfWeapon=this.getData.getInt(1, 3);
-        /*if(numberOfWeapon!=-1){
-            try{
-                //TODO
-                match.getActivePlayer().getWeaponByIndex(numberOfWeapon).shooted();
-            } catch(WeaponAlreadyUsedException e){
-                printStream.println("You have already use this weapon, without recharging.");
-            }
-        }else{
-            printStream.println("You don't own this weapon!");
-        }*/
         return numberOfWeapon;
     }
 
     //Method to ask the direction for movement
     @Override
     public String getDirection(){
-        printStream.println(match.getActivePlayer().getName()+", which direction do you want to move for a single step? Write:");
+        printStream.println("Which direction do you want to move for a single step? Write:");
         printStream.println("'N' for north");
         printStream.println("'E' for east");
         printStream.println("'S' for south");
@@ -601,7 +582,7 @@ public class CLIView implements View {
     @Override
     public List<String> getListDirection(){
         List<String> destination = new ArrayList<>();
-        printStream.println(match.getActivePlayer().getName()+", write the sequence of movements you want to do:");
+        printStream.println("Write the sequence of movements you want to do:");
         printStream.println("'N' for north");
         printStream.println("'E' for east");
         printStream.println("'S' for south");
@@ -622,36 +603,56 @@ public class CLIView implements View {
     }
 
     @Override
-    public void printPlayerMove(){printStream.println("Player "+match.getActivePlayer()+" has moved.");}
+    public void printPlayerMove(){printStream.println("You have moved.");}
 
     //Method to tell the player its state
     @Override
     public void printPlayerData(){
-        Player player = match.getActivePlayer();
-        printStream.println("You are in cell at line "+player.getCel().getX()+" and column "+player.getCel().getY());
-        printStream.println("Total damages: "+player.gettotaldamage());
-        for(Player p:match.getPlayers()){
-            if(!player.equals(p)) printStream.println("Total marks: "+player.getnumberdamage(p.getcolor())+" by Player "+p.getName());
+        printMap();
+        printStream.println("Total damages: "+client.getPlayerVisibleDATA().getSinglePlayer().gettotaldamage());
+        for(int i=0; i<5; i++){
+            if(i!=client.getPlayerVisibleDATA().getSinglePlayer().getcolor()){
+                printStream.println("Damages for player with color "+i);
+                printStream.println(client.getPlayerVisibleDATA().getPlayerDamages(i).get(0)+" damages by player (0) Blue");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerDamages(i).get(1)+" damages by player (1) Green");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerDamages(i).get(2)+" damages by player (2) Yellow");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerDamages(i).get(3)+" damages by player (3) Pink");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerDamages(i).get(4)+" damages by player (4) Grey");
+            }
         }
-        printStream.println("Actual score: "+player.getScore());
+        for(int i=0; i<5; i++){
+            if(i!=client.getPlayerVisibleDATA().getSinglePlayer().getcolor()){
+                printStream.println("Marks for player with color "+i);
+                printStream.println(client.getPlayerVisibleDATA().getPlayerMarks(i).get(0)+" damages by player (0) Blue");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerMarks(i).get(1)+" damages by player (1) Green");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerMarks(i).get(2)+" damages by player (2) Yellow");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerMarks(i).get(3)+" damages by player (3) Pink");
+                printStream.println(client.getPlayerVisibleDATA().getPlayerMarks(i).get(4)+" damages by player (4) Grey");
+            }
+        }
+        //TODO
+        printStream.println("Actual score: "+client.getPlayerVisibleDATA().getSinglePlayer().getScore());
 
     }
 
     //Method to advise the player he has been damaged
 
     @Override
+    //TODO
     public void printDamagedPlayer(int numberdamages, String attackerplayername){
         printStream.println("You have received "+numberdamages+" damages by Player "+attackerplayername);
     }
 
     //Method to advise the player he has been given marks
     @Override
+    //TODO
     public void printMarkedPlayer(int numbermarks, String attackerplayername){
         printStream.println("You have received "+numbermarks+" marks by Player "+attackerplayername);
     }
 
     //Method to advise the player of the consequences of his attack
     @Override
+    //TODO
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername){
         printStream.println("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
     }

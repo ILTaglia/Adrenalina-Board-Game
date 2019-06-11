@@ -3,6 +3,7 @@ package network.client;
 import client.CLIView;
 import client.View;
 import exceptions.UsernameAlreadyUsedException;
+import model.PlayerVisibleData;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
@@ -13,7 +14,7 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Client {
-
+    private PlayerVisibleData PlayerVisibleDATA;
     private boolean isToUseSocket;
     private View view;
     private String userID;
@@ -47,6 +48,8 @@ public class Client {
         //Una volta avviata la View si devono fare le richieste che servono alla View e avviare le connessioni.
 
     }
+
+    public PlayerVisibleData getPlayerVisibleDATA(){return this.PlayerVisibleDATA;}
 
     public void addView(View view){
         this.view=view;
