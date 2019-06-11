@@ -5,6 +5,8 @@ import java.util.*;
 public abstract class Cell {
 
     protected int color;    //colore della cella
+    int type;
+    //0 spawnpoint, 1 normal
     protected int[] port;   //Presenza delle porte espresse in base ai punti cardinali, se la porta è assente e il colore delle celle è ≠ si assume che ci sia un muro
 
     //TODO: costruttore come deve gestire le porte?
@@ -13,6 +15,8 @@ public abstract class Cell {
     public Cell(){
         port = new int[4];
     }
+
+    public int getType(){return this.type;}
 
     public String elenco(){
         return Arrays.toString(this.port);

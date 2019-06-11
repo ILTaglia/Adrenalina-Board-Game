@@ -140,8 +140,7 @@ public class CLIView implements View {
 
     @Override
     public void chooseRunDirection() {      //TODO: nomi delle variabili sensati?
-        List<String> direction=new ArrayList<>();
-        //TODO: richiesta
+        List<String> direction=getData.getValidListDirectionforPlayer();
         Message message=new RunClientRequest(direction,client.getUserID());
         client.sendMessage(message);
     }

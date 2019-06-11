@@ -171,7 +171,7 @@ public class Game{
             run.getMovement(match, match.getActivePlayer(), destination);
             run.registerMovementAction(match);
             //In caso di successo dell'azione aumento di 1 la variabile azione del Player
-            match.getActivePlayer().setAction();
+            //match.getActivePlayer().setAction(); già fatto nel metodo
             //Chiamo metodo per la gestione della successiva azione
             nextStep();
         } catch(InvalidDirectionException e){
@@ -185,7 +185,7 @@ public class Game{
     public void performGrab(){
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
-        if((x==0 && y==2) ||(x==1 && y==0) ||(x==2 && y==3)){       //TODO: non è forse meglio sostituire con un tipo nella cella? Poco elegante ma così si limita un po' la mappa
+        if(match.getActivePlayer().getCel().inmap(match.getDashboard(), x, y).getType()==0){
             //this is a SpawnPoint cell
             /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
              * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
@@ -379,7 +379,6 @@ public class Game{
     }
 
 
-    //TODO: Non deve esserci main nel controller
     /*
     //TODO anche qui bisogna scrivere i messaggi. Questo è il main del controller
     public static void main(String[] args){

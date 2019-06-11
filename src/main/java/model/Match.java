@@ -56,17 +56,10 @@ public class Match implements Serializable {
     }
 
     //selectedDashboard is the index of the chosen map
-    //TODO: Necessario che restituisca un int?
     public void createDashboard(int selectedDashboard){
         this.dashboard=new Dashboard(selectedDashboard);
         Message infoMap=new InfoMatch("La mappa selezionata è quella di indice: "+selectedDashboard+". Stampata di seguito:\n" );
         notifyAllClients(this,infoMap);
-        /*if(players.size()>=3) {
-            this.dashboard=new Dashboard(i);
-            this.checkDashboard =true;
-            //return 0;
-        }
-        return 1;*/
     }
 
     //returns player by color
@@ -88,10 +81,7 @@ public class Match implements Serializable {
     }
 
     //Returns all the players on the match
-    public ArrayList<Player> getPlayers()
-    {
-        return this.players;
-    }
+    public ArrayList<Player> getPlayers() { return this.players; }
 
     public void fillDashboard(){
         if(this.checkDashboard) {
