@@ -96,6 +96,20 @@ public class GameRoom {
 
     }
 
+    public void askWeaponGrab(String userID) {
+        Message message=new WeaponGrabGameRequest("Choose which weapon grab"+"TODO per la View stampare le carte disponibili");
+        gameServer.sendMessageToID(userID,message);
+    }
+    public void performWeaponGrab(String userID,int indexWeapon){
+        gameController.performWeaponGrab(userID,indexWeapon);
+    }
 
-
+    public void askWeaponGrabWithPowCard(String userID) {
+        Message message=new PowToPayGameRequest("You not have enough Ammos to grab weapon, do you want to use PowCard to grab?");
+        gameServer.sendMessageToID(userID,message);
+    }
+    public void performWeaponGrabWithPowCard(String userID,int indexPowCard){
+        gameController.performWeaponGrabWithPowCard(userID,indexPowCard);
+    }
 }
+

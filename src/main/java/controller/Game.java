@@ -7,6 +7,7 @@ import model.PowCard;
 import network.messages.ActionError;
 import network.messages.InfoMatch;
 import network.messages.Message;
+import network.messages.RunError;
 import network.server.GameRoom;
 import utils.GetData;
 
@@ -110,10 +111,10 @@ public class Game{
         checkUserAction(userID);
         switch(chosenAction) {
             case (0):
-                askRun();
+                this.askRun();
                 break;
             case (1):
-                this.performGrab();
+                this.selectGrab();
                 break;
             case (2):
                 int attackingweapon = view.getWeaponCardtoAttack();
@@ -174,15 +175,14 @@ public class Game{
             //match.getActivePlayer().setAction(); già fatto nel metodo
             //Chiamo metodo per la gestione della successiva azione
             nextStep();
-        } catch(InvalidDirectionException e){
-            //TODO azione non valida
-            System.out.println("You have chosen a not valid direction");
+        } catch(InvalidDirectionException e){           //TODO: migliorare eccezione con motivo dell'errore
+            Message errorMessage=new RunError("Invalid Direction. Choose an other direction");
+            gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+            //TODO livello View
         }
     }
 
-
-
-    public void performGrab(){
+    private void selectGrab(){
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
         if(match.getActivePlayer().getCel().inmap(match.getDashboard(), x, y).getType()==0){
@@ -190,7 +190,7 @@ public class Game{
             /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
              * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
              * is added to his weapon cards*/
-            this.grabWeapon();
+            this.askWeaponGrab();
         }
         else {
             //this is not a SpawnPoint cell
@@ -198,19 +198,19 @@ public class Game{
         }
     }
 
-    private void grabWeapon(){
+    private void askWeaponGrab(){
+        gameRoom.askWeaponGrab(match.getActivePlayer().getID());
+    }
+    public void performWeaponGrab(String userID,int indexWeapon){
+        checkUserAction(userID);
         ManagingWeapons manage = new ManagingWeapons();
-        GetData getData = new GetData();
-        //TODO stampa al player delle armi perché si chiede quale arma vuole comprare
-        view.showPlayerWeapons();
-        view.showSpawnPointWeapons();
-        int weapontograb = view.getWeaponCard();
         GrabWeapon grabWeapon = new GrabWeapon();
-        if(!manage.EnoughMoneytoBuy(match.getActivePlayer(), weapontograb)){
-            //case if you don't have enough ammos and you want to convert a PowCard
+        if(!manage.EnoughMoneytoBuy(match.getActivePlayer(), indexWeapon)){
+            //Controlla
+            // case if you don't have enough ammos and you want to convert a PowCard
+            askWeaponGrabWithPowCard();
             //TODO il giocatore non ha abbastanza ammo per comprare arma, gli viene chiesto se vuole usare una carta potenziamento per comprare
-            System.out.println("You don't have enough ammos, if you want to convert a PowCard digit 1, 0 otherwise");
-            int convert = getData.getInt(0, 1);
+            //TODO messaggio di errore per chiedere al Player se vuole usare Pow Card
             switch(convert){
                 case(0):
                     //nothing to be done
@@ -233,10 +233,9 @@ public class Game{
             }
         }
         try{
-            grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-            view.showPlayerWeapons();
-            counter++;
+            grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);
         } catch(MaxNumberofCardsException e){
+            //TODO: Error Message to Client
             System.out.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
             int removing = getData.getInt(0, 1);
             //TODO in questo caso il player ha abbastanza ammo per comprare ma ha troppe armi, gli viene chiesto se ne vuole scartare una e in caso affermativo
@@ -260,6 +259,23 @@ public class Game{
             }
         }
     }
+    private void askWeaponGrabWithPowCard(){
+        gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
+    }
+
+    public void performWeaponGrabWithPowCard(String userID,int indexPowCard) {
+        checkUserAction(userID);
+        try {
+            manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
+        } catch(NotEnoughAmmosException e){
+            //TODO azione non valida perché anche convertendo quella powcard non si hanno abbastanza ammo per comprare
+            System.out.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
+        }
+        view.showPlayerWeapons();
+        //TODO stampa delle armi dopo l'acquisto
+        return;
+    }
+
 
     private void grabAmmoTile(){
         ManagingWeapons manage = new ManagingWeapons();
@@ -344,6 +360,8 @@ public class Game{
     }
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
+
+    //TODO: a fine turno gestire carte sulla dashboard ecc.
     private void nextStep() {
         //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
         if(match.getActivePlayer().getAction()<2) {
@@ -377,6 +395,8 @@ public class Game{
         for(Player p:match.getPlayers()) p.resetAction();
         match.getPlayerByIndex(0).setActive();
     }
+
+
 
 
     /*
