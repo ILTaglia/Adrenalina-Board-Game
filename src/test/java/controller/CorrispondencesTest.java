@@ -1,8 +1,6 @@
 package controller;
-import model.Cell;
 import model.Coordinate;
 import model.Player;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ public class CorrispondencesTest {
         CheckCorrispondences check= new CheckCorrispondences();
         risultato=check.checkID(p1,0,lista);
         Player p3=(Player) risultato.get(0).get(0);
-        assertEquals(p3.getname(),"Giovanni");
+        assertEquals(p3.getName(),"Giovanni");
         assertEquals(risultato.get(1).get(0),1);
     }
 
@@ -35,7 +33,7 @@ public class CorrispondencesTest {
         risultato=check.checkID(p2,1,lista);
         lista=(ArrayList<Player>)risultato.get(0);
         Player p3=(Player) risultato.get(0).get(1);
-        assertEquals(p3.getname(),"Rossi");
+        assertEquals(p3.getName(),"Rossi");
         assertEquals(risultato.get(1).get(0),1);
     }
 

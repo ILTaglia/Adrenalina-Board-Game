@@ -28,13 +28,15 @@ public class Shoot extends Action {
         player.setAction();
     }
 
-    public void movementBeforeShoot(Match m, Player player, List<String> destination){
+    public boolean movementBeforeShoot(Match m, Player player, List<String> destination){
         if(this.isValidMovement(m, player, destination)) {
             Run r = new Run();
             try{
                 r.getMovement(m, player, destination);
+                return true;
             } catch(InvalidDirectionException e){}
         }
+        return false;
     }
 
     public boolean isValidMovement(Match match, Player player, List<String> destination) {

@@ -1,13 +1,9 @@
 package model;
 
 import exceptions.InvalidColorException;
-import exceptions.InvalidDirectionException;
 import exceptions.MaxNumberPlayerException;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -71,10 +67,10 @@ public class MatchTest {
 
     @Test
     public void get_player(){
-        assertEquals("Sirius", player1.getname());
-        assertEquals("Calypso", player2.getname());
-        assertEquals("Hermione", player3.getname());
-        assertEquals("Aries", player4.getname());
+        assertEquals("Sirius", player1.getName());
+        assertEquals("Calypso", player2.getName());
+        assertEquals("Hermione", player3.getName());
+        assertEquals("Aries", player4.getName());
         try{
             player1 = match.getPlayer(1); //Hermione
             player2 = match.getPlayer(0); //Sirius
@@ -82,10 +78,10 @@ public class MatchTest {
             player4 = match.getPlayer(3); //Calypso
         }
         catch (InvalidColorException e){}
-        assertEquals("Hermione", player1.getname());
-        assertEquals("Sirius", player2.getname());
-        assertEquals("Aries", player3.getname());
-        assertEquals("Calypso", player4.getname());
+        assertEquals("Hermione", player1.getName());
+        assertEquals("Sirius", player2.getName());
+        assertEquals("Aries", player3.getName());
+        assertEquals("Calypso", player4.getName());
 
         player1.setActive();
         assertEquals(0, player1.getAction());

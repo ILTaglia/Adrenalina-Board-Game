@@ -31,7 +31,7 @@ public interface View {
 
     /*
      **********************************************************
-     * Metodi per Setup Match                              *
+     * Metodi per  Match                              *
      **********************************************************
      */
 
@@ -42,6 +42,9 @@ public interface View {
 
     void chooseStartingCell();
 
+    void chooseAction();
+
+    void chooseRunDirection();
 
 
 
@@ -70,10 +73,10 @@ public interface View {
     void showPlayerPows();
 
     //Method to show a player its PowCards, used in response to an attack
-    void showPlayerPows(Player player);
+    void showPlayerPowsForAttack();
 
     //Method to show a player its PowCards, and colors to choose the spawn point cell
-    void showPlayerPowsColors(Player player);
+    void showPlayerPowsColors();
 
     //Method to show the active player how many ammos he has
     void showPlayerAmmos();
@@ -111,5 +114,5 @@ public interface View {
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
 
 
-    void chooseAction();
+
 }

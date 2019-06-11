@@ -188,7 +188,7 @@ public class ListAttackableTest {
 
         for(Player p : lister.getAttackableplayers())
         {
-            System.out.println(p.getname());
+            System.out.println(p.getName());
         }
     }
 
@@ -201,7 +201,7 @@ public class ListAttackableTest {
         lister.createlist(match,attack,player2);
         for(Player p : lister.getAttackableplayers())
         {
-            System.out.println(p.getname());
+            System.out.println(p.getName());
         }
     }
 

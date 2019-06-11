@@ -8,6 +8,7 @@ public class NormalCell extends Cell {
 
     public NormalCell(int color, int N_port, int E_port, int S_port, int W_port){
         this.color = color;
+        this.type=1; //normal
         this.port[0] = N_port;
         this.port[1] = E_port;
         this.port[2] = S_port;

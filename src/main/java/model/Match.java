@@ -5,7 +5,6 @@ import network.messages.InfoMatch;
 import network.messages.InfoPlayer;
 import network.messages.InfoPowCard;
 import network.messages.Message;
-import utils.NotifyClient;
 
 import java.io.Serializable;
 
@@ -51,23 +50,16 @@ public class Match implements Serializable {
     private void addPlayer(Player player) {
         players.add(player);
         Message message=new InfoPlayer("Assigned color: "+player.getcolor());
-        notifySpecificClient(player.getid(),message);
-        Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getname());
+        notifySpecificClient(player.getID(),message);
+        Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getName());
         notifyAllClients(this,message1);
     }
 
     //selectedDashboard is the index of the chosen map
-    //TODO: Necessario che restituisca un int?
     public void createDashboard(int selectedDashboard){
         this.dashboard=new Dashboard(selectedDashboard);
         Message infoMap=new InfoMatch("La mappa selezionata è quella di indice: "+selectedDashboard+". Stampata di seguito:\n" );
         notifyAllClients(this,infoMap);
-        /*if(players.size()>=3) {
-            this.dashboard=new Dashboard(i);
-            this.checkDashboard =true;
-            //return 0;
-        }
-        return 1;*/
     }
 
     //returns player by color
@@ -89,10 +81,7 @@ public class Match implements Serializable {
     }
 
     //Returns all the players on the match
-    public ArrayList<Player> getPlayers()
-    {
-        return this.players;
-    }
+    public ArrayList<Player> getPlayers() { return this.players; }
 
     public void fillDashboard(){
         if(this.checkDashboard) {
@@ -225,7 +214,7 @@ public class Match implements Serializable {
             throw new MaxNumberofCardsException();
         }
         Message infoPowCard=new InfoPowCard(powcard);
-        notifySpecificClient(player.getid(),infoPowCard);
+        notifySpecificClient(player.getID(),infoPowCard);
         //TODO IMPORTANTE: NotifyView del cambiamento sulle PowCard
     }
 
