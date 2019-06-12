@@ -54,7 +54,7 @@ public class AttackTest {
             player1.addWeapon(weapon3);
 
         } catch (MaxNumberofCardsException e) {
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
         Coordinate coordinate = new Coordinate(0,2);
         Damage damage=new DamageFactory().getinstaceof(1,5);
@@ -92,7 +92,7 @@ public class AttackTest {
             player1.addWeapon(weapon3);
 
         } catch (MaxNumberofCardsException e) {
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
         Coordinate coordinate = new Coordinate(0,2);
         Damage damage=new DamageFactory().getinstaceof(2,2);

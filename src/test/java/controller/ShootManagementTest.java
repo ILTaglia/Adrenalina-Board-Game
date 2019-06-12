@@ -49,7 +49,7 @@ public class ShootManagementTest {
             player1.addWeapon(weapon3);
 
         } catch (MaxNumberofCardsException e) {
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
 
     }

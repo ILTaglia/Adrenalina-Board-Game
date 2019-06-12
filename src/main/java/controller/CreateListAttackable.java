@@ -66,7 +66,7 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(player1,p)!=attack.getDistance())
                 {
-                    //players.remove(p);
+                    //players.discardWeapon(p);
                     tocancelplayer.add(p);
                 }
             }
@@ -77,7 +77,7 @@ public class CreateListAttackable {
             {
                 if(match.getCellsMD(c,player1.getCel())!=attack.getDistance())
                 {
-                    //cells.remove(c);
+                    //cells.discardWeapon(c);
                     tocancelcel.add(c);
                 }
             }
@@ -102,7 +102,7 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(player1,p)<=attack.getDistance())
                 {
-                    //players.remove(p);
+                    //players.discardWeapon(p);
                     tocancelplayer.add(p);
                 }
             }
@@ -113,7 +113,7 @@ public class CreateListAttackable {
             {
                 if(match.getCellsMD(c,player1.getCel())<attack.getDistance())
                 {
-                    //cells.remove(c);
+                    //cells.discardWeapon(c);
                     tocancelcel.add(c);
                 }
             }
@@ -165,7 +165,7 @@ public class CreateListAttackable {
             {
                 if(players.contains(p))
                 {
-                    //playersnotseen.remove(p);
+                    //playersnotseen.discardWeapon(p);
                     tocancelplayer.add(p);
                 }
             }
@@ -174,7 +174,7 @@ public class CreateListAttackable {
             {
                 if(cells.contains(c))
                 {
-                    //cellsnotseen.remove(c);
+                    //cellsnotseen.discardWeapon(c);
                     tocancelcel.add(c);
                 }
             }
@@ -214,7 +214,7 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(p,player1)!=1)
                 {
-                    //players.remove(p);
+                    //players.discardWeapon(p);
                     tocancelplayer.add(p);
                 }
             }
@@ -223,7 +223,7 @@ public class CreateListAttackable {
             {
                 if(match.getCellsMD(player1.getCel(),c)!=1)
                 {
-                    //coordinates.remove(c);
+                    //coordinates.discardWeapon(c);
                     tocancelcel.add(c);
                 }
             }
@@ -256,7 +256,7 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(p,player1)!=1||!directed.contains(p))
                 {
-                    //players.remove(p);
+                    //players.discardWeapon(p);
                     tocancelplayer.add(p);
                 }
             }
@@ -265,7 +265,7 @@ public class CreateListAttackable {
             {
                 if(match.getCellsMD(player1.getCel(),c)!=1)
                 {
-                    //coordinates.remove(c);
+                    //coordinates.discardWeapon(c);
                     tocancelcel.add(c);
                 }
             }
@@ -322,7 +322,7 @@ public class CreateListAttackable {
             {
                 if(match.getPlayersMD(p,player1)>this.residualmovement)
                 {
-                    //this.attackableplayers.remove(p);
+                    //this.attackableplayers.discardWeapon(p);
                     tocancelplayer.add(p);
                 }
             }
@@ -331,7 +331,7 @@ public class CreateListAttackable {
             {
                 if(match.getCellsMD(c,player1.getCel())>this.residualmovement)
                 {
-                    //this.attackablecells.remove(c);
+                    //this.attackablecells.discardWeapon(c);
                     tocancelcel.add(c);
                 }
             }

@@ -52,7 +52,7 @@ public class GrabWeaponTest {
 
         }
         catch (MaxNumberofCardsException e){
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
         SpawnPointCell c = (SpawnPointCell)match.getDashboard().getmap(0, 2);
         try{
@@ -78,11 +78,11 @@ public class GrabWeaponTest {
         grabweapon.movementBeforeGrab(match, player1, destination);
         assertEquals(0, player1.getCel().getX());
         assertEquals(2, player1.getCel().getY());
-        assertEquals(2, player1.getnumberweapon());
+        assertEquals(2, player1.getNumberWeapon());
         try{
             grabweapon.grabWeapon(match, player1, 0);
         } catch(MaxNumberofCardsException e){}
-        assertEquals(3, player1.getnumberweapon());
+        assertEquals(3, player1.getNumberWeapon());
         assertEquals(1, player1.getAction());
 
     }

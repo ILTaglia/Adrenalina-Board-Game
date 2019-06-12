@@ -172,7 +172,7 @@ public class Player {
         } else ammos.add(ammo);
     }
 
-    //remove number n of ammos passed as parameter
+    //discardWeapon number n of ammos passed as parameter
     public void removeAmmo(int n, Ammo ammo) throws NotEnoughAmmosException {
         int nAmmos=this.getAmmo(ammo.getAmmo());
         if(nAmmos<n) throw new NotEnoughAmmosException();
@@ -201,7 +201,7 @@ public class Player {
     public Weapon getWeaponByIndex (int index){return this.gun.get(index);}
 
     public void addWeapon(Weapon weapon) throws MaxNumberofCardsException{
-        if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to remove a weapon, cannot have more than three
+        if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to discardWeapon a weapon, cannot have more than three
         gun.add(weapon);
     }
 
@@ -212,7 +212,7 @@ public class Player {
         gun.remove(i);
     }
 
-    public int getnumberweapon(){return this.gun.size();}
+    public int getNumberWeapon(){return this.gun.size();}
 
     public boolean powIspresent(PowCard p){
         for(int i=0; i<pow.size(); i++){
@@ -222,7 +222,7 @@ public class Player {
     }
 
     public void addPow(PowCard p) throws MaxNumberofCardsException{
-        if(pow.size()==3) throw new MaxNumberofCardsException(); //remove one pow
+        if(pow.size()==3) throw new MaxNumberofCardsException(); //discardWeapon one pow
         pow.add(p);
     }
 

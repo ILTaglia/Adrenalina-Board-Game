@@ -106,6 +106,8 @@ public class GameServer {
             case "WeaponGrabRequest":
                 userIDToIdGameRoom.get(requestMessage.getUserID()).performWeaponGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
                 break;
+            case "WeaponDiscardToGrabRequest":
+                userIDToIdGameRoom.get(requestMessage.getUserID()).discardWeaponCardToGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
             case "PowToWeaponGrabRequest":
                 PowToWeaponGrabClientRequest message=(PowToWeaponGrabClientRequest) requestMessage;
                 userIDToIdGameRoom.get(message.getUserID()).performWeaponGrabWithPowCard(message.getUserID(),Integer.parseInt(message.getInfo()),Integer.parseInt(message.getIndexPowCard()));

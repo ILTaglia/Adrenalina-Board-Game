@@ -2,10 +2,7 @@ package controller;
 import client.View;
 import exceptions.*;
 import model.*;
-import network.messages.ActionError;
-import network.messages.InfoMatch;
-import network.messages.Message;
-import network.messages.RunError;
+import network.messages.*;
 import network.server.GameRoom;
 import utils.GetData;
 
@@ -149,10 +146,10 @@ public class Game{
                 //TODO LE ARMIIIII
                 break;
             case (5):
-                this.recharge(view);
+                this.recharge();
                 break;
         }
-            //TODO aziona di ricarica sarà fatta dopo l'uso dell'arma e alla fine del turno giocatore
+        //TODO aziona di ricarica sarà fatta dopo l'uso dell'arma e alla fine del turno giocatore
         //TODO: in base alla chosenAction si chiama una funzione del Controller che va a gestire quell'azione, con eventuali ulteriori chiamate al client
         //Da aumentare di una l'azione già sfruttata
     }
@@ -188,14 +185,34 @@ public class Game{
         if(match.getActivePlayer().getCel().inmap(match.getDashboard(), x, y).getType()==0){
             //this is a SpawnPoint cell
             /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
-             * if he wants to remove one of them, and in positive case he chooses which one to remove, then the selected one
+             * if he wants to discardWeapon one of them, and in positive case he chooses which one to discardWeapon, then the selected one
              * is added to his weapon cards*/
-            this.askWeaponGrab();
+            this.checkWeaponGrab();
         }
         else {
             //this is not a SpawnPoint cell
             this.grabAmmoTile();
         }
+    }
+    private void checkWeaponGrab(){
+        GrabWeapon grabWeapon = new GrabWeapon();
+        try {
+            grabWeapon.isValid(match.getActivePlayer());
+            askWeaponGrab();
+        }catch (MaxNumberofCardsException e) {
+            askToDiscardWeaponCard();
+        }
+    }
+
+    private void askToDiscardWeaponCard() {
+        Message errorMessage=new MaxWeaponCardError("You have already three Weapon Card, you can discard one");
+        gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+    }
+
+    public void discardWeaponCardToGrab(String userID, int indexWeapon) {
+        checkUserAction(userID);
+        manageWeapon.discardWeapon(match.getActivePlayer(),indexWeapon);
+        askWeaponGrab();
     }
 
     private void askWeaponGrab(){
@@ -209,33 +226,17 @@ public class Game{
             // case if you don't have enough ammos and you want to convert a PowCard
             askWeaponGrabWithPowCard();
         }
-        try{
-            grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);
-        } catch(MaxNumberofCardsException e){
-            //TODO: Error Message to Client
-            System.out.println("You have to many weapons, if you want to remove one digit 1, 0 otherwise");
-            int removing = getData.getInt(0, 1);
-            //TODO in questo caso il player ha abbastanza ammo per comprare ma ha troppe armi, gli viene chiesto se ne vuole scartare una e in caso affermativo
-            //TODO (alla riga sotto) QUALE arma vuole rimuovere
-            switch(removing){
-                case(0):
-                    //invalid action for the player, choice will be repeated
-                    break;
-                case(1):
-                    System.out.println("Which weapon do you want to remove?");
-                    view.showPlayerWeapons();
-                    int removedweapon = getData.getInt(1, 3);
-                    removedweapon--;
-                    ManagingWeapons remove = new ManagingWeapons();
-                    remove.remove(match.getActivePlayer(), removedweapon);
-                    counter++;
-                    try{
-                        grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                        view.showPlayerWeapons();
-                    } catch(MaxNumberofCardsException ex){return;}
+        else {
+            try {
+                grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);
+                nextStep();
+            } catch (MaxNumberofCardsException e) {
+                //Ho già verificato prima di iniziare la GrabWeapon che questo ramo del try/catch non si attiverà mai.
+                //TODO:Valutare se rimuovere o cosa fare
             }
         }
     }
+
 
     private void askWeaponGrabWithPowCard(){
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
@@ -245,18 +246,18 @@ public class Game{
         Weapon weaponToGrab=getWeaponToGrab(indexWeapon);
         try {
             manageWeapon.convertPowToGrab(match.getActivePlayer(), weaponToGrab, indexPowCard);
+            GrabWeapon grabWeapon=new GrabWeapon();
             grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);     //Completo raccolta
-        } catch(NotEnoughAmmosException e){             //Se lanciata eccezione mando messaggio d'errore e chiudo ciclo arma
-            //TODO: Genero errore 
-            //TODO azione non valida perché anche convertendo quella powcard non si hanno abbastanza ammo per comprare
-            //TODO Errore per comunicare con Client
-            System.out.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
+            nextStep();
+        } catch(NotEnoughAmmosException e){             //Se lanciata eccezione mando messaggio d'errore e chiudo Grab arma
+            Message errorMessage=new GrabError("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
+            gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+        } catch (MaxNumberofCardsException e) {
+            //Ho già verificato prima di iniziare la GrabWeapon che questo ramo del try/catch non si attiverà mai.
+            //TODO:Valutare se rimuovere o cosa fare
         }
-        //TODO stampa delle armi dopo l'acquisto sulla view con aggiornamenti dal Model
-        return;
     }
-    
-    //TODO: davvero utile? Evito duplicato
+
     private Weapon getWeaponToGrab(int indexWeapon){
         int xCoordinate=match.getActivePlayer().getCel().getX();
         int yCoordinate=match.getActivePlayer().getCel().getY();
@@ -265,7 +266,7 @@ public class Game{
     }
 
     private void grabAmmoTile(){
-        ManagingWeapons manage = new ManagingWeapons();
+        ManagingWeapons manage = new ManagingWeapons(match);
         GetData getData = new GetData();
         GrabAmmo grabAmmo = new GrabAmmo();
         //TODO stampa al player il numero di ammo prima e dopo la raccolta
@@ -281,7 +282,7 @@ public class Game{
             view.showPlayerPows();
             counter++;
         } catch(MaxNumberofCardsException exc){
-            System.out.println("You have to many PowCards, if you want to remove one digit 1, 0 otherwise");
+            System.out.println("You have to many PowCards, if you want to discardWeapon one digit 1, 0 otherwise");
             //TODO vuoi scartare una carta POT?
             int removing = getData.getInt(0, 1);
             switch(removing){
@@ -293,7 +294,7 @@ public class Game{
                     break; //nothing to be done, just Ammos are taken
                 case(1):
                     //TODO quale carta POT vuoi scartare?
-                    System.out.println("Which PowCard do you want to remove?");
+                    System.out.println("Which PowCard do you want to discardWeapon?");
                     view.showPlayerPows();
                     int removedpow = getData.getInt(1, 3);
                     removedpow--;
@@ -382,6 +383,8 @@ public class Game{
         for(Player p:match.getPlayers()) p.resetAction();
         match.getPlayerByIndex(0).setActive();
     }
+
+
 
 
 

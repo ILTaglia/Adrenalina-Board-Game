@@ -419,7 +419,7 @@ public class UndefinedAttack {
             player2.addWeapon(weapon6);
 
         } catch (MaxNumberofCardsException e) {
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
         System.out.println(weapon1.getName());
         System.out.println(weapon2.getName());

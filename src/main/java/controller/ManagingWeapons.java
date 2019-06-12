@@ -25,14 +25,16 @@ public class ManagingWeapons {
         weapon.recharge();
     }
 
-    public void remove(Player player, int indexWeapon){
+    public void discardWeapon(Player player, int indexWeapon){
         Weapon weapon = player.getWeaponByIndex(indexWeapon);
         try {
             player.removeWeapon(weapon);
             match.discardWeaponCard(weapon);
         }
-        catch(ZeroCardsOwnedException e){return;}
-        catch(NotOwnedCardException e){return;}
+        catch(ZeroCardsOwnedException | NotOwnedCardException e){
+            //TODO: ragionare su eventuale modifica alle eccezioni!
+            //Potrei rilanciare eccezioni verso l'alto e mandare un messaggio all'utente con un errore.
+        }
     }
 
     public void removePow(Player player, int indexPowCard){
@@ -56,7 +58,6 @@ public class ManagingWeapons {
         return true;
     }
 
-
     //Method to convert a powcard in case you don't have enough ammos
     public void convertPowToGrab(Player player, Weapon weaponToGrab, int indexPowCard)throws NotEnoughAmmosException {
         int color = player.getPowByIndex(indexPowCard).getColor();      //color of the powcard
@@ -72,6 +73,7 @@ public class ManagingWeapons {
         } catch (MoreThanTreeAmmosException e) {    //Se il Player aveva già 3 ammo di quel colore sicuramente l'aggiunta non porta a modifiche
             throw new NotEnoughAmmosException();    //quindi inutile fare ulteriori verifiche: restituisco l'eccezione
         }
+        //Se l'aggiunta dell'Ammo è andata a buon fine verifico se il Player ne ha sufficienti per la raccolta dell'arma
         if(areEnoughAmmoToGrabWeapon(player,weaponToGrab)){
             removePow(player, indexPowCard);
             //torno al metodo principale che potrà quindi effettuare effettivamente la GrabAmmo
@@ -80,9 +82,11 @@ public class ManagingWeapons {
             player.removeAmmo(1,new Ammo(color));       //ripristino situazione precedente e NON rimuovo carta potenziamento
             throw new NotEnoughAmmosException();           //lancio eccezione così il Controller non procederà ulteriormente
         }
+    }
 
-        /*
 
+
+    /*
         if(color==0){
             if(player.getAmmo(0)+1==weaponCost.get(0)){
                 removing.Remove(player, indexPowCard);
@@ -129,5 +133,5 @@ public class ManagingWeapons {
         }
         throw new NotEnoughAmmosException();
         */
-    }
+
 }

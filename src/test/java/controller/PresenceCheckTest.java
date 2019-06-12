@@ -54,7 +54,7 @@ public class PresenceCheckTest {
             player1.addWeapon(weapon3);
 
         } catch (MaxNumberofCardsException e) {
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
         ArrayList<Player> lista =match.getVisiblePlayers(player2);
         CheckIFPresent check= new CheckIFPresent();
@@ -87,7 +87,7 @@ public class PresenceCheckTest {
             player1.addWeapon(weapon3);
 
         } catch (MaxNumberofCardsException e) {
-            System.out.println("You have too many Weapon Cards, please remove one.");
+            System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
         ArrayList<Coordinate> lista =match.getVisibleCells(player2.getCel());
         CheckIFPresent check= new CheckIFPresent();

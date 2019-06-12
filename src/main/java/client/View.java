@@ -50,6 +50,7 @@ public interface View {
 
     void askUsePowToGrabWeapon();
 
+    void chooseDiscardWeapon();
 
 
 

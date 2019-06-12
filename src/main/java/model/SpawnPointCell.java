@@ -35,7 +35,7 @@ public class SpawnPointCell extends Cell {
     public void Collect_Weapon(Player player,int selected_weapon) throws MaxNumberofCardsException {
         player.addWeapon(Weapons_SpawnPoint.get(selected_weapon));
         //Weapons_SpawnPoint.set(selected_weapon,null);
-        //TODO controllare get o remove
+        //TODO controllare get o discardWeapon
 
     }
 

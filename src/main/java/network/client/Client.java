@@ -150,6 +150,9 @@ public class Client {
         if(message.getContent().equals("GrabError")){
             view.chooseAction();
         }
+        if(message.getContent().equals("MaxWeaponCardError")){
+            view.chooseDiscardWeapon();
+        }
     }
 
     //-------------------------------Metodi da completare----------------------------//

@@ -431,7 +431,7 @@ public class AttackGeneral {
                                         ArrayList<Coordinate> aux =new ArrayList<Coordinate>();
                                         if(moveme==0) //case i shoot without moving
                                         {
-                                            if(direction==0) //I am creating an aux list containing only cells in one direction, later I remove from the visible liste the ones are not in the direction choosen
+                                            if(direction==0) //I am creating an aux list containing only cells in one direction, later I discardWeapon from the visible liste the ones are not in the direction choosen
                                             {
                                                 aux=m.getUpCells(viewer.getCel());
                                             }

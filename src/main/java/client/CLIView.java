@@ -11,7 +11,6 @@ import model.*;
 import network.messages.ClientRequest.*;
 import network.messages.Message;
 import network.client.Client;
-import network.messages.PowToWeaponGrabGameRequest;
 import utils.*;
 
 public class CLIView implements View {
@@ -144,6 +143,23 @@ public class CLIView implements View {
     }
 
     @Override
+    public void chooseDiscardWeapon() {
+        int indexWeapon;
+        printStream.println("Answer 'Yes' or 'No'");
+        if(getData.askYesOrNo()){
+            showPlayerWeapons();
+            printStream.println("Which Weapon do you want to discard?");
+            indexWeapon=getData.getInt(0,client.getPlayerVisibleDATA().getSinglePlayer().getNumberWeapon())-1;
+            Message message=new WeaponDiscardToGrabClientRequest(Integer.toString(indexWeapon),client.getUserID());
+            client.sendMessage(message);
+        }
+        else{
+            printStream.println("You can't have more than three Weapon Card. Choose an other Action");
+            chooseAction();
+        }
+    }
+
+    @Override
     public  void chooseWeaponToGrab(){
         int indexWeapon;
         showSpawnPointWeapons();
@@ -176,6 +192,9 @@ public class CLIView implements View {
 
 
     }
+
+
+
     @Override
     public int getNumberOfPow(){
         return client.getPlayerVisibleDATA().getSinglePlayer().getPows().size();
@@ -429,7 +448,6 @@ public class CLIView implements View {
         List<Weapon> weaponcards = client.getPlayerVisibleDATA().getSinglePlayer().getWeapons();
         if(!weaponcards.isEmpty()) printStream.println("Your Weapon Cards are: ");
         else printStream.println("You have no Weapon Cards");
-
         int i=1;
         for(Weapon weaponcard:weaponcards){
             System.out.println(i+". "+weaponcard.getName());

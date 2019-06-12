@@ -191,14 +191,14 @@ class PlayerTest {
             player1.addAmmo(ammo);
         }
         catch (MoreThanTreeAmmosException e){
-            System.out.println("You have too many Ammos, please remove one.");
+            System.out.println("You have too many Ammos, please discardWeapon one.");
         }
         assertEquals(2, player1.getAmmo(0));
         try{
             player1.addAmmo(ammo);
         }
         catch (MoreThanTreeAmmosException e){
-            System.out.println("You have too many Ammos, please remove one.");
+            System.out.println("You have too many Ammos, please discardWeapon one.");
         }
         assertEquals(3, player1.getAmmo(0));
         assertThrows(MoreThanTreeAmmosException.class, () -> player1.addAmmo(ammo));
@@ -229,19 +229,19 @@ class PlayerTest {
         Weapon weapon2 = (Weapon)weaponDeck.drawCard();
         Weapon weapon3 = (Weapon)weaponDeck.drawCard();
         Weapon weapon4 = (Weapon)weaponDeck.drawCard();
-        assertEquals(0, player1.getnumberweapon());
+        assertEquals(0, player1.getNumberWeapon());
         assertThrows(ZeroCardsOwnedException.class, () -> player1.removeWeapon(weapon1));
         try { player1.addWeapon(weapon1); }
-        catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please remove one."); }
-        assertEquals(1, player1.getnumberweapon());
+        catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please discardWeapon one."); }
+        assertEquals(1, player1.getNumberWeapon());
         assertTrue(player1.weaponIspresent(weapon1));
         assertThrows(NotOwnedCardException.class, () -> player1.removeWeapon(weapon2));
         try {
             player1.addWeapon(weapon2);
             player1.addWeapon(weapon3);
         }
-        catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please remove one."); }
-        assertEquals(3, player1.getnumberweapon());
+        catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please discardWeapon one."); }
+        assertEquals(3, player1.getNumberWeapon());
         assertThrows(MaxNumberofCardsException.class, () -> player1.addWeapon(weapon4));
 
         try{
@@ -261,7 +261,7 @@ class PlayerTest {
             player1.addPow(powcard1);
         }
         catch (MaxNumberofCardsException e){
-            System.out.println("You have too many Pow Cards, please remove one.");
+            System.out.println("You have too many Pow Cards, please discardWeapon one.");
         }
         assertEquals(1, player1.getnumberpow());
         assertTrue(player1.powIspresent(powcard1));
