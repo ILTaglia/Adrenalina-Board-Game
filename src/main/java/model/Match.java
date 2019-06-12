@@ -221,7 +221,9 @@ public class Match implements Serializable {
     public void discardPowCard(PowCard powCard){
         powDeck.discardCard(powCard);
     }
-
+    public void discardWeaponCard(Weapon weapon) {
+        weaponDeck.discardCard(weapon);
+    }
 
     //returns all the players seen by the given player
     public ArrayList<Player> getVisiblePlayers(Player player){
@@ -681,4 +683,6 @@ public class Match implements Serializable {
         }
         return list;
     }
+
+
 }

@@ -56,12 +56,7 @@ public class Client {
     }
 
     public void setConnection(boolean socketRequired){
-        if(socketRequired){
-            isToUseSocket=true;
-        }
-        else{
-            isToUseSocket=false;
-        }
+        isToUseSocket = socketRequired;
     }
 
     public void launchConnection(){
@@ -131,6 +126,12 @@ public class Client {
         if(message.getContent().equals("RunDirectionRequest")){
             view.chooseRunDirection();
         }
+        if(message.getContent().equals("WeaponGrabRequest")){
+            view.chooseWeaponToGrab();
+        }
+        if(message.getContent().equals("PowToWeaponGrabRequest")){
+            view.askUsePowToGrabWeapon();
+        }
     }
 
     private void handleErrorMessage(Message message){
@@ -142,6 +143,12 @@ public class Client {
         }
         if(message.getContent().equals("ActionError")){
             //Nothing to do, not handled //TODO
+        }
+        if(message.getContent().equals("RunError")){
+            view.chooseAction();
+        }
+        if(message.getContent().equals("GrabError")){
+            view.chooseAction();
         }
     }
 

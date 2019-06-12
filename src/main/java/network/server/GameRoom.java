@@ -3,7 +3,6 @@ package network.server;
 import controller.Game;
 import model.PowCard;
 import network.messages.*;
-import network.messages.ClientRequest.ActionClientRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -105,11 +104,11 @@ public class GameRoom {
     }
 
     public void askWeaponGrabWithPowCard(String userID) {
-        Message message=new PowToPayGameRequest("You not have enough Ammos to grab weapon, do you want to use PowCard to grab?");
+        Message message=new PowToWeaponGrabGameRequest("You not have enough Ammos to grab weapon, do you want to use PowCard to grab?");
         gameServer.sendMessageToID(userID,message);
     }
-    public void performWeaponGrabWithPowCard(String userID,int indexPowCard){
-        gameController.performWeaponGrabWithPowCard(userID,indexPowCard);
+    public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard){
+        gameController.performWeaponGrabWithPowCard(userID,indexWeapon,indexPowCard);
     }
 }
 

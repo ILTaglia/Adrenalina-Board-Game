@@ -1,17 +1,16 @@
 package utils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GetData {
-    private InputStreamReader reader= new InputStreamReader(System.in);
-    private BufferedReader input = new BufferedReader(reader);
+    //private InputStreamReader reader= new InputStreamReader(System.in);
+    //private BufferedReader input = new BufferedReader(reader);
+    private Scanner input = new Scanner(System.in);
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private List<String> colors=new ArrayList<>();
     private List<String> directions=new ArrayList<>();
@@ -41,56 +40,46 @@ public class GetData {
     /* Takes a string from the board
      * @return gives the string in input, exception gives "Color"
      */
-    public String getValidColorforPlayer() {
-        String color="";
+    public String getValidColorForPlayer() {
+        String color;
         do{
-            try {
-                color=(input.readLine());
-            } catch (IOException e) {
-                System.out.println("Invalid color");
-                color="Color";
-                LOGGER.log(Level.FINEST,e.getMessage(),e);
-            }
-        }while("".equals(color) || !colors.contains(color));
+            color=input.nextLine();
+        }while(!colors.contains(color));
         return color;
     }
 
-    public String getValidDirectionforPlayer() {
-        String direction="";
+
+
+    public List<String> getValidListDirectionForPlayer(){
+        List<String> runListDirection = new ArrayList<>();
+        String direction;
+
         do{
-            try {
-                direction=(input.readLine());
-            } catch (IOException e) {
-                direction="Direction";
-                LOGGER.log(Level.FINEST,e.getMessage(),e);
+            direction=getValidDirectionForPlayer();
+            if(!direction.equals("Stop")) runListDirection.add(direction);
+        }while(!direction.equals("Stop"));
 
-            }
-        }while("".equals(direction) || !directions.contains(direction));
-        return direction;
+        return runListDirection;
     }
+    public String getValidDirectionForPlayer() {
+        String direction;
+        do{
+            direction=input.nextLine();
+        }while(!directions.contains(direction));
+        return direction;
 
-    public List<String> getValidListDirectionforPlayer(){
-        List<String> list = new ArrayList<>();
-        String s = this.getValidDirectionforPlayer();
-        while(!s.equals("Stop")){
-            list.add(s);
-            s = this.getValidDirectionforPlayer();
-        }
-        return list;
     }
 
     public String getName() {
-        String name="";
+        String name;
         do{
-            try {
-                name=(input.readLine());
-            } catch (IOException e) {}
-        }while("".equals(name));
+            name=(input.nextLine());
+        }while(name.equals(""));
         return name;
     }
 
     public int getInt(int min,int max){
-        int k=0;
+        int k = 0;
         boolean isValid=false;
         if(min>max){
             k=max;
@@ -100,20 +89,23 @@ public class GetData {
 
         do{
             try {
-                k=Integer.parseInt(input.readLine());
+                k=input.nextInt();
                 isValid=true;
             } catch (NumberFormatException e) {
                 isValid=false;
                 LOGGER.log(Level.FINEST,e.getMessage(),e);
                 System.out.println("Not a valid number\n");
 
-            } catch (IOException e) {
-                isValid=false;
-                LOGGER.log(Level.FINEST,e.getMessage(),e);
-                System.out.println("Not a valid number\n");
             }
-
         }while(!isValid || (k<min || k>max));
         return k;
+    }
+    //This method return true if the answer is Yes, false otherwise
+    public boolean askYesOrNo(){
+        String answer;
+        do{
+            answer = input.nextLine();
+        }while(!(answer.equals("Yes")||answer.equals("No")));
+        return answer.equals("Yes");
     }
 }

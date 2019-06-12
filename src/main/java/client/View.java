@@ -46,7 +46,9 @@ public interface View {
 
     void chooseRunDirection();
 
+    void chooseWeaponToGrab();
 
+    void askUsePowToGrabWeapon();
 
 
 
@@ -89,6 +91,8 @@ public interface View {
 
     //Method to ask the list direction for movement
     List<String> getListDirection();
+
+    int getNumberOfPow();
 
     //Method to ask the player which PowCard he wants to use to attack or in response, @return the position of card,
     //according to the print of player cards

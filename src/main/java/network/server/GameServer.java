@@ -2,6 +2,7 @@ package network.server;
 
 import network.messages.*;
 import network.messages.ClientRequest.ClientRequestMessage;
+import network.messages.ClientRequest.PowToWeaponGrabClientRequest;
 import network.messages.ClientRequest.RunClientRequest;
 import network.messages.ClientRequest.SpawnPointClientRequest;
 import network.server.rmi.GameRMISvr;
@@ -101,6 +102,13 @@ public class GameServer {
             case "RunRequest":
                 RunClientRequest runRequest=(RunClientRequest) requestMessage;
                 userIDToIdGameRoom.get(runRequest.getUserID()).performRun(requestMessage.getUserID(),runRequest.getDirection());
+                break;
+            case "WeaponGrabRequest":
+                userIDToIdGameRoom.get(requestMessage.getUserID()).performWeaponGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
+                break;
+            case "PowToWeaponGrabRequest":
+                PowToWeaponGrabClientRequest message=(PowToWeaponGrabClientRequest) requestMessage;
+                userIDToIdGameRoom.get(message.getUserID()).performWeaponGrabWithPowCard(message.getUserID(),Integer.parseInt(message.getInfo()),Integer.parseInt(message.getIndexPowCard()));
                 break;
         }
     }

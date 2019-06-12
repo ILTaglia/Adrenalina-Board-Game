@@ -1,9 +1,7 @@
 package controller;
 import client.View;
 import exceptions.*;
-import model.Match;
-import model.Player;
-import model.PowCard;
+import model.*;
 import network.messages.ActionError;
 import network.messages.InfoMatch;
 import network.messages.Message;
@@ -19,14 +17,20 @@ import static utils.NotifyClient.*;
 public class Game{
 
     private Match match;
+    private ManagingWeapons manageWeapon;
     private GameRoom gameRoom;      //CAPIRE SE USARE QUESTO O PREFERIRE LAVORARE DIRETTAMENTE CON NotifyClient
     public Game(GameRoom gameRoom){
         this.gameRoom=gameRoom;
         this.match = new Match();
+        manageWeapon=new ManagingWeapons(match);
         registerNewMatch(gameRoom,match);
     }
 
     //TODO: Coda giocatori in partita
+
+
+
+    //TODO IMPORTANTE metodi isValid
 
     //------------------------Metodi per il SetUp della partita-----------------------------------------------------------//
     //Vado a creare i singoli Player e quindi ad aggiungerli al Model (li istanzio singolarmente)
@@ -155,9 +159,6 @@ public class Game{
 
 
 
-    //metodo per turno di gioco del player in mode CLI
-    //TODO lista dei metodi per le azioni in un turno
-    //TODO mettere messaggi al posto delle print
     private void askRun(){
         gameRoom.askDestinationRun(match.getActivePlayer().getID());
     }
@@ -178,7 +179,6 @@ public class Game{
         } catch(InvalidDirectionException e){           //TODO: migliorare eccezione con motivo dell'errore
             Message errorMessage=new RunError("Invalid Direction. Choose an other direction");
             gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
-            //TODO livello View
         }
     }
 
@@ -203,34 +203,11 @@ public class Game{
     }
     public void performWeaponGrab(String userID,int indexWeapon){
         checkUserAction(userID);
-        ManagingWeapons manage = new ManagingWeapons();
         GrabWeapon grabWeapon = new GrabWeapon();
-        if(!manage.EnoughMoneytoBuy(match.getActivePlayer(), indexWeapon)){
-            //Controlla
+        Weapon weaponToGrab=getWeaponToGrab(indexWeapon);
+        if(!manageWeapon.areEnoughAmmoToGrabWeapon(match.getActivePlayer(),weaponToGrab)){
             // case if you don't have enough ammos and you want to convert a PowCard
             askWeaponGrabWithPowCard();
-            //TODO il giocatore non ha abbastanza ammo per comprare arma, gli viene chiesto se vuole usare una carta potenziamento per comprare
-            //TODO messaggio di errore per chiedere al Player se vuole usare Pow Card
-            switch(convert){
-                case(0):
-                    //nothing to be done
-                    break;
-                case(1):
-                    //TODO gli viene chiesto se ha risposto in modo affermativo alla richiesta di prima QUALE powcard vuole usare
-                    System.out.println("Which Pow do you want to use?");
-                    view.showPlayerPowsColors(match.getActivePlayer());
-                    int convertpow = getData.getInt(1, 3);
-                    convertpow--;
-                    try {
-                        manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
-                    } catch(NotEnoughAmmosException e){
-                        //TODO azione non valida perché anche convertendo quella powcard non si hanno abbastanza ammo per comprare
-                        System.out.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
-                    }
-                    view.showPlayerWeapons();
-                    //TODO stampa delle armi dopo l'acquisto
-                    return;
-            }
         }
         try{
             grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);
@@ -250,7 +227,7 @@ public class Game{
                     int removedweapon = getData.getInt(1, 3);
                     removedweapon--;
                     ManagingWeapons remove = new ManagingWeapons();
-                    remove.Remove(match.getActivePlayer(), removedweapon);
+                    remove.remove(match.getActivePlayer(), removedweapon);
                     counter++;
                     try{
                         grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
@@ -259,23 +236,33 @@ public class Game{
             }
         }
     }
+
     private void askWeaponGrabWithPowCard(){
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
     }
-
-    public void performWeaponGrabWithPowCard(String userID,int indexPowCard) {
+    public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard) {
         checkUserAction(userID);
+        Weapon weaponToGrab=getWeaponToGrab(indexWeapon);
         try {
-            manage.ConvertPowToBuy(match, match.getActivePlayer(), weapontograb, convertpow);
-        } catch(NotEnoughAmmosException e){
+            manageWeapon.convertPowToGrab(match.getActivePlayer(), weaponToGrab, indexPowCard);
+            grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);     //Completo raccolta
+        } catch(NotEnoughAmmosException e){             //Se lanciata eccezione mando messaggio d'errore e chiudo ciclo arma
+            //TODO: Genero errore 
             //TODO azione non valida perché anche convertendo quella powcard non si hanno abbastanza ammo per comprare
+            //TODO Errore per comunicare con Client
             System.out.println("You don't have enough ammos, and you can't even convert a PowCard to buy\n");
         }
-        view.showPlayerWeapons();
-        //TODO stampa delle armi dopo l'acquisto
+        //TODO stampa delle armi dopo l'acquisto sulla view con aggiornamenti dal Model
         return;
     }
-
+    
+    //TODO: davvero utile? Evito duplicato
+    private Weapon getWeaponToGrab(int indexWeapon){
+        int xCoordinate=match.getActivePlayer().getCel().getX();
+        int yCoordinate=match.getActivePlayer().getCel().getY();
+        SpawnPointCell cell = (SpawnPointCell) match.getActivePlayer().getCel().inmap(match.getDashboard(),xCoordinate,yCoordinate);
+        return cell.getSpawnPointCellWeapons().get(indexWeapon);
+    }
 
     private void grabAmmoTile(){
         ManagingWeapons manage = new ManagingWeapons();
@@ -311,7 +298,7 @@ public class Game{
                     int removedpow = getData.getInt(1, 3);
                     removedpow--;
                     ManagingWeapons removepow = new ManagingWeapons();
-                    removepow.RemovePow(match.getActivePlayer(), removedpow);
+                    removepow.removePow(match.getActivePlayer(), removedpow);
 
                     try{
                         match.assignPowCard(match.getActivePlayer());
@@ -420,7 +407,7 @@ public class Game{
 
         printStream.println("\nPlease, choose the color of the player:");
         printStream.println("Blue - Green - Yellow - Pink - Grey");
-        String color = getData.getValidColorforPlayer();
+        String color = getData.getValidColorForPlayer();
 
         printStream.println("\nPlease, enter your name to play in the game:");
         String name= getData.getName();
@@ -429,14 +416,14 @@ public class Game{
 
         printStream.println("\nPlease, choose the color of the player:");
         printStream.println("Blue - Green - Yellow - Pink - Grey");
-        color = getData.getValidColorforPlayer();
+        color = getData.getValidColorForPlayer();
         printStream.println("\nPlease, enter your name to play in the game:");
         name= getData.getName();
         Player player1 = new Player(name, color, "10583741");
 
         printStream.println("\nPlease, choose the color of the player:");
         printStream.println("Blue - Green - Yellow - Pink - Grey");
-        color = getData.getValidColorforPlayer();
+        color = getData.getValidColorForPlayer();
         printStream.println("\nPlease, enter your name to play in the game:");
         name= getData.getName();
         Player player2 = new Player(name, color, "14253954");

@@ -6,16 +6,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import controller.GrabWeapon;
 import exceptions.InvalidColorException;
 import model.*;
-import network.messages.ClientRequest.ActionClientRequest;
-import network.messages.ClientRequest.ColorClientRequest;
-import controller.Game;
-import network.messages.ClientRequest.MapClientRequest;
+import network.messages.ClientRequest.*;
 import network.messages.Message;
 import network.client.Client;
-import network.messages.ClientRequest.RunClientRequest;
+import network.messages.PowToWeaponGrabGameRequest;
 import utils.*;
 
 public class CLIView implements View {
@@ -99,7 +95,7 @@ public class CLIView implements View {
     @Override
     public void createPlayer(){
         System.out.println("Digitare proprio colore:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
-        String colorRequired=getData.getValidColorforPlayer();
+        String colorRequired=getData.getValidColorForPlayer();
         ColorClientRequest colorRequest=new ColorClientRequest(colorRequired,client.getUserID());
         System.out.println("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
@@ -137,11 +133,54 @@ public class CLIView implements View {
     }
 
     @Override
-    public void chooseRunDirection() {      //TODO: nomi delle variabili sensati?
-        List<String> direction=getData.getValidListDirectionforPlayer();
+    public void chooseRunDirection() {
+        List<String> direction;
+        do{
+            direction=getData.getValidListDirectionForPlayer();
+            if(direction.isEmpty()) printStream.println("You need to choose at least one direction.");
+        }while(direction.isEmpty());
         Message message=new RunClientRequest(direction,client.getUserID());
         client.sendMessage(message);
     }
+
+    @Override
+    public  void chooseWeaponToGrab(){
+        int indexWeapon;
+        showSpawnPointWeapons();
+        showPlayerAmmos();
+        printStream.println("Which Weapon do you want to grab?");
+        indexWeapon=getData.getInt(0,2);       //TODO: verificare
+        Message message=new WeaponGrabClientRequest(Integer.toString(indexWeapon),client.getUserID());
+        client.sendMessage(message);
+    }
+
+    @Override
+    public void askUsePowToGrabWeapon() {
+        int indexWeapon;
+        int indexPowCard;
+        printStream.println("Answer 'Yes' or 'No'");
+        if(getData.askYesOrNo()){
+            printStream.println("Which Weapon do you want to grab?");
+            indexWeapon=getData.getInt(0,2);
+            showPlayerPows();
+            printStream.println("Which pow card do you want to use to grab Weapon?");
+            indexPowCard=getData.getInt(1,getNumberOfPow())-1;
+            Message message=new PowToWeaponGrabClientRequest(Integer.toString(indexWeapon),Integer.toString(indexPowCard),client.getUserID());
+            client.sendMessage(message);
+        }
+        else{
+            printStream.println("If you don't want to grab this Weapon you can choose an other action");
+            chooseAction();
+            //TODO: richiamo la richiesta di azione o chiedo un altro Weapon?
+        }
+
+
+    }
+    @Override
+    public int getNumberOfPow(){
+        return client.getPlayerVisibleDATA().getSinglePlayer().getPows().size();
+    }
+
 
     @Override
     public void chooseStartingCell(){
@@ -404,7 +443,6 @@ public class CLIView implements View {
         List<PowCard> powcards = client.getPlayerVisibleDATA().getSinglePlayer().getPows();
         if(!powcards.isEmpty()) printStream.println("Your PowCards are: ");
         else printStream.println("Your have no PowCards");
-
         int i=1;
         for(PowCard powcard:powcards){
             printStream.println(i+". "+powcard.getName());
@@ -575,7 +613,7 @@ public class CLIView implements View {
         printStream.println("'E' for east");
         printStream.println("'S' for south");
         printStream.println("'W' for west");
-        return this.getData.getValidDirectionforPlayer();
+        return this.getData.getValidDirectionForPlayer();
     }
 
     //Method to ask the list direction for movement
@@ -593,7 +631,7 @@ public class CLIView implements View {
         //Movements are maximum of three cells, so in three direction. In special movements for some actions there are restrictions
         //for example moving of maximum one before shooting but this method is for a general input of sequence
         for(int i=0; i<3; i++){
-            String d = this.getData.getValidDirectionforPlayer();
+            String d = this.getData.getValidDirectionForPlayer();
             if(!d.equals(stop)) destination.add(d);
             else {
                 return destination;
