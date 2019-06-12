@@ -6,8 +6,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 public class GrabWeaponTest {
 
@@ -18,7 +21,7 @@ public class GrabWeaponTest {
     GrabWeapon grabweapon;
 
     @Before
-    public void setUp() throws Exception, MaxNumberPlayerException {
+    public void setUp() {
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");
         match.createPlayer("Calypso", "Pink", "14253954");
@@ -34,7 +37,7 @@ public class GrabWeaponTest {
     @Test
     public void weapon(){
         grabweapon = new GrabWeapon();
-        ArrayList<String> destination = new ArrayList<>();
+        List<String> destination = new ArrayList<>();
         player1.setCel(0,2);
         WeaponDeck weaponDeck = new WeaponDeck();
         weaponDeck.setWeapons("Armi");
@@ -60,7 +63,10 @@ public class GrabWeaponTest {
             c.Add_Weapon_Card(weapon5, 1);
             c.Add_Weapon_Card(weapon6, 2);
         } catch (FullCellException e){}
-        assertTrue(grabweapon.isValid(match, player1, destination, 1));
+        assertThrows(MaxNumberofCardsException.class, () -> grabweapon.isValid(match, player1, destination));
+        try{grabweapon.isValid(match, player1, destination);}
+        catch(MaxNumberofCardsException e){}
+        //assertDoesNotThrow(MaxNumberofCardsException.class, () -> grabweapon.isValid(match, player1, destination));
         assertFalse(grabweapon.isValidMovement(match, player1, destination));
         assertEquals(0, player1.getAction());
         //player1 has not enough damages to move before grabbing
@@ -69,12 +75,14 @@ public class GrabWeaponTest {
         player1.setCel(1,2);
         destination.add("N");
         assertTrue(grabweapon.isValidMovement(match, player1, destination));
-        assertTrue(grabweapon.isValid(match, player1, destination, 1));
+        try{grabweapon.isValid(match, player1, destination);}
+        catch(MaxNumberofCardsException e){}
         try{
             player1.removeWeapon(weapon3);
         } catch (ZeroCardsOwnedException e){}
         catch (NotOwnedCardException e){}
-        assertTrue(grabweapon.isValid(match, player1, destination, 1));
+        try{grabweapon.isValid(match, player1, destination);}
+        catch(MaxNumberofCardsException e){}
         grabweapon.movementBeforeGrab(match, player1, destination);
         assertEquals(0, player1.getCel().getX());
         assertEquals(2, player1.getCel().getY());

@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.CardAlreadyCollectedException;
 import exceptions.FullCellException;
 import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
@@ -69,6 +70,7 @@ public class GrabAmmoTest {
         try {
             grabammo.grabAmmo(match, player1);
         } catch(MaxNumberofCardsException e){}
+        catch(CardAlreadyCollectedException e){}
         assertEquals(1, player1.getAction());
         assertEquals(3, player1.getAmmo(0));
         assertEquals(2, player1.getAmmo(1));
@@ -79,6 +81,7 @@ public class GrabAmmoTest {
         try {
             grabammo.grabAmmo(match, player1);
         } catch(MaxNumberofCardsException e){}
+        catch(CardAlreadyCollectedException e){}
         assertEquals(2, player1.getAction());
         assertEquals(3, player1.getAmmo(0));
         assertEquals(3, player1.getAmmo(1));

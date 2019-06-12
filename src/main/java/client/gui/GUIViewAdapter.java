@@ -97,12 +97,12 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
-    public void showPlayerPows(Player player) {
+    public void showPlayerPowsForAttack() {
 
     }
 
     @Override
-    public void showPlayerPowsColors(Player player) {
+    public void showPlayerPowsColors() {
 
     }
 
@@ -124,6 +124,11 @@ public class GUIViewAdapter implements View {
     @Override
     public List<String> getListDirection() {
         return null;
+    }
+
+    @Override
+    public int getNumberOfPow() {
+        return 0;
     }
 
     @Override
@@ -163,6 +168,31 @@ public class GUIViewAdapter implements View {
 
     @Override
     public void chooseAction() {
+
+    }
+
+    @Override
+    public void chooseRunDirection() {
+
+    }
+
+    @Override
+    public void chooseWeaponToGrab() {
+
+    }
+
+    @Override
+    public void askUsePowToGrabWeapon() {
+
+    }
+
+    @Override
+    public void chooseDiscardWeapon() {
+
+    }
+
+    @Override
+    public void chooseDiscardPowCard() {
 
     }
 }
