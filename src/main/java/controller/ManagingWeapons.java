@@ -3,13 +3,10 @@ package controller;
 import exceptions.*;
 import model.Player;
 import model.PowCard;
-import model.SpawnPointCell;
 import model.Weapon;
 import model.Ammo;
 import model.Match;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ManagingWeapons {
@@ -37,7 +34,7 @@ public class ManagingWeapons {
         }
     }
 
-    public void removePow(Player player, int indexPowCard){
+    public void discardPowCard(Player player, int indexPowCard){
         PowCard powcard = player.getPowByIndex(indexPowCard);
         try{
             player.removePow(powcard);
@@ -75,7 +72,7 @@ public class ManagingWeapons {
         }
         //Se l'aggiunta dell'Ammo è andata a buon fine verifico se il Player ne ha sufficienti per la raccolta dell'arma
         if(areEnoughAmmoToGrabWeapon(player,weaponToGrab)){
-            removePow(player, indexPowCard);
+            discardPowCard(player, indexPowCard);
             //torno al metodo principale che potrà quindi effettuare effettivamente la GrabAmmo
         }
         else{

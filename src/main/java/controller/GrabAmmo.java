@@ -12,22 +12,17 @@ public class GrabAmmo extends Grab{
     public GrabAmmo(){
         //Empty Constructor, controller has to use the method grabAmmo
     }
-    public void grabAmmo(Match match, Player player) throws MaxNumberofCardsException{
+    public void grabAmmo(Match match, Player player) throws MaxNumberofCardsException, CardAlreadyCollectedException {
         NormalCell cell;
         int cardType;
         cell = (NormalCell) player.getCel().inmap(match.getDashboard(), player.getCel().getX(), player.getCel().getY());
         cardType=cell.getCardType();
-        try{
-            cell.Collect_Card(player);
-        } catch (CardAlreadyCollectedException e){
-            return; //TODO avvisare utente
-        }
-
+        cell.Collect_Card(player);
 
         if(1==cardType){        //cardType==1 if Card is AmmoPowTile
             match.assignPowCard(player);
-            //TODO:Stampare messaggio d'errore e ragionare su come gestire situazione
         }
+
         player.setAction();
         match.addAmmoCard(cell);
     }

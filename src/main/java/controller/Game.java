@@ -107,6 +107,14 @@ public class Game{
     private void askAction(){
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
+    /*
+    Le possibili azioni sono:
+    0. Run
+    1. Grab
+    2. Shoot
+    3. Grab with movement
+    4. Shoot with movement
+    5. Recharge*/
 
     public void performAction(String userID, int chosenAction) {
         checkUserAction(userID);
@@ -118,14 +126,20 @@ public class Game{
                 this.selectGrab();
                 break;
             case (2):
+                //Richiesta al giocatore con arma con cui vuole attaccare
+                //Da cui poi si chiamerà la shoot
+
+                //Solita struttura askWeaponToAttack->performAttack (Shoot)
+                /*
                 int attackingweapon = view.getWeaponCardtoAttack();
                 //TODO chiede al giocatore con che arma (restituisce l'indice) vuole attaccare
                 attackingweapon--;
                 this.shoot();
                 //TODO LE ARMIIIII
-                break;
+                break;*/
             case (3):
                 /*Grabbing with movement*/
+                /*
                 List<String> destination2 = view.getListDirection();
                 GrabAmmo grabAmmo = new GrabAmmo();
                 if (!grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2)) {
@@ -133,8 +147,10 @@ public class Game{
                     return;
                 }
                 this.grab(view, counter);
+                */
                 break;
             case (4):
+                /*
                 List<String> destination3 = view.getListDirection();
                 Shoot shoot = new Shoot();
                 if (!shoot.movementBeforeShoot(match, match.getActivePlayer(), destination3)) {
@@ -144,6 +160,7 @@ public class Game{
                 //controllo di validità movimento già fatto, mancano solo gli effetti arma
                 this.shoot();
                 //TODO LE ARMIIIII
+                */
                 break;
             case (5):
                 this.recharge();
@@ -266,65 +283,44 @@ public class Game{
     }
 
     private void grabAmmoTile(){
-        ManagingWeapons manage = new ManagingWeapons(match);
-        GetData getData = new GetData();
         GrabAmmo grabAmmo = new GrabAmmo();
-        //TODO stampa al player il numero di ammo prima e dopo la raccolta
-        System.out.println("Before grabbing");
-        view.showPlayerAmmos();
-        view.showPlayerPows();
-        //TODO stampa il numero di potenziamenti prima della raccolta e prova ad aggiungere al player una Powcard se la carta ammo ne prevedeva
-        //TODO se il player ha già tre potenziamenti chiede se ne vuole scartare uno e in case affermativo quale vuole scartare
         try{
             grabAmmo.grabAmmo(match, match.getActivePlayer());
-            System.out.println("After grabbing");
-            view.showPlayerAmmos();
-            view.showPlayerPows();
-            counter++;
+            nextStep();
         } catch(MaxNumberofCardsException exc){
-            System.out.println("You have to many PowCards, if you want to discardWeapon one digit 1, 0 otherwise");
-            //TODO vuoi scartare una carta POT?
-            int removing = getData.getInt(0, 1);
-            switch(removing){
-                case(0):
-                    //TODO non l'hai voluta scartare, quindi le tue ammo aggiornate sono queste
-                    System.out.println("After grabbing without collecting the PowCard of AmmoPowTile");
-                    view.showPlayerAmmos();
-                    view.showPlayerPows();
-                    break; //nothing to be done, just Ammos are taken
-                case(1):
-                    //TODO quale carta POT vuoi scartare?
-                    System.out.println("Which PowCard do you want to discardWeapon?");
-                    view.showPlayerPows();
-                    int removedpow = getData.getInt(1, 3);
-                    removedpow--;
-                    ManagingWeapons removepow = new ManagingWeapons();
-                    removepow.removePow(match.getActivePlayer(), removedpow);
-
-                    try{
-                        match.assignPowCard(match.getActivePlayer());
-                    } catch(MaxNumberofCardsException ex){return;}
-                    System.out.println("After grabbing collecting the PowCard of AmmoPowTile");
-                    view.showPlayerPows();
-                    view.showPlayerAmmos();
-                    break;
-            }
+            askToDiscardPowCard();
+        } catch (CardAlreadyCollectedException e) {
+            //TODO GESTIONE ERRORE
         }
+    }
+
+    private void askToDiscardPowCard(){
+        Message errorMessage=new MaxPowCardError("You have already three PowCard, you can discard one");
+        gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+    }
+
+    public void discardPowCard(String userID, int indexPowCard) {
+        checkUserAction(userID);
+        manageWeapon.discardPowCard(match.getActivePlayer(),indexPowCard);
+        try {
+            match.assignPowCard(match.getActivePlayer());
+        } catch (MaxNumberofCardsException e) {
+            //Impossibile dato che ho appena scartato una carta
+        }
+        match.getActivePlayer().setAction();
+        nextStep();
     }
 
     private void shoot(){
 
     }
 
-    private void recharge(View view){
-        ManagingWeapons manage = new ManagingWeapons();
+    private void recharge(){
         /*Recharge a weapon checking if the weapon is already loaded*/
         System.out.println("Which weapon do you want to recharge?");
-        view.showPlayerWeapons();
-        int weapontorecharge = view.getWeaponCard();
-        weapontorecharge--;
+        int weaponToRecharge=0;
         try{
-            manage.Recharge(match.getActivePlayer(), weapontorecharge);
+            manageWeapon.Recharge(match.getActivePlayer(), weaponToRecharge);
         } catch(WeaponAlreadyLoadedException e){
             System.out.println("You have already loaded this weapon");
         }
@@ -334,8 +330,6 @@ public class Game{
     //TODO bisogna sostituire le print con dei messaggi per la comunicazione tra client e server
     public void play(Match match, View view){
         int counter=0;
-        GetData getData=new GetData();
-        ManagingWeapons manage = new ManagingWeapons(); //class for the managing of weapons and pows in particular cases
         int choice;
         while(counter<2){
 
@@ -349,7 +343,7 @@ public class Game{
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
 
-    //TODO: a fine turno gestire carte sulla dashboard ecc.
+    //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
         //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
         if(match.getActivePlayer().getAction()<2) {
@@ -383,6 +377,8 @@ public class Game{
         for(Player p:match.getPlayers()) p.resetAction();
         match.getPlayerByIndex(0).setActive();
     }
+
+
 
 
 

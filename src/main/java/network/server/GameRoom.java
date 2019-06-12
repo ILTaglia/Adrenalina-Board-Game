@@ -114,5 +114,9 @@ public class GameRoom {
     public void discardWeaponCardToGrab(String userID, int indexWeapon) {
         gameController.discardWeaponCardToGrab(userID,indexWeapon);
     }
+
+    public void discardPowCard(String userID, int indexPowCard) {
+        gameController.discardPowCard(userID,indexPowCard);
+    }
 }
 

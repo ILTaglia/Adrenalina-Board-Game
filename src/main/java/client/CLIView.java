@@ -11,6 +11,7 @@ import model.*;
 import network.messages.ClientRequest.*;
 import network.messages.Message;
 import network.client.Client;
+import network.messages.ClientRequest.PowCardDiscardClientRequest;
 import utils.*;
 
 public class CLIView implements View {
@@ -118,6 +119,8 @@ public class CLIView implements View {
     }
 
     public void chooseAction(){
+        //TODO: STAMPARE LE INFO NECESSARIE PER SCEGLIERE
+        // EX: CELLA IN CUI SI TROVA IL GIOCATORE COSA CONTIENE!
         printStream.println("0. Run");
         printStream.println("1. Grab");
         printStream.println("2. Shoot");
@@ -126,7 +129,6 @@ public class CLIView implements View {
         printStream.println("5. Recharge");
         int choice = getData.getInt(0, 5);
         String indexAction = Integer.toString(choice);
-
         Message actionRequest=new ActionClientRequest(indexAction,client.getUserID());
         client.sendMessage(actionRequest);
     }
@@ -159,13 +161,15 @@ public class CLIView implements View {
         }
     }
 
+
+
     @Override
     public  void chooseWeaponToGrab(){
         int indexWeapon;
         showSpawnPointWeapons();
         showPlayerAmmos();
         printStream.println("Which Weapon do you want to grab?");
-        indexWeapon=getData.getInt(0,2);       //TODO: verificare
+        indexWeapon=getData.getInt(0,2);       //TODO: correggere
         Message message=new WeaponGrabClientRequest(Integer.toString(indexWeapon),client.getUserID());
         client.sendMessage(message);
     }
@@ -193,6 +197,22 @@ public class CLIView implements View {
 
     }
 
+    @Override
+    public void chooseDiscardPowCard() {
+        int indexPowCard;
+        printStream.println("Answer 'Yes' or 'No'");
+        if(getData.askYesOrNo()){
+            showPlayerPows();
+            printStream.println("Which PowCard do you want to discard?");
+            indexPowCard=getData.getInt(0,client.getPlayerVisibleDATA().getSinglePlayer().getnumberpow())-1;
+            Message message=new PowCardDiscardClientRequest(Integer.toString(indexPowCard),client.getUserID());
+            client.sendMessage(message);
+        }
+        else{
+            printStream.println("You can't have more than three PowCard. You can't draw new PowCard.\n");
+            //Non chiedo ulteriori info perchè il Player comunque ha raccolto e ha accettato di non prendere la PowCard.
+        }
+    }
 
 
     @Override

@@ -52,6 +52,7 @@ public interface View {
 
     void chooseDiscardWeapon();
 
+    void chooseDiscardPowCard();
 
 
 
