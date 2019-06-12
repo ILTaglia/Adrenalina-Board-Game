@@ -36,7 +36,8 @@ public class Login {
 
 
         String percorso = System.getProperty("user.dir");
-        percorso=percorso+"\\media\\adrenalina2.png";
+        percorso=percorso+"\\src\\main\\java\\client\\gui\\media\\adrenalina2.png";
+        System.out.println(percorso);
         ImageIcon sfondo = new ImageIcon(percorso);
         JLabel background = new JLabel("",sfondo,JLabel.CENTER);
         background.setBounds(0,0,700,350);
