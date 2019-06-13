@@ -250,6 +250,8 @@ public class Player {
 
     public void setDeath(){this.death+=1;}
 
+    public void setDeathFrienzy(int n){this.death=n;}
+
     //return number of actions taken till this moment
     public int getAction(){return this.action;}
 

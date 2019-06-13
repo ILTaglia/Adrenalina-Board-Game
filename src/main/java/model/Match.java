@@ -83,6 +83,22 @@ public class Match implements Serializable {
     //Returns all the players on the match
     public ArrayList<Player> getPlayers() { return this.players; }
 
+    public List<Player> getNoDamagedPlayers(){
+        List<Player> list = new ArrayList<>();
+        for(Player p:this.players){
+            if(p.gettotaldamage()==0) list.add(p);
+        }
+        return list;
+    }
+
+    public Player getPlayerByColor(int color){
+        for(Player player:this.players){
+            if(player.getcolor()==color){ return player;
+            }
+        }
+        return null;
+    }
+
     public void fillDashboard(){
         if(this.checkDashboard) {
             int maptype = this.getDashboard().getMapType();

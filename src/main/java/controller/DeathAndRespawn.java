@@ -50,6 +50,7 @@ public class DeathAndRespawn {
             if(flag==1) break;
         }
         if(m.getDashboard().getindex()==9){
+            FinalFrenzy finalFrenzy = new FinalFrenzy(m, playerkilled.getcolor());
             endgame(m, m.getDashboard());
             /*when a match ends the killshot track is full, so index is 9. The attribution of points considering the killshot
             * track is done by another method in order to better test the attribution of points (see DashboardTest, in
