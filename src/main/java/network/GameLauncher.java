@@ -1,12 +1,8 @@
 package network;
 
-//TODO: Main del tutto temporaneo
-
 import network.client.Client;
 import network.server.GameServer;
 import utils.GetData;
-
-import java.util.Scanner;
 
 public class GameLauncher{
 
@@ -17,11 +13,6 @@ public class GameLauncher{
         int userChoice=getData.getInt(0, 1);
         if(userChoice==0){
             GameServer.main(args);
-            /*try {
-                GameServer.main(args);
-            } catch (IOException e) {
-                System.err.println(e.getMessage());
-            }*/
         }else{
             Client.main(args);
         }

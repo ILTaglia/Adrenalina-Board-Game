@@ -111,7 +111,19 @@ public class Client {
     }
 
     private void handleInfoMessage(Message message) {
+        switch (message.getContent()){
+            case "PlayerCreated":
+                //Prendo classe dal messaggio, Player già incluso
+                break;
+            case "ListOfEnemies":
+                //Man mano che i Player sono creati invio notifiche a tutti della loro creazione. Non semplice
+            case "NewPowCard":
 
+                break;
+            case "NewWeaponCard":
+                break;
+
+        }
     }
 
     private void handleRequestMessage(Message message) {
