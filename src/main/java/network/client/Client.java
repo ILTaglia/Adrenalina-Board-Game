@@ -7,22 +7,18 @@ import model.PlayerVisibleData;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
-import network.messages.ClientRequest.VisitorRequest;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class Client {
-    private PlayerVisibleData PlayerVisibleDATA;
+    private PlayerVisibleData playerVisibleData;
     private boolean isToUseSocket;
     private View view;
     private String userID;
 
     private ConnectionHandler connectionHandler;
-
-    private final String serverIP="127.0.0.1";
-    private final int serverPort=7218;
 
 
     public Client(){
@@ -49,9 +45,9 @@ public class Client {
 
     }
 
-    public PlayerVisibleData getPlayerVisibleDATA(){return this.PlayerVisibleDATA;}
+    public PlayerVisibleData getPlayerVisibleData(){return this.playerVisibleData;}
 
-    public void addView(View view){
+    private void addView(View view){
         this.view=view;
     }
 
@@ -61,6 +57,8 @@ public class Client {
 
     public void launchConnection(){
         if(isToUseSocket){
+            String serverIP = "127.0.0.1";
+            int serverPort = 7218;
             connectionHandler=new SocketHandler(serverIP, serverPort, this);
         }
         else{
@@ -106,8 +104,14 @@ public class Client {
                 view.showInfoMessage(message);
                 handleRequestMessage(message);
                 break;
-
+            case "InfoGame":
+                handleInfoMessage(message);
+                break;
         }
+    }
+
+    private void handleInfoMessage(Message message) {
+
     }
 
     private void handleRequestMessage(Message message) {

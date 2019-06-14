@@ -34,15 +34,20 @@ public class NotifyClient {
         Map<String,GameRoom> result= userIDtoMatch.entrySet()
                 .stream()
                 .filter(value->value.getValue().equals(gr))
-                .collect(Collectors.toMap(map -> map.getKey(), map -> map.getValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         Collection<String> userIDs=result.keySet();
         for(String userID:userIDs){
-            gameServer.sendMessageToID(userID,message);
+            if(gameServer!=null){
+                gameServer.sendMessageToID(userID,message);
+            }
         }
     }
 
     public static void notifySpecificClient(String userID, Message message){
-        gameServer.sendMessageToID(userID,message);
+        if(gameServer!=null){
+            gameServer.sendMessageToID(userID,message);
+        }
+
     }
 
 
