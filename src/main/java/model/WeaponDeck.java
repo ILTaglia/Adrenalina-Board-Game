@@ -8,13 +8,6 @@ import java.util.ArrayList;
 public class WeaponDeck extends Deck{
     private ArrayList<Weapon> W;
 
-    public int getnumbercards()
-    {
-        return this.W.size();
-    }
-
-    //TODO: questo metodo può essere rimosso e si può usare il drawCard di Deck
-
 
     public WeaponDeck(){
         stack =new ArrayList<>();

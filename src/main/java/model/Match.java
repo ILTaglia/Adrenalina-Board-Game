@@ -24,7 +24,7 @@ public class Match implements Serializable {
 
 
     public Match(){
-        this.round=0;
+        this.round=1;
         this.players=new ArrayList<>();
         ammoDeck =new AmmoDeck();
         weaponDeck =new WeaponDeck();
@@ -60,6 +60,7 @@ public class Match implements Serializable {
         this.dashboard=new Dashboard(selectedDashboard);
         Message infoMap=new InfoMatch("La mappa selezionata è quella di indice: "+selectedDashboard+". Stampata di seguito:\n" );
         notifyAllClients(this,infoMap);
+        checkDashboard =true;
     }
 
     //returns player by color
@@ -569,7 +570,7 @@ public class Match implements Serializable {
     }
 
     public int getCellsMD(Coordinate cell1, Coordinate cell2){
-        int distance=-1;
+        int distance;
         int x1;
         int y1;
         int x2;

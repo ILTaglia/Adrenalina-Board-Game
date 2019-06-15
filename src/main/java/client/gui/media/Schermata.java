@@ -1,6 +1,8 @@
 package client.gui.media;
 
-import javafx.application.Application;
+//TODO sistemare librerie javafx?? noi usiamo swing
+
+/*import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -30,4 +32,4 @@ public class Schermata extends Application {
 
 
     }
-}
+}*/

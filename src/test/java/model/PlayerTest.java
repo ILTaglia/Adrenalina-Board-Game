@@ -234,6 +234,7 @@ class PlayerTest {
         try { player1.addWeapon(weapon1); }
         catch (MaxNumberofCardsException e){ System.out.println("You have too many Weapon Cards, please discardWeapon one."); }
         assertEquals(1, player1.getNumberWeapon());
+        assertTrue(player1.getWeapons().contains(weapon1));
         assertTrue(player1.weaponIspresent(weapon1));
         assertThrows(NotOwnedCardException.class, () -> player1.removeWeapon(weapon2));
         try {
@@ -265,6 +266,7 @@ class PlayerTest {
         }
         assertEquals(1, player1.getnumberpow());
         assertTrue(player1.powIspresent(powcard1));
+        assertEquals(powcard1, player1.getPowByIndex(0));
         PowCard powcard2 = (PowCard) deck.drawCard();
         assertThrows(NotOwnedCardException.class, () -> player1.removePow(powcard2));
 
@@ -300,6 +302,8 @@ class PlayerTest {
     void setDeath() {
         player1.setDeath();
         assertEquals(1, player1.getDeath());
+        player1.setDeathFrienzy(4);
+        assertEquals(4, player1.getDeath());
     }
 
     @Test

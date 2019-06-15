@@ -1,11 +1,12 @@
 package model;
 
-import exceptions.InvalidColorException;
-import exceptions.MaxNumberPlayerException;
+import controller.GrabWeapon;
+import exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MatchTest {
@@ -18,7 +19,7 @@ public class MatchTest {
 
 
     @Before
-    public void SetUp() throws MaxNumberPlayerException {
+    public void SetUp(){
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");
         match.createPlayer("Calypso", "Pink", "14253954");
@@ -57,12 +58,6 @@ public class MatchTest {
         assertFalse(match.getCheck());
         match.createDashboard(2);
         assertTrue(match.getCheck());
-    }
-
-    @Test
-    public void add_player() {
-        match.createPlayer("Karka", "Grey", "18114320");
-        assertThrows(MaxNumberPlayerException.class, () -> match.createPlayer("Gemini", "Grey", "10003256"));
     }
 
     @Test
@@ -106,28 +101,121 @@ public class MatchTest {
     }
 
     @Test
+    public void players(){
+        match.createDashboard(2);
+        match.fillDashboard();
+        match.shuffleAllDecks();
+        assertTrue(match.getPlayers().contains(player1));
+        assertTrue(match.getPlayers().contains(player2));
+        assertTrue(match.getPlayers().contains(player3));
+        assertTrue(match.getPlayers().contains(player4));
+        assertFalse(match.getPlayers().contains(player5));
+
+        player1.setdamage(3, 2);
+        assertFalse(match.getNoDamagedPlayers().contains(player1));
+        assertTrue(match.getNoDamagedPlayers().contains(player2));
+
+        assertEquals(player1, match.getPlayerByColor(0));
+        assertEquals(player2, match.getPlayerByColor(3));
+        assertNull(match.getPlayerByColor(5));
+        match.firstTurnPows();
+        assertEquals(2,player1.getPows().size());
+        assertEquals(2,player2.getPows().size());
+        assertEquals(2,player3.getPows().size());
+        assertEquals(2,player4.getPows().size());
+    }
+
+    @Test
     public void dashboard(){
         match.createDashboard(1);
         Dashboard d = match.getDashboard();
+        match.fillDashboard();
+        match.shuffleAllDecks();
+
+        SpawnPointCell c = (SpawnPointCell)d.getmap(0, 2);
+        assertEquals(3, c.getSpawnPointCellWeapons().size());
+        c = (SpawnPointCell)d.getmap(1, 0);
+        assertEquals(3, c.getSpawnPointCellWeapons().size());
+        c = (SpawnPointCell)d.getmap(2, 3);
+        assertEquals(3, c.getSpawnPointCellWeapons().size());
+
+        match.addWeaponCard(c, 1);
+        assertEquals(3, c.getSpawnPointCellWeapons().size());
+        Ammo redAmmo = new Ammo(0);
+        Ammo blueAmmo = new Ammo(1);
+        Ammo yellowAmmo = new Ammo(2);
+        try{
+            player1.addAmmo(redAmmo);
+            player1.addAmmo(redAmmo);
+            player1.addAmmo(blueAmmo);
+            player1.addAmmo(blueAmmo);
+            player1.addAmmo(yellowAmmo);
+            player1.addAmmo(yellowAmmo);
+        } catch(MoreThanTreeAmmosException e){}
+        assertThrows(MoreThanTreeAmmosException.class, () -> player1.addAmmo(yellowAmmo));
+        player1.setCel(2, 3);
+        assertEquals(0, player1.getNumberWeapon());
+        List<Weapon> beforeGrabbingWeapons = c.getSpawnPointCellWeapons();
+        GrabWeapon grabweapon = new GrabWeapon();
+        try{
+            grabweapon.grabWeapon(match, player1, 1);
+        } catch(MaxNumberofCardsException e){}
+        List<Weapon> afterGrabbingWeapons = c.getSpawnPointCellWeapons();
+        //verifica che nella spawnpoint non ci sia più l'arma pescata dal player
+        assertEquals(beforeGrabbingWeapons.get(0), afterGrabbingWeapons.get(0));
+        assertNotEquals(beforeGrabbingWeapons.get(1), afterGrabbingWeapons.get(1));
+        assertEquals(beforeGrabbingWeapons.get(1), player1.getWeaponByIndex(0));
+        assertEquals(beforeGrabbingWeapons.get(2), afterGrabbingWeapons.get(2));
+        assertEquals(1, player1.getNumberWeapon());
+
+        try{
+            player1.removeAmmo(2, blueAmmo);
+        } catch(NotEnoughAmmosException e){}
+        assertThrows(NotEnoughAmmosException.class,() -> player1.removeAmmo(2, blueAmmo));
+        assertThrows(NotEnoughAmmosException.class,() -> player2.removeAmmo(2, blueAmmo));
+
+        NormalCell normalCell = (NormalCell)d.getmap(2, 2);
+        match.addAmmoCard(normalCell);
     }
 
     @Test
     public void exception_test(){
-        try {
-            Player player6 = match.getPlayer(6);
-        }
-        catch (InvalidColorException e){}
-        Player player5 = new Player("Karka", "Blue", "18114320");
+        assertThrows(InvalidColorException.class,()-> match.getPlayer(6));
+        match.createPlayer("Karka", "Grey", "18114320");
+        player5 = match.getPlayerByIndex(4);
         Match m2 = new Match();
         m2.createPlayer("Sirius", "Blue", "10583741");
         m2.createPlayer("Calypso", "Pink", "14253954");
-        //TODO: non sembra essere necessario l'int di ritorno, da verificare il test.
-        //assertEquals(1, m2.createDashboard(1));
+    }
+
+    @Test
+    public void assignCard(){
+        //non è stato fatto l'assegnamento dei due powcard a inizio partita nel setup, tutti a zero.
+        assertEquals(0, player3.getPows().size());
+        try{
+            match.assignPowCard(player3);
+        } catch(MaxNumberofCardsException e){}
+        assertEquals(1, player3.getPows().size());
+        try{
+            match.assignPowCard(player3);
+            match.assignPowCard(player3);
+        } catch(MaxNumberofCardsException e){}
+        assertEquals(3, player3.getPows().size());
+        assertThrows(MaxNumberofCardsException.class,() -> match.assignPowCard(player3));
+
+        PowDeck powDeck = new PowDeck("Pow");
+        PowCard powCard = (PowCard) powDeck.drawCard();
+        match.discardPowCard(powCard);
+        WeaponDeck weaponDeck = new WeaponDeck();
+        weaponDeck.setWeapons("Armi");
+        Weapon weapon = (Weapon) weaponDeck.drawCard();
+        match.discardWeaponCard(weapon);
     }
 
     @Test
     public void players_list1(){
         match.createDashboard(3);
+        match.fillDashboard();
 
         player1.setCel(0, 3);
         player2.setCel(0, 1);
@@ -449,5 +537,12 @@ public class MatchTest {
         assertEquals(2, match.getUpCells(c3).get(1).getY());
         assertEquals(0, match.getDownCells(c3).size());
 
+    }
+
+    @Test
+    public void getcellsMD(){
+        Coordinate cell1 = new Coordinate(2, 3);
+        Coordinate cell2 = new Coordinate(0, 1);
+        assertEquals(4, match.getCellsMD(cell1, cell2));
     }
 }
