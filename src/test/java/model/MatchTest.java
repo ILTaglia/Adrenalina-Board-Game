@@ -111,7 +111,7 @@ public class MatchTest {
         assertTrue(match.getPlayers().contains(player4));
         assertFalse(match.getPlayers().contains(player5));
 
-        player1.setdamage(3, 2);
+        player1.setDamage(3, 2);
         assertFalse(match.getNoDamagedPlayers().contains(player1));
         assertTrue(match.getNoDamagedPlayers().contains(player2));
 

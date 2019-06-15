@@ -54,7 +54,7 @@ public class RemoteBoardView extends BoardView{
         // TODO settaggio del connectionHandler, selezione della comunicazione
         //this.viewAdapter=this.selectCommunicator(currentClient);
         try {
-            viewAdapter.startingMessage(currentClient,match.getActivePlayer().getcolor());
+            viewAdapter.startingMessage(currentClient,match.getActivePlayer().getColor());
         }catch (IOException e) {
             //this.DeleteClientFromControllerControl(currentClient);
             LOGGER.log(Level.FINEST,e.getMessage(),e);

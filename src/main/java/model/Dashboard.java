@@ -83,15 +83,15 @@ public class Dashboard {
     public int getMapType(){return this.maptype;}
 
     public void setKillshottrack(Player player, int n){
-        killshottrack[0][trackindex]=player.getcolor();
+        killshottrack[0][trackindex]=player.getColor();
         //n is the int returned by the set_damage
 
         //m contains the number of signals a player already has in the killshot track
-        int m = killshotpoints.get(player.getcolor());
-        killshotpoints.set(player.getcolor(), n+m);
-        if(!ord.contains(player.getcolor()))ord.add(player.getcolor());
+        int m = killshotpoints.get(player.getColor());
+        killshotpoints.set(player.getColor(), n+m);
+        if(!ord.contains(player.getColor()))ord.add(player.getColor());
         if(n==1) killshottrack[1][trackindex]= -1;
-        if(n==2) killshottrack[1][trackindex]=player.getcolor();
+        if(n==2) killshottrack[1][trackindex]=player.getColor();
         trackindex = trackindex +1;
         //TODO se si finisce l'array finisce la partita
         if(trackindex ==9) return; //endgame

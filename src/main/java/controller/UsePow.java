@@ -5,12 +5,11 @@ import exceptions.ZeroCardsOwnedException;
 import model.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UsePow {
     public int usepowcard(Match m, PowCard p, Player first, Player second, String move,int n, Coordinate c)
     {
-        if(m.getPlayer(first.getcolor()).equals(first)&&first.powIspresent(p)) //Controllo che il giocatore esista e abbia quel potenziamento
+        if(m.getPlayer(first.getColor()).equals(first)&&first.powIspresent(p)) //Controllo che il giocatore esista e abbia quel potenziamento
         {
             if(p instanceof model.Teleporter) //Nel caso in cui avessi un teleporter
             {
@@ -33,7 +32,7 @@ public class UsePow {
                     }
             try
             {
-                m.getPlayer(first.getcolor()).removePow(p);
+                m.getPlayer(first.getColor()).removePow(p);
             }
             catch (ZeroCardsOwnedException e)
             {
@@ -57,13 +56,13 @@ public class UsePow {
 
     private void useteleporter(Match m, Player first, Coordinate c)
     {
-        m.getPlayer(first.getcolor()).setCel(c.getX(),c.getY());
+        m.getPlayer(first.getColor()).setCel(c.getX(),c.getY());
     }
 
 
     private void usegranade(Match m, Player first, Player second)
     {
-        m.getPlayer(second.getcolor()).setmarks(1,first.getcolor());
+        m.getPlayer(second.getColor()).setmarks(1,first.getColor());
     }
 
 
@@ -88,6 +87,6 @@ public class UsePow {
 
     private void usescope(Match m, Player first, Player second)
     {
-        m.getPlayer(second.getcolor()).setdamage(1,first.getcolor());
+        m.getPlayer(second.getColor()).setDamage(1,first.getColor());
     }
 }

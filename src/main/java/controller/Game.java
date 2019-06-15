@@ -4,7 +4,6 @@ import exceptions.*;
 import model.*;
 import network.messages.*;
 import network.server.GameRoom;
-import utils.GetData;
 
 import java.util.List;
 import java.util.Map;
@@ -46,8 +45,8 @@ public class Game{
         System.out.println("Ok, mappa scelta: " + mapRequired);
         match.createDashboard(Integer.valueOf(mapRequired));
         //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
-        Message notification = new InfoMatch("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
-        notifyAllClients(match,notification);
+        //Message notification = new InfoMatch("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
+        //notifyAllClients(match,notification);
         setGameReady();
     }
 
@@ -479,7 +478,7 @@ public class Game{
             }
             view.showPlayerPows(p);
         }
-        player.setdamage(6, 0);
+        player.setDamage(6, 0);
         //TODO serve al connectionHandler a reference alla partita che sta giocando
         for(int i=0; i<match.getPlayersSize(); i++){
             game.play(match, view);

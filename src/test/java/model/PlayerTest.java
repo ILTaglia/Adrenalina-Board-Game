@@ -21,8 +21,8 @@ class PlayerTest {
 
     @Test
     void get(){
-        assertEquals(0, player1.getcolor());
-        assertEquals(3, player2.getcolor());
+        assertEquals(0, player1.getColor());
+        assertEquals(3, player2.getColor());
         assertEquals("10583741", player1.getID());
         assertEquals(0, player1.getAction());
         assertFalse(player1.getActive());
@@ -51,129 +51,129 @@ class PlayerTest {
     @Test
     void getnumberdamage() {
         for(int i=0; i<5; i++){
-            if(player1.getcolor()!=i) assertEquals(0, player1.getnumberdamage(i));
-            if(player2.getcolor()!=i) assertEquals(0, player2.getnumberdamage(i));
+            if(player1.getColor()!=i) assertEquals(0, player1.getNumberDamage(i));
+            if(player2.getColor()!=i) assertEquals(0, player2.getNumberDamage(i));
         }
 
         //verify that player1 has 3 damages by player2
-        player1.setdamage(3, player2.getcolor());
-        assertEquals(3, player1.getnumberdamage(player2.getcolor()));
-        assertEquals(-1, player1.getnumberdamage(player1.getcolor()));
+        player1.setDamage(3, player2.getColor());
+        assertEquals(3, player1.getNumberDamage(player2.getColor()));
+        assertEquals(-1, player1.getNumberDamage(player1.getColor()));
 
         //verify nothing changed
-        player1.setdamage(2, player1.getcolor());
-        assertEquals(3, player1.getnumberdamage(player2.getcolor()));
-        assertEquals(-1, player1.getnumberdamage(player1.getcolor()));
+        player1.setDamage(2, player1.getColor());
+        assertEquals(3, player1.getNumberDamage(player2.getColor()));
+        assertEquals(-1, player1.getNumberDamage(player1.getColor()));
     }
 
     @Test
     void winningpoints(){
-        player1.setdamage(6, player2.getcolor());
-        assertEquals(1, player1.setdamage(5, player3.getcolor()));
+        player1.setDamage(6, player2.getColor());
+        assertEquals(1, player1.setDamage(5, player3.getColor()));
         //set_damages returns 1 with the damage number 11
-        assertEquals(11, player1.gettotaldamage());
+        assertEquals(11, player1.getTotalDamage());
 
-        assertEquals(2, player1.setdamage(2, player2.getcolor()));
+        assertEquals(2, player1.setDamage(2, player2.getColor()));
         //set_damages returns 1 with the damage number 11
-        assertEquals(12, player1.gettotaldamage());
+        assertEquals(12, player1.getTotalDamage());
     }
 
     @Test
     void gettotaldamage() {
-        assertEquals(0, player1.gettotaldamage());
-        assertEquals(0, player2.gettotaldamage());
+        assertEquals(0, player1.getTotalDamage());
+        assertEquals(0, player2.getTotalDamage());
 
         //verify that player1 has now 3 damages
-        player1.setdamage(3, player2.getcolor());
-        assertEquals(3, player1.gettotaldamage());
-        assertEquals(0, player2.gettotaldamage());
+        player1.setDamage(3, player2.getColor());
+        assertEquals(3, player1.getTotalDamage());
+        assertEquals(0, player2.getTotalDamage());
 
         //verify nothing changed
-        player2.setdamage(2, player2.getcolor());
-        assertEquals(3, player1.gettotaldamage());
-        assertEquals(0, player2.gettotaldamage());
+        player2.setDamage(2, player2.getColor());
+        assertEquals(3, player1.getTotalDamage());
+        assertEquals(0, player2.getTotalDamage());
     }
 
     @Test
     void getmaxdamages(){
         Player player4 = new Player("Aries", "Yellow", "18992302");
         Player player5 = new Player("Karka", "Grey", "18114320");
-        assertEquals(0, player1.gettotaldamage());
+        assertEquals(0, player1.getTotalDamage());
         assertEquals(0, player1.getDeath());
-        player1.setdamage(3,3); //from player2
-        player1.setdamage(2,2); //from player4
-        player1.setdamage(3,4); //from player5
-        player1.setdamage(2,3); //from player2
-        player1.setdamage(2,1); //from player3
-        assertEquals(12, player1.gettotaldamage());
-        assertEquals(5, player1.getnumberdamage(3)); //from player2
-        assertEquals(3, player1.getnumberdamage(4)); //from player5
-        assertEquals(2, player1.getnumberdamage(1)); //from player3
-        assertEquals(2, player1.getnumberdamage(2)); //from player4
-        assertEquals(3, player1.getmaxdamages()); //first is player2
-        player1.setdamage(0,3);
-        assertEquals(4, player1.getmaxdamages()); //second is player5
-        player1.setdamage(0,4);
-        assertEquals(2, player1.getmaxdamages()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
-        player1.setdamage(0,2);
-        assertEquals(1, player1.getmaxdamages()); //fourth is player3
+        player1.setDamage(3,3); //from player2
+        player1.setDamage(2,2); //from player4
+        player1.setDamage(3,4); //from player5
+        player1.setDamage(2,3); //from player2
+        player1.setDamage(2,1); //from player3
+        assertEquals(12, player1.getTotalDamage());
+        assertEquals(5, player1.getNumberDamage(3)); //from player2
+        assertEquals(3, player1.getNumberDamage(4)); //from player5
+        assertEquals(2, player1.getNumberDamage(1)); //from player3
+        assertEquals(2, player1.getNumberDamage(2)); //from player4
+        assertEquals(3, player1.getMaxDamages()); //first is player2
+        player1.setDamage(0,3);
+        assertEquals(4, player1.getMaxDamages()); //second is player5
+        player1.setDamage(0,4);
+        assertEquals(2, player1.getMaxDamages()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
+        player1.setDamage(0,2);
+        assertEquals(1, player1.getMaxDamages()); //fourth is player3
     }
 
     @Test
     void setdamage() {
-        assertEquals(0, player1.gettotaldamage());
-        player1.setdamage(3, player2.getcolor());
-        assertEquals(3, player1.gettotaldamage());
-        assertEquals(3, player1.getnumberdamage(player2.getcolor()));
+        assertEquals(0, player1.getTotalDamage());
+        player1.setDamage(3, player2.getColor());
+        assertEquals(3, player1.getTotalDamage());
+        assertEquals(3, player1.getNumberDamage(player2.getColor()));
 
         //verify nothing changed
-        player1.setdamage(2, player1.getcolor());
-        assertEquals(3, player1.gettotaldamage());
-        assertEquals(-1, player1.getnumberdamage(player1.getcolor()));
+        player1.setDamage(2, player1.getColor());
+        assertEquals(3, player1.getTotalDamage());
+        assertEquals(-1, player1.getNumberDamage(player1.getColor()));
     }
 
     @Test
     void getmarks() {
         for(int i=0; i<5; i++){
-            if(player1.getcolor()!=i) assertEquals(0, player1.getmarks(i));
-            if(player2.getcolor()!=i) assertEquals(0, player2.getmarks(i));
+            if(player1.getColor()!=i) assertEquals(0, player1.getmarks(i));
+            if(player2.getColor()!=i) assertEquals(0, player2.getmarks(i));
         }
         //verify that player1 has 3 marks by player2
-        player1.setmarks(3, player2.getcolor());
-        assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(3, player2.getColor());
+        assertEquals(3, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
 
         //verify nothing changed
-        player1.setmarks(2, player1.getcolor());
-        assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(2, player1.getColor());
+        assertEquals(3, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
     }
 
     @Test
     void setmarks() {
-        assertEquals(0, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        assertEquals(0, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
         //1 mark from player2 to player1
-        player1.setmarks(1, player2.getcolor());
-        assertEquals(1, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(1, player2.getColor());
+        assertEquals(1, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
         //1 mark from player2 to player1
-        player1.setmarks(1, player2.getcolor());
-        assertEquals(2, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(1, player2.getColor());
+        assertEquals(2, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
         //2 marks from player2 to player1
-        player1.setmarks(2, player2.getcolor());
-        assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(2, player2.getColor());
+        assertEquals(3, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
 
         //verify nothing changed
-        player1.setmarks(2, player1.getcolor());
-        assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(2, player1.getColor());
+        assertEquals(3, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
 
-        player1.setmarks(1, player2.getcolor());
-        assertEquals(3, player1.getmarks(player2.getcolor()));
-        assertEquals(-1, player1.getmarks(player1.getcolor()));
+        player1.setmarks(1, player2.getColor());
+        assertEquals(3, player1.getmarks(player2.getColor()));
+        assertEquals(-1, player1.getmarks(player1.getColor()));
     }
 
     @Test
@@ -317,11 +317,11 @@ class PlayerTest {
 
     @Test
     void firstblood(){
-        assertEquals(-1, player1.getFirstblood());
-        player1.setdamage(2, 3);
-        assertEquals(3, player1.getFirstblood());
+        assertEquals(-1, player1.getFirstBlood());
+        player1.setDamage(2, 3);
+        assertEquals(3, player1.getFirstBlood());
         player1.resetFirstblood();
-        assertEquals(-1, player1.getFirstblood());
+        assertEquals(-1, player1.getFirstBlood());
     }
 
     @Test

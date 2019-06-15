@@ -7,13 +7,13 @@ import java.util.List;
 
 public class SpawnPointCell extends Cell {
 
-    private ArrayList<Weapon> Weapons_SpawnPoint;
+    private ArrayList<Weapon> weaponsSpawnPoint;
 
     //Quando creo lascio i campi carta vuoti, il controller poi creerà mazzo e distribuirà le carti arma a inizio partita
     public SpawnPointCell(int color, int N_port, int E_port, int S_port, int W_port){
         this.color=color;
         this.type=0; //spawnpoint
-        Weapons_SpawnPoint=new ArrayList<>();
+        weaponsSpawnPoint =new ArrayList<>();
 
 
         this.port[0] = N_port;
@@ -22,28 +22,24 @@ public class SpawnPointCell extends Cell {
         this.port[3] = W_port;
     }
 
-    public void Add_Weapon_Card(Weapon weapon,int index) throws FullCellException{
-        if(Weapons_SpawnPoint.size()==3) throw new FullCellException();
-        Weapons_SpawnPoint.add(index,weapon);
+    public void addWeaponCard(Weapon weapon, int index) throws FullCellException{
+        if(weaponsSpawnPoint.size()==3) throw new FullCellException();
+        weaponsSpawnPoint.add(index,weapon);
     }
 
-    public void SetWeaponCard(Weapon weapon, int index){
-        Weapons_SpawnPoint.set(index,weapon);
+    public void setWeaponCard(Weapon weapon, int index){
+        weaponsSpawnPoint.set(index,weapon);
     }
 
     //Assegna al player la carta selezionata tra le 3 disponibili
-    public void Collect_Weapon(Player player,int selected_weapon) throws MaxNumberofCardsException {
-        player.addWeapon(Weapons_SpawnPoint.get(selected_weapon));
-        Weapons_SpawnPoint.set(selected_weapon,null);
+    public void Collect_Weapon(Player player,int selectedWeapon) throws MaxNumberofCardsException {
+        player.addWeapon(weaponsSpawnPoint.get(selectedWeapon));
+        weaponsSpawnPoint.set(selectedWeapon,null);
     }
 
     //Returns the list of the weapons in the SpawnPoint Cell to allow the player to choose one of them
     public List<Weapon> getSpawnPointCellWeapons(){
-        List<Weapon> weapons = new ArrayList<>();
-        for(Weapon w:Weapons_SpawnPoint){
-            weapons.add(w);
-        }
-        return weapons;
+        return new ArrayList<>(weaponsSpawnPoint);
     }
 
 }

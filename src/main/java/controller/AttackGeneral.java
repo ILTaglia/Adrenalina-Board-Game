@@ -2,7 +2,6 @@ package controller;
 import exceptions.InvalidDirectionException;
 import model.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AttackGeneral {
@@ -12,7 +11,7 @@ public class AttackGeneral {
         ArrayList<Player>A=new ArrayList<Player>();
         ArrayList<Coordinate> B= new ArrayList<Coordinate>();
 
-        if(m.getPlayer(first.getcolor()).weaponIspresent(weapon))
+        if(m.getPlayer(first.getColor()).weaponIspresent(weapon))
         {
             for(int i = 0; i<weapon.getNumberAttack(); i++)
             {
@@ -569,11 +568,11 @@ public class AttackGeneral {
             Damage damage = effect.getDamage(k);
             if(damage instanceof model.Life) //caso di attacco che toglie vita
             {
-                m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+                m.getPlayer(second.getColor()).setDamage(damage.getdamage(),first.getColor());
             }
             else //Caso di attacco che mette marchi
             {
-                m.getPlayer(second.getcolor()).setmarks(damage.getdamage(), first.getcolor());
+                m.getPlayer(second.getColor()).setmarks(damage.getdamage(), first.getColor());
             }
         }
     }

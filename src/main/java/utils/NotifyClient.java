@@ -37,18 +37,19 @@ public class NotifyClient {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         Collection<String> userIDs=result.keySet();
         for(String userID:userIDs){
-            if(gameServer!=null){
+            try {
                 gameServer.sendMessageToID(userID,message);
+            }catch (NullPointerException e){
+                //Test case: gameServer not instantiated
             }
         }
     }
 
     public static void notifySpecificClient(String userID, Message message){
-        if(gameServer!=null){
+        try {
             gameServer.sendMessageToID(userID,message);
+        }catch (NullPointerException e){
+            //Test case: gameServer not instantiated
         }
-
     }
-
-
 }

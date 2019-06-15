@@ -1,10 +1,11 @@
 package network.server;
 
 import network.messages.*;
-import network.messages.ClientRequest.ClientRequestMessage;
-import network.messages.ClientRequest.PowToWeaponGrabClientRequest;
-import network.messages.ClientRequest.RunClientRequest;
-import network.messages.ClientRequest.SpawnPointClientRequest;
+import network.messages.clientRequest.ClientRequestMessage;
+import network.messages.clientRequest.PowToWeaponGrabClientRequest;
+import network.messages.clientRequest.RunClientRequest;
+import network.messages.clientRequest.SpawnPointClientRequest;
+import network.messages.playerDataMessage.InfoID;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 import utils.NotifyClient;
@@ -76,7 +77,7 @@ public class GameServer {
 
     public synchronized void handleMessage(Message message) {
         switch(message.getType()) {
-            case "ClientRequest":
+            case "clientRequest":
                 ClientRequestMessage requestMessage=(ClientRequestMessage) message;
                 handleRequest(requestMessage);
                 break;

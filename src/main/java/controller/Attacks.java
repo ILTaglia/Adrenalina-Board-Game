@@ -16,7 +16,7 @@ public class Attacks {
     public int useattack(Match m, Player first, ArrayList<Player>second, Weapon w, int type, ArrayList<String> direction, ArrayList<Coordinate> coordinates)
     {
 
-        if(m.getPlayer(first.getcolor()).equals(first) && first.weaponIspresent(w) && !w.getStatus()) //Se il player esiste e possiede l'arma indicata
+        if(m.getPlayer(first.getColor()).equals(first) && first.weaponIspresent(w) && !w.getStatus()) //Se il player esiste e possiede l'arma indicata
         {
             int moveme; //Mi serve per tener traccia dei movimenti restanti
 
@@ -339,11 +339,11 @@ public class Attacks {
     {
         if(damage instanceof model.Life) //Caso in cui ho un danno di tipo vita
         {
-            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+            m.getPlayer(second.getColor()).setDamage(damage.getdamage(),first.getColor());
         }
         else //Caso in cui ho un danno di tipo marks
         {
-            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+            m.getPlayer(second.getColor()).setDamage(damage.getdamage(),first.getColor());
         }
     }
 

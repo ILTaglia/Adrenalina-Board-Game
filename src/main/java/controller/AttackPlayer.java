@@ -13,11 +13,11 @@ public class AttackPlayer {
     {
         if(damage.getType()==0) //Caso in cui ho un danno di tipo vita
         {
-            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+            m.getPlayer(second.getColor()).setDamage(damage.getdamage(),first.getColor());
         }
         else //Caso in cui ho un danno di tipo marks
         {
-            m.getPlayer(second.getcolor()).setmarks(damage.getdamage(),first.getcolor());
+            m.getPlayer(second.getColor()).setmarks(damage.getdamage(),first.getColor());
         }
     }
 

@@ -1,12 +1,8 @@
 package controller;
-import exceptions.InvalidDirectionException;
 import model.*;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class AttackNewVersion {
@@ -120,11 +116,11 @@ public class AttackNewVersion {
     {
         if(damage instanceof model.Life) //Caso in cui ho un danno di tipo vita
         {
-            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+            m.getPlayer(second.getColor()).setDamage(damage.getdamage(),first.getColor());
         }
         else //Caso in cui ho un danno di tipo marks
         {
-            m.getPlayer(second.getcolor()).setdamage(damage.getdamage(),first.getcolor());
+            m.getPlayer(second.getColor()).setDamage(damage.getdamage(),first.getColor());
         }
     }
 

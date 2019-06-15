@@ -140,7 +140,7 @@ public class Lettore {
                     }
                     case 12:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
+                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getNumberDamage()-1).setDamage(Character.getNumericValue(nextc));
                         CS=100;
                         break;
                     }

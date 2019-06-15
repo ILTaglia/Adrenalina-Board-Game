@@ -2,7 +2,7 @@ package network.client.socket;
 
 import network.client.Client;
 import network.client.ConnectionHandler;
-import network.messages.ClientRequest.ConnectionClientRequest;
+import network.messages.clientRequest.ConnectionClientRequest;
 import network.messages.Message;
 
 //TODO Aggiungere Booleani per verifiche sulla connessione

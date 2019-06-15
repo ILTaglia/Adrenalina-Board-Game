@@ -1,4 +1,4 @@
-package network.messages.ClientRequest;
+package network.messages.clientRequest;
 
 import network.messages.Message;
 
@@ -8,7 +8,7 @@ public abstract class ClientRequestMessage extends Message {
 
     public ClientRequestMessage(String requiredContent, String userID) {
         this.info = requiredContent;
-        this.type = "ClientRequest";
+        this.type = "clientRequest";
         this.userID = userID;
     }
 

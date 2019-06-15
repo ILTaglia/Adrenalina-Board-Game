@@ -21,36 +21,36 @@ public class DeathAndRespawn {
         else throw new NotExistingDashboardException();
         //adds signals to killshot track
 
-        if(n==2) playerkiller.setmarks(1, playerkilled.getcolor()); //revenge mark in the killed player
+        if(n==2) playerkiller.setmarks(1, playerkilled.getColor()); //revenge mark in the killed player
         death= playerkilled.getDeath();
         playerkilled.setDeath();
         int playercolor;
 
-        int firstblood=playerkilled.getFirstblood();
+        int firstblood=playerkilled.getFirstBlood();
         m.getPlayer(firstblood).setScore(1);
 
         int flag=0;
 
         for(int k=0; k<5; k++){
-            playercolor = playerkilled.getmaxdamages();
+            playercolor = playerkilled.getMaxDamages();
             if(death>=5) m.getPlayer(playercolor).setScore(1);
             /*addition of the maximum number of points to the player that made
              * more damages. Use the number of death as a parameter.*/
             m.getPlayer(playercolor).setScore(points[death]);
             death++;
-            playerkilled.setdamage(0, playercolor);
+            playerkilled.setDamage(0, playercolor);
             flag=1;
             /* in the copied list cancel the old max and assign the second score of the array points
              * to the new max element. If other players made damages flag is set back to zero and
              * the iteration is repeated, while, if no other players made damages flag rests 1 and
              * the attribution of scores is stopped.*/
             for(int h=0; h<5; h++) {
-                if(playerkilled.getnumberdamage(h)!=0 && h!=playerkilled.getcolor()) flag=0;
+                if(playerkilled.getNumberDamage(h)!=0 && h!=playerkilled.getColor()) flag=0;
             }
             if(flag==1) break;
         }
         if(m.getDashboard().getindex()==9){
-            FinalFrenzy finalFrenzy = new FinalFrenzy(m, playerkilled.getcolor());
+            FinalFrenzy finalFrenzy = new FinalFrenzy(m, playerkilled.getColor());
             endgame(m, m.getDashboard());
             /*when a match ends the killshot track is full, so index is 9. The attribution of points considering the killshot
             * track is done by another method in order to better test the attribution of points (see DashboardTest, in
@@ -87,7 +87,7 @@ public class DeathAndRespawn {
 
     public void respawn(Player playerkilled){
         for(int i=0; i<5; i++) {
-            if(i!=playerkilled.getcolor()) playerkilled.setdamage(0, i);
+            if(i!=playerkilled.getColor()) playerkilled.setDamage(0, i);
         }
         playerkilled.resetAction();
         playerkilled.resetFirstblood();

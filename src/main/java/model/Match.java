@@ -1,9 +1,9 @@
 package model;
 
 import exceptions.*;
-import network.messages.InfoMatch;
-import network.messages.InfoPlayer;
-import network.messages.InfoPowCard;
+import network.messages.playerDataMessage.InfoMatch;
+import network.messages.playerDataMessage.InfoPlayer;
+import network.messages.playerDataMessage.InfoPowCard;
 import network.messages.Message;
 
 import java.io.Serializable;
@@ -35,13 +35,16 @@ public class Match implements Serializable {
     public void setRound(){
         this.round++;
         //Chiamo metodo per nuovo round.
-        //if(players.get(players.size()-1).getAction()==2) this.round++;         //TODO: lasciamo il controllo al controller e mettiamo direttamente il ++?
+        //if(players.get(players.size()-1).getAction()==2) this.round++;         // lasciamo il controllo al controller e mettiamo direttamente il ++?
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
 
     public int getRound(){return this.round;}
 
+    //Alla creazione del Player istanzio la relativa PlayerData che mando al Client
+    //Ciascun Client quindi avrà la classe con la classe Player già inizializzata.
+    //In seguito la classe va aggiornata con il nome dei Player avversari
     public void createPlayer(String name, String color, String id){
         Player player = new Player(name, color, id);
         addPlayer(player);
@@ -49,7 +52,8 @@ public class Match implements Serializable {
 
     private void addPlayer(Player player) {
         players.add(player);
-        Message message=new InfoPlayer("Assigned color: "+player.getcolor());
+
+        Message message=new InfoPlayer("Assigned color: "+player.getColor());
         notifySpecificClient(player.getID(),message);
         Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getName());
         notifyAllClients(this,message1);
@@ -66,7 +70,7 @@ public class Match implements Serializable {
     //returns player by color
     public Player getPlayer(int color) throws InvalidColorException {
         for (Player p : this.players) {
-            if (p.getcolor()==color) {
+            if (p.getColor()==color) {
                 return p;
             }
         }
@@ -87,14 +91,14 @@ public class Match implements Serializable {
     public List<Player> getNoDamagedPlayers(){
         List<Player> list = new ArrayList<>();
         for(Player p:this.players){
-            if(p.gettotaldamage()==0) list.add(p);
+            if(p.getTotalDamage()==0) list.add(p);
         }
         return list;
     }
 
     public Player getPlayerByColor(int color){
         for(Player player:this.players){
-            if(player.getcolor()==color){ return player;
+            if(player.getColor()==color){ return player;
             }
         }
         return null;
@@ -116,21 +120,21 @@ public class Match implements Serializable {
             Weapon weapon9 = (Weapon) weaponDeck.drawCard();
             SpawnPointCell c = (SpawnPointCell)this.getDashboard().getmap(0, 2);
             try{
-                c.Add_Weapon_Card(weapon1, 0);
-                c.Add_Weapon_Card(weapon2, 1);
-                c.Add_Weapon_Card(weapon3, 2);
+                c.addWeaponCard(weapon1, 0);
+                c.addWeaponCard(weapon2, 1);
+                c.addWeaponCard(weapon3, 2);
             } catch (FullCellException e){}
             c = (SpawnPointCell)this.getDashboard().getmap(1, 0);
             try{
-                c.Add_Weapon_Card(weapon4, 0);
-                c.Add_Weapon_Card(weapon5, 1);
-                c.Add_Weapon_Card(weapon6, 2);
+                c.addWeaponCard(weapon4, 0);
+                c.addWeaponCard(weapon5, 1);
+                c.addWeaponCard(weapon6, 2);
             } catch (FullCellException e){}
             c = (SpawnPointCell)this.getDashboard().getmap(2, 3);
             try{
-                c.Add_Weapon_Card(weapon7, 0);
-                c.Add_Weapon_Card(weapon8, 1);
-                c.Add_Weapon_Card(weapon9, 2);
+                c.addWeaponCard(weapon7, 0);
+                c.addWeaponCard(weapon8, 1);
+                c.addWeaponCard(weapon9, 2);
             } catch (FullCellException e){}
 
             NormalCell normalcell = (NormalCell)this.getDashboard().getmap(0, 0);
@@ -197,7 +201,7 @@ public class Match implements Serializable {
     public void addWeaponCard(SpawnPointCell cell, int index){//TODO:pensare a nome più efficace
         try{
             Weapon weapon = (Weapon) weaponDeck.drawCard();
-            cell.Add_Weapon_Card(weapon,index);//TODO:controllare
+            cell.addWeaponCard(weapon,index);//TODO:controllare
         }catch(FullCellException e){
             //TODO
         }
@@ -210,7 +214,7 @@ public class Match implements Serializable {
 
     public void setWeaponCard(SpawnPointCell cell, int index){
         Weapon weapon = (Weapon) weaponDeck.drawCard();
-        cell.SetWeaponCard(weapon, index);
+        cell.setWeaponCard(weapon, index);
     }
 
 

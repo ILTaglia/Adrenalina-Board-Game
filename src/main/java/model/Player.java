@@ -16,7 +16,7 @@ public class Player {
     private ArrayList<PowCard> pow; //list for the power up of the player
     private int death; //number to show how many times the player died
     private int action; //number of the action taken by the player in one turn
-    private int firstblood; //number of the player that gave the damage 1
+    private int firstBlood; //number of the player that gave the damage 1
     private int score; //points of the player
     private int round; //number to identify the number of turn is beeing played
     private ArrayList<Integer> order;
@@ -54,19 +54,32 @@ public class Player {
         //2 is yellow, you start with three yellow ammo
 
         //players color are blue(0), green(1), yellow(2), pink(3), grey(4)
-        if(color.equals("Blue")) this.color=0;
-        else if(color.equals("Green")) this.color=1;
-        else if(color.equals("Yellow")) this.color=2;
-        else if(color.equals("Pink")) this.color=3;
-        else if(color.equals("Grey")) this.color=4;
-        else throw new InvalidColorException(); //invalid color
+        switch (color) {
+            case "Blue":
+                this.color = 0;
+                break;
+            case "Green":
+                this.color = 1;
+                break;
+            case "Yellow":
+                this.color = 2;
+                break;
+            case "Pink":
+                this.color = 3;
+                break;
+            case "Grey":
+                this.color = 4;
+                break;
+            default:
+                throw new InvalidColorException(); //invalid color
+        }
 
         this.gun= new ArrayList<>();
         this.pow = new ArrayList<>();
 
         this.cel = new Coordinate(-1, -1); //index of the position of the player (default position is (-1, -1)
         this.death=0;
-        this.firstblood=-1;
+        this.firstBlood = -1;
         this.action=0;
         this.score=0;
         this.order= new ArrayList<>();
@@ -75,7 +88,7 @@ public class Player {
     public String getName() {return this.name;}
     public String getID() {return this.id;}
 
-    public int getcolor(){return this.color;}
+    public int getColor(){return this.color;}
 
     public boolean getActive(){return this.active;}
 
@@ -89,22 +102,21 @@ public class Player {
     }
 
     //return number of damages by a single enemy to set the score (parameter is the color of the enemy player)
-    public int getnumberdamage(int c){
-        if(c==this.getcolor()) return -1; //not self made damages
-        int i=damages.get(c);
-        return i;
+    public int getNumberDamage(int c){
+        if(c==this.getColor()) return -1; //not self made damages
+        return damages.get(c);
     }
 
     //count the total amount of damages of the player
-    public int gettotaldamage(){
+    public int getTotalDamage(){
         int j=0;
         for(int h=0; h<this.damages.size(); h++){
-            if(h!=this.getcolor()) j=j+getnumberdamage(h);
+            if(h!=this.getColor()) j=j+ getNumberDamage(h);
         }
         return j;
     }
 
-    public int getmaxdamages(){
+    public int getMaxDamages(){
         int max = Collections.max(damages);
         int k = damages.indexOf(Collections.max(damages));
         //number of maximum damages
@@ -120,16 +132,16 @@ public class Player {
     }
 
     //set the number of damages, parameters are the number of damages to add (n) and the color of the player that gave them (c)
-    public int setdamage(int n, int c){
-        if(c==this.getcolor()) return -1;
+    public int setDamage(int n, int c){
+        if(c==this.getColor()) return -1;
         if(!order.contains(c))order.add(c);
         //command of reset
         if(n==0){
             damages.set(c, n);
             return 2;
         }
-        int j=gettotaldamage();
-        if(j==0) this.firstblood=c;
+        int j= getTotalDamage();
+        if(j==0) this.firstBlood =c;
         if(j+n==11){
             damages.set(c, (damages.get(c)+n));
             return 1; //killshot point to player with index c
@@ -145,7 +157,7 @@ public class Player {
 
     //return number of marks given by a single enemy (parameter is the color of the enemy player)
     public int getmarks(int c){
-        if(c==this.getcolor()) return -1; //not self made marks
+        if(c==this.getColor()) return -1; //not self made marks
         /*Attention! You could test that for every player in the position this.color() you have zero for marks and damages*/
         int i=marks.get(c);
         return i;
@@ -153,7 +165,7 @@ public class Player {
 
     //set the number of marks, paramters are the number of marks to add(n) and the color of the player that gave them (c)
     public int setmarks(int n, int c){
-        if(c==this.getcolor()) return -1;
+        if(c==this.getColor()) return -1;
         if(marks.get(c)+n>=3) marks.set(c, 3);
         else marks.set(c, (marks.get(c)+n));
         return 0;
@@ -259,9 +271,9 @@ public class Player {
 
     public void resetAction(){this.action=0;}
 
-    public int getFirstblood(){return this.firstblood;}
+    public int getFirstBlood(){return this.firstBlood;}
 
-    public void resetFirstblood(){this.firstblood=-1;}
+    public void resetFirstblood(){this.firstBlood =-1;}
 
     public int getScore(){return this.score;}
 

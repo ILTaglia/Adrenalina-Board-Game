@@ -59,9 +59,9 @@ public class GrabWeaponTest {
         }
         SpawnPointCell c = (SpawnPointCell)match.getDashboard().getmap(0, 2);
         try{
-            c.Add_Weapon_Card(weapon4, 0);
-            c.Add_Weapon_Card(weapon5, 1);
-            c.Add_Weapon_Card(weapon6, 2);
+            c.addWeaponCard(weapon4, 0);
+            c.addWeaponCard(weapon5, 1);
+            c.addWeaponCard(weapon6, 2);
         } catch (FullCellException e){}
         assertThrows(MaxNumberofCardsException.class, () -> grabweapon.isValid(match, player1, destination));
         try{grabweapon.isValid(match, player1, destination);}
@@ -70,7 +70,7 @@ public class GrabWeaponTest {
         assertFalse(grabweapon.isValidMovement(match, player1, destination));
         assertEquals(0, player1.getAction());
         //player1 has not enough damages to move before grabbing
-        player1.setdamage(4, 3);
+        player1.setDamage(4, 3);
         //player1 has enough damages to move before grabbing
         player1.setCel(1,2);
         destination.add("N");

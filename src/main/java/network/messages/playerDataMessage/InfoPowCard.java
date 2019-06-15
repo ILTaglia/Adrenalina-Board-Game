@@ -1,4 +1,4 @@
-package network.messages;
+package network.messages.playerDataMessage;
 
 import model.PowCard;
 

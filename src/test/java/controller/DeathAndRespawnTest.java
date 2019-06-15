@@ -35,33 +35,33 @@ public class DeathAndRespawnTest {
 
     @Test
     public void calculatescore(){
-        assertEquals(0, player1.gettotaldamage());
+        assertEquals(0, player1.getTotalDamage());
         assertEquals(0, player1.getDeath());
         //player3 kills player1 with revenge
         assertEquals(0, player3.getmarks(0));
-        player1.setdamage(3,3); //from player2
-        player1.setdamage(2,2); //from player4
-        player1.setdamage(3,4); //from player5
+        player1.setDamage(3,3); //from player2
+        player1.setDamage(2,2); //from player4
+        player1.setDamage(3,4); //from player5
 
         player1.setmarks(1,2);
         player1.setmarks(2, 3);
         assertEquals(1, player1.getmarks(2));
         assertEquals(2, player1.getmarks(3));
 
-        player1.setdamage(2,3); //from player2
-        player1.setdamage(2,1); //from player3
-        assertEquals(12, player1.gettotaldamage());
-        assertEquals(5, player1.getnumberdamage(3)); //from player2
-        assertEquals(3, player1.getnumberdamage(4)); //from player5
-        assertEquals(2, player1.getnumberdamage(1)); //from player3
-        assertEquals(2, player1.getnumberdamage(2)); //from player4
+        player1.setDamage(2,3); //from player2
+        player1.setDamage(2,1); //from player3
+        assertEquals(12, player1.getTotalDamage());
+        assertEquals(5, player1.getNumberDamage(3)); //from player2
+        assertEquals(3, player1.getNumberDamage(4)); //from player5
+        assertEquals(2, player1.getNumberDamage(1)); //from player3
+        assertEquals(2, player1.getNumberDamage(2)); //from player4
         DeathAndRespawn c = new DeathAndRespawn();
         assertTrue(match.getCheck());
         try{
             c.calculatescore(match, player1, player3, 2);
         } catch (NotExistingDashboardException e){}
 
-        assertEquals(3, player1.getFirstblood());
+        assertEquals(3, player1.getFirstBlood());
         assertEquals(9, player2.getScore()); //first is player2
         assertEquals(6, player5.getScore()); //second is player5
         assertEquals(4, player4.getScore()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
@@ -72,16 +72,16 @@ public class DeathAndRespawnTest {
         assertEquals(1, player3.getmarks(0));
 
         c.respawn(player1);
-        assertEquals(-1, player1.getFirstblood());
+        assertEquals(-1, player1.getFirstBlood());
         assertEquals(0, player1.getAction());
-        assertEquals(0, player1.gettotaldamage());
+        assertEquals(0, player1.getTotalDamage());
         assertEquals(1, player1.getmarks(2));
         assertEquals(2, player1.getmarks(3));
         Coordinate pos = new Coordinate(-1, -1);
         assertEquals(pos.getX(), player1.getCel().getX());
         assertEquals(pos.getY(), player1.getCel().getY());
         for(int k=0; k<5; k++){
-            if(k!=player1.getcolor()) assertEquals(0, player1.getnumberdamage(k));
+            if(k!=player1.getColor()) assertEquals(0, player1.getNumberDamage(k));
         }
     }
 

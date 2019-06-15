@@ -30,7 +30,7 @@ public class UndefinedAttack {
 
     public boolean checkpresenceweapon()
     {
-        if(match.getPlayer(this.player.getcolor()).weaponIspresent(this.weapon))
+        if(match.getPlayer(this.player.getColor()).weaponIspresent(this.weapon))
             return true;
         return false;
     }
@@ -329,7 +329,7 @@ public class UndefinedAttack {
                                 }
                                 while(scelta<0||scelta>cont-1);
                                 Player second = this.listAttackable.getAttackableplayers().get(scelta);
-                                for(int k=0;k<e.getnumberdamage();k++)
+                                for(int k=0;k<e.getNumberDamage();k++)
                                 {
                                     Damage damage = e.getDamage(k);
                                     System.out.println("Status attacco : " +this.manageplayerattack(second,e.getId(),damage));
@@ -351,7 +351,7 @@ public class UndefinedAttack {
                                 }
                                 while(scelta<0||scelta>cont-1);
                                 Coordinate second = this.listAttackable.getAttackablecells().get(scelta);
-                                for(int k=0;k<e.getnumberdamage();k++)
+                                for(int k=0;k<e.getNumberDamage();k++)
                                 {
                                     Damage damage = e.getDamage(k);
                                     System.out.println("Status attacco : " +this.managecellattack(second,e.getId(),damage));
@@ -426,10 +426,10 @@ public class UndefinedAttack {
         System.out.println(weapon3.getName());
         UndefinedAttack attack = new UndefinedAttack(match,player1,weapon1,0);
         attack.usecard();
-        System.out.println("Danni di "+player2.getName() + " = " + player2.gettotaldamage());
-        System.out.println("Danni di "+player3.getName() + " = " + player3.gettotaldamage());
-        System.out.println("Danni di "+player4.getName() + " = " + player4.gettotaldamage());
-        System.out.println("Danni di "+player5.getName() + " = " + player5.gettotaldamage());
+        System.out.println("Danni di "+player2.getName() + " = " + player2.getTotalDamage());
+        System.out.println("Danni di "+player3.getName() + " = " + player3.getTotalDamage());
+        System.out.println("Danni di "+player4.getName() + " = " + player4.getTotalDamage());
+        System.out.println("Danni di "+player5.getName() + " = " + player5.getTotalDamage());
         attack = new UndefinedAttack(match,player1,weapon4,0);
         attack.usecard();
         System.out.println(weapon4.getName());

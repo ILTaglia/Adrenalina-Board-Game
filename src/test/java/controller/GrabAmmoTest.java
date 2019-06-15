@@ -2,7 +2,6 @@ package controller;
 
 import exceptions.CardAlreadyCollectedException;
 import exceptions.FullCellException;
-import exceptions.MaxNumberPlayerException;
 import exceptions.MaxNumberofCardsException;
 import model.*;
 import org.junit.Before;
@@ -59,7 +58,7 @@ public class GrabAmmoTest {
         assertFalse(grabammo.isValidMovement(match, player1, destination));
         assertEquals(0, player1.getAction());
         //player1 has not enough damages to move before grabbing
-        player1.setdamage(4, 3);
+        player1.setDamage(4, 3);
         //player1 has enough damages to move before grabbing
 
         assertTrue(grabammo.isValid(match, player1, destination));

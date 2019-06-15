@@ -38,13 +38,13 @@ public class ClientHandler implements Runnable, ClientInterface {
             while(bool){
                 String requestedUsername;
                 Message message=(Message) streamIn.readObject();
-                if(message.getType().equals("ClientRequest")&&message.getContent().equals("ConnectionRequest")){
+                if(message.getType().equals("clientRequest")&&message.getContent().equals("ConnectionRequest")){
                     requestedUsername = message.getInfo();
                     //Controllo Username in primis sulla queue, altrimenti restituisce subito errore e si chiede un nuovo username.
                     if (server.isAlreadyInQueue(requestedUsername)) {
                         ConnectionError errorMessage = new ConnectionError("An other user has already this username in your Match, please change it");
                         sendMessage(errorMessage);
-                        //Send Error Message "An other user has already this username in your Match, please change it"
+                        //Send error Message "An other user has already this username in your Match, please change it"
                     }
                     else {
                         playerUsername = requestedUsername;

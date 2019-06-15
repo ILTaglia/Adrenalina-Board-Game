@@ -1,4 +1,4 @@
-package network.messages;
+package network.messages.playerDataMessage;
 
 public class InfoMatch extends ConfirmationMessage {
 

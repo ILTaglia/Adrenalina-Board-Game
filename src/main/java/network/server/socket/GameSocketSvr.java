@@ -44,7 +44,7 @@ public class GameSocketSvr extends Thread {
                     System.out.println("Server Closed.");                   //TODO: LOGGER
                     return;
                 }
-                throw new RuntimeException("Error connecting",e);
+                throw new RuntimeException("error connecting",e);
             }
             System.out.println("New Client connected at address: " + clientSocket.getRemoteSocketAddress());
             pool.submit(new ClientHandler(this,clientSocket));
@@ -74,7 +74,7 @@ public class GameSocketSvr extends Thread {
         try {
             this.serverSocket.close();
         } catch (IOException e) {
-            throw new RuntimeException("Error closing server", e);
+            throw new RuntimeException("error closing server", e);
         }
     }
 

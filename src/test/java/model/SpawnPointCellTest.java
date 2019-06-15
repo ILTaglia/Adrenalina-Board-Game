@@ -1,6 +1,5 @@
 package model;
 
-import controller.GrabWeapon;
 import exceptions.FullCellException;
 import exceptions.MaxNumberofCardsException;
 import org.junit.Before;
@@ -37,13 +36,13 @@ public class SpawnPointCellTest {
         WeaponDeck weaponDeck = new WeaponDeck();
         weaponDeck.setWeapons("Armi");
         Weapon weapon = (Weapon) weaponDeck.drawCard();
-        assertThrows(FullCellException.class,()->spawnPointCell.Add_Weapon_Card(weapon, 1));
+        assertThrows(FullCellException.class,()->spawnPointCell.addWeaponCard(weapon, 1));
         assertEquals(3, spawnPointCell.getSpawnPointCellWeapons().size());
         player1.setCel(0,2);
         try{ spawnPointCell.Collect_Weapon(player1,1);}
         catch(MaxNumberofCardsException e){}
         assertNull(spawnPointCell.getSpawnPointCellWeapons().get(1));
-        try{ spawnPointCell.Add_Weapon_Card(weapon, 1);}
+        try{ spawnPointCell.addWeaponCard(weapon, 1);}
         catch(FullCellException e){}
         try{
             spawnPointCell.Collect_Weapon(player2,0);
@@ -51,7 +50,7 @@ public class SpawnPointCellTest {
         }
         catch(MaxNumberofCardsException e){}
         Weapon weapon1 = (Weapon) weaponDeck.drawCard();
-        spawnPointCell.SetWeaponCard(weapon1, 2);
+        spawnPointCell.setWeaponCard(weapon1, 2);
 
     }
 

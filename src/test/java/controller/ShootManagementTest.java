@@ -66,8 +66,8 @@ public class ShootManagementTest {
         a= shoot.shoot(match, visible,player1,player3,1, b);
         assertEquals(a,0);
         visible= match.getVisiblePlayers(player1);
-        assertEquals(visible.get(0).gettotaldamage(),3);
-        assertEquals(visible.get(1).gettotaldamage(),4);
+        assertEquals(visible.get(0).getTotalDamage(),3);
+        assertEquals(visible.get(1).getTotalDamage(),4);
 
     }
 
@@ -82,8 +82,8 @@ public class ShootManagementTest {
         a= shoot.shoot(match, visible,player1,player2,1, d);
         assertEquals(a,-1);
         visible= match.getVisiblePlayers(player1);
-        assertEquals(visible.get(0).gettotaldamage(),3);
-        assertEquals(visible.get(1).gettotaldamage(),0);
+        assertEquals(visible.get(0).getTotalDamage(),3);
+        assertEquals(visible.get(1).getTotalDamage(),0);
     }
 
     @Test
@@ -98,7 +98,7 @@ public class ShootManagementTest {
         ArrayList<Player> all = match.getPlayers();
         for(Player p : all)
         {
-            assertEquals(p.gettotaldamage(),0);
+            assertEquals(p.getTotalDamage(),0);
         }
     }
 
@@ -114,8 +114,8 @@ public class ShootManagementTest {
         a= shoot.shoot(match, visible,player1,player3,1, b);
         assertEquals(a,0);
         visible= match.getVisiblePlayers(player1);
-        assertEquals(visible.get(0).getmarks(player1.getcolor()),3);
-        assertEquals(visible.get(1).getmarks(player1.getcolor()),2);
+        assertEquals(visible.get(0).getmarks(player1.getColor()),3);
+        assertEquals(visible.get(1).getmarks(player1.getColor()),2);
 
     }
 
@@ -132,7 +132,7 @@ public class ShootManagementTest {
         ArrayList<Player>visibles = match.getVisiblePlayers(player1);
         for(Player p:visibles)
         {
-            assertEquals(p.gettotaldamage(),3);
+            assertEquals(p.getTotalDamage(),3);
         }
     }
 
@@ -149,13 +149,13 @@ public class ShootManagementTest {
         ArrayList<Player>visibles = match.getVisiblePlayers(player1);
         for(Player p:visibles)
         {
-            assertEquals(p.gettotaldamage(),3);
+            assertEquals(p.getTotalDamage(),3);
         }
         a =shoot.shoot(match,visible,player1,player2.getCel(),1,d);
         assertEquals(a,-1);
         for(Player p:visibles)
         {
-            assertEquals(p.gettotaldamage(),3);
+            assertEquals(p.getTotalDamage(),3);
         }
     }
 
@@ -172,7 +172,7 @@ public class ShootManagementTest {
         ArrayList<Player>visibles = match.getVisiblePlayers(player1);
         for(Player p:visibles)
         {
-            assertEquals(p.gettotaldamage(),0);
+            assertEquals(p.getTotalDamage(),0);
         }
     }
 

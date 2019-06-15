@@ -1,7 +1,5 @@
-package network.messages.ClientRequest;
+package network.messages.clientRequest;
 
-
-import network.messages.ClientRequest.ClientRequestMessage;
 
 public class MapClientRequest extends ClientRequestMessage {
 

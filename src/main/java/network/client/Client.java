@@ -92,15 +92,15 @@ public class Client {
 
     public void handleMessage(Message message){
         switch(message.getType()) {
-            case "Confirmation":
+            case "confirmation":
                 view.showInfoMessage(message);
                 if(message.getContent().equals("InfoID")) this.userID =message.getInfo();
                 break;
-            case "Error":
+            case "error":
                 view.showInfoMessage(message);
                 handleErrorMessage(message);
                 break;
-            case "GameRequest":
+            case "gameRequest":
                 view.showInfoMessage(message);
                 handleRequestMessage(message);
                 break;

@@ -59,14 +59,14 @@ public class AttackTest {
         Coordinate coordinate = new Coordinate(0,2);
         Damage damage=new DamageFactory().getinstaceof(1,5);
         Damage damage2=new DamageFactory().getinstaceof(1,2);
-        //System.out.println(player1.gettotaldamage());
+        //System.out.println(player1.getTotalDamage());
         AttackPlayer attackPlayer=new AttackPlayer();
         attackPlayer.assigndamages(match,player2,player1,damage);
-        assertEquals(player1.gettotaldamage(),5);
-        //System.out.println(player1.gettotaldamage());
+        assertEquals(player1.getTotalDamage(),5);
+        //System.out.println(player1.getTotalDamage());
         attackPlayer.assigncelldamages(match,coordinate,player2,damage2);
-        assertEquals(player1.gettotaldamage(),7);
-        assertEquals(player3.gettotaldamage(),2);
+        assertEquals(player1.getTotalDamage(),7);
+        assertEquals(player3.getTotalDamage(),2);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class AttackTest {
         Coordinate coordinate = new Coordinate(0,2);
         Damage damage=new DamageFactory().getinstaceof(2,2);
         Damage damage2=new DamageFactory().getinstaceof(2,2);
-        //System.out.println(player1.gettotaldamage());
+        //System.out.println(player1.getTotalDamage());
         AttackPlayer attackPlayer=new AttackPlayer();
         attackPlayer.assigndamages(match,player2,player1,damage);
         System.out.println(player1.getmarks(0));
@@ -105,9 +105,9 @@ public class AttackTest {
         System.out.println(player1.getmarks(2));
         System.out.println(player1.getmarks(3));
         //assertEquals(player1.getmarks(0),5);
-        System.out.println(player1.gettotaldamage());
+        System.out.println(player1.getTotalDamage());
         attackPlayer.assigncelldamages(match,coordinate,player2,damage2);
-        //assertEquals(player1.gettotaldamage(),7);
-        //assertEquals(player3.gettotaldamage(),2);
+        //assertEquals(player1.getTotalDamage(),7);
+        //assertEquals(player3.getTotalDamage(),2);
     }
 }

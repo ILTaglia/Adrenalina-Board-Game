@@ -1,4 +1,4 @@
-package network.messages.ClientRequest;
+package network.messages.clientRequest;
 
 public class RequestMessageVisitor implements VisitorRequest{
     @Override
