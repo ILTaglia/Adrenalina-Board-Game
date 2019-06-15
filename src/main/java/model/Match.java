@@ -1,17 +1,17 @@
 package model;
 
 import exceptions.*;
-import network.messages.playerDataMessage.InfoMatch;
-import network.messages.playerDataMessage.InfoPlayer;
+import network.messages.playerDataMessage.DashboardData;
 import network.messages.playerDataMessage.InfoPowCard;
 import network.messages.Message;
+import network.messages.playerDataMessage.NewPlayerData;
+import network.messages.playerDataMessage.OtherPlayerData;
 
 import java.io.Serializable;
 
 import java.util.*;
 
-import static utils.NotifyClient.notifyAllClients;
-import static utils.NotifyClient.notifySpecificClient;
+import static utils.NotifyClient.*;
 
 public class Match implements Serializable {
     private int round;
@@ -52,19 +52,22 @@ public class Match implements Serializable {
 
     private void addPlayer(Player player) {
         players.add(player);
-
-        Message message=new InfoPlayer("Assigned color: "+player.getColor());
+        Message message=new NewPlayerData(new PlayerVisibleData(player));
         notifySpecificClient(player.getID(),message);
-        Message message1=new InfoPlayer("New Player in the Match, his name is"+ player.getName());
-        notifyAllClients(this,message1);
+    }
+
+    public void notifyPlayers() {
+        for(Player player:players){
+            notifyAllExceptOneClient(player.getID(), new OtherPlayerData(player.getName(),player.getColor()));
+        }
     }
 
     //selectedDashboard is the index of the chosen map
     public void createDashboard(int selectedDashboard){
         this.dashboard=new Dashboard(selectedDashboard);
-        Message infoMap=new InfoMatch("La mappa selezionata è quella di indice: "+selectedDashboard+". Stampata di seguito:\n" );
-        notifyAllClients(this,infoMap);
         checkDashboard =true;
+        Message infoMap=new DashboardData(this.dashboard);
+        notifyAllClients(this,infoMap);
     }
 
     //returns player by color
@@ -704,6 +707,7 @@ public class Match implements Serializable {
         }
         return list;
     }
+
 
 
 }

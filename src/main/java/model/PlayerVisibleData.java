@@ -1,9 +1,12 @@
 package model;
 
+import javafx.scene.chart.Axis;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerVisibleData {
+public class PlayerVisibleData implements Serializable {
 
     /*convenzioni, negli arraylist di interi hai per ogni indice il valore della variabile (esempio primosangue giocatore blu
     all'indice zero dell'arraylist delle firstblood. */
@@ -14,7 +17,7 @@ public class PlayerVisibleData {
 
     private Map<String,Integer> enemiesNameColor;
 
-    private Map<Boolean,String> activePlayer;
+    private Map<String,Boolean> activePlayer;
     private Map<String,Integer> numberOfDeath;
     private Map<String,Coordinate> playersPosition;
     //Il firstBlood sarebbe evitabile, l'informazione può essere presa dalle HashMap dei danni.
@@ -43,7 +46,7 @@ public class PlayerVisibleData {
 
     public void setEnemy(String playerName,int playerColor){
         this.enemiesNameColor.put(playerName,playerColor);
-        this.activePlayer.put(false,playerName);
+        this.activePlayer.put(playerName,false);
         this.numberOfDeath.put(playerName,0);
         this.playersFirstBlood.put(playerName,null);
         this.damagesOfAll.put(playerName,new HashMap<>());
@@ -62,8 +65,14 @@ public class PlayerVisibleData {
     public Map<String,Integer> getAllPlayersColorName(){
         return this.enemiesNameColor;
     }
+
     public String getActivePlayer(){
-        return activePlayer.get(true);
+        for (Map.Entry<String,Boolean> entry : activePlayer.entrySet()) {
+            if (entry.getValue()) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
     //TODO: Get in base alle necessità:
     /*

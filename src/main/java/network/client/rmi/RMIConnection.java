@@ -16,7 +16,6 @@ public class RMIConnection implements ClientInterface {
 
     @Override
     public void sendMessage(Message message) {
-        //TODO: CHIEDERE
         (new Thread(() -> client.handleMessage(message))).start();
     }
 }

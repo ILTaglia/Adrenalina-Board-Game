@@ -1,10 +1,11 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class Dashboard {
+public class Dashboard implements Serializable{
     private Cell[][] map;
     private int maptype; //index of the chosen map
     private int trackindex;

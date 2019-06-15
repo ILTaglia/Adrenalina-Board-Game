@@ -1,6 +1,6 @@
 package network.messages.playerDataMessage;
 
-public class InfoID extends ConfirmationMessage {
+public class InfoID extends InfoMessage {
 
     public InfoID(String info){
         super(info);

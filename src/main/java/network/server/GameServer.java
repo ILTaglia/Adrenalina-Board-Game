@@ -176,9 +176,9 @@ public class GameServer {
         });
     }
     //Metodo per inviare un messaggio a un giocatore specifico.
-    public synchronized void sendMessageToID(String userID, Message colorError) {
+    public synchronized void sendMessageToID(String userID, Message message) {
         try {
-            userIDToClientInterface.get(userID).sendMessage(colorError);
+            userIDToClientInterface.get(userID).sendMessage(message);
         } catch (RemoteException e) {
             //TODO
         }

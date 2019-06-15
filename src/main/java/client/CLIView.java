@@ -44,12 +44,8 @@ public class CLIView implements View {
                 "2. Socket");
         int connectionChoice=getData.getInt(1, 2);
 
-        if(connectionChoice==1){
-            client.setConnection(false);
-        }
-        else{
-            client.setConnection(true);
-        }
+        client.setConnection(connectionChoice==1);
+
         client.launchConnection();
     }
 
@@ -68,22 +64,14 @@ public class CLIView implements View {
 
     @Override
     public void showException(String message) {
-        System.out.println(message);
+        printStream.println(message);
     }
 
 
     @Override
     public void showInfoMessage(Message message){
-        if(message.getContent().equals("InfoID")) {
-            printStream.println("You are in Waiting Room. Your ID is:" + message.getInfo());
-        }
-        else if(message.getContent().equals("InfoPowCard")){
-            printStream.println("You are drawn a Pow Card:" + message.getInfo());
-            //TODO: Chiamare metodo che stampa Pow Card
-        }
-        else {
-            printStream.println("Message received:" + message.getInfo());
-        }
+        printStream.println("Message received:" + message.getInfo());
+
     }
 
     /*
@@ -294,6 +282,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -310,6 +299,7 @@ public class CLIView implements View {
                 }
             }
         }
+        */
         printStream.printf(" _________________________________________________                 \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |                \n");
         printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
@@ -355,6 +345,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -371,6 +362,7 @@ public class CLIView implements View {
                 }
             }
         }
+        */
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
         printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
@@ -416,6 +408,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -432,6 +425,7 @@ public class CLIView implements View {
                 }
             }
         }
+        */
         printStream.printf(" _________________________________________________________________ \n");
         printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
         printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
@@ -679,6 +673,11 @@ public class CLIView implements View {
     @Override
     public void printPlayerMove(){printStream.println("You have moved.");}
 
+    @Override
+    public void printPlayerData() {
+
+    }
+    /*
     //Method to tell the player its state
     @Override
     public void printPlayerData(){
@@ -704,11 +703,12 @@ public class CLIView implements View {
                 printStream.println(client.getPlayerVisibleData().getPlayerMarks(i).get(4)+" damages by player (4) Grey");
             }
         }
+
         //TODO
         printStream.println("Actual score: "+client.getPlayerVisibleData().getPlayer().getScore());
 
     }
-
+    */
     //Method to advise the player he has been damaged
 
     @Override

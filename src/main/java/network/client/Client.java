@@ -7,6 +7,10 @@ import model.PlayerVisibleData;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
+import network.messages.playerDataMessage.DashboardData;
+import network.messages.playerDataMessage.InfoPlayer;
+import network.messages.playerDataMessage.NewPlayerData;
+import network.messages.playerDataMessage.OtherPlayerData;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -92,10 +96,6 @@ public class Client {
 
     public void handleMessage(Message message){
         switch(message.getType()) {
-            case "confirmation":
-                view.showInfoMessage(message);
-                if(message.getContent().equals("InfoID")) this.userID =message.getInfo();
-                break;
             case "error":
                 view.showInfoMessage(message);
                 handleErrorMessage(message);
@@ -104,7 +104,7 @@ public class Client {
                 view.showInfoMessage(message);
                 handleRequestMessage(message);
                 break;
-            case "InfoGame":
+            case "infoGame":
                 handleInfoMessage(message);
                 break;
         }
@@ -112,13 +112,25 @@ public class Client {
 
     private void handleInfoMessage(Message message) {
         switch (message.getContent()){
-            case "PlayerCreated":
+            case "InfoID":
+                view.showInfoMessage(message);
+                this.userID =message.getInfo();
+                break;
+            case "NewPlayerData":
+                view.showInfoMessage(message);
+                this.playerVisibleData=((NewPlayerData) message).getPlayerVisibleData();
                 //Prendo classe dal messaggio, Player già incluso
                 break;
-            case "ListOfEnemies":
-                //Man mano che i Player sono creati invio notifiche a tutti della loro creazione. Non semplice
+            case "OtherPlayerData":
+                view.showInfoMessage(message);
+                this.playerVisibleData.setEnemy(((OtherPlayerData) message).getPlayerName(),((OtherPlayerData) message).getPlayerColor());
+                break;
+                //Man mano che i Player sono creati invio notifiche a tutti della loro creazione.
+            case "DashboardData":
+                view.showInfoMessage(message);
+                this.playerVisibleData.setDashboard(((DashboardData) message).getDashboard());
+                break;
             case "NewPowCard":
-
                 break;
             case "NewWeaponCard":
                 break;

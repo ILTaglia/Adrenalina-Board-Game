@@ -2,7 +2,7 @@ package network.messages.playerDataMessage;
 
 import model.PowCard;
 
-public class InfoPowCard extends ConfirmationMessage {
+public class InfoPowCard extends InfoMessage {
 
     private PowCard powCard;
 

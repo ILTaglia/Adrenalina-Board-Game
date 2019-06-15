@@ -33,7 +33,8 @@ public class Game{
     public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor) {
 
         userList.keySet().forEach(username -> match.createPlayer(username, userIDtoColor.get(userList.get(username)), userList.get(username)));
-
+        //una volta creati i Player informo tutti i Player (eccetto lo stesso) dei dati degli altri
+        match.notifyPlayers();
         askMap((String)userList.values().toArray()[0]);
     }
 
@@ -45,7 +46,7 @@ public class Game{
         System.out.println("Ok, mappa scelta: " + mapRequired);
         match.createDashboard(Integer.valueOf(mapRequired));
         //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
-        //Message notification = new InfoMatch("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
+        //Message notification = new DashboardData("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
         //notifyAllClients(match,notification);
         setGameReady();
     }
@@ -337,7 +338,7 @@ public class Game{
         view.printMap();
         System.out.println(match.getActivePlayer().getName()+" you have ended your turn.");
 
-        view.printPlayerData();
+        //view.printPlayerData();
     }
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
