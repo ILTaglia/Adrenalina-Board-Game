@@ -2,7 +2,9 @@ package model;
 
 import exceptions.*;
 
-public class Ammo {
+import java.io.Serializable;
+
+public class Ammo implements Serializable {
 
     private int color;
 

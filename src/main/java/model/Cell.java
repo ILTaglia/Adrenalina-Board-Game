@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public abstract class Cell {
+public abstract class Cell implements Serializable {
 
     protected int color;    //colore della cella
     int type;

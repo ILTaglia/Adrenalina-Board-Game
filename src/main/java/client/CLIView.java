@@ -44,7 +44,12 @@ public class CLIView implements View {
                 "2. Socket");
         int connectionChoice=getData.getInt(1, 2);
 
-        client.setConnection(connectionChoice==1);
+        if(connectionChoice==1){
+            client.setConnection(false);
+        }
+        else{
+            client.setConnection(true);
+        }
 
         client.launchConnection();
     }

@@ -43,7 +43,8 @@ public class SocketConnection extends Thread {
             }
         }catch (IOException |ClassNotFoundException e){
             bool=false;
-            //TODO
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
         }
     }
 

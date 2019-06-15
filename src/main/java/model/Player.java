@@ -1,9 +1,10 @@
 package model;//package player_test;
 import exceptions.*;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private String id;
     private boolean active; //if true the player is active, if false the player is waiting its turn

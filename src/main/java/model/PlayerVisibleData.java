@@ -1,7 +1,5 @@
 package model;
 
-import javafx.scene.chart.Axis;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,14 +14,14 @@ public class PlayerVisibleData implements Serializable {
     private Dashboard dashboard;
 
     private Map<String,Integer> enemiesNameColor;
-
     private Map<String,Boolean> activePlayer;
     private Map<String,Integer> numberOfDeath;
+
     private Map<String,Coordinate> playersPosition;
     //Il firstBlood sarebbe evitabile, l'informazione può essere presa dalle HashMap dei danni.
     private Map<String,String> playersFirstBlood;  //number of the player that gave the damage 1 for other players
 
-    private Map<String,Integer> damagesOfPlayer;
+    private  Map<String,Integer> damagesOfPlayer;
     private Map<String,Map> damagesOfAll;
 
     private Map<String,Integer> marksOfPlayer;
@@ -31,6 +29,7 @@ public class PlayerVisibleData implements Serializable {
 
     public PlayerVisibleData(Player player){
         this.player=player;
+        this.enemiesNameColor=new HashMap<>();
         activePlayer=new HashMap<>();
         numberOfDeath=new HashMap<>();
         playersPosition =new HashMap<>();
@@ -51,6 +50,7 @@ public class PlayerVisibleData implements Serializable {
         this.playersFirstBlood.put(playerName,null);
         this.damagesOfAll.put(playerName,new HashMap<>());
         this.marksOfAll.put(playerName,new HashMap<>());
+
     }
 
 
@@ -65,7 +65,6 @@ public class PlayerVisibleData implements Serializable {
     public Map<String,Integer> getAllPlayersColorName(){
         return this.enemiesNameColor;
     }
-
     public String getActivePlayer(){
         for (Map.Entry<String,Boolean> entry : activePlayer.entrySet()) {
             if (entry.getValue()) {

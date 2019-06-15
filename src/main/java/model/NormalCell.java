@@ -3,6 +3,8 @@ package model;
 import exceptions.CardAlreadyCollectedException;
 import exceptions.FullCellException;
 
+import java.io.Serializable;
+
 public class NormalCell extends Cell {
         AmmoCard Ammo_NormalCell;
 
