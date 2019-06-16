@@ -57,7 +57,7 @@ public class GrabWeaponTest {
         catch (MaxNumberofCardsException e){
             System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
-        SpawnPointCell c = (SpawnPointCell)match.getDashboard().getmap(0, 2);
+        SpawnPointCell c = (SpawnPointCell)match.getDashboard().getMap(0, 2);
         try{
             c.addWeaponCard(weapon4, 0);
             c.addWeaponCard(weapon5, 1);

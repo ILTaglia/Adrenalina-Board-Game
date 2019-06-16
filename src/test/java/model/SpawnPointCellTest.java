@@ -31,7 +31,7 @@ public class SpawnPointCellTest {
         match.createDashboard(1);
         Dashboard d = match.getDashboard();
         match.fillDashboard();
-        spawnPointCell = (SpawnPointCell)d.getmap(0, 2);
+        spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
 
         WeaponDeck weaponDeck = new WeaponDeck();
         weaponDeck.setWeapons("Armi");
@@ -61,7 +61,7 @@ public class SpawnPointCellTest {
         match.fillDashboard();
         match.shuffleAllDecks();
 
-        spawnPointCell = (SpawnPointCell)d.getmap(0, 2);
+        spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
         assertEquals(3, spawnPointCell.getSpawnPointCellWeapons().size());
     }
 }

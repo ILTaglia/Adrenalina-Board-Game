@@ -132,11 +132,11 @@ public class MatchTest {
         match.fillDashboard();
         match.shuffleAllDecks();
 
-        SpawnPointCell c = (SpawnPointCell)d.getmap(0, 2);
+        SpawnPointCell c = (SpawnPointCell)d.getMap(0, 2);
         assertEquals(3, c.getSpawnPointCellWeapons().size());
-        c = (SpawnPointCell)d.getmap(1, 0);
+        c = (SpawnPointCell)d.getMap(1, 0);
         assertEquals(3, c.getSpawnPointCellWeapons().size());
-        c = (SpawnPointCell)d.getmap(2, 3);
+        c = (SpawnPointCell)d.getMap(2, 3);
         assertEquals(3, c.getSpawnPointCellWeapons().size());
 
         match.addWeaponCard(c, 1);
@@ -174,7 +174,7 @@ public class MatchTest {
         assertThrows(NotEnoughAmmosException.class,() -> player1.removeAmmo(2, blueAmmo));
         assertThrows(NotEnoughAmmosException.class,() -> player2.removeAmmo(2, blueAmmo));
 
-        NormalCell normalCell = (NormalCell)d.getmap(2, 2);
+        NormalCell normalCell = (NormalCell)d.getMap(2, 2);
         match.addAmmoCard(normalCell);
     }
 

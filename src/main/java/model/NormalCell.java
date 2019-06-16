@@ -17,9 +17,9 @@ public class NormalCell extends Cell {
         this.port[3] = W_port;
     }
 
-    public void Add_Ammo_Card(AmmoCard ammo_card) throws FullCellException{
+    public void addAmmoCard(AmmoCard ammoCard) throws FullCellException{
         if(this.Ammo_NormalCell!=null) throw new FullCellException();
-        this.Ammo_NormalCell = ammo_card;
+        this.Ammo_NormalCell = ammoCard;
     }
     //Exception must be handled by controller
     public void Collect_Card(Player player) throws CardAlreadyCollectedException{

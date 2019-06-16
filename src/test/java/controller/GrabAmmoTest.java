@@ -45,8 +45,8 @@ public class GrabAmmoTest {
         NormalCell cell1 = (NormalCell)player1.getCel().inmap(match.getDashboard(), 0,0);
         NormalCell cell2 = (NormalCell)player1.getCel().inmap(match.getDashboard(), 0,1);
         try{
-            cell1.Add_Ammo_Card(ammoTile);
-            cell2.Add_Ammo_Card(ammoPowTile);
+            cell1.addAmmoCard(ammoTile);
+            cell2.addAmmoCard(ammoPowTile);
         } catch (FullCellException e){}
 
         grabammo = new GrabAmmo();

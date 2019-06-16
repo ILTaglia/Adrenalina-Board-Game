@@ -109,63 +109,89 @@ public class Match implements Serializable {
 
     public void fillDashboard(){
         if(this.checkDashboard) {
-            int maptype = this.getDashboard().getMapType();
-
-            weaponDeck.drawCard();
-            Weapon weapon1 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon2 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon3 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon4 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon5 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon6 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon7 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon8 = (Weapon) weaponDeck.drawCard();
-            Weapon weapon9 = (Weapon) weaponDeck.drawCard();
-            SpawnPointCell c = (SpawnPointCell)this.getDashboard().getmap(0, 2);
+            int indexR;
+            int indexC;
+            for(indexR=0;indexR<dashboard.getRowDim();indexR++) {
+                for(indexC=0;indexC<dashboard.getColDim();indexC++){
+                    Cell cell = this.getDashboard().getMap(indexR, indexC);
+                    if ((cell.getType() == 0)&&(cell.getColor()!=-1)) {             //spawn Cell & exists
+                        fillSpawnPoint((SpawnPointCell) cell);
+                    } else if ((cell.getType() == 1)&&(cell.getColor()!=-1)) {      //normal Cell & exists
+                        fillNormal((NormalCell) cell);
+                    }
+                }
+            }
+            /*
+            spawnPointCell = (SpawnPointCell)this.getDashboard().getMap(0, 2);
             try{
-                c.addWeaponCard(weapon1, 0);
-                c.addWeaponCard(weapon2, 1);
-                c.addWeaponCard(weapon3, 2);
-            } catch (FullCellException e){}
-            c = (SpawnPointCell)this.getDashboard().getmap(1, 0);
+                for(index=0;index<3;index++) {
+                    spawnPointCell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                }
+            } catch (FullCellException e){
+
+            }
+            spawnPointCell = (SpawnPointCell)this.getDashboard().getMap(1, 0);
             try{
-                c.addWeaponCard(weapon4, 0);
-                c.addWeaponCard(weapon5, 1);
-                c.addWeaponCard(weapon6, 2);
-            } catch (FullCellException e){}
-            c = (SpawnPointCell)this.getDashboard().getmap(2, 3);
+                for(index=0;index<3;index++) {
+                    spawnPointCell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                }
+            } catch (FullCellException e){
+                //This method fill the dashboard for the first time, this Exception is impossibile
+            }
+            spawnPointCell = (SpawnPointCell)this.getDashboard().getMap(2, 3);
             try{
-                c.addWeaponCard(weapon7, 0);
-                c.addWeaponCard(weapon8, 1);
-                c.addWeaponCard(weapon9, 2);
-            } catch (FullCellException e){}
+                for(index=0;index<3;index++) {
+                    spawnPointCell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                }
+            } catch (FullCellException e){
+                //This method fill the dashboard for the first time, this Exception is impossibile
+            }
 
-            NormalCell normalcell = (NormalCell)this.getDashboard().getmap(0, 0);
+            NormalCell normalcell = (NormalCell)this.getDashboard().getMap(0, 0);
             this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getmap(0, 1);
-            this.addAmmoCard(normalcell);
-
-            normalcell = (NormalCell)this.getDashboard().getmap(1, 1);
-            this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getmap(1, 2);
-            this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getmap(1, 3);
+            normalcell = (NormalCell)this.getDashboard().getMap(0, 1);
             this.addAmmoCard(normalcell);
 
-            normalcell = (NormalCell)this.getDashboard().getmap(2, 1);
+            normalcell = (NormalCell)this.getDashboard().getMap(1, 1);
             this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getmap(2, 2);
+            normalcell = (NormalCell)this.getDashboard().getMap(1, 2);
+            this.addAmmoCard(normalcell);
+            normalcell = (NormalCell)this.getDashboard().getMap(1, 3);
             this.addAmmoCard(normalcell);
 
-            if(maptype!=1){
-                normalcell = (NormalCell)this.getDashboard().getmap(0, 3);
+            normalcell = (NormalCell)this.getDashboard().getMap(2, 1);
+            this.addAmmoCard(normalcell);
+            normalcell = (NormalCell)this.getDashboard().getMap(2, 2);
+            this.addAmmoCard(normalcell);
+
+            if(mapType!=1){
+                normalcell = (NormalCell)this.getDashboard().getMap(0, 3);
                 this.addAmmoCard(normalcell);
-                if(maptype==3){
-                    normalcell = (NormalCell)this.getDashboard().getmap(2, 0);
+                if(mapType==3){
+                    normalcell = (NormalCell)this.getDashboard().getMap(2, 0);
                     this.addAmmoCard(normalcell);
                 }
             }
+            */
 
+        }
+    }
+
+    private void fillSpawnPoint(SpawnPointCell cell){
+        int indexCell;
+        try {
+            for (indexCell = 0; indexCell < 3; indexCell++) {
+                cell.addWeaponCard((Weapon) weaponDeck.drawCard(), indexCell);
+            }
+        } catch (FullCellException e) {
+            //This method fill the dashboard for the first time, this Exception is impossible
+        }
+    }
+    private void fillNormal(NormalCell cell) {
+        try {
+            cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
+        } catch (FullCellException e) {
+            //This method fill the dashboard for the first time, this Exception is impossible
         }
     }
 
@@ -195,7 +221,7 @@ public class Match implements Serializable {
     //Riaggiunge la carta Ammo dopo che è stata usata
     public void addAmmoCard(NormalCell cell){//TODO:pensare a nome più efficace
         try{
-            cell.Add_Ammo_Card((AmmoCard) ammoDeck.drawCard());
+            cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
         }catch(FullCellException e){
             //TODO
         }
@@ -256,8 +282,8 @@ public class Match implements Serializable {
         int cellcolor;
         x = player.getCel().getX();
         y = player.getCel().getY();
-        Cell cellplayer = this.getDashboard().getmap(x, y); //cell of the player
-        cellcolor = cellplayer.getcolor(); //color of the cell of the player
+        Cell cellplayer = this.getDashboard().getMap(x, y); //cell of the player
+        cellcolor = cellplayer.getColor(); //color of the cell of the player
 
         ArrayList<Player> visible = new ArrayList<>();
 
@@ -265,7 +291,7 @@ public class Match implements Serializable {
         for (Player p : this.players) {
             if (!p.equals(player)) {
                 //color of the cell of the other player
-                int otherplayercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
+                int otherplayercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
                 if(otherplayercellcolor == cellcolor) visible.add(p);
             }
         }
@@ -275,12 +301,12 @@ public class Match implements Serializable {
                 //north port
                 if(i==0){
                     x--;
-                    Cell othercell = this.getDashboard().getmap(x, y);
+                    Cell othercell = this.getDashboard().getMap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
-                            if(otherplayercolor==othercell.getcolor()) visible.add(p);
+                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            if(otherplayercolor==othercell.getColor()) visible.add(p);
                         }
                     }
                     x++;
@@ -288,12 +314,12 @@ public class Match implements Serializable {
                 //east port
                 else if(i==1){
                     y++;
-                    Cell othercell = this.getDashboard().getmap(x, y);
+                    Cell othercell = this.getDashboard().getMap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
-                            if(otherplayercolor==othercell.getcolor()) visible.add(p);
+                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            if(otherplayercolor==othercell.getColor()) visible.add(p);
                         }
                     }
                     y--;
@@ -301,12 +327,12 @@ public class Match implements Serializable {
                 //south port
                 else if(i==2){
                     x++;
-                    Cell othercell = this.getDashboard().getmap(x, y);
+                    Cell othercell = this.getDashboard().getMap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
-                            if(otherplayercolor==othercell.getcolor()) visible.add(p);
+                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            if(otherplayercolor==othercell.getColor()) visible.add(p);
                         }
                     }
                     x--;
@@ -314,12 +340,12 @@ public class Match implements Serializable {
                 //west port
                 else if(i==3){
                     y--;
-                    Cell othercell = this.getDashboard().getmap(x, y);
+                    Cell othercell = this.getDashboard().getMap(x, y);
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
-                            if(otherplayercolor==othercell.getcolor()) visible.add(p);
+                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            if(otherplayercolor==othercell.getColor()) visible.add(p);
                         }
                     }
                     y++;
@@ -334,14 +360,14 @@ public class Match implements Serializable {
         List<Player> visibleplayers = new ArrayList<>();
         int x = player.getCel().getX();
         int y = player.getCel().getY();
-        Cell playercell = this.getDashboard().getmap(x, y);
+        Cell playercell = this.getDashboard().getMap(x, y);
         //north
         if(direction==0){
             ArrayList<Coordinate> upcells = this.getUpCells(player.getCel());
             for(int i=0; i<upcells.size(); i++){
                 int x1 = upcells.get(i).getX();
                 int y1 = upcells.get(i).getY();
-                Cell c = this.getDashboard().getmap(x1, y1);
+                Cell c = this.getDashboard().getMap(x1, y1);
                 //you are looking up, so you need a cell that has a port in southern directon
                 if(c.portIsPresent(2)==1){
                     Coordinate cell = new Coordinate(x1, y1);
@@ -356,7 +382,7 @@ public class Match implements Serializable {
             for(int i=0; i<rightcells.size(); i++){
                 int x1 = rightcells.get(i).getX();
                 int y1 = rightcells.get(i).getY();
-                Cell c = this.getDashboard().getmap(x1, y1);
+                Cell c = this.getDashboard().getMap(x1, y1);
                 //you are looking east, so you need a cell that has a port in western direction
                 if(c.portIsPresent(3)==1){
                     Coordinate cell = new Coordinate(x1, y1);
@@ -371,7 +397,7 @@ public class Match implements Serializable {
             for(int i=0; i<downcells.size(); i++){
                 int x1 = downcells.get(i).getX();
                 int y1 = downcells.get(i).getY();
-                Cell c = this.getDashboard().getmap(x1, y1);
+                Cell c = this.getDashboard().getMap(x1, y1);
                 //you are looking down, so you need a cell that has a port in northern direction
                 if(c.portIsPresent(0)==1){
                     Coordinate cell = new Coordinate(x1, y1);
@@ -386,7 +412,7 @@ public class Match implements Serializable {
             for(int i=0; i<leftcells.size(); i++){
                 int x1 = leftcells.get(i).getX();
                 int y1 = leftcells.get(i).getY();
-                Cell c = this.getDashboard().getmap(x1, y1);
+                Cell c = this.getDashboard().getMap(x1, y1);
                 //you are looking west, so you need a cell that has a port in eastern direction
                 if(c.portIsPresent(1)==1){
                     Coordinate cell = new Coordinate(x1, y1);
@@ -404,12 +430,12 @@ public class Match implements Serializable {
         List<Player> roomplayers = new ArrayList<>();
         int x = cell.getX();
         int y = cell.getY();
-        Cell c = this.getDashboard().getmap(x, y); //cell
-        int cellcolor = c.getcolor(); //color of the cell
+        Cell c = this.getDashboard().getMap(x, y); //cell
+        int cellcolor = c.getColor(); //color of the cell
 
         //adds a player if it is in the same room
         for (Player p : this.players) {
-            int playercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getcolor();
+            int playercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
             if(playercellcolor==cellcolor) roomplayers.add(p);
         }
         return roomplayers;
@@ -466,15 +492,15 @@ public class Match implements Serializable {
         int othercellcolor;
         x = cell.getX();
         y = cell.getY();
-        Cell cellplayer = this.getDashboard().getmap(x, y); //cell with that coordinates
-        cellcolor = cellplayer.getcolor(); //color of the cell with that coordinates
+        Cell cellplayer = this.getDashboard().getMap(x, y); //cell with that coordinates
+        cellcolor = cellplayer.getColor(); //color of the cell with that coordinates
 
         ArrayList<Coordinate> visible = new ArrayList<>();
 
         //adds a cell if it is in the same room
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
-                othercellcolor = this.getDashboard().getmap(i, j).getcolor();
+                othercellcolor = this.getDashboard().getMap(i, j).getColor();
                 if(othercellcolor==cellcolor){
                     Coordinate c = new Coordinate(i, j);
                     visible.add(c);
@@ -488,11 +514,11 @@ public class Match implements Serializable {
                 //north port
                 if(i==0){
                     x--;
-                    Cell portcell = this.getDashboard().getmap(x, y);
+                    Cell portcell = this.getDashboard().getMap(x, y);
                     for(int h=0; h<3; h++){
                         for(int j=0; j<4; j++){
-                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
-                            if(othercellcolor == portcell.getcolor()){
+                            othercellcolor = this.getDashboard().getMap(h, j).getColor();
+                            if(othercellcolor == portcell.getColor()){
                                 Coordinate c = new Coordinate(h, j);
                                 visible.add(c);
                             }
@@ -503,11 +529,11 @@ public class Match implements Serializable {
                 //east port
                 else if(i==1){
                     y++;
-                    Cell portcell = this.getDashboard().getmap(x, y);
+                    Cell portcell = this.getDashboard().getMap(x, y);
                     for(int h=0; h<3; h++){
                         for(int j=0; j<4; j++){
-                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
-                            if(othercellcolor==portcell.getcolor()){
+                            othercellcolor = this.getDashboard().getMap(h, j).getColor();
+                            if(othercellcolor==portcell.getColor()){
                                 Coordinate c = new Coordinate(h, j);
                                 visible.add(c);
                             }
@@ -518,11 +544,11 @@ public class Match implements Serializable {
                 //south port
                 else if(i==2){
                     x++;
-                    Cell portcell = this.getDashboard().getmap(x, y);
+                    Cell portcell = this.getDashboard().getMap(x, y);
                     for(int h=0; h<3; h++){
                         for(int j=0; j<4; j++){
-                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
-                            if(othercellcolor==portcell.getcolor()){
+                            othercellcolor = this.getDashboard().getMap(h, j).getColor();
+                            if(othercellcolor==portcell.getColor()){
                                 Coordinate c = new Coordinate(h, j);
                                 visible.add(c);
                             }
@@ -533,11 +559,11 @@ public class Match implements Serializable {
                 //west port
                 else if(i==3){
                     y--;
-                    Cell portcell = this.getDashboard().getmap(x, y);
+                    Cell portcell = this.getDashboard().getMap(x, y);
                     for(int h=0; h<3; h++){
                         for(int j=0; j<4; j++){
-                            othercellcolor = this.getDashboard().getmap(h, j).getcolor();
-                            if(othercellcolor==portcell.getcolor()){
+                            othercellcolor = this.getDashboard().getMap(h, j).getColor();
+                            if(othercellcolor==portcell.getColor()){
                                 Coordinate c = new Coordinate(h, j);
                                 visible.add(c);
                             }

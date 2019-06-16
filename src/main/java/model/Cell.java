@@ -23,7 +23,7 @@ public abstract class Cell implements Serializable {
         return Arrays.toString(this.port);
     }
 
-    public int getcolor(){return this.color;}
+    public int getColor(){return this.color;}
 
     public int portIsPresent(int d){return this.port[d];}
 

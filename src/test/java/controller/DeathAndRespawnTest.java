@@ -87,14 +87,14 @@ public class DeathAndRespawnTest {
 
     @Test
     public void end_game(){
-        match.getDashboard().setKillshottrack(player1,2);
-        match.getDashboard().setKillshottrack(player2,1);
-        match.getDashboard().setKillshottrack(player3,1);
-        match.getDashboard().setKillshottrack(player2,2);
-        match.getDashboard().setKillshottrack(player1,1);
-        match.getDashboard().setKillshottrack(player3,2);
-        match.getDashboard().setKillshottrack(player2,1);
-        match.getDashboard().setKillshottrack(player1,1);
+        match.getDashboard().setKillShotTrack(player1,2);
+        match.getDashboard().setKillShotTrack(player2,1);
+        match.getDashboard().setKillShotTrack(player3,1);
+        match.getDashboard().setKillShotTrack(player2,2);
+        match.getDashboard().setKillShotTrack(player1,1);
+        match.getDashboard().setKillShotTrack(player3,2);
+        match.getDashboard().setKillShotTrack(player2,1);
+        match.getDashboard().setKillShotTrack(player1,1);
 
         /*This test controls that when a match ends, points of the killshot track are given to players that have
          * signals in the track*/

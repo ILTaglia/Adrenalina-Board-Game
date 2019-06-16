@@ -553,7 +553,7 @@ public class CLIView implements View {
     public void showSpawnPointWeapons(){
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
         int y = client.getPlayerVisibleData().getPlayer().getCel().getY();
-        SpawnPointCell cell = (SpawnPointCell)client.getPlayerVisibleData().getDashboard().getmap(x, y);
+        SpawnPointCell cell = (SpawnPointCell)client.getPlayerVisibleData().getDashboard().getMap(x, y);
         printStream.println("In the SpawnPoint Cell at line "+x+" and column "+y+" there are these Weapon Cards: ");
         List<Weapon> weapons = cell.getSpawnPointCellWeapons();
 
@@ -575,7 +575,7 @@ public class CLIView implements View {
         //player can choose card 1, 2, 3. I take all the weapons in the spawn point cell
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
         int y = client.getPlayerVisibleData().getPlayer().getCel().getY();
-        SpawnPointCell cell = (SpawnPointCell) client.getPlayerVisibleData().getDashboard().getmap(x, y);
+        SpawnPointCell cell = (SpawnPointCell) client.getPlayerVisibleData().getDashboard().getMap(x, y);
         for(Weapon w:cell.getSpawnPointCellWeapons()){
            weaponcards.add(w);
         }

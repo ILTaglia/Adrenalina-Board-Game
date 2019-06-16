@@ -17,7 +17,7 @@ public class DeathAndRespawn {
     public void calculatescore(Match m, Player playerkilled, Player playerkiller, int n) throws NotExistingDashboardException {
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
-        if(m.getCheck()) m.getDashboard().setKillshottrack(playerkiller, n);
+        if(m.getCheck()) m.getDashboard().setKillShotTrack(playerkiller, n);
         else throw new NotExistingDashboardException();
         //adds signals to killshot track
 
@@ -49,7 +49,7 @@ public class DeathAndRespawn {
             }
             if(flag==1) break;
         }
-        if(m.getDashboard().getindex()==9){
+        if(m.getDashboard().getIndex()==9){
             FinalFrenzy finalFrenzy = new FinalFrenzy(m, playerkilled.getColor());
             endgame(m, m.getDashboard());
             /*when a match ends the killshot track is full, so index is 9. The attribution of points considering the killshot
@@ -64,7 +64,7 @@ public class DeathAndRespawn {
         int color;
         boolean s = false;
         while(!s){
-            color = d.getmaxkillshot();
+            color = d.getMaxKillShot();
             m.getPlayer(color).setScore(points[in]);
             in++;
             s=d.stop();

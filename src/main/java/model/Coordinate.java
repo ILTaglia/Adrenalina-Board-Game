@@ -26,6 +26,6 @@ public class Coordinate implements Serializable {
     }
 
     public Cell inmap(Dashboard d, int x, int y){
-        return d.getmap(x, y);
+        return d.getMap(x, y);
     }
 }

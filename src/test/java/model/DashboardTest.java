@@ -1,7 +1,6 @@
 package model;
 
 import controller.DeathAndRespawn;
-import exceptions.MaxNumberPlayerException;
 import org.junit.Test;
 
 
@@ -31,16 +30,16 @@ public class DashboardTest {
         player2 = match.getPlayerByIndex(1);
         player3 = match.getPlayerByIndex(2);
 
-        assertEquals(0, match.getDashboard().getindex());
-        match.getDashboard().setKillshottrack(player1,2);
-        assertEquals(1, match.getDashboard().getindex());
-        match.getDashboard().setKillshottrack(player2,1);
-        match.getDashboard().setKillshottrack(player3,1);
-        match.getDashboard().setKillshottrack(player2,2);
-        match.getDashboard().setKillshottrack(player1,1);
-        match.getDashboard().setKillshottrack(player3,2);
-        match.getDashboard().setKillshottrack(player2,1);
-        match.getDashboard().setKillshottrack(player1,1);
+        assertEquals(0, match.getDashboard().getIndex());
+        match.getDashboard().setKillShotTrack(player1,2);
+        assertEquals(1, match.getDashboard().getIndex());
+        match.getDashboard().setKillShotTrack(player2,1);
+        match.getDashboard().setKillShotTrack(player3,1);
+        match.getDashboard().setKillShotTrack(player2,2);
+        match.getDashboard().setKillShotTrack(player1,1);
+        match.getDashboard().setKillShotTrack(player3,2);
+        match.getDashboard().setKillShotTrack(player2,1);
+        match.getDashboard().setKillShotTrack(player1,1);
 
         /*This test controls that when a match ends, points of the killshot track are given to players that have
         * signals in the track*/
@@ -54,7 +53,7 @@ public class DashboardTest {
 
         for(int i=0; i<3; i++){
             for(int j=0; j<4; j++){
-                System.out.println(d1.getmap(i, j).elenco());
+                System.out.println(d1.getMap(i, j).elenco());
             }
         }
 
