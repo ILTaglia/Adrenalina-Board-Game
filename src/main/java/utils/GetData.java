@@ -89,7 +89,7 @@ public class GetData {
         int yCoordinate;
         do{
             xCoordinate=input.nextInt();
-            if(xCoordinate<xMin||xCoordinate>xMin) System.out.println("Not a valid xCoordinate\n");
+            if(xCoordinate<xMin||xCoordinate>xMax) System.out.println("Not a valid xCoordinate\n");
         }while (xCoordinate<xMin||xCoordinate>xMax);
         System.out.println("Ok xCoordinate is: "+ xCoordinate);
         coordinate.add(xCoordinate);

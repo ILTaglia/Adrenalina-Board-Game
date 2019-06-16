@@ -83,7 +83,11 @@ public class Game{
     public void setSpawn(String userID, Coordinate coordinate,int powCardIndex){
         checkUserAction(userID);
         Spawn playerSpawn = new Spawn();
+        //save powCard before Spawn (it's removed from Player) to discard it after Spawn
+        PowCard powCardToDiscard=match.getActivePlayer().getPowByIndex(powCardIndex);       //TODO: migliorabile?
         playerSpawn.spawn(match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
+        match.discardPowCard(powCardToDiscard);
+        //TODO: devo avvisare il Player dal discard
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
