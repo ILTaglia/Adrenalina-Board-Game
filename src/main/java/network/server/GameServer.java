@@ -95,7 +95,7 @@ public class GameServer {
                 break;
             case "SpawnPointRequest":
                 SpawnPointClientRequest spawnPointRequest=(SpawnPointClientRequest) requestMessage;
-                userIDToIdGameRoom.get(spawnPointRequest.getUserID()).setSpawnPoint(spawnPointRequest.getUserID(),spawnPointRequest.getPowCard());
+                userIDToIdGameRoom.get(spawnPointRequest.getUserID()).setSpawnPoint(spawnPointRequest.getUserID(),spawnPointRequest.getCoordinate(),Integer.parseInt(spawnPointRequest.getInfo()));
                 break;
             case "ActionRequest":
                 userIDToIdGameRoom.get(requestMessage.getUserID()).performAction(requestMessage.getUserID(), Integer.parseInt(requestMessage.getInfo()));

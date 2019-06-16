@@ -1,18 +1,18 @@
 package network.messages.clientRequest;
 
-import model.PowCard;
+import model.Coordinate;
 
 public class SpawnPointClientRequest extends ClientRequestMessage{
 
-    private PowCard powCard;
+    private Coordinate coordinate;
 
-    public SpawnPointClientRequest(PowCard powCard, String playerID){
-        super(Integer.toString(powCard.getColor()),playerID);
-        this.powCard=powCard;
+    public SpawnPointClientRequest(int xCoordinate,int yCoordinate, int powCardIndex, String playerID){
+        super(Integer.toString(powCardIndex),playerID);
+        this.coordinate=new Coordinate(xCoordinate,yCoordinate);
         this.content="SpawnPointRequest";
     }
 
-    public PowCard getPowCard() {
-        return powCard;
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 }

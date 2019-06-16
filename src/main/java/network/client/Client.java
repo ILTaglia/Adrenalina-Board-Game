@@ -2,15 +2,13 @@ package network.client;
 
 import client.CLIView;
 import client.View;
+import exceptions.MaxNumberofCardsException;
 import exceptions.UsernameAlreadyUsedException;
 import model.PlayerVisibleData;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
-import network.messages.playerDataMessage.DashboardData;
-import network.messages.playerDataMessage.InfoPlayer;
-import network.messages.playerDataMessage.NewPlayerData;
-import network.messages.playerDataMessage.OtherPlayerData;
+import network.messages.playerDataMessage.*;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -131,6 +129,12 @@ public class Client {
                 this.playerVisibleData.setDashboard(((DashboardData) message).getDashboard());
                 break;
             case "NewPowCard":
+                view.showInfoMessage(message);
+                try {
+                    this.playerVisibleData.getPlayer().addPow(((NewPowCard) message).getPowCard());
+                } catch (MaxNumberofCardsException e) {
+                    //Gestita non dal Player //TODO
+                }
                 break;
             case "NewWeaponCard":
                 break;

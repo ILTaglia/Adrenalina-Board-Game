@@ -7,10 +7,10 @@ import model.Player;
 import model.PowCard;
 
 public class Spawn {
-    public void spawn(Player player, int x, int y, int powcardIndex) throws InvalidColorException{
-        PowCard powcard = player.getPowByIndex(powcardIndex);
-        int powcardcolor = powcard.getColor();
-        if(bornValidity(player, x, y, powcardcolor)){
+    public void spawn(Player player, int x, int y, int powCardIndex) throws InvalidColorException{
+        PowCard powcard = player.getPowByIndex(powCardIndex);
+        int powCardColor = powcard.getColor();
+        if(bornValidity(player, x, y, powCardColor)){
             player.setCel(x, y);
             try{player.removePow(powcard);}
             catch(ZeroCardsOwnedException e){return;}

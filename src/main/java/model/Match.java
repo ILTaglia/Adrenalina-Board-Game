@@ -2,7 +2,7 @@ package model;
 
 import exceptions.*;
 import network.messages.playerDataMessage.DashboardData;
-import network.messages.playerDataMessage.InfoPowCard;
+import network.messages.playerDataMessage.NewPowCard;
 import network.messages.Message;
 import network.messages.playerDataMessage.NewPlayerData;
 import network.messages.playerDataMessage.OtherPlayerData;
@@ -88,8 +88,19 @@ public class Match implements Serializable {
         return null;
     }
 
+    public Player getPlayerByID(String userID){
+        for(Player player:this.players){
+            if(player.getID().equals(userID)){
+                return player;
+            }
+        }
+        return null;
+    }
+
     //Returns all the players on the match
-    public ArrayList<Player> getPlayers() { return this.players; }
+    public ArrayList<Player> getPlayers() {
+        return this.players;
+    }
 
     public List<Player> getNoDamagedPlayers(){
         List<Player> list = new ArrayList<>();
@@ -178,10 +189,10 @@ public class Match implements Serializable {
     }
 
     private void fillSpawnPoint(SpawnPointCell cell){
-        int indexCell;
         try {
-            for (indexCell = 0; indexCell < 3; indexCell++) {
-                cell.addWeaponCard((Weapon) weaponDeck.drawCard(), indexCell);
+            int index;
+            for (index = 0; index < 3; index++) {
+                cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
             }
         } catch (FullCellException e) {
             //This method fill the dashboard for the first time, this Exception is impossible
@@ -195,7 +206,7 @@ public class Match implements Serializable {
         }
     }
 
-    public void firstTurnPows(){
+    public void firstTurnPow(){
         for(Player player:this.players){
             try{
                 this.assignPowCard(player);
@@ -263,9 +274,8 @@ public class Match implements Serializable {
             powDeck.discardCard(powcard);
             throw new MaxNumberofCardsException();
         }
-        Message infoPowCard=new InfoPowCard(powcard);
+        Message infoPowCard=new NewPowCard(powcard);
         notifySpecificClient(player.getID(),infoPowCard);
-        //TODO IMPORTANTE: NotifyView del cambiamento sulle PowCard
     }
 
     public void discardPowCard(PowCard powCard){

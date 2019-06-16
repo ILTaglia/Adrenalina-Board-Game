@@ -1,6 +1,7 @@
 package network.server;
 
 import controller.Game;
+import model.Coordinate;
 import model.PowCard;
 import network.messages.*;
 
@@ -72,8 +73,8 @@ public class GameRoom {
         gameServer.sendMessageToID(userID,message);
     }
 
-    public void setSpawnPoint(String userID, PowCard powCard) {
-        gameController.setSpawn(userID,powCard);
+    public void setSpawnPoint(String userID, Coordinate coordinate,int powCardIndex) {
+        gameController.setSpawn(userID,coordinate,powCardIndex);
     }
 
 

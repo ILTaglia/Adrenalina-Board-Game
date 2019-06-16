@@ -214,24 +214,27 @@ public class CLIView implements View {
 
     @Override
     public void chooseStartingCell(){
+        List<Integer> coordinate;
+        int powIndex;
         printStream.println("\nSelect the SpawnPoint cell where you want to start. Write number of line, then column.");
         printStream.println("There are three SpawnPoint cells in the game:");
         printStream.println("Line 0, column 2 - Blue cell");
         printStream.println("Line 1, column 0 - Red cell");
         printStream.println("Line 2, column 3 - Yellow cell");
         printStream.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
-        this.showPlayerPowsColors();
-        printStream.println("Insert: \nLine\nColumn\nNumber PowCard to use");
-        int x= getData.getInt(0, 2);
-        int y= getData.getInt(0, 3);
-        int powindex = getData.getInt(1, 2);
-        while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
-            printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
-            x= getData.getInt(0, 2);
-            y= getData.getInt(0, 3);
-            powindex = getData.getInt(1, 2);
+        this.showPlayerPowWithColors();
+        printStream.println("Insert: \nLine (Enter)\nColumn (Enter)\nNumber PowCard to use (Enter)\n");
+        coordinate=getData.getCoordinate(0,2,0,3);
+        while(!((coordinate.get(0)==0 && coordinate.get(1)==2)||(coordinate.get(0)==1&&coordinate.get(1)==0)||(coordinate.get(0)==2 && coordinate.get(1)==3))){
+            printStream.println("Not a valid SpawnPoint\n");
+            coordinate=getData.getCoordinate(0,2,0,3);
         }
-        powindex--;
+        powIndex = getData.getInt(1, 2);
+        powIndex--;
+        Message message=new SpawnPointClientRequest(coordinate.get(0),coordinate.get(1),powIndex,client.getUserID());
+        client.sendMessage(message);
+
+        /*
         int flag=0;
         while(flag==0){
             try{
@@ -245,6 +248,7 @@ public class CLIView implements View {
                 powindex--;}
         }
         this.showPlayerPows();
+        */
     }
 
 
@@ -487,18 +491,13 @@ public class CLIView implements View {
 
     //Method to show a player its PowCards, and colors to choose the spawn point cell and to convert Pows in Ammos
     @Override
-    public void showPlayerPowsColors() {
-        List<PowCard> powcards = client.getPlayerVisibleData().getPlayer().getPows();
+    public void showPlayerPowWithColors() {
+        List<PowCard> powCards = client.getPlayerVisibleData().getPlayer().getPows();
         printStream.println("Your PowCards are: ");
-        String color = "";
-
         int i=1;
-        for(PowCard powcard:powcards){
+        for(PowCard powCard:powCards){
             //Spawn point cell are just blue, red and yellow. Check of validity is made in controller class.
-            if(powcard.getColor()==0) color = "Red";
-            else if(powcard.getColor()==1) color = "Blue";
-            else if(powcard.getColor()==2) color = "Yellow";
-            printStream.println(i+". "+powcard.getName()+" with the color "+color);
+            printStream.println(i+". "+powCard.getName()+" with the color: "+ getData.getColorFromInt(powCard.getColor()));
             i++;
         }
     }

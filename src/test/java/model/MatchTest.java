@@ -118,7 +118,7 @@ public class MatchTest {
         assertEquals(player1, match.getPlayerByColor(0));
         assertEquals(player2, match.getPlayerByColor(3));
         assertNull(match.getPlayerByColor(5));
-        match.firstTurnPows();
+        match.firstTurnPow();
         assertEquals(2,player1.getPows().size());
         assertEquals(2,player2.getPows().size());
         assertEquals(2,player3.getPows().size());

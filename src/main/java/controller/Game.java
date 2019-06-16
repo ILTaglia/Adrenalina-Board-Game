@@ -43,11 +43,9 @@ public class Game{
     }
 
     public void setMap(String mapRequired) {
-        System.out.println("Ok, mappa scelta: " + mapRequired);
+        System.out.println("Selected Map: " + mapRequired);
         match.createDashboard(Integer.valueOf(mapRequired));
         //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
-        //Message notification = new DashboardData("La partita può iniziare, di seguito si riassumono le informazioni sui Player presenti e sulla mappa scelta:");
-        //notifyAllClients(match,notification);
         setGameReady();
     }
 
@@ -64,7 +62,7 @@ public class Game{
     private void setPlayerReady(){
 
         //Assign to each player two pows card.
-        match.firstTurnPows();
+        match.firstTurnPow();
 
         //first Player is the first in Players List in Model. It would be the first logged on Server.
         //Set active the first player, set not-active the rest of players
@@ -81,11 +79,11 @@ public class Game{
         gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getID());
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
-    public void setSpawn(String userID, PowCard powCard){
+    //TODO: sistemare la validità della cella
+    public void setSpawn(String userID, Coordinate coordinate,int powCardIndex){
+        checkUserAction(userID);
         Spawn playerSpawn = new Spawn();
-        //TODO: Capire come gestisce
-        //playerSpawn.spawn(player, x, y, powcardIndex);
-
+        playerSpawn.spawn(match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
@@ -444,7 +442,7 @@ public class Game{
         View view = new CLIView(match);
         for(Player p:match.getPlayers()){
             printStream.println(p.getName());
-            view.showPlayerPowsColors(p);
+            view.showPlayerPowWithColors(p);
         }
         for(Player p:match.getPlayers()){
             printStream.println("\nPlease, "+p.getName()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
@@ -453,7 +451,7 @@ public class Game{
             printStream.println("Line 1, column 0 - Red cell");
             printStream.println("Line 2, column 3 - Yellow cell");
             printStream.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
-            view.showPlayerPowsColors(p);
+            view.showPlayerPowWithColors(p);
             printStream.println("Insert: \nLine\nColumn\nNumber PowCard to use");
             int x= getData.getInt(0, 2);
             int y= getData.getInt(0, 3);

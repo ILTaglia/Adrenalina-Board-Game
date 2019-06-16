@@ -102,7 +102,7 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
-    public void showPlayerPowsColors() {
+    public void showPlayerPowWithColors() {
 
     }
 

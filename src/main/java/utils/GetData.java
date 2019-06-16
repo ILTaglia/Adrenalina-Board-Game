@@ -47,7 +47,13 @@ public class GetData {
         }while(!colors.contains(color));
         return color;
     }
-
+    //TODO: serve classe utils per la View, qua o da qualche altra parte?
+    public String getColorFromInt(int color){
+        if(color==0) return "Red";
+        else if(color==1) return  "Blue";
+        else if(color==2) return "Yellow";
+        else return null;
+    }
 
 
     public List<String> getValidListDirectionForPlayer(){
@@ -77,10 +83,28 @@ public class GetData {
         }while(name.equals(""));
         return name;
     }
+    public List<Integer> getCoordinate(int xMin,int xMax, int yMin, int yMax){
+        List<Integer> coordinate=new ArrayList<>();
+        int xCoordinate;
+        int yCoordinate;
+        do{
+            xCoordinate=input.nextInt();
+            if(xCoordinate<xMin||xCoordinate>xMin) System.out.println("Not a valid xCoordinate\n");
+        }while (xCoordinate<xMin||xCoordinate>xMax);
+        System.out.println("Ok xCoordinate is: "+ xCoordinate);
+        coordinate.add(xCoordinate);
+        do{
+            yCoordinate=input.nextInt();
+            if(yCoordinate<yMin||yCoordinate>yMax) System.out.println("Not a valid yCoordinate\n");
+        }while (yCoordinate<yMin||yCoordinate>yMax);
+        System.out.println("Ok yCoordinate is: "+ yCoordinate);
+        coordinate.add(yCoordinate);
+        return coordinate;
+    }
 
     public int getInt(int min,int max){
         int k = 0;
-        boolean isValid=false;
+        boolean isValid;
         if(min>max){
             k=max;
             max=min;
@@ -108,4 +132,5 @@ public class GetData {
         }while(!(answer.equals("Yes")||answer.equals("No")));
         return answer.equals("Yes");
     }
+
 }

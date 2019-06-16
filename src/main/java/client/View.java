@@ -80,7 +80,7 @@ public interface View {
     void showPlayerPowsForAttack();
 
     //Method to show a player its PowCards, and colors to choose the spawn point cell
-    void showPlayerPowsColors();
+    void showPlayerPowWithColors();
 
     //Method to show the active player how many ammos he has
     void showPlayerAmmos();
