@@ -1,6 +1,7 @@
 package controller;
 
 import model.Match;
+import model.Coordinate;
 import model.Player;
 import exceptions.InvalidDirectionException;
 import exceptions.MaxNumberPlayerException;
@@ -128,6 +129,27 @@ public class RunTest {
         catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
         assertEquals(2, player3.getCel().getX());
         assertEquals(1, player3.getCel().getY());
+    }
+
+    @Test
+    public void registerMovement(){
+        assertEquals(0, player1.getAction());
+        player1.setActive();
+        Run run = new Run();
+        run.registerMovementAction(match);
+        assertEquals(1, player1.getAction());
+    }
+
+    @Test
+    public void resetPosition(){
+        player1.setCel(0,2);
+        assertEquals(0, player1.getCel().getX());
+        assertEquals(2, player1.getCel().getY());
+        Coordinate c = new Coordinate(1, 1);
+        Run run = new Run();
+        run.resetPosition(player1, c);
+        assertEquals(1, player1.getCel().getX());
+        assertEquals(1, player1.getCel().getY());
     }
 
     @Test

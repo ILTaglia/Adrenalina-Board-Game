@@ -32,6 +32,7 @@ public class SpawnPointCellTest {
         Dashboard d = match.getDashboard();
         match.fillDashboard();
         spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
+        assertEquals(0, spawnPointCell.getType());
 
         WeaponDeck weaponDeck = new WeaponDeck();
         weaponDeck.setWeapons("Armi");
