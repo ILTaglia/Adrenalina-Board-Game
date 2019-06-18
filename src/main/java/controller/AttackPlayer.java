@@ -5,7 +5,7 @@ import model.Damage;
 import model.Match;
 import model.Player;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AttackPlayer {
 
@@ -23,7 +23,7 @@ public class AttackPlayer {
 
     public void assigncelldamages(Match m, Coordinate c, Player first, Damage damage) //assegna i danni a tutti i player di una cella
     {
-        ArrayList<Player> toattack = m.getSameCellsPlayers(c);
+        List<Player> toattack = m.getSameCellsPlayers(c);
         for(Player p : toattack)
         {
             if(!p.equals(first)) //Controllo di non assegnare danni allo stesso giocatore attaccante

@@ -3,6 +3,7 @@ import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AttackNewVersion {
@@ -16,7 +17,7 @@ public class AttackNewVersion {
         Weapon weapon = getWeapon(match,player);
 
         //GENERO LISTA CONTENENTE LA SERIE DI ATTACCHI DESIDERATA
-        ArrayList<TypeAttack> lista = getListofAttacks(weapon);
+        List<TypeAttack> lista = getListofAttacks(weapon);
 
 
         //PER TUTTI GLI ATTACCHI CONTENUTI NELLA LISTA
@@ -45,11 +46,11 @@ public class AttackNewVersion {
     }
 
 
-    private ArrayList<TypeAttack> getListofAttacks(Weapon weapon)
+    private List<TypeAttack> getListofAttacks(Weapon weapon)
     {
 
         //CREA LISTA DI TUTTI GLI ATTACCHI DISPONIBILI
-        ArrayList<ArrayList<TypeAttack>> lista = createlistofattacks(weapon);
+        List<List<TypeAttack>> lista = createlistofattacks(weapon);
 
 
         //CHIEDE ALL'UTENTE IL NUMERO DI SERIE CHE DESIDERA FINO A QUANDO NON SIA ACCETTABILE
@@ -63,11 +64,11 @@ public class AttackNewVersion {
     }
 
 
-    private ArrayList<ArrayList<TypeAttack>> createlistofattacks(Weapon weapon) //Crea una lista di liste, ogni lista contenuta ha un typeplayer comune
+    private List<List<TypeAttack>> createlistofattacks(Weapon weapon) //Crea una lista di liste, ogni lista contenuta ha un typeplayer comune
     {
         int cont=0;
-        ArrayList<ArrayList<TypeAttack>> attacks= new ArrayList<ArrayList<TypeAttack>>();
-        ArrayList<TypeAttack> attack = new ArrayList<TypeAttack>();
+        List<List<TypeAttack>> attacks= new ArrayList<List<TypeAttack>>();
+        List<TypeAttack> attack = new ArrayList<TypeAttack>();
 
         for(int i=0; i<weapon.getNumberAttack();i++)
         {
@@ -101,7 +102,7 @@ public class AttackNewVersion {
 
     private void assigncelldamages(Match m, Coordinate c, Player first, Damage damage) //assegna i danni a tutti i player di una cella
     {
-        ArrayList<Player> toattack = m.getSameCellsPlayers(c);
+        List<Player> toattack = m.getSameCellsPlayers(c);
         for(Player p : toattack)
         {
             if(!p.equals(first)) //Controllo di non assegnare danni allo stesso giocatore attaccante

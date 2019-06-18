@@ -2,11 +2,12 @@ package controller;
 
 import model.*;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class CreateListAttackable {
-    private ArrayList<Player> attackableplayers;
-    private ArrayList<Coordinate> attackablecells;
+    private List<Player> attackableplayers;
+    private List<Coordinate> attackablecells;
     private int direction;
     private int residualmovement;
     private Player viewer;
@@ -40,12 +41,12 @@ public class CreateListAttackable {
     }
 
 
-    public ArrayList<Player> getAttackableplayers()
+    public List<Player> getAttackableplayers()
     {
         return this.attackableplayers;
     }
 
-    public ArrayList<Coordinate> getAttackablecells()
+    public List<Coordinate> getAttackablecells()
     {
         return this.attackablecells;
     }
@@ -55,12 +56,12 @@ public class CreateListAttackable {
     {
         this.attackableplayers= new ArrayList<Player>();
         this.attackablecells= new ArrayList<Coordinate>();
-        ArrayList<Player> tocancelplayer = new ArrayList<Player>();
-        ArrayList<Coordinate> tocancelcel = new ArrayList<Coordinate>();
+        List<Player> tocancelplayer = new ArrayList<Player>();
+        List<Coordinate> tocancelcel = new ArrayList<Coordinate>();
         if(attack.getType()==1) //Caso in cui ho un finite distance
         {
-            ArrayList<Player> players =new ArrayList<Player>();
-            ArrayList<Coordinate> cells = new ArrayList<Coordinate>();
+            List<Player> players =new ArrayList<Player>();
+            List<Coordinate> cells = new ArrayList<Coordinate>();
             players=match.getVisiblePlayers(player1);
             for(Player p : players)
             {
@@ -86,8 +87,8 @@ public class CreateListAttackable {
         }
         if(attack.getType()==2 || attack.getType()==10) //Caso in cui ho un undefined distance
         {
-            ArrayList<Player> players =new ArrayList<Player>();
-            ArrayList<Coordinate> cells = new ArrayList<Coordinate>();
+            List<Player> players =new ArrayList<Player>();
+            List<Coordinate> cells = new ArrayList<Coordinate>();
             players=match.getVisiblePlayers(player1);
             cells=match.getVisibleCells(player1.getCel());
             this.attackablecells=cells;
@@ -95,8 +96,8 @@ public class CreateListAttackable {
         }
         if(attack.getType()==3) //Caso in cui ho un more distance
         {
-            ArrayList<Player> players =new ArrayList<Player>();
-            ArrayList<Coordinate> cells = new ArrayList<Coordinate>();
+            List<Player> players =new ArrayList<Player>();
+            List<Coordinate> cells = new ArrayList<Coordinate>();
             players=match.getVisiblePlayers(player1);
             for(Player p : players)
             {
@@ -147,10 +148,10 @@ public class CreateListAttackable {
         }
         if(attack.getType()==5) //Caso in cui ho un notseen
         {
-            ArrayList<Player> players =new ArrayList<Player>();
-            ArrayList<Coordinate> cells = new ArrayList<Coordinate>();
-            ArrayList<Player> playersnotseen =new ArrayList<Player>();
-            ArrayList<Coordinate> cellsnotseen = new ArrayList<Coordinate>();
+            List<Player> players =new ArrayList<Player>();
+            List<Coordinate> cells = new ArrayList<Coordinate>();
+            List<Player> playersnotseen =new ArrayList<Player>();
+            List<Coordinate> cellsnotseen = new ArrayList<Coordinate>();
             playersnotseen=match.getPlayers();
             for(Player p:playersnotseen)
             {
@@ -188,8 +189,8 @@ public class CreateListAttackable {
 
         if(attack.getType()==6) //Caso in cui ho un while moving, considero tale azione prima di muovermi effettivamente
         {
-            ArrayList<Player> players = new ArrayList<Player>();
-            ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+            List<Player> players = new ArrayList<Player>();
+            List<Coordinate> coordinates = new ArrayList<Coordinate>();
             if(this.direction==0)
             {
                 players.addAll(match.getUpPlayers(player1));
@@ -233,9 +234,9 @@ public class CreateListAttackable {
         }
         if(attack.getType()==7) //Caso in cui ho un all around
         {
-            ArrayList<Player> players = match.getVisiblePlayers(player1);
-            ArrayList<Coordinate> coordinates= match.getVisibleCells((player1.getCel()));
-            ArrayList<Player> directed = new ArrayList<Player>();
+            List<Player> players = match.getVisiblePlayers(player1);
+            List<Coordinate> coordinates= match.getVisibleCells((player1.getCel()));
+            List<Player> directed = new ArrayList<Player>();
             if(this.direction==0)
             {
                 directed=match.getUpPlayers(player1);
@@ -340,8 +341,8 @@ public class CreateListAttackable {
         }
         if(attack.getType()==12) //Caso in cui ho un moving to me
         {
-            ArrayList<Player> players = match.getPlayers();
-            ArrayList<Coordinate> visiblecoordinates = match.getVisibleCells(player1.getCel());
+            List<Player> players = match.getPlayers();
+            List<Coordinate> visiblecoordinates = match.getVisibleCells(player1.getCel());
             this.attackableplayers= match.getVisiblePlayers(player1);
             for(Player p : players)
             {
@@ -361,7 +362,7 @@ public class CreateListAttackable {
     }
 
 
-    private void reciclebeenp (ArrayList<Player> effective, ArrayList<Player> tocancel)
+    private void reciclebeenp (List<Player> effective, List<Player> tocancel)
     {
         for(Player p : tocancel)
         {
@@ -370,7 +371,7 @@ public class CreateListAttackable {
         tocancel= new ArrayList<Player>();
     }
 
-    private void reciclebeenc(ArrayList<Coordinate> effective, ArrayList<Coordinate> tocancel)
+    private void reciclebeenc(List<Coordinate> effective, List<Coordinate> tocancel)
     {
         for(Coordinate c : tocancel)
         {

@@ -230,7 +230,7 @@ public class Match implements Serializable {
 
     //TODO:Test
     //Riaggiunge la carta Ammo dopo che è stata usata
-    public void addAmmoCard(NormalCell cell){//TODO:pensare a nome più efficace
+    public void addAmmoCard(NormalCell cell){
         try{
             cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
         }catch(FullCellException e){
@@ -238,7 +238,7 @@ public class Match implements Serializable {
         }
 
     }
-    public void addWeaponCard(SpawnPointCell cell, int index){//TODO:pensare a nome più efficace
+    public void addWeaponCard(SpawnPointCell cell, int index){
         try{
             Weapon weapon = (Weapon) weaponDeck.drawCard();
             cell.addWeaponCard(weapon,index);//TODO:controllare
@@ -286,7 +286,7 @@ public class Match implements Serializable {
     }
 
     //returns all the players seen by the given player
-    public ArrayList<Player> getVisiblePlayers(Player player){
+    public List<Player> getVisiblePlayers(Player player){
         int x;
         int y;
         int cellcolor;
@@ -295,7 +295,7 @@ public class Match implements Serializable {
         Cell cellplayer = this.getDashboard().getMap(x, y); //cell of the player
         cellcolor = cellplayer.getColor(); //color of the cell of the player
 
-        ArrayList<Player> visible = new ArrayList<>();
+        List<Player> visible = new ArrayList<>();
 
         //adds a player if it is in the same room
         for (Player p : this.players) {
@@ -370,10 +370,9 @@ public class Match implements Serializable {
         List<Player> visibleplayers = new ArrayList<>();
         int x = player.getCel().getX();
         int y = player.getCel().getY();
-        Cell playercell = this.getDashboard().getMap(x, y);
         //north
         if(direction==0){
-            ArrayList<Coordinate> upcells = this.getUpCells(player.getCel());
+            List<Coordinate> upcells = this.getUpCells(player.getCel());
             for(int i=0; i<upcells.size(); i++){
                 int x1 = upcells.get(i).getX();
                 int y1 = upcells.get(i).getY();
@@ -388,7 +387,7 @@ public class Match implements Serializable {
         }
         //east
         else if(direction==1) {
-            ArrayList<Coordinate> rightcells = this.getRightCells(player.getCel());
+            List<Coordinate> rightcells = this.getRightCells(player.getCel());
             for(int i=0; i<rightcells.size(); i++){
                 int x1 = rightcells.get(i).getX();
                 int y1 = rightcells.get(i).getY();
@@ -403,7 +402,7 @@ public class Match implements Serializable {
         }
         //south
         else if(direction==2) {
-            ArrayList<Coordinate> downcells = this.getDownCells(player.getCel());
+            List<Coordinate> downcells = this.getDownCells(player.getCel());
             for(int i=0; i<downcells.size(); i++){
                 int x1 = downcells.get(i).getX();
                 int y1 = downcells.get(i).getY();
@@ -418,7 +417,7 @@ public class Match implements Serializable {
         }
         //west
         else if(direction==3) {
-            ArrayList<Coordinate> leftcells = this.getLeftCells(player.getCel());
+            List<Coordinate> leftcells = this.getLeftCells(player.getCel());
             for(int i=0; i<leftcells.size(); i++){
                 int x1 = leftcells.get(i).getX();
                 int y1 = leftcells.get(i).getY();
@@ -452,8 +451,8 @@ public class Match implements Serializable {
     }
 
     //returns the list of players in the same line of the given player
-    public ArrayList<Player> getSameLinePlayers(Player player){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getSameLinePlayers(Player player){
+        List<Player> list = new ArrayList<>();
         int x = player.getCel().getX(); //player line
         for (Player p : this.players) {
             if (!p.equals(player)) {
@@ -464,8 +463,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Player> getSameColumnPlayers(Player player){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getSameColumnPlayers(Player player){
+        List<Player> list = new ArrayList<>();
         int y = player.getCel().getY(); //player column
         for (Player p : this.players) {
             if (!p.equals(player)) {
@@ -495,7 +494,7 @@ public class Match implements Serializable {
         return distance;
     }
 
-    public ArrayList<Coordinate> getVisibleCells(Coordinate cell) {
+    public List<Coordinate> getVisibleCells(Coordinate cell) {
         int x;
         int y;
         int cellcolor;
@@ -505,7 +504,7 @@ public class Match implements Serializable {
         Cell cellplayer = this.getDashboard().getMap(x, y); //cell with that coordinates
         cellcolor = cellplayer.getColor(); //color of the cell with that coordinates
 
-        ArrayList<Coordinate> visible = new ArrayList<>();
+        List<Coordinate> visible = new ArrayList<>();
 
         //adds a cell if it is in the same room
         for(int i=0; i<3; i++){
@@ -586,8 +585,8 @@ public class Match implements Serializable {
         return visible;
     }
 
-    public ArrayList<Coordinate> getSameLineCells(Coordinate cell){
-        ArrayList<Coordinate> list = new ArrayList<>();
+    public List<Coordinate> getSameLineCells(Coordinate cell){
+        List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell column
         Coordinate c;
         for(int i=0; i<4; i++){
@@ -599,8 +598,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Coordinate> getSameColumnCells(Coordinate cell){
-        ArrayList<Coordinate> list = new ArrayList<>();
+    public List<Coordinate> getSameColumnCells(Coordinate cell){
+        List<Coordinate> list = new ArrayList<>();
         int y = cell.getY(); //cell column
         Coordinate c;
         for(int i=0; i<3; i++){
@@ -628,8 +627,8 @@ public class Match implements Serializable {
         return distance;
     }
 
-    public ArrayList<Player> getRightPlayers(Player player){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getRightPlayers(Player player){
+        List<Player> list = new ArrayList<>();
         int x = player.getCel().getX(); //player line
         for (Player p : this.players) {
             if (!p.equals(player)) {
@@ -640,8 +639,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Player> getLeftPlayers(Player player){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getLeftPlayers(Player player){
+        List<Player> list = new ArrayList<>();
         int x = player.getCel().getX(); //player line
         for (Player p : this.players) {
             if (!p.equals(player)) {
@@ -652,8 +651,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Player> getUpPlayers(Player player){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getUpPlayers(Player player){
+        List<Player> list = new ArrayList<>();
         int y = player.getCel().getY(); //player column
         for (Player p : this.players) {
             if (!p.equals(player)) {
@@ -664,8 +663,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Player> getDownPlayers(Player player){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getDownPlayers(Player player){
+        List<Player> list = new ArrayList<>();
         int y = player.getCel().getY(); //player column
         for (Player p : this.players) {
             if (!p.equals(player)) {
@@ -676,8 +675,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Player> getSameCellsPlayers(Coordinate cell){
-        ArrayList<Player> list = new ArrayList<>();
+    public List<Player> getSameCellsPlayers(Coordinate cell){
+        List<Player> list = new ArrayList<>();
         int xCell = cell.getX();
         int yCell = cell.getY();
         for (Player p : this.players) {
@@ -688,8 +687,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Coordinate> getDownCells(Coordinate cell){
-        ArrayList<Coordinate> list = new ArrayList<>();
+    public List<Coordinate> getDownCells(Coordinate cell){
+        List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
         int y = cell.getY(); //cell column
         if(x<2){
@@ -702,8 +701,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Coordinate> getUpCells(Coordinate cell){
-        ArrayList<Coordinate> list = new ArrayList<>();
+    public List<Coordinate> getUpCells(Coordinate cell){
+        List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
         int y = cell.getY(); //cell column
         if(x>0){
@@ -716,8 +715,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Coordinate> getLeftCells(Coordinate cell){
-        ArrayList<Coordinate> list = new ArrayList<>();
+    public List<Coordinate> getLeftCells(Coordinate cell){
+        List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
         int y = cell.getY(); //cell column
         if(y>0){
@@ -730,8 +729,8 @@ public class Match implements Serializable {
         return list;
     }
 
-    public ArrayList<Coordinate> getRightCells(Coordinate cell){
-        ArrayList<Coordinate> list = new ArrayList<>();
+    public List<Coordinate> getRightCells(Coordinate cell){
+        List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
         int y = cell.getY(); //cell column
         if(y<3){

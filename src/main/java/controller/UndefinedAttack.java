@@ -2,7 +2,7 @@ package controller;
 
 import model.*;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UndefinedAttack {
@@ -10,7 +10,7 @@ public class UndefinedAttack {
     Player player;
     CreateListAttackable listAttackable;
     ShootManagement shootManagement;
-    ArrayList<TypeAttack> attacks;
+    List<TypeAttack> attacks;
     Weapon weapon;
     int type;
     int direction;
@@ -88,7 +88,7 @@ public class UndefinedAttack {
         return this.shootManagement.shoot(match,this.listAttackable.getAttackablecells(),this.player,second,ID,damage);
     }
 
-    public boolean checkammo(ArrayList<Integer> extra) //Returns true if there are ammos needed
+    public boolean checkammo(List<Integer> extra) //Returns true if there are ammos needed
     {
         for(int i=0; i<extra.size();i++)
         {
@@ -100,7 +100,7 @@ public class UndefinedAttack {
         return true;
     }
 
-    public void payextras(ArrayList<Integer> extra)
+    public void payextras(List<Integer> extra)
     {
         for(int i=0; i<extra.size();i++)
         {

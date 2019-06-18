@@ -1,14 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cardinal implements TypeAttack {
-    private ArrayList<Integer> extra;
+    private List<Integer> extra;
     private int typePlayer;
     private int distance;
     private int moveMe;
     private int moveYou;
-    private ArrayList<Effect> E;
+    private List<Effect> E;
     //TODO Verificare @Override
     @Override
     public int getDistance(){
@@ -19,7 +20,7 @@ public class Cardinal implements TypeAttack {
         return this.typePlayer;
     }
     @Override
-    public ArrayList getExtras(){
+    public List getExtras(){
         return this.extra;
     }
     @Override

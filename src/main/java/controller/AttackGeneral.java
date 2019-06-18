@@ -3,13 +3,14 @@ import exceptions.InvalidDirectionException;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AttackGeneral {
-    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction, Coordinate cell, ArrayList<String> movemebefore, ArrayList<String> movethembefore, ArrayList<String> movemeafter, ArrayList<String> movethemafter)
+    public int Attack_General(Match m, Player first, Player second, Weapon weapon, int type, int direction, Coordinate cell, List<String> movemebefore, List<String> movethembefore, List<String> movemeafter, List<String> movethemafter)
     {
         Player viewer=first; //used to change viewer in case of torpedine
-        ArrayList<Player>A=new ArrayList<Player>();
-        ArrayList<Coordinate> B= new ArrayList<Coordinate>();
+        List<Player>A=new ArrayList<Player>();
+        List<Coordinate> B= new ArrayList<Coordinate>();
 
         if(m.getPlayer(first.getColor()).weaponIspresent(weapon))
         {
@@ -64,10 +65,8 @@ public class AttackGeneral {
                 //if(attack.getClass().getName().equals("model.UndefinedDistance")) //In case I have an UndefinedDistance attack
                 if(attack instanceof UndefinedDistance) //In case I have an UndefinedDistance attack
                 {
-                    ArrayList<Player> visible= new ArrayList<Player>(); //Arraylist of Players I can see
-                    visible=m.getVisiblePlayers(viewer);
-                    ArrayList<Coordinate> viscel = new ArrayList<Coordinate>(); //Arraylist of cells I can see
-                    viscel=m.getVisibleCells(viewer.getCel());
+                    List<Player> visible=m.getVisiblePlayers(viewer); //Arraylist of Players I can see
+                    List<Coordinate> viscel=m.getVisibleCells(viewer.getCel()); //Arraylist of cells I can see
                     if(attack.getDistance()==0) //Caso in cui ho un classico undefine distance
                     {
                         for(int j = 0; j<attack.getNumberEffect(); j++)
@@ -111,8 +110,7 @@ public class AttackGeneral {
                                     }
                                     if(B.get(effect.getId()).equals(cell))
                                     {
-                                        ArrayList<Player> contained= new ArrayList<Player>();
-                                        contained=m.getSameCellsPlayers(cell);
+                                        List<Player> contained=m.getSameCellsPlayers(cell);
                                         for(Player p : contained) //Sets marks and damages for all the players on the cell
                                         {
                                             UseDamagesOnPlayer(m, first, p, effect);
@@ -158,10 +156,8 @@ public class AttackGeneral {
                 else
                     if(attack instanceof FiniteDistance) //Caso di attacco tipo finite distance
                     {
-                        ArrayList<Player>visible =new ArrayList<Player>();
-                        visible=m.getVisiblePlayers(viewer);
-                        ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
-                        viscel=m.getVisibleCells(viewer.getCel());
+                        List<Player>visible=m.getVisiblePlayers(viewer);
+                        List<Coordinate>viscel=m.getVisibleCells(viewer.getCel());
                         for(int k = 0; k<attack.getNumberEffect(); k++) //for all the effects of the attack
                         {
                             Effect effect=attack.getEffect(k);
@@ -215,8 +211,7 @@ public class AttackGeneral {
                                 }
                                 if(B.get(effect.getId()).equals(cell))
                                 {
-                                    ArrayList<Player> contained= new ArrayList<Player>();
-                                    contained=m.getSameCellsPlayers(cell); //I load all the players contained in the cell indicated
+                                    List<Player> contained=m.getSameCellsPlayers(cell); //I load all the players contained in the cell indicated
                                     for(Player p : contained) //Sets marks and damages for all the players on the cell
                                     {
                                         UseDamagesOnPlayer(m, first, p, effect);
@@ -229,10 +224,8 @@ public class AttackGeneral {
                 else
                     if(attack instanceof MoreDistance) //Caso attacco di tipo more distance
                     {
-                        ArrayList<Player>visible =new ArrayList<Player>();
-                        visible=m.getVisiblePlayers(viewer);
-                        ArrayList<Coordinate> viscel = new ArrayList<Coordinate>();
-                        viscel=m.getVisibleCells(viewer.getCel());
+                        List<Player>visible=m.getVisiblePlayers(viewer);
+                        List<Coordinate> viscel=m.getVisibleCells(viewer.getCel());
                         for(int k = 0; k<attack.getNumberEffect(); k++ )
                         {
                             Effect effect= attack.getEffect(k);
@@ -286,8 +279,7 @@ public class AttackGeneral {
                                 }
                                 if(B.get(effect.getId()).equals(cell))
                                 {
-                                    ArrayList<Player> contained= new ArrayList<Player>();
-                                    contained=m.getSameCellsPlayers(cell); //I load all the players on the cell indicated
+                                    List<Player> contained=m.getSameCellsPlayers(cell); //I load all the players on the cell indicated
                                     for(Player p : contained) //Sets marks and damages for all the players on the cell
                                     {
                                         UseDamagesOnPlayer(m, first, p, effect);
@@ -299,12 +291,10 @@ public class AttackGeneral {
                     }
                 else //Caso attacco di tipo cardinal
                     {
-                        ArrayList<Player> visible= new ArrayList<Player>();
-                        ArrayList<Player> directx = new ArrayList<Player>();
-                        ArrayList<Player> directy= new ArrayList<Player>();
-                        visible=m.getVisiblePlayers(viewer);
-                        directx=m.getSameLinePlayers(viewer);
-                        directy=m.getSameColumnPlayers(viewer);
+                        List<Player> visible=m.getVisiblePlayers(viewer);
+                        List<Player> directx=m.getSameLinePlayers(viewer);
+                        List<Player> directy=m.getSameColumnPlayers(viewer);
+
                         if(attack.getDistance()==0) //If i can pass through walls
                         {
                             for(int k = 0; k<attack.getNumberEffect(); k++)
@@ -363,10 +353,8 @@ public class AttackGeneral {
                                     {
                                         if(moveme==0) //for all the guns i shoot but i don't move from my position
                                         {
-                                            ArrayList<Player> temporal =new ArrayList<Player>();
-                                            temporal=m.getVisiblePlayers(viewer);
-                                            ArrayList<Player> directed = new ArrayList<Player>();
-                                            directed = getDirectedPlayer(m, direction, viewer);
+                                            List<Player> temporal=m.getVisiblePlayers(viewer);
+                                            List<Player> directed = getDirectedPlayer(m, direction, viewer);
                                             for(Player p : temporal) //If player i can see are not on the correct distance or not on the direction i choosed, are deleted
                                             {
                                                 if(!directed.contains(p)||m.getPlayersMD(viewer,p)!=d)
@@ -379,7 +367,7 @@ public class AttackGeneral {
                                         else //For all the people I shoot but I also move on that direction
                                         {
                                             //PERMETTO DI SPOSTARSI NELLA DIREZIONE INDICATA
-                                            ArrayList<String> move= new ArrayList<String>();
+                                            List<String> move= new ArrayList<String>();
                                             if(direction==0)
                                             {
                                                 move.add("N");
@@ -408,8 +396,7 @@ public class AttackGeneral {
                                             }
 
 
-                                            ArrayList<Player> temporal =new ArrayList<Player>();
-                                            temporal=m.getVisiblePlayers(viewer);
+                                            List<Player> temporal =m.getVisiblePlayers(viewer);
                                             for(Player p : temporal)
                                             {
                                                 if(m.getPlayersMD(viewer,second)!=0)
@@ -425,9 +412,8 @@ public class AttackGeneral {
                                 {
                                     for(int d=1;d<attack.getDistance();d++)
                                     {
-                                        ArrayList<Coordinate>viscel= new ArrayList<Coordinate>();
-                                        viscel=m.getVisibleCells(viewer.getCel());
-                                        ArrayList<Coordinate> aux =new ArrayList<Coordinate>();
+                                        List<Coordinate>viscel=m.getVisibleCells(viewer.getCel());
+                                        List<Coordinate> aux =new ArrayList<Coordinate>();
                                         if(moveme==0) //case i shoot without moving
                                         {
                                             if(direction==0) //I am creating an aux list containing only cells in one direction, later I discardWeapon from the visible liste the ones are not in the direction choosen
@@ -467,8 +453,7 @@ public class AttackGeneral {
                                                     viscel.remove(c);
                                                 }
                                             }
-                                            ArrayList<Player> contained= new ArrayList<Player>();
-                                            contained= m.getSameCellsPlayers(viscel.get(0)); // I take all the players on the first cell contained because I'm sure there will be only one cell
+                                            List<Player> contained= m.getSameCellsPlayers(viscel.get(0)); // I take all the players on the first cell contained because I'm sure there will be only one cell
                                             for(Player p : contained) //Sets marks and damages for all the players on the cell
                                             {
                                                 UseDamagesOnPlayer(m, first, p, effect);
@@ -479,7 +464,7 @@ public class AttackGeneral {
                                         else //case i shoot while moving
                                         {
                                             // PERMETTO SPOSTAMENTO NELLA DIREZIONE INDICATA
-                                            ArrayList<String> move= new ArrayList<String>();
+                                            List<String> move= new ArrayList<String>();
                                             if(direction==0)
                                             {
                                                 move.add("N");
@@ -506,9 +491,8 @@ public class AttackGeneral {
                                             catch(InvalidDirectionException e)
                                             {
                                             }
-                                            ArrayList<Player> temporal =new ArrayList<Player>();
-                                            ArrayList<Player> inmycell=new ArrayList<Player>();
-                                            inmycell=m.getSameCellsPlayers(viewer.getCel());
+                                            List<Player> temporal =new ArrayList<Player>();
+                                            List<Player> inmycell=m.getSameCellsPlayers(viewer.getCel());
                                             for(Player p: inmycell)
                                             {
                                                 UseDamagesOnPlayer(m, first, p, effect);
@@ -577,8 +561,8 @@ public class AttackGeneral {
         }
     }
 
-    private ArrayList<Player> getDirectedPlayer(Match m, int direction, Player viewer) {
-        ArrayList<Player> directed;
+    private List<Player> getDirectedPlayer(Match m, int direction, Player viewer) {
+        List<Player> directed;
         if(direction==0) //direction 0 for up, 1 to right, 2 to down 3 to left
         {
             directed=m.getUpPlayers(viewer);
@@ -604,7 +588,7 @@ public class AttackGeneral {
 
 
     //Denote if the player can be attacked, then attack the player
-    private Player AimAndShoot(Match m, Player first, Player second, Player viewer, ArrayList<Player> a, TypeAttack attack, Effect effect, ArrayList<Player> temporal) {
+    private Player AimAndShoot(Match m, Player first, Player second, Player viewer, List<Player> a, TypeAttack attack, Effect effect, List<Player> temporal) {
         if(temporal.contains(second))
         {
             if(a.size()-1<effect.getId())
@@ -631,7 +615,7 @@ public class AttackGeneral {
 
 
     //Assigns damages and marks to a player
-    private Player damage_set(Match m, Player first, Player second, Player viewer, ArrayList<Player> a, TypeAttack attack, Effect effect) {
+    private Player damage_set(Match m, Player first, Player second, Player viewer, List<Player> a, TypeAttack attack, Effect effect) {
         if(a.get(effect.getId()).equals(second))
         {
             UseDamagesOnPlayer(m, first, second, effect);

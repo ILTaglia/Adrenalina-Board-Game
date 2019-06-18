@@ -3,33 +3,34 @@ package controller;
 import exceptions.InvalidDirectionException;
 import model.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Attacks {
 
-    ArrayList<Player> associationplayer = new ArrayList<Player>(); //Tiene traccia degli ID assegnati ai vari player
+    List<Player> associationplayer = new ArrayList<Player>(); //Tiene traccia degli ID assegnati ai vari player
 
-    ArrayList<Coordinate> associationcell = new ArrayList<Coordinate>(); //Tiene traccia degli ID assegnati alle varie celle
+    List<Coordinate> associationcell = new ArrayList<Coordinate>(); //Tiene traccia degli ID assegnati alle varie celle
 
-    ArrayList<Player> seconds = new ArrayList<Player>(); //rende a tutti i metodi le info aggiornate su chi attaccare, in modo da toglierli
+    List<Player> seconds = new ArrayList<Player>(); //rende a tutti i metodi le info aggiornate su chi attaccare, in modo da toglierli
 
-    public int useattack(Match m, Player first, ArrayList<Player>second, Weapon w, int type, ArrayList<String> direction, ArrayList<Coordinate> coordinates)
+    public int useattack(Match m, Player first, List<Player>second, Weapon w, int type, List<String> direction, List<Coordinate> coordinates)
     {
 
         if(m.getPlayer(first.getColor()).equals(first) && first.weaponIspresent(w) && !w.getStatus()) //Se il player esiste e possiede l'arma indicata
         {
             int moveme; //Mi serve per tener traccia dei movimenti restanti
 
-            ArrayList<ArrayList<TypeAttack>> attacks = createlistofattacks(w); // Creo lista di liste di attacchi, ogni lista ha lo stesso typeattack
+            List<List<TypeAttack>> attacks = createlistofattacks(w); // Creo lista di liste di attacchi, ogni lista ha lo stesso typeattack
 
-            ArrayList<TypeAttack> attacklist = attacks.get(type); //Estraggo solo il tipo di serie di attacchi scelto
+            List<TypeAttack> attacklist = attacks.get(type); //Estraggo solo il tipo di serie di attacchi scelto
 
             Player viewer= first; //E' colui che sta effettuando l'attacco, inizialmente è chi attacca
 
             for(TypeAttack t : attacklist) //Per ogni attacco
             {
-                ArrayList<Player> visible= elaboratelistplayer(m,t,viewer);
-                ArrayList<Coordinate> viscel = elavoratelistcell(m,t,viewer);
+                List<Player> visible= elaboratelistplayer(m,t,viewer);
+                List<Coordinate> viscel = elavoratelistcell(m,t,viewer);
                 if(controlammo(m,first,t)) //Controllo che abbia le munizioni
                 {
                     //ESEGUO ORA GLI ATTACCHI A SECONDA DEL TIPO
@@ -75,11 +76,11 @@ public class Attacks {
 
     private void move(Match m, Player p, String direction) //Costruisce una lista contenente direction e poi avvia la move con la lista
     {
-        ArrayList<String> directions = new ArrayList<String>();
+        List<String> directions = new ArrayList<String>();
         directions.add(direction);
     }
 
-    private void move(Match m, Player p, ArrayList<String> direction) //Sposta un Player in una lista di direzioni
+    private void move(Match m, Player p, List<String> direction) //Sposta un Player in una lista di direzioni
     {
         Run r = new Run();
         try
@@ -92,11 +93,11 @@ public class Attacks {
         }
     }
 
-    private ArrayList<ArrayList<TypeAttack>> createlistofattacks(Weapon weapon) //Crea una lista di liste, ogni lista contenuta ha un typeplayer comune
+    private List<List<TypeAttack>> createlistofattacks(Weapon weapon) //Crea una lista di liste, ogni lista contenuta ha un typeplayer comune
     {
         int cont=0;
-        ArrayList<ArrayList<TypeAttack>> attacks= new ArrayList<ArrayList<TypeAttack>>();
-        ArrayList<TypeAttack> attack = new ArrayList<TypeAttack>();
+        List<List<TypeAttack>> attacks= new ArrayList<List<TypeAttack>>();
+        List<TypeAttack> attack = new ArrayList<TypeAttack>();
 
         for(int i=0; i<weapon.getNumberAttack();i++)
         {
@@ -115,7 +116,7 @@ public class Attacks {
 
     private boolean controlammo(Match m, Player player, TypeAttack t) //Controlla se il player ha tutti gli extra richiesti, restituisce true se è vero, false altrimenti
     {
-        ArrayList<Integer> extra= t.getExtras();
+        List<Integer> extra= t.getExtras();
         int n=0;
         for(int i : extra)
         {
@@ -128,7 +129,7 @@ public class Attacks {
         return true;
     }
 
-    private Player attackundefined(TypeAttack t, Match m, Player p, ArrayList<Player> visible, ArrayList<Coordinate> viscel, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou) //Esegue un attaco undefined distance e restituisco il player che vede
+    private Player attackundefined(TypeAttack t, Match m, Player p, List<Player> visible, List<Coordinate> viscel, List<Coordinate> coordinates, List<String> moveme, List<String> moveyou) //Esegue un attaco undefined distance e restituisco il player che vede
     {
         Player returned = p;
         for(int i=0;i<t.getNumberEffect();i++) //Per ogni effetto contenuto
@@ -182,7 +183,7 @@ public class Attacks {
     }
 
 
-    private ArrayList<Player> elaboratelistplayer(Match m, TypeAttack attack, Player viewer) //returns the list of all player attackable
+    private List<Player> elaboratelistplayer(Match m, TypeAttack attack, Player viewer) //returns the list of all player attackable
     {
         int i =attack.getType();
         int flagnotseen=0;
@@ -191,13 +192,13 @@ public class Attacks {
         {
             flagnotseen=1;
         }
-        ArrayList<Player> list =new ArrayList<Player>();
+        List<Player> list =new ArrayList<Player>();
         list=m.getVisiblePlayers(viewer);
         if(i==0)
         {
             if(flagnotseen==1)
             {
-                ArrayList<Player> notseen=m.getPlayers();
+                List<Player> notseen=m.getPlayers();
                 for(Player p: notseen)
                 {
                     if(list.contains(p))
@@ -241,7 +242,7 @@ public class Attacks {
         return null; //Caso di errore
     }
 
-    private ArrayList<Coordinate> elavoratelistcell(Match m, TypeAttack attack, Player viewer) //returns the list of all cells attackable
+    private List<Coordinate> elavoratelistcell(Match m, TypeAttack attack, Player viewer) //returns the list of all cells attackable
     {
         int i =attack.getType();
         int flagnotseen=0;
@@ -250,7 +251,7 @@ public class Attacks {
         {
             flagnotseen=1;
         }
-        ArrayList<Coordinate> list =new ArrayList<Coordinate>();
+        List<Coordinate> list =new ArrayList<Coordinate>();
         list=m.getVisibleCells(viewer.getCel());
         if(i==0)
         {
@@ -289,7 +290,7 @@ public class Attacks {
 
 
 
-    private void attackdefined(TypeAttack t, Match m, Player p, Player viewer, ArrayList<Coordinate> coordinates, ArrayList<String> moveme, ArrayList<String> moveyou)
+    private void attackdefined(TypeAttack t, Match m, Player p, Player viewer, List<Coordinate> coordinates, List<String> moveme, List<String> moveyou)
     {
 
     }
@@ -349,7 +350,7 @@ public class Attacks {
 
     private void assigncelldamages(Match m, Coordinate c, Player first, Damage damage) //assegna i danni a tutti i player di una cella
     {
-        ArrayList<Player> toattack = m.getSameCellsPlayers(c);
+        List<Player> toattack = m.getSameCellsPlayers(c);
         for(Player p : toattack)
         {
             if(!p.equals(first)) //Controllo di non assegnare danni allo stesso giocatore attaccante

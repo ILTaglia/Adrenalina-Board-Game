@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -58,7 +59,7 @@ public class ShootManagementTest {
     public void firstattackvisibletest()
     {
         ShootManagement shoot = new ShootManagement();
-        ArrayList<Player> visible = match.getVisiblePlayers(player1);
+        List<Player> visible = match.getVisiblePlayers(player1);
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,0);
@@ -75,7 +76,7 @@ public class ShootManagementTest {
     public void secondattackincorrectID()
     {
         ShootManagement shoot = new ShootManagement();
-        ArrayList<Player> visible = match.getVisiblePlayers(player1);
+        List<Player> visible = match.getVisiblePlayers(player1);
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,0);
@@ -90,7 +91,7 @@ public class ShootManagementTest {
     public void attacknotvisible()
     {
         player1.setCel(2, 3);
-        ArrayList<Player> visible = match.getVisiblePlayers(player1);
+        List<Player> visible = match.getVisiblePlayers(player1);
         ShootManagement shoot = new ShootManagement();
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
@@ -106,7 +107,7 @@ public class ShootManagementTest {
     public void markstest()
     {
         ShootManagement shoot = new ShootManagement();
-        ArrayList<Player> visible = match.getVisiblePlayers(player1);
+        List<Player> visible = match.getVisiblePlayers(player1);
         Damage d = new DamageFactory().getinstaceof(2,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,0);
@@ -125,11 +126,11 @@ public class ShootManagementTest {
         player2.setCel(0, 1);
         player3.setCel(0, 1);
         ShootManagement shoot = new ShootManagement();
-        ArrayList<Coordinate> visible = match.getVisibleCells(player1.getCel());
+        List<Coordinate> visible = match.getVisibleCells(player1.getCel());
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
         assertEquals(a,0);
-        ArrayList<Player>visibles = match.getVisiblePlayers(player1);
+        List<Player>visibles = match.getVisiblePlayers(player1);
         for(Player p:visibles)
         {
             assertEquals(p.getTotalDamage(),3);
@@ -142,11 +143,11 @@ public class ShootManagementTest {
         player2.setCel(0, 2);
         player3.setCel(0, 2);
         ShootManagement shoot = new ShootManagement();
-        ArrayList<Coordinate> visible = match.getVisibleCells(player1.getCel());
+        List<Coordinate> visible = match.getVisibleCells(player1.getCel());
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
         assertEquals(a,0);
-        ArrayList<Player>visibles = match.getVisiblePlayers(player1);
+        List<Player>visibles = match.getVisiblePlayers(player1);
         for(Player p:visibles)
         {
             assertEquals(p.getTotalDamage(),3);
@@ -165,11 +166,11 @@ public class ShootManagementTest {
         player2.setCel(1, 0);
         player3.setCel(1, 0);
         ShootManagement shoot = new ShootManagement();
-        ArrayList<Coordinate> visible = match.getVisibleCells(player1.getCel());
+        List<Coordinate> visible = match.getVisibleCells(player1.getCel());
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
         assertEquals(a,-2);
-        ArrayList<Player>visibles = match.getVisiblePlayers(player1);
+        List<Player>visibles = match.getVisiblePlayers(player1);
         for(Player p:visibles)
         {
             assertEquals(p.getTotalDamage(),0);

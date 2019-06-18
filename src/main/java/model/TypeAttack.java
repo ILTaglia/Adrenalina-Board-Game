@@ -1,12 +1,12 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TypeAttack {
 
     public int getDistance();
     public int getTypePlayer();
-    public ArrayList getExtras();
+    public List getExtras();
     public void setDistance(int distance);
     public void setTypePlayer(int typePlayer);
     public void addExtra(int extra);

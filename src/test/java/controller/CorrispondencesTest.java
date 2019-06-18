@@ -4,6 +4,7 @@ import model.Player;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CorrispondencesTest {
     @Test
@@ -11,8 +12,8 @@ public class CorrispondencesTest {
     {
         Player p1 = new Player("Giovanni", "Green","12345");
         Player p2 = new Player("Rossi", "Pink", "1234567");
-        ArrayList<Player> lista =new ArrayList<Player>();
-        ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
+        List<Player> lista =new ArrayList<Player>();
+        List<List> risultato = new ArrayList<List>();
         CheckCorrispondences check= new CheckCorrispondences();
         risultato=check.checkID(p1,0,lista);
         Player p3=(Player) risultato.get(0).get(0);
@@ -25,8 +26,8 @@ public class CorrispondencesTest {
     {
         Player p1 = new Player("Giovanni", "Green","12345");
         Player p2 = new Player("Rossi", "Pink", "1234567");
-        ArrayList<Player> lista =new ArrayList<Player>();
-        ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
+        List<Player> lista =new ArrayList<Player>();
+        List<List> risultato = new ArrayList<List>();
         CheckCorrispondences check= new CheckCorrispondences();
         risultato=check.checkID(p1,0,lista);
         lista=(ArrayList<Player>)risultato.get(0);
@@ -43,8 +44,8 @@ public class CorrispondencesTest {
         Player p1 = new Player("Giovanni", "Green","12345");
         Player p2 = new Player("Rossi", "Pink", "1234567");
         Player p5 = new Player("Carlo", "Grey", "12347");
-        ArrayList<Player> lista =new ArrayList<Player>();
-        ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
+        List<Player> lista =new ArrayList<Player>();
+        List<List> risultato = new ArrayList<List>();
         CheckCorrispondences check= new CheckCorrispondences();
         risultato=check.checkID(p1,0,lista);
         lista=(ArrayList<Player>)risultato.get(0);
@@ -61,8 +62,8 @@ public class CorrispondencesTest {
         Player p1 = new Player("Giovanni", "Green","12345");
         Player p2 = new Player("Rossi", "Pink", "1234567");
         Player p5 = new Player("Carlo", "Grey", "12347");
-        ArrayList<Player> lista =new ArrayList<Player>();
-        ArrayList<ArrayList> risultato = new ArrayList<ArrayList>();
+        List<Player> lista =new ArrayList<Player>();
+        List<List> risultato = new ArrayList<List>();
         CheckCorrispondences check= new CheckCorrispondences();
         risultato=check.checkID(p1,0,lista);
         lista=(ArrayList<Player>)risultato.get(0);
@@ -79,11 +80,11 @@ public class CorrispondencesTest {
         Coordinate c1= new Coordinate(1,2);
         Coordinate c2= new Coordinate(3,2);
         Coordinate c3= new Coordinate(3,3);
-        ArrayList<Coordinate> lista = new ArrayList<Coordinate>();
-        ArrayList<ArrayList>risultato=new ArrayList<ArrayList>();
+        List<Coordinate> lista = new ArrayList<Coordinate>();
+        List<List>risultato=new ArrayList<List>();
         CheckCorrispondences check=new CheckCorrispondences();
         risultato = check.checkID(c1,0,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         assertEquals(risultato.get(1).get(0),1);
     }
 
@@ -93,15 +94,15 @@ public class CorrispondencesTest {
         Coordinate c1= new Coordinate(1,2);
         Coordinate c2= new Coordinate(3,2);
         Coordinate c3= new Coordinate(3,3);
-        ArrayList<Coordinate> lista = new ArrayList<Coordinate>();
-        ArrayList<ArrayList>risultato=new ArrayList<ArrayList>();
+        List<Coordinate> lista = new ArrayList<Coordinate>();
+        List<List>risultato=new ArrayList<List>();
         CheckCorrispondences check=new CheckCorrispondences();
         risultato = check.checkID(c1,0,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c2,1,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c3,2,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         assertEquals(risultato.get(1).get(0),1);
     }
 
@@ -111,18 +112,18 @@ public class CorrispondencesTest {
         Coordinate c1= new Coordinate(1,2);
         Coordinate c2= new Coordinate(3,2);
         Coordinate c3= new Coordinate(3,3);
-        ArrayList<Coordinate> lista = new ArrayList<Coordinate>();
-        ArrayList<ArrayList>risultato=new ArrayList<ArrayList>();
+        List<Coordinate> lista = new ArrayList<Coordinate>();
+        List<List>risultato=new ArrayList<List>();
         CheckCorrispondences check=new CheckCorrispondences();
         risultato = check.checkID(c1,0,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c2,1,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c2,2,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         assertEquals(risultato.get(1).get(0),-1);
         risultato = check.checkID(c1,2,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         assertEquals(risultato.get(1).get(0),-1);
     }
 
@@ -132,15 +133,15 @@ public class CorrispondencesTest {
         Coordinate c1= new Coordinate(1,2);
         Coordinate c2= new Coordinate(3,2);
         Coordinate c3= new Coordinate(3,3);
-        ArrayList<Coordinate> lista = new ArrayList<Coordinate>();
-        ArrayList<ArrayList>risultato=new ArrayList<ArrayList>();
+        List<Coordinate> lista = new ArrayList<Coordinate>();
+        List<List>risultato=new ArrayList<List>();
         CheckCorrispondences check=new CheckCorrispondences();
         risultato = check.checkID(c1,0,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c2,1,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c1,0,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         assertEquals(risultato.get(1).get(0),1);
     }
 
@@ -150,15 +151,15 @@ public class CorrispondencesTest {
         Coordinate c1= new Coordinate(1,2);
         Coordinate c2= new Coordinate(3,2);
         Coordinate c3= new Coordinate(3,3);
-        ArrayList<Coordinate> lista = new ArrayList<Coordinate>();
-        ArrayList<ArrayList>risultato=new ArrayList<ArrayList>();
+        List<Coordinate> lista = new ArrayList<Coordinate>();
+        List<List>risultato=new ArrayList<List>();
         CheckCorrispondences check=new CheckCorrispondences();
         risultato = check.checkID(c1,0,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c2,1,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         risultato = check.checkID(c3,3,lista);
-        lista= (ArrayList<Coordinate>)risultato.get(0);
+        lista= (List<Coordinate>)risultato.get(0);
         assertEquals(risultato.get(1).get(0),-1);
     }
 

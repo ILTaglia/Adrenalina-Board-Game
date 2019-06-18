@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -34,7 +35,7 @@ public class PresenceCheckTest {
     @Test
     public void testplayer() {
         grabweapon = new GrabWeapon();
-        ArrayList<String> destination = new ArrayList<>();
+        List<String> destination = new ArrayList<>();
         player1.setCel(0, 3);
         player2.setCel(0, 2);
         player3.setCel(0, 1);
@@ -56,7 +57,7 @@ public class PresenceCheckTest {
         } catch (MaxNumberofCardsException e) {
             System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
-        ArrayList<Player> lista =match.getVisiblePlayers(player2);
+        List<Player> lista =match.getVisiblePlayers(player2);
         CheckIFPresent check= new CheckIFPresent();
         assertEquals(check.check(player1,lista),true);
         assertEquals(check.check(player2,lista),false);
@@ -67,7 +68,7 @@ public class PresenceCheckTest {
     public void checkCell()
     {
         grabweapon = new GrabWeapon();
-        ArrayList<String> destination = new ArrayList<>();
+        List<String> destination = new ArrayList<>();
         player1.setCel(0, 3);
         player2.setCel(0, 2);
         player3.setCel(2, 0);
@@ -89,7 +90,7 @@ public class PresenceCheckTest {
         } catch (MaxNumberofCardsException e) {
             System.out.println("You have too many Weapon Cards, please discardWeapon one.");
         }
-        ArrayList<Coordinate> lista =match.getVisibleCells(player2.getCel());
+        List<Coordinate> lista =match.getVisibleCells(player2.getCel());
         CheckIFPresent check= new CheckIFPresent();
         assertEquals(check.check(player1.getCel(),lista),true);
         assertEquals(check.check(player2.getCel(),lista),true);

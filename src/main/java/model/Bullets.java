@@ -1,7 +1,7 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Bullets {
-    public ArrayList V; //TODO Controllare !!
+    public List V; //TODO Controllare !!
 }

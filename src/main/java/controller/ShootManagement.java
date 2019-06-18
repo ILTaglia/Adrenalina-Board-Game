@@ -3,10 +3,11 @@ package controller;
 import model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShootManagement {
-    private ArrayList<Player> playersID;
-    private ArrayList<Coordinate> coordinatesID;
+    private List<Player> playersID;
+    private List<Coordinate> coordinatesID;
 
     public ShootManagement()
     {
@@ -14,7 +15,7 @@ public class ShootManagement {
         coordinatesID= new ArrayList<Coordinate>();
     }
 
-    public int shoot (Match match, ArrayList<Player> visibles, Player first, Player second, int ID, Damage damage) //0 means correct
+    public int shoot (Match match, List<Player> visibles, Player first, Player second, int ID, Damage damage) //0 means correct
     {
         int flag= checkID(second,ID);
         if(flag==-1)
@@ -31,7 +32,7 @@ public class ShootManagement {
         return 0;
     }
 
-    public int shoot(Match match, ArrayList<Coordinate> visibles, Player first, Coordinate second, int ID, Damage damage)
+    public int shoot(Match match, List<Coordinate> visibles, Player first, Coordinate second, int ID, Damage damage)
     {
         int flag= checkID(second,ID);
         if(flag==-1)
@@ -61,8 +62,8 @@ public class ShootManagement {
 
     private int checkID(Player player, int ID)
     {
-        ArrayList<Integer> flag=new ArrayList<Integer>();
-        if(this.playersID.size()==0)
+        List<Integer> flag=new ArrayList<Integer>();
+        if(this.playersID.isEmpty())
         {
             this.playersID.add(player);
             return 1;
@@ -101,8 +102,8 @@ public class ShootManagement {
 
     private int checkID(Coordinate coordinate, int ID)
     {
-        ArrayList<Integer> flag=new ArrayList<Integer>();
-        if(this.coordinatesID.size()==0)
+        List<Integer> flag=new ArrayList<Integer>();
+        if(this.coordinatesID.isEmpty())
         {
             this.coordinatesID.add(coordinate);
             return 1;
@@ -139,7 +140,7 @@ public class ShootManagement {
         }
     }
 
-    private boolean check(Player player, ArrayList<Player> listofplayer)
+    private boolean check(Player player, List<Player> listofplayer)
     {
         if(listofplayer.contains(player))
         {
@@ -148,7 +149,7 @@ public class ShootManagement {
         else
             return false;
     }
-    private boolean check (Coordinate coordinate, ArrayList<Coordinate> listofcell)
+    private boolean check (Coordinate coordinate, List<Coordinate> listofcell)
     {
         //if(listofcell.contains(coordinate))
         //{
@@ -177,7 +178,7 @@ public class ShootManagement {
 
     private void assigndamages(Match m, Coordinate c, Player first, Damage damage) //assegna i danni a tutti i player di una cella
     {
-        ArrayList<Player> toattack = m.getSameCellsPlayers(c);
+        List<Player> toattack = m.getSameCellsPlayers(c);
         for(Player p : toattack)
         {
             if(!p.equals(first)) //Controllo di non assegnare danni allo stesso giocatore attaccante

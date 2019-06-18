@@ -160,8 +160,8 @@ public class Player implements Serializable {
     public int getmarks(int c){
         if(c==this.getColor()) return -1; //not self made marks
         /*Attention! You could test that for every player in the position this.color() you have zero for marks and damages*/
-        int i=marks.get(c);
-        return i;
+
+        return marks.get(c);
     }
 
     //set the number of marks, paramters are the number of marks to add(n) and the color of the player that gave them (c)
@@ -200,8 +200,8 @@ public class Player implements Serializable {
 
     //return weapon passed as argument
     public boolean weaponIspresent(Weapon weapon){
-        for(int i=0; i<gun.size(); i++) {
-            if (gun.get(i).equals(weapon)) return true;
+        for(Weapon weap:this.gun) {
+            if (weap.equals(weapon)) return true;
         }
         return false;
     }
@@ -219,17 +219,16 @@ public class Player implements Serializable {
     }
 
     public void removeWeapon(Weapon weapon) throws ZeroCardsOwnedException, NotOwnedCardException{
-        if(gun.size()==0) throw new ZeroCardsOwnedException();
+        if(gun.isEmpty()) throw new ZeroCardsOwnedException();
         if(!weaponIspresent(weapon)) throw new NotOwnedCardException();
-        int i=gun.indexOf(weapon);
-        gun.remove(i);
+        gun.remove(weapon);
     }
 
     public int getNumberWeapon(){return this.gun.size();}
 
     public boolean powIspresent(PowCard p){
-        for(int i=0; i<pow.size(); i++){
-            if(pow.get(i).equals(p)) return true;
+        for(PowCard powcard:this.pow){
+            if(powcard.equals(p)) return true;
         }
         return false;
     }
@@ -240,10 +239,9 @@ public class Player implements Serializable {
     }
 
     public void removePow(PowCard p) throws ZeroCardsOwnedException, NotOwnedCardException{
-        if(pow.size()==0) throw new ZeroCardsOwnedException(); //invalid
+        if(pow.isEmpty()) throw new ZeroCardsOwnedException(); //invalid
         if(!powIspresent(p)) throw new NotOwnedCardException(); //you don't have it
-        int i=pow.indexOf(p);
-        pow.remove(i);
+        pow.remove(p);
     }
 
     public List<PowCard> getPows(){
@@ -274,7 +272,7 @@ public class Player implements Serializable {
 
     public int getFirstBlood(){return this.firstBlood;}
 
-    public void resetFirstblood(){this.firstBlood =-1;}
+    public void resetFirstblood(){this.firstBlood = -1;}
 
     public int getScore(){return this.score;}
 

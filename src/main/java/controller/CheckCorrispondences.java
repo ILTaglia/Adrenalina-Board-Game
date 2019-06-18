@@ -3,14 +3,15 @@ package controller;
 import model.Coordinate;
 import model.Player;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class CheckCorrispondences {
-    public ArrayList<ArrayList> checkID(Player player, int ID, ArrayList<Player> lista)
+    public List<List> checkID(Player player, int ID, List<Player> lista)
     {
-        ArrayList<ArrayList> risultato= new ArrayList<ArrayList>();
-        ArrayList<Integer> flag=new ArrayList<Integer>();
-        if(lista.size()==0)
+        List<List> risultato= new ArrayList<List>();
+        List<Integer> flag=new ArrayList<Integer>();
+        if(lista.isEmpty())
         {
             lista.add(player);
             risultato.add(0,lista);
@@ -61,11 +62,11 @@ public class CheckCorrispondences {
     }
 
 
-    public ArrayList<ArrayList> checkID(Coordinate cell, int ID, ArrayList<Coordinate> lista)
+    public List<List> checkID(Coordinate cell, int ID, List<Coordinate> lista)
     {
-        ArrayList<ArrayList> risultato= new ArrayList<ArrayList>();
-        ArrayList<Integer> flag=new ArrayList<Integer>();
-        if(lista.size()==0)
+        List<List> risultato= new ArrayList<List>();
+        List<Integer> flag=new ArrayList<Integer>();
+        if(lista.isEmpty())
         {
             lista.add(cell);
             risultato.add(0,lista);

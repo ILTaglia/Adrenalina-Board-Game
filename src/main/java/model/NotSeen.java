@@ -1,14 +1,15 @@
 package model;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class NotSeen implements TypeAttack {
-    private ArrayList<Integer> extra;
+    private List<Integer> extra;
     private int typeplayer;
     private int distance;
     private int moveme;
     private int moveyou;
-    private ArrayList<Effect> E;
+    private List<Effect> E;
     public int getDistance()
     {
         return this.distance;
@@ -17,7 +18,7 @@ public class NotSeen implements TypeAttack {
     {
         return this.typeplayer;
     }
-    public ArrayList getExtras()
+    public List getExtras()
     {
         return this.extra;
     }
