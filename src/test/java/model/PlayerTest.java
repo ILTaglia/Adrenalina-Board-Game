@@ -257,15 +257,15 @@ class PlayerTest {
     void testingPow() {
         PowDeck deck = new PowDeck("Pow");
         PowCard powcard1 = (PowCard) deck.drawCard();
-        assertEquals(0, player1.getnumberpow());
+        assertEquals(0, player1.getNumberPow());
         try{
             player1.addPow(powcard1);
         }
         catch (MaxNumberofCardsException e){
             System.out.println("You have too many Pow Cards, please discardWeapon one.");
         }
-        assertEquals(1, player1.getnumberpow());
-        assertTrue(player1.powIspresent(powcard1));
+        assertEquals(1, player1.getNumberPow());
+        assertTrue(player1.isPowPresent(powcard1));
         assertEquals(powcard1, player1.getPowByIndex(0));
         PowCard powcard2 = (PowCard) deck.drawCard();
         assertThrows(NotOwnedCardException.class, () -> player1.removePow(powcard2));
@@ -279,7 +279,7 @@ class PlayerTest {
         catch (ZeroCardsOwnedException e){
             System.out.println("You have zero Pow Cards.");
         }
-        assertTrue(!player1.powIspresent(powcard1));
+        assertTrue(!player1.isPowPresent(powcard1));
         assertThrows(ZeroCardsOwnedException.class, () -> player1.removePow(powcard2));
 
     }
@@ -320,7 +320,7 @@ class PlayerTest {
         assertEquals(-1, player1.getFirstBlood());
         player1.setDamage(2, 3);
         assertEquals(3, player1.getFirstBlood());
-        player1.resetFirstblood();
+        player1.resetFirstBlood();
         assertEquals(-1, player1.getFirstBlood());
     }
 

@@ -50,7 +50,7 @@ public class GrabAmmoTest {
         } catch (FullCellException e){}
 
         grabammo = new GrabAmmo();
-        assertEquals(0, player1.getnumberpow());
+        assertEquals(0, player1.getNumberPow());
         assertTrue(grabammo.isValid(match, player1, destination));
         assertFalse(grabammo.isValidMovement(match, player1, destination));
         destination.add("N");
@@ -85,6 +85,6 @@ public class GrabAmmoTest {
         assertEquals(3, player1.getAmmo(0));
         assertEquals(3, player1.getAmmo(1));
         assertEquals(2, player1.getAmmo(2));
-        assertEquals(1, player1.getnumberpow());
+        assertEquals(1, player1.getNumberPow());
     }
 }

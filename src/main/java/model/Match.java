@@ -283,8 +283,7 @@ public class Match implements Serializable {
             player.removePow(powCard);       //TODO: perchè non una removeByIndex per i Pow che restituisce la carta rimossa?
             powDeck.discardCard(powCard);
         }
-        catch(ZeroCardsOwnedException e){}
-        catch(NotOwnedCardException e){}
+        catch(ZeroCardsOwnedException | NotOwnedCardException e){}
         Message infoUsedCard=new NewCardUsed("PowCard",indexPowCard);
         notifySpecificClient(player.getID(),infoUsedCard);
         Message infoSpawnPoint=new NewPosition(x,y);

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import exceptions.InvalidColorException;
 import model.*;
 import network.messages.clientRequest.*;
 import network.messages.Message;
@@ -195,7 +194,7 @@ public class CLIView implements View {
         if(getData.askYesOrNo()){
             showPlayerPows();
             printStream.println("Which PowCard do you want to discard?");
-            indexPowCard=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getnumberpow())-1;
+            indexPowCard=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getNumberPow())-1;
             Message message=new PowCardDiscardClientRequest(Integer.toString(indexPowCard),client.getUserID());
             client.sendMessage(message);
         }

@@ -348,6 +348,7 @@ public class Game{
 
     //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
+        System.out.println("Print temporanea. Fine prima azione!");
         //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
         if(match.getActivePlayer().getAction()<2) {
             askAction();

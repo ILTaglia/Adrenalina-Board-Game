@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class UsePow {
     public int usepowcard(Match m, PowCard p, Player first, Player second, String move,int n, Coordinate c)
     {
-        if(m.getPlayer(first.getColor()).equals(first)&&first.powIspresent(p)) //Controllo che il giocatore esista e abbia quel potenziamento
+        if(m.getPlayer(first.getColor()).equals(first)&&first.isPowPresent(p)) //Controllo che il giocatore esista e abbia quel potenziamento
         {
             if(p instanceof model.Teleporter) //Nel caso in cui avessi un teleporter
             {

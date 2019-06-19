@@ -8,6 +8,7 @@ public class NewCardUsed extends InfoPlayer{
         super("You have used a" + ToC +" index:" + indexOfCard);
         this.ToC=ToC;
         this.indexOfCard=indexOfCard;
+        this.content="NewCardUsed";
     }
 
     public String getToC() {

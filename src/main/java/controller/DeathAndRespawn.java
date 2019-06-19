@@ -90,7 +90,7 @@ public class DeathAndRespawn {
             if(i!=playerkilled.getColor()) playerkilled.setDamage(0, i);
         }
         playerkilled.resetAction();
-        playerkilled.resetFirstblood();
+        playerkilled.resetFirstBlood();
         playerkilled.setCel(-1, -1);
     }
 }

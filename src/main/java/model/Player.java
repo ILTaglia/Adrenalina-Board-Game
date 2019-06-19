@@ -218,15 +218,11 @@ public class Player implements Serializable {
         gun.add(weapon);
     }
 
-    public void removeWeapon(Weapon weapon) throws ZeroCardsOwnedException, NotOwnedCardException{
-        if(gun.isEmpty()) throw new ZeroCardsOwnedException();
-        if(!weaponIspresent(weapon)) throw new NotOwnedCardException();
-        gun.remove(weapon);
-    }
+
 
     public int getNumberWeapon(){return this.gun.size();}
 
-    public boolean powIspresent(PowCard p){
+    public boolean isPowPresent(PowCard p){
         for(PowCard powcard:this.pow){
             if(powcard.equals(p)) return true;
         }
@@ -240,18 +236,31 @@ public class Player implements Serializable {
 
     public void removePow(PowCard p) throws ZeroCardsOwnedException, NotOwnedCardException{
         if(pow.isEmpty()) throw new ZeroCardsOwnedException(); //invalid
-        if(!powIspresent(p)) throw new NotOwnedCardException(); //you don't have it
+        if(!isPowPresent(p)) throw new NotOwnedCardException(); //you don't have it
         pow.remove(p);
+    }
+    public void removeWeapon(Weapon weapon) throws ZeroCardsOwnedException, NotOwnedCardException{
+        if(gun.isEmpty()) throw new ZeroCardsOwnedException();
+        if(!weaponIspresent(weapon)) throw new NotOwnedCardException();
+        gun.remove(weapon);
+    }
+    //----------------------------------Metodi utili sul Client ------------------------------------------------------//
+    //------------------------------remove in base all'indice---------------------------------------------------------//
+    public void removePow(int indexPowCard){        //TODO: controllare e completare con eccezioni
+        pow.remove(indexPowCard);
+    }
+    public void removeWeapon(int indexWeaponCard){      //TODO: controllare e completare con eccezioni
+        gun.remove(indexWeaponCard);
     }
 
     public List<PowCard> getPows(){
-        List<PowCard> list = (List)this.pow.clone();
+        List list = (List)this.pow.clone();     //TODO: perchè usi clone?
         return list;
     }
 
     public PowCard getPowByIndex(int index){return this.pow.get(index);}
 
-    public int getnumberpow(){return this.pow.size();}
+    public int getNumberPow(){return this.pow.size();}
 
     public Coordinate getCel(){return this.cel;}
 
@@ -272,7 +281,7 @@ public class Player implements Serializable {
 
     public int getFirstBlood(){return this.firstBlood;}
 
-    public void resetFirstblood(){this.firstBlood = -1;}
+    public void resetFirstBlood(){this.firstBlood = -1;}
 
     public int getScore(){return this.score;}
 

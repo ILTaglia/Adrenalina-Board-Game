@@ -151,7 +151,10 @@ public class Client {
             case "NewCardUsed":
                 view.showInfoMessage(message);
                 if(((NewCardUsed) message).getToC().equals("PowCard")){
-                    //playerVisibleData.getPlayer().removePow();        //TODO: remove by Index
+                    playerVisibleData.getPlayer().removePow(((NewCardUsed) message).getIndexOfCard());
+                }
+                else{
+                    playerVisibleData.getPlayer().removeWeapon(((NewCardUsed) message).getIndexOfCard());
                 }
 
         }
