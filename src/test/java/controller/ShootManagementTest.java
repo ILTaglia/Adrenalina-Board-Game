@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Collections.addAll;
 import static org.junit.Assert.*;
 
 public class ShootManagementTest {
@@ -96,7 +97,7 @@ public class ShootManagementTest {
         Damage d = new DamageFactory().getinstaceof(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,-2);
-        ArrayList<Player> all = match.getPlayers();
+        ArrayList<Player> all = new ArrayList<>(match.getPlayers());
         for(Player p : all)
         {
             assertEquals(p.getTotalDamage(),0);

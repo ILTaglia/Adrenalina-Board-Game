@@ -3,6 +3,7 @@ import client.View;
 import exceptions.*;
 import model.*;
 import network.messages.*;
+import network.messages.error.*;
 import network.server.GameRoom;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class Game{
 
         userList.keySet().forEach(username -> match.createPlayer(username, userIDtoColor.get(userList.get(username)), userList.get(username)));
         //una volta creati i Player informo tutti i Player (eccetto lo stesso) dei dati degli altri
-        match.notifyPlayers();
+        match.notifyOfOtherPlayers();
         askMap((String)userList.values().toArray()[0]);
     }
 
@@ -42,9 +43,9 @@ public class Game{
         gameRoom.askToChooseMap(userID);
     }
 
-    public void setMap(String mapRequired) {
+    public void setMap(int mapRequired) {
         System.out.println("Selected Map: " + mapRequired);
-        match.createDashboard(Integer.valueOf(mapRequired));
+        match.createDashboard(mapRequired);
         //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
         setGameReady();
     }
@@ -85,7 +86,7 @@ public class Game{
         Spawn playerSpawn = new Spawn();
         //save powCard before Spawn (it's removed from Player) to discard it after Spawn
         PowCard powCardToDiscard=match.getActivePlayer().getPowByIndex(powCardIndex);       //TODO: migliorabile?
-        playerSpawn.spawn(match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
+        playerSpawn.spawn(match,match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
         match.discardPowCard(powCardToDiscard);
         //TODO: devo avvisare il Player dal discard
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
@@ -116,7 +117,7 @@ public class Game{
     2. Shoot
     3. Grab with movement
     4. Shoot with movement
-    5. Recharge*/
+    5. recharge*/
 
     public void performAction(String userID, int chosenAction) {
         checkUserAction(userID);
@@ -237,11 +238,11 @@ public class Game{
     private void askWeaponGrab(){
         gameRoom.askWeaponGrab(match.getActivePlayer().getID());
     }
+
     public void performWeaponGrab(String userID,int indexWeapon){
         checkUserAction(userID);
         GrabWeapon grabWeapon = new GrabWeapon();
-        Weapon weaponToGrab=getWeaponToGrab(indexWeapon);
-        if(!manageWeapon.areEnoughAmmoToGrabWeapon(match.getActivePlayer(),weaponToGrab)){
+        if(!manageWeapon.areEnoughAmmoToGrabWeapon(match.getActivePlayer(),getWeaponToGrabCost(indexWeapon))){
             // case if you don't have enough ammos and you want to convert a PowCard
             askWeaponGrabWithPowCard();
         }
@@ -260,11 +261,11 @@ public class Game{
     private void askWeaponGrabWithPowCard(){
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
     }
+
     public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard) {
         checkUserAction(userID);
-        Weapon weaponToGrab=getWeaponToGrab(indexWeapon);
         try {
-            manageWeapon.convertPowToGrab(match.getActivePlayer(), weaponToGrab, indexPowCard);
+            manageWeapon.convertPowToGrab(match.getActivePlayer(), getWeaponToGrabCost(indexWeapon), indexPowCard);
             GrabWeapon grabWeapon=new GrabWeapon();
             grabWeapon.grabWeapon(match, match.getActivePlayer(), indexWeapon);     //Completo raccolta
             nextStep();
@@ -277,11 +278,11 @@ public class Game{
         }
     }
 
-    private Weapon getWeaponToGrab(int indexWeapon){
+    private List<Integer> getWeaponToGrabCost(int indexWeapon){
         int xCoordinate=match.getActivePlayer().getCel().getX();
         int yCoordinate=match.getActivePlayer().getCel().getY();
         SpawnPointCell cell = (SpawnPointCell) match.getActivePlayer().getCel().inmap(match.getDashboard(),xCoordinate,yCoordinate);
-        return cell.getSpawnPointCellWeapons().get(indexWeapon);
+        return cell.getSpawnPointCellWeapons().get(indexWeapon).returnPrice();
     }
 
     private void grabAmmoTile(){
@@ -318,11 +319,11 @@ public class Game{
     }
 
     private void recharge(){
-        /*Recharge a weapon checking if the weapon is already loaded*/
+        /*recharge a weapon checking if the weapon is already loaded*/
         System.out.println("Which weapon do you want to recharge?");
         int weaponToRecharge=0;
         try{
-            manageWeapon.Recharge(match.getActivePlayer(), weaponToRecharge);
+            manageWeapon.recharge(match.getActivePlayer(), weaponToRecharge);
         } catch(WeaponAlreadyLoadedException e){
             System.out.println("You have already loaded this weapon");
         }

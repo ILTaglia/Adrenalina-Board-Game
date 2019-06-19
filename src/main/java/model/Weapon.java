@@ -3,10 +3,11 @@ package model;
 import exceptions.WeaponAlreadyLoadedException;
 import exceptions.WeaponAlreadyUsedException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 //TODO IMPORTANTE: Classe Card da Usare !
-public class Weapon extends Card{
+public class Weapon extends Card {
     private String name;
     private ArrayList <Integer> cost;
     private ArrayList <TypeAttack> attack;

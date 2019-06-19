@@ -1,4 +1,4 @@
-package network.messages;
+package network.messages.gameRequest;
 
 public class ColorGameRequest extends GameRequestMessage {
 

@@ -1,6 +1,8 @@
 package model;
 
-public interface Effect {
+import java.io.Serializable;
+
+public interface Effect extends Serializable {
     public int getId();
     public void adddamage(int type, int damage);
     public Damage getDamage(int i);

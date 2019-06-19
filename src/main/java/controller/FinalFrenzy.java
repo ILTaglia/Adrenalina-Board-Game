@@ -98,7 +98,7 @@ public class FinalFrenzy {
     - chiamare la shootIsValidInFrenzy, a seconda che il giocatore sia prima del primo o dopo
     * cambia il check di validità
     * - fare una run con la sequenza desiderata(può anche non muoversi)
-    * - Recharge
+    * - recharge
     * //TODO manca il metodo di effetto arma. Dopo aver chiamato quello
     **/
 

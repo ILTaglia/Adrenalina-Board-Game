@@ -17,7 +17,7 @@ public class ManagingWeapons {
         this.match=match;
     }
 
-    public void Recharge(Player player, int indexWeapon)throws WeaponAlreadyLoadedException{
+    public void recharge(Player player, int indexWeapon)throws WeaponAlreadyLoadedException{
         Weapon weapon = player.getWeaponByIndex(indexWeapon);
         weapon.recharge();
     }
@@ -47,16 +47,15 @@ public class ManagingWeapons {
 
     }
 
-    public boolean areEnoughAmmoToGrabWeapon(Player player, Weapon weaponToGrab){
-        List<Integer> weaponCost = weaponToGrab.returnPrice();
-        for(int i=0; i<weaponCost.size(); i++){
-            if(weaponCost.get(i)>player.getAmmo(i)) return false;
+    public boolean areEnoughAmmoToGrabWeapon(Player player, List<Integer> weaponToGrabCost){
+        for(int i=0; i<weaponToGrabCost.size(); i++){
+            if(weaponToGrabCost.get(i)>player.getAmmo(i)) return false;
         }
         return true;
     }
 
     //Method to convert a powcard in case you don't have enough ammos
-    public void convertPowToGrab(Player player, Weapon weaponToGrab, int indexPowCard)throws NotEnoughAmmosException {
+    public void convertPowToGrab(Player player, List<Integer> weaponToGrabCost, int indexPowCard)throws NotEnoughAmmosException {
         int color = player.getPowByIndex(indexPowCard).getColor();      //color of the powcard
         /*The control that using the PowCard the number of Ammos is enough to but the WeaponCard is done before converting
         * the Pow in Ammo. This operation is done because the money of the player has to be enough to buy the weapon, so the addition
@@ -71,7 +70,7 @@ public class ManagingWeapons {
             throw new NotEnoughAmmosException();    //quindi inutile fare ulteriori verifiche: restituisco l'eccezione
         }
         //Se l'aggiunta dell'Ammo è andata a buon fine verifico se il Player ne ha sufficienti per la raccolta dell'arma
-        if(areEnoughAmmoToGrabWeapon(player,weaponToGrab)){
+        if(areEnoughAmmoToGrabWeapon(player,weaponToGrabCost)){
             discardPowCard(player, indexPowCard);
             //torno al metodo principale che potrà quindi effettuare effettivamente la GrabAmmo
         }

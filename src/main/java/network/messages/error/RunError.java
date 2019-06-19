@@ -1,4 +1,6 @@
-package network.messages;
+package network.messages.error;
+
+import network.messages.error.ErrorMessage;
 
 public class RunError extends ErrorMessage {
 

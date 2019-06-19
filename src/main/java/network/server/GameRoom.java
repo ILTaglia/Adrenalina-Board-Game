@@ -2,8 +2,9 @@ package network.server;
 
 import controller.Game;
 import model.Coordinate;
-import model.PowCard;
 import network.messages.*;
+import network.messages.error.ColorError;
+import network.messages.gameRequest.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +64,7 @@ public class GameRoom {
         gameServer.sendMessageToID(userID,message);
     }
     //Quando viene ricevuto il messaggio viene settata nella classe gameController la mappa scelta dal primo player
-    public void setMapChoice(String mapRequired) {
+    public void setMapChoice(int mapRequired) {
         gameController.setMap(mapRequired);
     }
 

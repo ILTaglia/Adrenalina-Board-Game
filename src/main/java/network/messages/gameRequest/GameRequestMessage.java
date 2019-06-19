@@ -1,4 +1,6 @@
-package network.messages;
+package network.messages.gameRequest;
+
+import network.messages.Message;
 
 public abstract class GameRequestMessage extends Message {
 

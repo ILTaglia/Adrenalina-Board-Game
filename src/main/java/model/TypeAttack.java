@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public interface TypeAttack {
+public interface TypeAttack extends Serializable {
 
     public int getDistance();
     public int getTypePlayer();

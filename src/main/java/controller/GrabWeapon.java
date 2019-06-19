@@ -11,11 +11,11 @@ public class GrabWeapon extends Grab{
         //Empty Constructor, controller has to use the method grabWeapon
     }
     public void grabWeapon(Match match, Player player, int indexWeapon)throws MaxNumberofCardsException{
-        SpawnPointCell cell;
-        cell = (SpawnPointCell) player.getCel().inmap(match.getDashboard(), player.getCel().getX(), player.getCel().getY());
-        cell.Collect_Weapon(player,indexWeapon);
 
-        match.setWeaponCard(cell,indexWeapon);
+        match.assignWeaponCard(player,indexWeapon);
+
+
+    //match.setWeaponCard(cell,indexWeapon);      //TODO: rimuovere questi metodi che andranno gestiti dal Controller a fine turno.
 
         player.setAction();
     }

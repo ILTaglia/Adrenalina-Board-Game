@@ -117,7 +117,7 @@ public class CLIView implements View {
         printStream.println("2. Shoot");
         printStream.println("3. Grab with movement");
         printStream.println("4. Shoot with movement");
-        printStream.println("5. Recharge");
+        printStream.println("5. recharge");
         int choice = getData.getInt(0, 5);
         String indexAction = Integer.toString(choice);
         Message actionRequest=new ActionClientRequest(indexAction,client.getUserID());

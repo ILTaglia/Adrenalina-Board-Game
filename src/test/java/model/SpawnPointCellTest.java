@@ -39,20 +39,14 @@ public class SpawnPointCellTest {
         Weapon weapon = (Weapon) weaponDeck.drawCard();
         assertThrows(FullCellException.class,()->spawnPointCell.addWeaponCard(weapon, 1));
         assertEquals(3, spawnPointCell.getSpawnPointCellWeapons().size());
-        player1.setCel(0,2);
-        try{ spawnPointCell.Collect_Weapon(player1,1);}
-        catch(MaxNumberofCardsException e){}
+        spawnPointCell.collectWeapon(1);
         assertNull(spawnPointCell.getSpawnPointCellWeapons().get(1));
         try{ spawnPointCell.addWeaponCard(weapon, 1);}
         catch(FullCellException e){}
-        try{
-            spawnPointCell.Collect_Weapon(player2,0);
-            spawnPointCell.Collect_Weapon(player2,1);
-        }
-        catch(MaxNumberofCardsException e){}
+        spawnPointCell.collectWeapon(0);
+        spawnPointCell.collectWeapon(1);
         Weapon weapon1 = (Weapon) weaponDeck.drawCard();
         spawnPointCell.setWeaponCard(weapon1, 2);
-
     }
 
     @Test

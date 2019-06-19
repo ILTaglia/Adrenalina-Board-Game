@@ -1,6 +1,8 @@
 package model;
 
-public abstract class Card {
+import java.io.Serializable;
+
+public abstract class Card implements Serializable {
 
     protected boolean used;
 

@@ -1,4 +1,4 @@
-package network.messages;
+package network.messages.error;
 
 public class ColorError extends ErrorMessage {
 

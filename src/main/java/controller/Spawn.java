@@ -3,20 +3,15 @@ package controller;
 import exceptions.InvalidColorException;
 import exceptions.NotOwnedCardException;
 import exceptions.ZeroCardsOwnedException;
+import model.Match;
 import model.Player;
 import model.PowCard;
 
 public class Spawn {
-    public void spawn(Player player, int x, int y, int powCardIndex) throws InvalidColorException{
-        PowCard powCard = player.getPowByIndex(powCardIndex);
-        int powCardColor = powCard.getColor();
+    public void spawn(Match match, Player player, int x, int y, int indexPowCard) throws InvalidColorException{
+        int powCardColor = player.getPowByIndex(indexPowCard).getColor();
         if(bornValidity(x, y, powCardColor)){
-            player.setCel(x, y);
-            try{
-                player.removePow(powCard);
-            }
-            catch(ZeroCardsOwnedException e){}
-            catch(NotOwnedCardException e){}
+            match.spawnPlayer(player,indexPowCard,x,y);
         }
         else throw new InvalidColorException();
     }

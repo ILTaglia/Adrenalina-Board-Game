@@ -128,6 +128,10 @@ public class Client {
                 view.showInfoMessage(message);
                 this.playerVisibleData.setDashboard(((DashboardData) message).getDashboard());
                 break;
+            case "NewPosition":
+                view.showInfoMessage(message);
+                this.playerVisibleData.getPlayer().setCel(((NewPosition)message).getCoordinate().getX(),((NewPosition)message).getCoordinate().getY());
+                break;
             case "NewPowCard":
                 view.showInfoMessage(message);
                 try {
@@ -137,7 +141,18 @@ public class Client {
                 }
                 break;
             case "NewWeaponCard":
+                view.showInfoMessage(message);
+                try {
+                    this.playerVisibleData.getPlayer().addWeapon(((NewWeaponCard) message).getWeaponCard());
+                } catch (MaxNumberofCardsException e) {
+                    //Gestita non dal Player //TODO
+                }
                 break;
+            case "NewCardUsed":
+                view.showInfoMessage(message);
+                if(((NewCardUsed) message).getToC().equals("PowCard")){
+                    //playerVisibleData.getPlayer().removePow();        //TODO: remove by Index
+                }
 
         }
     }

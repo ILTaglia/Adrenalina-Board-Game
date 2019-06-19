@@ -91,7 +91,7 @@ public class GameServer {
                 userIDToIdGameRoom.get(requestMessage.getUserID()).registerPlayerColor(requestMessage.getUserID(),requestMessage.getInfo());
                 break;
             case "MapRequest":
-                userIDToIdGameRoom.get(requestMessage.getUserID()).setMapChoice(requestMessage.getInfo());
+                userIDToIdGameRoom.get(requestMessage.getUserID()).setMapChoice(Integer.parseInt(requestMessage.getInfo()));
                 break;
             case "SpawnPointRequest":
                 SpawnPointClientRequest spawnPointRequest=(SpawnPointClientRequest) requestMessage;

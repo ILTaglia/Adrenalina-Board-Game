@@ -1,9 +1,8 @@
 package network.server.socket;
 
-import network.messages.ConnectionError;
+import network.messages.error.ConnectionError;
 import network.messages.Message;
 import network.server.ClientInterface;
-import network.server.socket.GameSocketSvr;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

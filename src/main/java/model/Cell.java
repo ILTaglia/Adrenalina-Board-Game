@@ -19,7 +19,8 @@ public abstract class Cell implements Serializable {
 
     public int getType(){return this.type;}
 
-    public String elenco(){
+    @Override
+    public String toString(){
         return Arrays.toString(this.port);
     }
 

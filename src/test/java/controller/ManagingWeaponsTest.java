@@ -45,7 +45,6 @@ public class ManagingWeaponsTest {
         match.fillDashboard();
         d = match.getDashboard();
 
-
         WeaponDeck= new WeaponDeck();
         WeaponDeck.setWeapons("Test");
         weapon = (Weapon) WeaponDeck.drawCard();
@@ -93,8 +92,8 @@ public class ManagingWeaponsTest {
         player1.setCel(0, 2);
         player1.setActive();
         SpawnPointCell spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
-        Weapon weapontograb = spawnPointCell.getSpawnPointCellWeapons().get(1);
-        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb));
+        Weapon weaponToGrab = spawnPointCell.getSpawnPointCellWeapons().get(1);
+        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weaponToGrab.returnPrice()));
         try{
             player1.addAmmo(redAmmo);
             player1.addAmmo(redAmmo);
@@ -107,7 +106,7 @@ public class ManagingWeaponsTest {
             player1.addAmmo(yellowAmmo);
         }
         catch(MoreThanTreeAmmosException e){}
-        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb));
+        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weaponToGrab.returnPrice()));
     }
 
     @Test
@@ -126,11 +125,11 @@ public class ManagingWeaponsTest {
         player1.setActive();
         SpawnPointCell spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
         Weapon weapontograb = spawnPointCell.getSpawnPointCellWeapons().get(1);
-        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb));
+        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb.returnPrice()));
         assertEquals(0, player1.getAmmo(0));
-        try{manage.convertPowToGrab(player1, weapontograb, 0);}
+        try{manage.convertPowToGrab(player1, weapontograb.returnPrice(), 0);}
         catch(NotEnoughAmmosException e){}
         assertEquals(1, player1.getAmmo(0));
-        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb));
+        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb.returnPrice()));
     }
 }

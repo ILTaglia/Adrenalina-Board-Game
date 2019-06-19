@@ -34,6 +34,6 @@ public abstract class AmmoCard extends Card {
     }
     @Override
     public String toString(){
-        return refillAmmo.stream().map(ammo->ammo.toString()).reduce("",(a, b)->a + b);
+        return refillAmmo.stream().map(Ammo::toString).reduce("",(a, b)->a + b);
     }
 }
