@@ -237,6 +237,7 @@ public class CreateListAttackable {
             List<Player> players = match.getVisiblePlayers(player1);
             List<Coordinate> coordinates= match.getVisibleCells((player1.getCel()));
             List<Player> directed = new ArrayList<Player>();
+            /*
             if(this.direction==0)
             {
                 directed=match.getUpPlayers(player1);
@@ -253,6 +254,8 @@ public class CreateListAttackable {
             {
                 directed=match.getLeftPlayers(player1);
             }
+            */
+            directed=players;
             for(Player p: players)
             {
                 if(match.getPlayersMD(p,player1)!=1||!directed.contains(p))
@@ -261,6 +264,7 @@ public class CreateListAttackable {
                     tocancelplayer.add(p);
                 }
             }
+
             reciclebeenp(players,tocancelplayer);
             for(Coordinate c : coordinates)
             {

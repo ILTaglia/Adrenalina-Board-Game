@@ -178,13 +178,12 @@ public class ListAttackableTest {
         TypeAttack attack = new AttackFactory().getinstanceof(7,0,1,0,0);
         CreateListAttackable lister = new CreateListAttackable();
         lister.createlist(match,attack,player2);
-
         assertFalse(lister.getAttackableplayers().contains(player4));
         assertTrue(lister.getAttackableplayers().contains(player1));
         assertFalse(lister.getAttackableplayers().contains(player2));
-        // TODO errore assertTrue(lister.getAttackableplayers().contains(player3));
+        assertTrue(lister.getAttackableplayers().contains(player3));
         assertFalse(lister.getAttackableplayers().contains(player5));
-        //TODO errore assertEquals(lister.getAttackableplayers().size(),2);
+        assertEquals(lister.getAttackableplayers().size(),2);
 
         for(Player p : lister.getAttackableplayers())
         {
