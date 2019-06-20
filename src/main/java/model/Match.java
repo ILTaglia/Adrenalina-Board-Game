@@ -31,8 +31,6 @@ public class Match implements Serializable {
 
     public void setRound() {
         this.round++;
-        //Chiamo metodo per nuovo round.
-        //if(players.get(players.size()-1).getAction()==2) this.round++;         // lasciamo il controllo al controller e mettiamo direttamente il ++?
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
@@ -40,6 +38,8 @@ public class Match implements Serializable {
     public int getRound() {
         return this.round;
     }
+
+    //---------------------------------Metodi inizializzazione Player-------------------------------------------------//
 
     //Alla creazione del Player istanzio la relativa PlayerData che mando al Client
     //Ciascun Client quindi avrà la classe con la classe Player già inizializzata.
@@ -60,12 +60,114 @@ public class Match implements Serializable {
             notifyAllExceptOneClient(player.getID(), new OtherPlayerData(player.getName(), player.getColor()));
         }
     }
+    //________________________________________________________________________________________________________________//
+
+    //---------------------------------Metodi inizializzazione Dashboard----------------------------------------------//
 
     //selectedDashboard is the index of the chosen map
     public void createDashboard(int selectedDashboard) {
         this.dashboard = new Dashboard(selectedDashboard);
         checkDashboard = true;
     }
+
+    public void fillDashboard() {
+        if (this.checkDashboard) {
+            int indexR;
+            int indexC;
+            for (indexR = 0; indexR < dashboard.getRowDim(); indexR++) {
+                for (indexC = 0; indexC < dashboard.getColDim(); indexC++) {
+                    Cell cell = this.getDashboard().getMap(indexR, indexC);
+                    if ((cell.getType() == 0) && (cell.getColor() != -1)) {             //spawn Cell & exists
+                        fillSpawnPoint((SpawnPointCell) cell);
+                    } else if ((cell.getType() == 1) && (cell.getColor() != -1)) {      //normal Cell & exists
+                        fillNormal((NormalCell) cell);
+                    }
+                }
+            }
+        }
+        InfoMatch message=new InfoMatch("Selected map "+ dashboard.getMapType() + " . Stampo di seguito:");
+        notifyAllClients(this,message);
+        updateClientDashboard();
+    }
+    private void fillSpawnPoint(SpawnPointCell cell) {
+        try {
+            int index;
+            for (index = 0; index < 3; index++) {
+                cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
+            }
+        } catch (FullCellException e) {
+            //This method fill the dashboard for the first time, this Exception is impossible
+        }
+    }
+
+    private void fillNormal(NormalCell cell) {
+        try {
+            cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
+        } catch (FullCellException e) {
+            //This method fill the dashboard for the first time, this Exception is impossible
+        }
+    }
+
+    public void updateClientDashboard(){
+        Message infoMap = new DashboardData(this.dashboard);
+        notifyAllClients(this, infoMap);
+    }
+    //________________________________________________________________________________________________________________//
+    //metodo inizializzazione PowCard Player
+    public void firstTurnPow() {
+        for (Player player : this.players) {
+            try {
+                this.assignPowCard(player);
+                this.assignPowCard(player);
+            } catch (MaxNumberofCardsException e) {
+                //Nothing to do in this case, this method is called at the beginning of the match.
+            }
+        }
+    }
+
+    public void spawnPlayer(Player player,int indexPowCard, int x, int y) {
+        player.setCel(x, y);
+        PowCard powCard=player.getPowByIndex(indexPowCard);
+        try{
+            player.removePow(powCard);       //TODO: perchè non una removeByIndex per i Pow che restituisce la carta rimossa?
+            powDeck.discardCard(powCard);
+        }
+        catch(ZeroCardsOwnedException | NotOwnedCardException e){}
+        Message infoUsedCard=new NewCardUsed("PowCard",indexPowCard);
+        notifySpecificClient(player.getID(),infoUsedCard);
+        Message infoSpawnPoint=new NewPosition(x,y);
+        notifySpecificClient(player.getID(),infoSpawnPoint);
+    }
+
+    //Method to assign powCard to player
+    public void assignPowCard(Player player) throws MaxNumberofCardsException {     //TODO:Verificare se ha senso fare catch di una eccezione e poi rilanciarla
+        PowCard powcard;
+        powcard = (PowCard) powDeck.drawCard();
+        try {
+            player.addPow(powcard);
+        } catch (MaxNumberofCardsException e) {
+            powDeck.discardCard(powcard);
+            throw new MaxNumberofCardsException();
+        }
+        Message infoPowCard = new NewPowCard(powcard);
+        notifySpecificClient(player.getID(), infoPowCard);
+    }
+
+    public void assignWeaponCard(Player player, int indexWeapon) throws MaxNumberofCardsException {
+        SpawnPointCell cell;
+        cell = (SpawnPointCell) player.getCel().inmap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
+        Weapon weaponCard = (Weapon) cell.collectWeapon(indexWeapon);
+        player.addWeapon(weaponCard);
+        Message infoWeaponCard = new NewWeaponCard(weaponCard);
+        notifySpecificClient(player.getID(), infoWeaponCard);
+    }
+
+    public void setPlayerCel(Player player, int x, int y) {
+        player.setCel(x, y);
+        Message infoSpawnPoint=new NewPosition(x,y);
+        notifySpecificClient(player.getID(),infoSpawnPoint);
+    }
+
 
     //returns player by color
     public Player getPlayer(int color) throws InvalidColorException {
@@ -116,111 +218,7 @@ public class Match implements Serializable {
         return null;
     }
 
-    public void fillDashboard() {
-        if (this.checkDashboard) {
-            int indexR;
-            int indexC;
-            for (indexR = 0; indexR < dashboard.getRowDim(); indexR++) {
-                for (indexC = 0; indexC < dashboard.getColDim(); indexC++) {
-                    Cell cell = this.getDashboard().getMap(indexR, indexC);
-                    if ((cell.getType() == 0) && (cell.getColor() != -1)) {             //spawn Cell & exists
-                        fillSpawnPoint((SpawnPointCell) cell);
-                    } else if ((cell.getType() == 1) && (cell.getColor() != -1)) {      //normal Cell & exists
-                        fillNormal((NormalCell) cell);
-                    }
-                }
-            }
-        }
-        Message infoMap = new DashboardData(this.dashboard);
-        notifyAllClients(this, infoMap);
 
-            /*
-            spawnPointCell = (SpawnPointCell)this.getDashboard().getMap(0, 2);
-            try{
-                for(index=0;index<3;index++) {
-                    spawnPointCell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
-                }
-            } catch (FullCellException e){
-
-            }
-            spawnPointCell = (SpawnPointCell)this.getDashboard().getMap(1, 0);
-            try{
-                for(index=0;index<3;index++) {
-                    spawnPointCell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
-                }
-            } catch (FullCellException e){
-                //This method fill the dashboard for the first time, this Exception is impossibile
-            }
-            spawnPointCell = (SpawnPointCell)this.getDashboard().getMap(2, 3);
-            try{
-                for(index=0;index<3;index++) {
-                    spawnPointCell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
-                }
-            } catch (FullCellException e){
-                //This method fill the dashboard for the first time, this Exception is impossibile
-            }
-
-            NormalCell normalcell = (NormalCell)this.getDashboard().getMap(0, 0);
-            this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getMap(0, 1);
-            this.addAmmoCard(normalcell);
-
-            normalcell = (NormalCell)this.getDashboard().getMap(1, 1);
-            this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getMap(1, 2);
-            this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getMap(1, 3);
-            this.addAmmoCard(normalcell);
-
-            normalcell = (NormalCell)this.getDashboard().getMap(2, 1);
-            this.addAmmoCard(normalcell);
-            normalcell = (NormalCell)this.getDashboard().getMap(2, 2);
-            this.addAmmoCard(normalcell);
-
-            if(mapType!=1){
-                normalcell = (NormalCell)this.getDashboard().getMap(0, 3);
-                this.addAmmoCard(normalcell);
-                if(mapType==3){
-                    normalcell = (NormalCell)this.getDashboard().getMap(2, 0);
-                    this.addAmmoCard(normalcell);
-                }
-            }
-            */
-
-
-
-
-    }
-
-    private void fillSpawnPoint(SpawnPointCell cell) {
-        try {
-            int index;
-            for (index = 0; index < 3; index++) {
-                cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
-            }
-        } catch (FullCellException e) {
-            //This method fill the dashboard for the first time, this Exception is impossible
-        }
-    }
-
-    private void fillNormal(NormalCell cell) {
-        try {
-            cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
-        } catch (FullCellException e) {
-            //This method fill the dashboard for the first time, this Exception is impossible
-        }
-    }
-
-    public void firstTurnPow() {
-        for (Player player : this.players) {
-            try {
-                this.assignPowCard(player);
-                this.assignPowCard(player);
-            } catch (MaxNumberofCardsException e) {
-                //Nothing to do in this case, this method is called at the beginning of the match.
-            }
-        }
-    }
 
     public boolean getCheck() {
         return this.checkDashboard;
@@ -253,7 +251,7 @@ public class Match implements Serializable {
     public void addWeaponCard(SpawnPointCell cell, int index) {
         try {
             Weapon weapon = (Weapon) weaponDeck.drawCard();
-            cell.addWeaponCard(weapon, index);//TODO:controllare
+            cell.addWeaponCard(weapon, index);              //TODO:controllare
         } catch (FullCellException e) {
             //TODO
         }
@@ -276,43 +274,6 @@ public class Match implements Serializable {
         powDeck.shuffleStack();
     }
 
-    public void spawnPlayer(Player player,int indexPowCard, int x, int y) {
-        player.setCel(x, y);
-        PowCard powCard=player.getPowByIndex(indexPowCard);
-        try{
-            player.removePow(powCard);       //TODO: perchè non una removeByIndex per i Pow che restituisce la carta rimossa?
-            powDeck.discardCard(powCard);
-        }
-        catch(ZeroCardsOwnedException | NotOwnedCardException e){}
-        Message infoUsedCard=new NewCardUsed("PowCard",indexPowCard);
-        notifySpecificClient(player.getID(),infoUsedCard);
-        Message infoSpawnPoint=new NewPosition(x,y);
-        notifySpecificClient(player.getID(),infoSpawnPoint);
-    }
-
-    //Method to assign powCard to player
-    public void assignPowCard(Player player) throws MaxNumberofCardsException {     //TODO:Verificare se ha senso fare catch di una eccezione e poi rilanciarla
-        PowCard powcard;
-        powcard = (PowCard) powDeck.drawCard();
-        try {
-            player.addPow(powcard);
-        } catch (MaxNumberofCardsException e) {
-            powDeck.discardCard(powcard);
-            throw new MaxNumberofCardsException();
-        }
-        Message infoPowCard = new NewPowCard(powcard);
-        notifySpecificClient(player.getID(), infoPowCard);
-    }
-
-    public void assignWeaponCard(Player player, int indexWeapon) throws MaxNumberofCardsException {
-        SpawnPointCell cell;
-        cell = (SpawnPointCell) player.getCel().inmap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
-        Weapon weaponCard = (Weapon) cell.collectWeapon(indexWeapon);
-        player.addWeapon(weaponCard);
-        Message infoWeaponCard = new NewWeaponCard(weaponCard);
-        notifySpecificClient(player.getID(), infoWeaponCard);
-    }
-
 
     public void discardPowCard(PowCard powCard) {
         powDeck.discardCard(powCard);
@@ -321,6 +282,10 @@ public class Match implements Serializable {
     public void discardWeaponCard(Weapon weapon) {
         weaponDeck.discardCard(weapon);
     }
+
+    //________________________________________________________________________________________________________________//
+
+    //---------------------------------Metodi utili per la Shoot------------------------------------------------------//
 
     //returns all the players seen by the given player
     public List<Player> getVisiblePlayers(Player player) {

@@ -80,15 +80,12 @@ public class Game{
         gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getID());
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
-    //TODO: sistemare la validità della cella
+
+    //TODO: sistemare la validità della cella inserita dall'utente
     public void setSpawn(String userID, Coordinate coordinate,int powCardIndex){
         checkUserAction(userID);
         Spawn playerSpawn = new Spawn();
-        //save powCard before Spawn (it's removed from Player) to discard it after Spawn
-        PowCard powCardToDiscard=match.getActivePlayer().getPowByIndex(powCardIndex);       //TODO: migliorabile?
         playerSpawn.spawn(match,match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
-        match.discardPowCard(powCardToDiscard);
-        //TODO: devo avvisare il Player dal discard
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
@@ -349,6 +346,7 @@ public class Game{
     //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
         System.out.println("Print temporanea. Fine prima azione!");
+        match.updateClientDashboard();
         //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
         if(match.getActivePlayer().getAction()<2) {
             askAction();

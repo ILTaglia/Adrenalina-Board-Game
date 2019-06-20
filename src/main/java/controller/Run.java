@@ -45,7 +45,7 @@ public class Run extends Action {
     }
 
     //method for atomic movements
-    private void movement(Match m, Player player, String direction) throws InvalidDirectionException {
+    private void movement(Match match, Player player, String direction) throws InvalidDirectionException {
         int d = this.getDirection(direction);
         int x;
         int y;
@@ -55,21 +55,25 @@ public class Run extends Action {
         //player wants to go to the north
         if (d == 0) {
             x--;
-            player.setCel(x, y);
+            match.setPlayerCel(player,x,y);
+
         }
         //player wants to go the the east
         else if (d == 1) {
             y++;
+            match.setPlayerCel(player,x,y);
             player.setCel(x, y);
         }
         //player wants to go the south
         else if (d == 2) {
             x++;
+            match.setPlayerCel(player,x,y);
             player.setCel(x, y);
         }
         //player wants to go to the west
         else if (d == 3) {
             y--;
+            match.setPlayerCel(player,x,y);
             player.setCel(x, y);
         }
     }

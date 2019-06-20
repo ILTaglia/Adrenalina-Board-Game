@@ -24,7 +24,7 @@ public class GrabAmmo extends Grab{
         }
 
         player.setAction();
-        match.addAmmoCard(cell);
+        //match.addAmmoCard(cell);
     }
 
     public boolean isValid(Match match, Player player, List<String> destination){

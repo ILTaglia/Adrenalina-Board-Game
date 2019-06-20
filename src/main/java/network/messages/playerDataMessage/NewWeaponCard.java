@@ -1,7 +1,6 @@
 package network.messages.playerDataMessage;
 
 import model.Weapon;
-import network.messages.playerDataMessage.InfoMessage;
 
 public class NewWeaponCard extends InfoMessage {
     private Weapon weaponCard;

@@ -170,7 +170,7 @@ public class CLIView implements View {
         int indexPowCard;
         printStream.println("Answer 'Yes' or 'No'");
         if(getData.askYesOrNo()){
-            printStream.println("Which Weapon do you want to grab?");
+            printStream.println("Which Weapon do you want to grab?");       //TODO: mettere un campo per memorizzare eventuali informazioni di questo tipo?
             indexWeapon=getData.getInt(0,2);
             showPlayerPows();
             printStream.println("Which pow card do you want to use to grab Weapon?");

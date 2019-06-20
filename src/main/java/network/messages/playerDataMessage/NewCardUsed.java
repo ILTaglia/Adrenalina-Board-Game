@@ -1,6 +1,6 @@
 package network.messages.playerDataMessage;
 
-public class NewCardUsed extends InfoPlayer{
+public class NewCardUsed extends InfoMessage{
     private String ToC;
     private int indexOfCard;
 
