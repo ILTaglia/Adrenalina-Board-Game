@@ -38,7 +38,7 @@ public class InfoPlayerPage {
         schermata.add(background);
 
         schermata.setVisible(true);
-        schermata.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //schermata.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
 
