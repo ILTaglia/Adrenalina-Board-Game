@@ -6,9 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameMap {
-    int Cx=100, Cy=100;
+    int Cx=300, Cy=210;
     public void mostra(int type)
     {
+        int movex=190,movey=190;
 
 
 
@@ -59,6 +60,14 @@ public class GameMap {
 
 
 
+
+            String userimage = loaduserimage(0);
+            ImageIcon user = new ImageIcon(userimage);
+            JLabel playerimage = new JLabel(user);
+            playerimage.setBounds(Cx,Cy,50,49);
+
+
+
             player1.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -89,20 +98,35 @@ public class GameMap {
 
             Circle c = new Circle();
 
+            right.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Cx=Cx+movex;
+                    playerimage.setLocation(Cx,Cy);
+                }
+            });
+
+            left.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Cx=Cx-movex;
+                    playerimage.setLocation(Cx,Cy);
+                }
+            });
 
             up.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Cx=Cx+10;
-                    c.translate(Cx,Cy);
+                    Cy=Cy-movey;
+                    playerimage.setLocation(Cx,Cy);
                 }
             });
 
             down.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Cx=Cx-10;
-                    c.translate(Cx,Cy);
+                    Cy=Cy+movey;
+                    playerimage.setLocation(Cx,Cy);
                 }
             });
 
@@ -142,15 +166,19 @@ public class GameMap {
             schermata.add(player3);
             schermata.add(player4);
 
+            schermata.add(playerimage);
+
             schermata.add(up);
             schermata.add(right);
             schermata.add(down);
             schermata.add(left);
             schermata.add(background);
+
             schermata.setVisible(true);
             schermata.setResizable(false);
 
         }
+
 
 
 
@@ -162,6 +190,14 @@ public class GameMap {
     {
         GameMap map = new GameMap();
         map.mostra(1);
+    }
+
+
+    public String loaduserimage(int index)
+    {
+        String percorso = System.getProperty("user.dir");
+        //TODO qui si farà un controllo sul nome della carta, a seconda del quale restituisco il link corretto
+        return percorso+"\\src\\main\\java\\client\\gui\\media\\cards\\Personaggio.png";
     }
 
 }
