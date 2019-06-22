@@ -3,6 +3,8 @@ package client.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MyCardPage {
     public void mostra()
@@ -13,7 +15,7 @@ public class MyCardPage {
         schermata.setResizable(false);
         schermata.setLayout(null);
         //schermata.setLayout(new BorderLayout());
-        schermata.setBounds(0,0,1400,800);
+        schermata.setBounds(0,0,1400,650);
 
 
 
@@ -39,6 +41,28 @@ public class MyCardPage {
         usegun2.setBounds(10*x,h+450,240,30);
         JButton usegun3 = new JButton("Usa l'Arma!");
         usegun3.setBounds(20*x,h+450,240,30);
+
+
+        usegun1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        usegun2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        usegun3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
 
 

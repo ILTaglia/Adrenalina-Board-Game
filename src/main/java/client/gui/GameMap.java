@@ -14,18 +14,21 @@ public class GameMap {
 
         JFrame schermata = new JFrame("Map");
         schermata.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        schermata.setSize(1500,800);
+        schermata.setSize(1500,1000);
+        schermata.setLayout(null);
 
         if(type==1)
         {
             int offset=35;
             InfoPlayerPage view = new InfoPlayerPage();
+            MyCardPage myCardPage=new MyCardPage();
+            MyPowCards myPowCards=new MyPowCards();
             //CARICO immagine mappa Sinistra 1
             String percorso = System.getProperty("user.dir");
             percorso=percorso+"\\src\\main\\java\\client\\gui\\media\\M1R.png";
             ImageIcon sfondo = new ImageIcon(percorso);
-            JLabel background = new JLabel("",sfondo,JLabel.CENTER);
-            background.setBounds(0,0,1053,800);
+            JLabel background = new JLabel(sfondo);
+            background.setBounds(100,0,1053,800);
 
 
             JButton up = new JButton("UP");
@@ -46,6 +49,15 @@ public class GameMap {
             player3.setBounds(1250+offset,150,190,30);
             JButton player4 = new JButton("Giocatore Viola");
             player4.setBounds(1250+offset,200,190,30);
+
+            JButton mytable = new JButton("La mia plancia");
+            mytable.setBounds(200,850,190,50);
+            JButton mycards = new JButton("Le mie carte");
+            mycards.setBounds(500,850,190,50);
+            JButton mypow = new JButton("I miei potenziamenti");
+            mypow.setBounds(800,850,190,50);
+
+
 
             player1.addActionListener(new ActionListener() {
                 @Override
@@ -94,10 +106,35 @@ public class GameMap {
                 }
             });
 
+            mycards.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    myCardPage.mostra();
+                }
+            });
+
+
+            mypow.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    myPowCards.mostra();
+                }
+            });
+
+            mytable.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    view.mostra(1);
+                }
+            });
+
             schermata.add(c);
 
 
 
+            schermata.add(mycards);
+            schermata.add(mypow);
+            schermata.add(mytable);
 
 
             schermata.add(player1);
