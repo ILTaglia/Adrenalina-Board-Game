@@ -21,6 +21,9 @@ public class CLIView implements View {
 
     //TODO: sostituire System.out con printStream
 
+    //TODO: Serve un metodo che stampi le AmmoCard prima della raccolta per rendere noto ciò che contengono!
+
+
     public CLIView(Client client){
         this.client=client;
         LOGGER.setLevel(Level.INFO);

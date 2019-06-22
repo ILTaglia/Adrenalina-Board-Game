@@ -1,7 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerVisibleData implements Serializable {
@@ -12,6 +14,8 @@ public class PlayerVisibleData implements Serializable {
 
     private Player player;
     private Dashboard dashboard;
+
+    private ArrayList<Integer> playerAmmo;
 
     private Map<String,Integer> enemiesNameColor;
     private Map<String,Boolean> activePlayer;
@@ -38,6 +42,10 @@ public class PlayerVisibleData implements Serializable {
         damagesOfAll=new HashMap<>();
 
         marksOfAll=new HashMap<>();
+        playerAmmo=new ArrayList<>();
+        for(int i=0;i<3;i++){
+            playerAmmo.add(i,1);
+        }
     }
     public void setDashboard(Dashboard dashboard){
         this.dashboard=dashboard;
@@ -52,8 +60,6 @@ public class PlayerVisibleData implements Serializable {
         this.marksOfAll.put(playerName,new HashMap<>());
 
     }
-
-
     public Player getPlayer(){
         return this.player;
     }
@@ -73,6 +79,13 @@ public class PlayerVisibleData implements Serializable {
         }
         return null;
     }
+
+    public void setNumberOfAmmo(int numberOfAmmo,int color){
+        playerAmmo.set(color,numberOfAmmo);
+    }
+
+
+
     //TODO: Get in base alle necessità:
     /*
     public List<Integer> getPlayerDeath(){return this.deathOtherPlayers;}

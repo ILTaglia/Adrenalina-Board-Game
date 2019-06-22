@@ -14,9 +14,6 @@ public class GrabWeapon extends Grab{
 
         match.assignWeaponCard(player,indexWeapon);
 
-
-    //match.setWeaponCard(cell,indexWeapon);      //TODO: rimuovere questi metodi che andranno gestiti dal Controller a fine turno.
-
         player.setAction();
     }
     public void isValid(Player player)throws MaxNumberofCardsException{

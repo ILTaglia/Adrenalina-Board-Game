@@ -50,9 +50,9 @@ public class Player implements Serializable {
         ammos.add(new Ammo(1));
         ammos.add(new Ammo(2));
         //at the beginning you have 1 ammo for each color
-        //0 is red, you start with three red ammo
-        //1 is blue, you start with three blue ammo
-        //2 is yellow, you start with three yellow ammo
+        //0 is red, you start with one red ammo
+        //1 is blue, you start with one blue ammo
+        //2 is yellow, you start with one yellow ammo
 
         //players color are blue(0), green(1), yellow(2), pink(3), grey(4)
         switch (color) {
@@ -287,5 +287,8 @@ public class Player implements Serializable {
 
     //add the points of a single turn to the global score
     public void setScore(int s){this.score=this.score+s;}
+
+    //----- Metodo per la View, vediamo se tenerlo
+
 
 }

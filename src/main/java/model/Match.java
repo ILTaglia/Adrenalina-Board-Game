@@ -162,6 +162,22 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoWeaponCard);
     }
 
+    public void assignAmmo(Player player) throws CardAlreadyCollectedException {
+        NormalCell cell;
+        cell = (NormalCell) player.getCel().inmap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
+        try {
+            cell.collectCard(player);
+        } catch (MoreThanTreeAmmosException e) {
+            //TODO: avviso il player
+        }
+        List<Integer> ammo=new ArrayList<>();
+        for(int i=0;i<3;i++){
+            ammo.add(i,player.getAmmo(i));
+        }
+        Message infoAmmo=new NewAmmo(ammo);
+        notifySpecificClient(player.getID(),infoAmmo);
+    }
+
     public void setPlayerCel(Player player, int x, int y) {
         player.setCel(x, y);
         Message infoSpawnPoint=new NewPosition(x,y);

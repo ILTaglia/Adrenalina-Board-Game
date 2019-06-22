@@ -156,7 +156,13 @@ public class Client {
                 else{
                     playerVisibleData.getPlayer().removeWeapon(((NewCardUsed) message).getIndexOfCard());
                 }
-
+                break;
+            case "NewAmmo":
+                view.showInfoMessage(message);
+                NewAmmo ammoMessage=(NewAmmo) message;
+                for (int i=0;i<ammoMessage.getListAmmo().size();i++) {
+                    playerVisibleData.setNumberOfAmmo(i,ammoMessage.getListAmmo().get(i));
+                }
         }
     }
 

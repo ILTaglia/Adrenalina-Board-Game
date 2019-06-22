@@ -13,18 +13,13 @@ public abstract class AmmoCard extends Card {
     protected ArrayList<Ammo> refillAmmo;
 
     //collectCard throws Exception if player try to collect card already collected in his precedent action
-    public void collectCard(Player player) throws CardAlreadyCollectedException{
+    public void collectCard(Player player) throws CardAlreadyCollectedException, MoreThanTreeAmmosException {
         if(used){
             throw new CardAlreadyCollectedException();
             //Exception will be handled by controller
         }
         for (Ammo ammo: refillAmmo) {
-            try {
-                player.addAmmo(ammo);
-            }
-            catch (MoreThanTreeAmmosException e){
-                //Nothing to do, just try with next ammo
-            }
+            player.addAmmo(ammo);
         }
         used =true;
     }

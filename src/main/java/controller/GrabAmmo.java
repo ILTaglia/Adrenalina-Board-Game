@@ -13,18 +13,12 @@ public class GrabAmmo extends Grab{
         //Empty Constructor, controller has to use the method grabAmmo
     }
     public void grabAmmo(Match match, Player player) throws MaxNumberofCardsException, CardAlreadyCollectedException {
-        NormalCell cell;
-        int cardType;
-        cell = (NormalCell) player.getCel().inmap(match.getDashboard(), player.getCel().getX(), player.getCel().getY());
-        cardType=cell.getCardType();
-        cell.Collect_Card(player);
-
+        int cardType=player.getCel().inmap(match.getDashboard(),player.getCel().getX(),player.getCel().getY()).getType();
+        match.assignAmmo(player);
         if(1==cardType){        //cardType==1 if Card is AmmoPowTile
             match.assignPowCard(player);
         }
-
         player.setAction();
-        //match.addAmmoCard(cell);
     }
 
     public boolean isValid(Match match, Player player, List<String> destination){
