@@ -1,6 +1,7 @@
 package model;
 
 import exceptions.CardAlreadyCollectedException;
+import exceptions.MoreThanTreeAmmosException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +25,7 @@ class Ammo_TileTest {
     public void Collect_CardTest(){
         try{
             ammo_tile.collectCard(player);
-        }catch (CardAlreadyCollectedException e){
-            fail();
-        }
+        }catch (CardAlreadyCollectedException e){fail();}
         assertEquals(2,player.getAmmo(0));
         assertEquals(2,player.getAmmo(1));
         assertEquals(2,player.getAmmo(2));
@@ -40,9 +39,7 @@ class Ammo_TileTest {
         try{
             ammo_tile.collectCard(player);
             ammo_tile_2.collectCard(player);
-        }catch (CardAlreadyCollectedException e){
-            fail();
-        }
+        }catch (CardAlreadyCollectedException e){fail();}
         //Verifico che funzioni il catch e continui ad aggiungere le munizioni successive
         assertEquals(3,player.getAmmo(0));
         assertEquals(3,player.getAmmo(1));

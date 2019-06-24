@@ -85,6 +85,6 @@ public class GrabAmmoTest {
         assertEquals(3, player1.getAmmo(0));
         assertEquals(3, player1.getAmmo(1));
         assertEquals(2, player1.getAmmo(2));
-        assertEquals(1, player1.getNumberPow());
+        assertEquals(2, player1.getNumberPow());
     }
 }
