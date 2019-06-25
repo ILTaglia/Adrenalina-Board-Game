@@ -1,11 +1,9 @@
 package controller;
 
-import exceptions.CardAlreadyCollectedException;
-import exceptions.MaxNumberofCardsException;
+import exceptions.*;
 import model.Player;
 import model.Match;
 
-import exceptions.InvalidDirectionException;
 import java.util.List;
 
 public class FinalFrenzy {
@@ -35,18 +33,18 @@ public class FinalFrenzy {
     //TODO prima di questo bisogna incassare. Nel controller bisogna chiamare la calculate score una prima
     //TODO volta, questa poi creerà la frenesia finale se giunti a fine gioco.
 
-    public void runInFrenzy(Match match, List<Player> playerslist, Player player, List<String> destination) throws InvalidDirectionException {
+    public void runInFrenzy(Match match, List<Player> playerslist, Player player, List<String> destination) throws InvalidDirectionException, ActionNotAllowedException, NotYourTurnException {
         if(playerslist.contains(player) && playerslist.equals(this.playersBeforetheFirst)){
             if(destination.size()<=4){
                 Run run = new Run();
-                run.getMovement(match, player, destination);
+                run.movement(match, player.getID(), destination,false,false);       //TODO:verificare
             }
         }
     }
 
-    public void grabAmmoInFrenzy(Match match, Player player) throws MaxNumberofCardsException, CardAlreadyCollectedException {
+    public void grabAmmoInFrenzy(Match match, Player player) throws MaxNumberofCardsException, CardAlreadyCollectedException, NotYourTurnException {
         GrabAmmo grabAmmo = new GrabAmmo();
-        grabAmmo.grabAmmo(match, player);
+        grabAmmo.grabAmmo(match, player.getID());
     }
 
     public void grabWeaponInFrenzy(Match match, Player player, int indexWeapon) throws MaxNumberofCardsException{
@@ -62,7 +60,7 @@ public class FinalFrenzy {
             Run r = new Run();
             int x = player.getCel().getX();
             int y = player.getCel().getY();
-            if(r.isValid(match, player, x, y, destination)) return true;
+            if(r.isValid(match, destination)) return true;      //TODO: verificare
             else return false;
         }
     }
@@ -79,7 +77,7 @@ public class FinalFrenzy {
             Run r = new Run();
             int x = player.getCel().getX();
             int y = player.getCel().getY();
-            if(r.isValid(match, player, x, y, destination)) return true;
+            if(r.isValid(match, destination)) return true;              //TODO: verifica
             else return false;
         }
     }

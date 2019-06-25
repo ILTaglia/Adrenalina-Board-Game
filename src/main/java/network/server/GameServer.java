@@ -2,7 +2,7 @@ package network.server;
 
 import network.messages.*;
 import network.messages.clientRequest.ClientRequestMessage;
-import network.messages.clientRequest.PowToWeaponGrabClientRequest;
+import network.messages.clientRequest.CardToWeaponGrabClientRequest;
 import network.messages.clientRequest.RunClientRequest;
 import network.messages.clientRequest.SpawnPointClientRequest;
 import network.messages.playerDataMessage.InfoID;
@@ -108,15 +108,16 @@ public class GameServer {
                 userIDToIdGameRoom.get(requestMessage.getUserID()).performWeaponGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
                 break;
             case "WeaponDiscardToGrabRequest":
-                userIDToIdGameRoom.get(requestMessage.getUserID()).discardWeaponCardToGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
+                CardToWeaponGrabClientRequest discardWeaponMessage=(CardToWeaponGrabClientRequest) requestMessage;
+                userIDToIdGameRoom.get(requestMessage.getUserID()).discardWeaponCardToGrab(discardWeaponMessage.getUserID(),Integer.parseInt(discardWeaponMessage.getInfo()),Integer.parseInt(discardWeaponMessage.getIndexCardToDiscard()));
                 break;
             case "PowToWeaponGrabRequest":
-                PowToWeaponGrabClientRequest message=(PowToWeaponGrabClientRequest) requestMessage;
-                userIDToIdGameRoom.get(message.getUserID()).performWeaponGrabWithPowCard(message.getUserID(),Integer.parseInt(message.getInfo()),Integer.parseInt(message.getIndexPowCard()));
+                CardToWeaponGrabClientRequest powToConvertMessage=(CardToWeaponGrabClientRequest) requestMessage;
+                userIDToIdGameRoom.get(powToConvertMessage.getUserID()).performWeaponGrabWithPowCard(powToConvertMessage.getUserID(),Integer.parseInt(powToConvertMessage.getInfo()),Integer.parseInt(powToConvertMessage.getIndexCardToDiscard()));
                 break;
             case "PowCardDiscardRequest":
                 userIDToIdGameRoom.get(requestMessage.getUserID()).discardPowCard(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
-
+                break;
         }
     }
 

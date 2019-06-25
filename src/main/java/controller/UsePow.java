@@ -1,7 +1,5 @@
 package controller;
-import exceptions.InvalidDirectionException;
-import exceptions.NotOwnedCardException;
-import exceptions.ZeroCardsOwnedException;
+import exceptions.*;
 import model.*;
 
 import java.util.ArrayList;
@@ -76,11 +74,15 @@ public class UsePow {
         Run r = new Run();
         try
         {
-            r.getMovement(m,second,moves);
+            r.movement(m,second.getID(),moves,false,false);             //TODO
         }
         catch (InvalidDirectionException e)
         {
 
+        } catch (NotYourTurnException e) {
+            e.printStackTrace();
+        } catch (ActionNotAllowedException e) {
+            e.printStackTrace();
         }
     }
 

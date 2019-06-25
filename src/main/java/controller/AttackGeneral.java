@@ -1,5 +1,7 @@
 package controller;
+import exceptions.ActionNotAllowedException;
 import exceptions.InvalidDirectionException;
+import exceptions.NotYourTurnException;
 import model.*;
 
 import java.util.ArrayList;
@@ -33,7 +35,13 @@ public class AttackGeneral {
                         contciclo++;
                     }
                     try{
-                        r.getMovement(m,first,movemebefore);
+                        try {
+                            r.movement(m,first.getID(),movemebefore,false,false);       //TODO: controllare tutti questi metodi con la Run
+                        } catch (NotYourTurnException e) {
+                            e.printStackTrace();
+                        } catch (ActionNotAllowedException e) {
+                            e.printStackTrace();
+                        }
                     } catch (InvalidDirectionException e){}
 
                 }
@@ -55,8 +63,12 @@ public class AttackGeneral {
                         contciclo++;
                     }
                     try{
-                        r.getMovement(m,second,movethembefore);
-                    } catch (InvalidDirectionException e){}
+                        r.movement(m,second.getID(),movethembefore,false,false);    //TODO
+                    } catch (InvalidDirectionException e){} catch (NotYourTurnException e) {
+                        e.printStackTrace();
+                    } catch (ActionNotAllowedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else
                 {
@@ -389,10 +401,14 @@ public class AttackGeneral {
                                             Run r = new Run();
                                             try
                                             {
-                                                r.getMovement(m,first,move);
+                                                r.movement(m,first.getID(),move,false,false);       //TODO
                                             }
                                             catch(InvalidDirectionException e)
                                             {
+                                            } catch (NotYourTurnException e) {
+                                                e.printStackTrace();
+                                            } catch (ActionNotAllowedException e) {
+                                                e.printStackTrace();
                                             }
 
 
@@ -486,10 +502,14 @@ public class AttackGeneral {
                                             Run r = new Run();
                                             try
                                             {
-                                                r.getMovement(m,first,move);
+                                                r.movement(m,first.getID(),move,false,false);   //TODO
                                             }
                                             catch(InvalidDirectionException e)
                                             {
+                                            } catch (NotYourTurnException e) {
+                                                e.printStackTrace();
+                                            } catch (ActionNotAllowedException e) {
+                                                e.printStackTrace();
                                             }
                                             List<Player> temporal =new ArrayList<Player>();
                                             List<Player> inmycell=m.getSameCellsPlayers(viewer.getCel());
@@ -519,8 +539,12 @@ public class AttackGeneral {
                         contciclo++;
                     }
                     try{
-                        r.getMovement(m,first,movemeafter);
-                    } catch (InvalidDirectionException e){}
+                        r.movement(m,first.getID(),movemeafter,false,false);        //TODO
+                    } catch (InvalidDirectionException e){} catch (NotYourTurnException e) {
+                        e.printStackTrace();
+                    } catch (ActionNotAllowedException e) {
+                        e.printStackTrace();
+                    }
                     moveme=0;
                 }
                 if(moveyou!=0)
@@ -537,8 +561,12 @@ public class AttackGeneral {
                         contciclo++;
                     }
                     try{
-                        r.getMovement(m,second,movethemafter);
-                    } catch (InvalidDirectionException e){}
+                        r.movement(m,second.getID(),movethemafter,false,false);     //TODO
+                    } catch (InvalidDirectionException e){} catch (NotYourTurnException e) {
+                        e.printStackTrace();
+                    } catch (ActionNotAllowedException e) {
+                        e.printStackTrace();
+                    }
                     moveyou=0;
                 }
             }

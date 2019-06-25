@@ -1,6 +1,5 @@
 package client;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -120,10 +119,10 @@ public class CLIView implements View {
         //TODO: STAMPARE LE INFO NECESSARIE PER SCEGLIERE
         // EX: CELLA IN CUI SI TROVA IL GIOCATORE COSA CONTIENE!
         printOut("0. Run");
-        printOut("1. Grab");
+        printOut("1. Grab in this Cell");
         printOut("2. Shoot");
-        printOut("3. Grab with movement");
-        printOut("4. Shoot with movement");
+        printOut("3. Run & Grab");
+        printOut("4. Run & Shoot");
         printOut("5. recharge");
         requestedAction = getData.getInt(0, 5);
         //Salvo l'azione selezionata, in modo da agire diversamente nel caso si tratti di una Grab o una Grab with *
@@ -145,12 +144,12 @@ public class CLIView implements View {
 
     @Override
     public void chooseDiscardWeapon() {
-        int indexWeapon;
+        int indexWeaponToDiscard;
         if(getData.askYesOrNo()){
             showPlayerWeapons();
             printOut("Which Weapon do you want to discard?");
-            indexWeapon=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getNumberWeapon())-1;
-            Message message=new WeaponDiscardToGrabClientRequest(Integer.toString(indexWeapon),client.getUserID());
+            indexWeaponToDiscard=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getNumberWeapon())-1;
+            Message message=new CardToWeaponGrabClientRequest(Integer.toString(indexSelectedWeapon),Integer.toString(indexWeaponToDiscard),client.getUserID());
             client.sendMessage(message);
         }
         else{
@@ -174,9 +173,7 @@ public class CLIView implements View {
 
     @Override
     public void askUsePowToGrabWeapon() {
-        int indexWeapon;
         int indexPowCard;
-        printOut("Answer 'Yes' or 'No'");
         if(getData.askYesOrNo()){
             //Non chiedo nuovamente l'arma e sfrutto informazione salvata precedentemente
             /*
@@ -186,7 +183,7 @@ public class CLIView implements View {
             showPlayerPows();
             printOut("Which pow card do you want to use to grab Weapon?");
             indexPowCard=getData.getInt(1,getNumberOfPow())-1;
-            Message message=new PowToWeaponGrabClientRequest(Integer.toString(indexSelectedWeapon),Integer.toString(indexPowCard),client.getUserID());
+            Message message=new CardToWeaponGrabClientRequest(Integer.toString(indexSelectedWeapon),Integer.toString(indexPowCard),client.getUserID());
             client.sendMessage(message);
         }
         else{

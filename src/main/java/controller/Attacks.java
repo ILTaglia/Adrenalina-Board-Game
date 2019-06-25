@@ -1,6 +1,8 @@
 package controller;
 
+import exceptions.ActionNotAllowedException;
 import exceptions.InvalidDirectionException;
+import exceptions.NotYourTurnException;
 import model.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,11 +87,15 @@ public class Attacks {
         Run r = new Run();
         try
         {
-            r.getMovement(m,p,direction);
+            r.movement(m,p.getID(),direction,false,false);  //TODO:verifica
         }
         catch (InvalidDirectionException e)
         {
 
+        } catch (NotYourTurnException e) {
+            e.printStackTrace();
+        } catch (ActionNotAllowedException e) {
+            e.printStackTrace();
         }
     }
 

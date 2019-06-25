@@ -15,9 +15,8 @@ public abstract class Action {
     * you can move of two passes if you have more than five damages, but the player can choose to move of just one (north for example),
     * then it will call the method of the class with (..., "N", "Zero")*/
     //TODO
-    public Action(){
-    }
 
+    //TODO: getDirection lo lasciamo nella Action generica o è più specifico?
     public int getDirection(String direction) throws InvalidDirectionException{
         int d;
         if(direction.equals("N")) d=0;
@@ -28,8 +27,19 @@ public abstract class Action {
         return d;
     }
 
-    public boolean isValid(Match match){
-        int index=-1;
+    //TODO: Verificare isValid generico
+    public boolean isValid(Match match,String userID) {
+        if(!match.getActivePlayer().getID().equals(userID)) {
+            return false;
+        }
+        else if(match.getActivePlayer().getAction()>2){
+            return false;
+        }
+        else{
+            return true;
+        }
+        /*
+        Mi pare che questo ciclo faccia una verifica inutile, riporto solo la parte in cui si verifica se il numero di azioni è
         for(int i=0; i<match.getPlayersSize(); i++){
             if(match.getPlayerByIndex(i).getActive()){
                 index=i;
@@ -42,11 +52,13 @@ public abstract class Action {
                 if(action1>2 || action1<0) return false;
             }
         }
+        Questo secondo ciclo non so capisco cosa voglia verificare, mi sembra restituisca false se un giocatore diverso dall'attuale ha n azioni ≠0
         for(int i=0; i<match.getPlayersSize(); i++){
             if(match.getPlayerByIndex(i)!=match.getPlayerByIndex(index)){
                 if(match.getPlayerByIndex(i).getAction()!=0) return false;
             }
         }
        return true;
+       */
     }
 }

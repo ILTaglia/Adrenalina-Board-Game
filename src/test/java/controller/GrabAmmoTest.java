@@ -18,7 +18,7 @@ public class GrabAmmoTest {
     Player player2;
     Player player3;
     GrabAmmo grabammo;
-
+    /*
     @Before
     public void setUp() throws Exception {
         match = new Match();
@@ -87,4 +87,5 @@ public class GrabAmmoTest {
         assertEquals(2, player1.getAmmo(2));
         assertEquals(2, player1.getNumberPow());
     }
+    */
 }

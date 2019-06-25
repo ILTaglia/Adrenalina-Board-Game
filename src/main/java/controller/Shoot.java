@@ -1,5 +1,6 @@
 package controller;
 
+import exceptions.NotYourTurnException;
 import model.Player;
 import model.Weapon;
 import model.Match;
@@ -28,36 +29,13 @@ public class Shoot extends Action {
         player.setAction();
     }
 
-    public boolean movementBeforeShoot(Match m, Player player, List<String> destination){
-        if(this.isValidMovement(m, player, destination)) {
-            Run r = new Run();
-            try{
-                r.getMovement(m, player, destination);
-                return true;
-            } catch(InvalidDirectionException e){}
-        }
-        return false;
-    }
-
-    public boolean isValidMovement(Match match, Player player, List<String> destination) {
-        if (!(player.getTotalDamage()>5 && destination.size()<2)) return false;
-        else {
-            Run r = new Run();
-            int x = player.getCel().getX();
-            int y = player.getCel().getY();
-            if(r.isValid(match, player, x, y, destination)) return true;
-            else return false;
-        }
-    }
-
     //To choose which weapon use, the index of weapon in the array of the player weapons will be used
-    public boolean isValid(Match match, Player player, Player attackedplayer, List<String> destination, int indexWeapon) {
+    public boolean isValid(Match match,String userID, Player attackedplayer, List<String> destination, int indexWeapon) {
         if(indexWeapon<0 || indexWeapon>2) return false;
-        if(!this.isValidMovement(match, player, destination) && !destination.isEmpty()) return false;
         else {
             //If the player choose a weapon but it doesn't own it
-            Weapon w = player.getWeaponByIndex(indexWeapon);
-            if (!player.weaponIspresent(w)) return false;
+            Weapon w = match.getActivePlayer().getWeaponByIndex(indexWeapon);
+            if (!match.getActivePlayer().weaponIspresent(w)) return false;
             else return true;
         }
     }

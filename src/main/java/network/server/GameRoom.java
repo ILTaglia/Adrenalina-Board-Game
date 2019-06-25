@@ -113,8 +113,8 @@ public class GameRoom {
         gameController.performWeaponGrabWithPowCard(userID,indexWeapon,indexPowCard);
     }
 
-    public void discardWeaponCardToGrab(String userID, int indexWeapon) {
-        gameController.discardWeaponCardToGrab(userID,indexWeapon);
+    public void discardWeaponCardToGrab(String userID, int indexWeaponToGrab,int indexWeaponToDiscard) {
+        gameController.discardWeaponCardToGrab(userID,indexWeaponToGrab,indexWeaponToDiscard);
     }
 
     public void discardPowCard(String userID, int indexPowCard) {

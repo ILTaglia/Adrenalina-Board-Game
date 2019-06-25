@@ -1,5 +1,4 @@
 package controller;
-import client.View;
 import exceptions.*;
 import model.*;
 import network.messages.*;
@@ -10,12 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.NotifyClient.*;
+import static utils.printStream.printOut;
 
 public class Game{
 
     private Match match;
     private ManagingWeapons manageWeapon;
     private GameRoom gameRoom;      //CAPIRE SE USARE QUESTO O PREFERIRE LAVORARE DIRETTAMENTE CON NotifyClient
+    private boolean isMovementBeforeGrab;
+    private boolean isMovementBeforeShoot;
+
     public Game(GameRoom gameRoom){
         this.gameRoom=gameRoom;
         this.match = new Match();
@@ -99,7 +102,6 @@ public class Game{
         if(!match.getActivePlayer().getID().equals(userID)){
             Message message=new ActionError("Not your turn");
             gameRoom.sendErrorMessage(userID,message);
-            askAction();        //TODO: verificare che metodo chiamare
         }
     }
 
@@ -110,12 +112,12 @@ public class Game{
     /*
     Le possibili azioni sono:
     0. Run
-    1. Grab
+    1. Grab in this Cell
     2. Shoot
-    3. Grab with movement
-    4. Shoot with movement
-    5. recharge*/
-
+    3. Run & Grab
+    4. Run & Shoot
+    5. recharge
+    */
     public void performAction(String userID, int chosenAction) {
         checkUserAction(userID);
         switch(chosenAction) {
@@ -123,7 +125,7 @@ public class Game{
                 this.askRun();
                 break;
             case (1):
-                this.selectGrab();
+                this.selectGrab(userID);
                 break;
             case (2):
                 //Richiesta al giocatore con arma con cui vuole attaccare
@@ -138,29 +140,12 @@ public class Game{
                 //TODO LE ARMIIIII
                 break;*/
             case (3):
-                /*Grabbing with movement*/
-                /*
-                List<String> destination2 = view.getListDirection();
-                GrabAmmo grabAmmo = new GrabAmmo();
-                if (!grabAmmo.movementBeforeGrab(match, match.getActivePlayer(), destination2)) {
-                    printStream.println("You are not allowed to move this way.");
-                    return;
-                }
-                this.grab(view, counter);
-                */
+                this.askRun();
+                isMovementBeforeGrab=true;
                 break;
             case (4):
-                /*
-                List<String> destination3 = view.getListDirection();
-                Shoot shoot = new Shoot();
-                if (!shoot.movementBeforeShoot(match, match.getActivePlayer(), destination3)) {
-                    printStream.println("You are not allowed to move this way.");
-                    return;
-                }
-                //controllo di validità movimento già fatto, mancano solo gli effetti arma
-                this.shoot();
-                //TODO LE ARMIIIII
-                */
+                this.askRun();
+                isMovementBeforeShoot=true;
                 break;
             case (5):
                 this.recharge();
@@ -181,25 +166,33 @@ public class Game{
         /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
          * the player can take an other action*/
         //Sequenza ricevuta dall'utente via Evento di rete
-        checkUserAction(userID);
         Run run = new Run();
         try{
-            run.getMovement(match, match.getActivePlayer(), destination);
-            if(1==1){   //Se il messaggio ricevuto è una richiesta di Run + .., effettuo la Run poi chiamo altro metodo per Grab o per la Shoot
-
+            run.movement(match,userID,destination,isMovementBeforeGrab,isMovementBeforeShoot);   //Controllo all'interno del metodo se la movement sia valida o meno, se non lo è lancio eccezione
+            if(isMovementBeforeGrab){
+                selectGrab(userID);
+            }
+            if(isMovementBeforeShoot){
+                this.shoot();
             }
             run.registerMovementAction(match);
             //In caso di successo dell'azione aumento di 1 la variabile azione del Player
             //match.getActivePlayer().setAction(); già fatto nel metodo
             //Chiamo metodo per la gestione della successiva azione
             nextStep();
-        } catch(InvalidDirectionException e){           //TODO: migliorare eccezione con motivo dell'errore
+        } catch(InvalidDirectionException e){           //migliorare eccezione con motivo dell'errore
             Message errorMessage=new RunError("Invalid Direction. Choose an other direction");
             gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+        } catch (NotYourTurnException e) {
+            Message message=new ActionError("Not your turn");
+            gameRoom.sendErrorMessage(userID,message);
+        } catch (ActionNotAllowedException e) {
+            Message message=new ActionError(e.getMessage());
+            gameRoom.sendErrorMessage(userID,message);
         }
     }
 
-    private void selectGrab(){
+    private void selectGrab(String userID){
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
         if(match.getActivePlayer().getCel().inmap(match.getDashboard(), x, y).getType()==0){
@@ -207,13 +200,14 @@ public class Game{
             /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
              * if he wants to discardWeapon one of them, and in positive case he chooses which one to discardWeapon, then the selected one
              * is added to his weapon cards*/
-            this.checkWeaponGrab();
+            this.askWeaponGrab();
         }
         else {
             //this is not a SpawnPoint cell
-            this.grabAmmoTile();
+            this.grabAmmoTile(userID);
         }
     }
+    /*
     private void checkWeaponGrab(){
         GrabWeapon grabWeapon = new GrabWeapon();
         try {
@@ -223,18 +217,7 @@ public class Game{
             askToDiscardWeaponCard();
         }
     }
-
-    private void askToDiscardWeaponCard() {
-        Message errorMessage=new MaxWeaponCardError("You have already three Weapon Card, you can discard one");
-        gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
-    }
-
-    public void discardWeaponCardToGrab(String userID, int indexWeapon) {
-        checkUserAction(userID);
-        manageWeapon.discardWeapon(match.getActivePlayer(),indexWeapon);
-        askWeaponGrab();
-    }
-
+    */
     private void askWeaponGrab(){
         gameRoom.askWeaponGrab(match.getActivePlayer().getID());
     }
@@ -242,6 +225,9 @@ public class Game{
     public void performWeaponGrab(String userID,int indexWeapon){
         checkUserAction(userID);
         GrabWeapon grabWeapon = new GrabWeapon();
+        if(!grabWeapon.isValid(match,userID)){
+            askToDiscardWeaponCard();
+        }
         if(!manageWeapon.areEnoughAmmoToGrabWeapon(match.getActivePlayer(),getWeaponToGrabCost(indexWeapon))){
             // case if you don't have enough ammos and you want to convert a PowCard
             askWeaponGrabWithPowCard();
@@ -257,6 +243,15 @@ public class Game{
         }
     }
 
+    private void askToDiscardWeaponCard() {
+        Message errorMessage=new MaxWeaponCardError("You have already three Weapon Card, you can discard one to Grab a new one");
+        gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+    }
+
+    public void discardWeaponCardToGrab(String userID, int indexWeaponToGrab,int indexWeaponToDiscard) {
+        manageWeapon.discardWeapon(match.getActivePlayer(),indexWeaponToDiscard);
+        performWeaponGrab(userID,indexWeaponToGrab);
+    }
 
     private void askWeaponGrabWithPowCard(){
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
@@ -285,15 +280,18 @@ public class Game{
         return cell.getSpawnPointCellWeapons().get(indexWeapon).returnPrice();
     }
 
-    private void grabAmmoTile(){
+    private void grabAmmoTile(String userID){
         GrabAmmo grabAmmo = new GrabAmmo();
         try{
-            grabAmmo.grabAmmo(match, match.getActivePlayer());
+            grabAmmo.grabAmmo(match, userID);
             nextStep();
         } catch(MaxNumberofCardsException exc){
             askToDiscardPowCard();
         } catch (CardAlreadyCollectedException e) {
             //TODO GESTIONE ERRORE
+        } catch (NotYourTurnException e) {
+            Message message=new ActionError("Not your turn");
+            gameRoom.sendErrorMessage(userID,message);
         }
     }
 
@@ -325,7 +323,7 @@ public class Game{
         try{
             manageWeapon.recharge(match.getActivePlayer(), weaponToRecharge);
         } catch(WeaponAlreadyLoadedException e){
-            System.out.println("You have already loaded this weapon");
+            printOut("You have already loaded this weapon");
         }
     }
 
