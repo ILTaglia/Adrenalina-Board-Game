@@ -7,6 +7,8 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static utils.printStream.printOut;
+
 public class GetData {
     //private InputStreamReader reader= new InputStreamReader(System.in);
     //private BufferedReader input = new BufferedReader(reader);
@@ -126,6 +128,7 @@ public class GetData {
     }
     //This method return true if the answer is Yes, false otherwise
     public boolean askYesOrNo(){
+        printOut("Answer 'Yes' or 'No'");
         String answer;
         do{
             answer = input.nextLine();

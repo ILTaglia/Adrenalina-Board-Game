@@ -185,6 +185,9 @@ public class Game{
         Run run = new Run();
         try{
             run.getMovement(match, match.getActivePlayer(), destination);
+            if(1==1){   //Se il messaggio ricevuto è una richiesta di Run + .., effettuo la Run poi chiamo altro metodo per Grab o per la Shoot
+
+            }
             run.registerMovementAction(match);
             //In caso di successo dell'azione aumento di 1 la variabile azione del Player
             //match.getActivePlayer().setAction(); già fatto nel metodo
@@ -314,7 +317,7 @@ public class Game{
     private void shoot(){
 
     }
-
+    //TODO: Quando è lecita la recharge?
     private void recharge(){
         /*recharge a weapon checking if the weapon is already loaded*/
         System.out.println("Which weapon do you want to recharge?");
@@ -326,20 +329,6 @@ public class Game{
         }
     }
 
-
-    //TODO bisogna sostituire le print con dei messaggi per la comunicazione tra client e server
-    public void play(Match match, View view){
-        int counter=0;
-        int choice;
-        while(counter<2){
-
-            }
-
-        view.printMap();
-        System.out.println(match.getActivePlayer().getName()+" you have ended your turn.");
-
-        //view.printPlayerData();
-    }
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
 

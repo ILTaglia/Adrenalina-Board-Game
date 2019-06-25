@@ -13,15 +13,20 @@ import network.client.Client;
 import network.messages.clientRequest.PowCardDiscardClientRequest;
 import utils.*;
 
+import static utils.printStream.printOut;
+
 public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private static PrintStream printStream=System.out;
     private Client client;
     private GetData getData=new GetData();
 
     //TODO: sostituire System.out con printStream
 
     //TODO: Serve un metodo che stampi le AmmoCard prima della raccolta per rendere noto ciò che contengono!
+
+    //Indici provvisori, verificare se possibile lasciarli. Servono per memorizzare delle scelte da parte dell'utente.
+    private int indexSelectedWeapon;
+    private int requestedAction;
 
 
     public CLIView(Client client){
@@ -41,7 +46,7 @@ public class CLIView implements View {
 
     @Override
     public void setConnection(){
-        printStream.println("Scegliere quale tipologia di connessione utilizzare:\t\n" +
+        printOut("Scegliere quale tipologia di connessione utilizzare:\t\n" +
                 "1. RMI" +
                 "2. Socket");
         int connectionChoice=getData.getInt(1, 2);
@@ -58,7 +63,7 @@ public class CLIView implements View {
 
     @Override
     public void login(){
-        printStream.println("Digitare proprio username:");
+        printOut("Digitare proprio username:");
         String user=getData.getName();
         client.requestToWR(user);
     }
@@ -71,13 +76,13 @@ public class CLIView implements View {
 
     @Override
     public void showException(String message) {
-        printStream.println(message);
+        printOut(message);
     }
 
 
     @Override
     public void showInfoMessage(Message message){
-        printStream.println("Message received:" + message.getInfo());
+        printOut("Message received:" + message.getInfo());
 
     }
 
@@ -89,22 +94,22 @@ public class CLIView implements View {
 
     @Override
     public void createPlayer(){
-        printStream.println("Digitare proprio colore:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
+        printOut("Digitare proprio colore:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
         String colorRequired=getData.getValidColorForPlayer();
         ColorClientRequest colorRequest=new ColorClientRequest(colorRequired,client.getUserID());
-        printStream.println("Your required the color: "+ colorRequired);
+        printOut("Your required the color: "+ colorRequired);
         client.sendMessage(colorRequest);
     }
 
     @Override
     public void chooseMap() {
-        printStream.println("Mappa 1");
+        printOut("Mappa 1");
         this.printmap1();
-        printStream.println("Mappa 2");
+        printOut("Mappa 2");
         this.printmap2();
-        printStream.println("Mappa 3");
+        printOut("Mappa 3");
         this.printmap3();
-        printStream.println("Digitare mappa prescelta: 1, 2, 3");
+        printOut("Digitare mappa prescelta: 1, 2, 3");
         int choice = getData.getInt(1, 3);
         String mapRequired = Integer.toString(choice);
         Message mapRequest=new MapClientRequest(mapRequired,client.getUserID());
@@ -114,14 +119,15 @@ public class CLIView implements View {
     public void chooseAction(){
         //TODO: STAMPARE LE INFO NECESSARIE PER SCEGLIERE
         // EX: CELLA IN CUI SI TROVA IL GIOCATORE COSA CONTIENE!
-        printStream.println("0. Run");
-        printStream.println("1. Grab");
-        printStream.println("2. Shoot");
-        printStream.println("3. Grab with movement");
-        printStream.println("4. Shoot with movement");
-        printStream.println("5. recharge");
-        int choice = getData.getInt(0, 5);
-        String indexAction = Integer.toString(choice);
+        printOut("0. Run");
+        printOut("1. Grab");
+        printOut("2. Shoot");
+        printOut("3. Grab with movement");
+        printOut("4. Shoot with movement");
+        printOut("5. recharge");
+        requestedAction = getData.getInt(0, 5);
+        //Salvo l'azione selezionata, in modo da agire diversamente nel caso si tratti di una Grab o una Grab with *
+        String indexAction = Integer.toString(requestedAction);
         Message actionRequest=new ActionClientRequest(indexAction,client.getUserID());
         client.sendMessage(actionRequest);
     }
@@ -131,7 +137,7 @@ public class CLIView implements View {
         List<String> direction;
         do{
             direction=getData.getValidListDirectionForPlayer();
-            if(direction.isEmpty()) printStream.println("You need to choose at least one direction.");
+            if(direction.isEmpty()) printOut("You need to choose at least one direction.");
         }while(direction.isEmpty());
         Message message=new RunClientRequest(direction,client.getUserID());
         client.sendMessage(message);
@@ -140,16 +146,15 @@ public class CLIView implements View {
     @Override
     public void chooseDiscardWeapon() {
         int indexWeapon;
-        printStream.println("Answer 'Yes' or 'No'");
         if(getData.askYesOrNo()){
             showPlayerWeapons();
-            printStream.println("Which Weapon do you want to discard?");
+            printOut("Which Weapon do you want to discard?");
             indexWeapon=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getNumberWeapon())-1;
             Message message=new WeaponDiscardToGrabClientRequest(Integer.toString(indexWeapon),client.getUserID());
             client.sendMessage(message);
         }
         else{
-            printStream.println("You can't have more than three Weapon Card. Choose an other Action");
+            printOut("You can't have more than three Weapon Card. Choose an other Action");
             chooseAction();
         }
     }
@@ -158,12 +163,12 @@ public class CLIView implements View {
 
     @Override
     public  void chooseWeaponToGrab(){
-        int indexWeapon;
         showSpawnPointWeapons();
         showPlayerAmmos();
-        printStream.println("Which Weapon do you want to grab?");
-        indexWeapon=getData.getInt(1,3)-1;       //TODO: controllare
-        Message message=new WeaponGrabClientRequest(Integer.toString(indexWeapon),client.getUserID());
+        printOut("Which Weapon do you want to grab?");
+        //Salvo informazione dell'arma scelta, nel caso
+        indexSelectedWeapon=getData.getInt(1,3)-1;       //TODO: controllare
+        Message message=new WeaponGrabClientRequest(Integer.toString(indexSelectedWeapon),client.getUserID());
         client.sendMessage(message);
     }
 
@@ -171,18 +176,21 @@ public class CLIView implements View {
     public void askUsePowToGrabWeapon() {
         int indexWeapon;
         int indexPowCard;
-        printStream.println("Answer 'Yes' or 'No'");
+        printOut("Answer 'Yes' or 'No'");
         if(getData.askYesOrNo()){
+            //Non chiedo nuovamente l'arma e sfrutto informazione salvata precedentemente
+            /*
             printStream.println("Which Weapon do you want to grab?");       //TODO: mettere un campo per memorizzare eventuali informazioni di questo tipo?
             indexWeapon=getData.getInt(0,2);
+            */
             showPlayerPows();
-            printStream.println("Which pow card do you want to use to grab Weapon?");
+            printOut("Which pow card do you want to use to grab Weapon?");
             indexPowCard=getData.getInt(1,getNumberOfPow())-1;
-            Message message=new PowToWeaponGrabClientRequest(Integer.toString(indexWeapon),Integer.toString(indexPowCard),client.getUserID());
+            Message message=new PowToWeaponGrabClientRequest(Integer.toString(indexSelectedWeapon),Integer.toString(indexPowCard),client.getUserID());
             client.sendMessage(message);
         }
         else{
-            printStream.println("If you don't want to grab this Weapon you can choose an other action");
+            printOut("If you don't want to grab this Weapon you can choose an other action");
             chooseAction();
             //TODO: richiamo la richiesta di azione o chiedo un altro Weapon?
         }
@@ -193,16 +201,15 @@ public class CLIView implements View {
     @Override
     public void chooseDiscardPowCard() {
         int indexPowCard;
-        printStream.println("Answer 'Yes' or 'No'");
         if(getData.askYesOrNo()){
             showPlayerPows();
-            printStream.println("Which PowCard do you want to discard?");
+            printOut("Which PowCard do you want to discard?");
             indexPowCard=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getNumberPow())-1;
             Message message=new PowCardDiscardClientRequest(Integer.toString(indexPowCard),client.getUserID());
             client.sendMessage(message);
         }
         else{
-            printStream.println("You can't have more than three PowCard. You can't draw new PowCard.\n");
+            printOut("You can't have more than three PowCard. You can't draw new PowCard.\n");
             //Non chiedo ulteriori info perchè il Player comunque ha raccolto e ha accettato di non prendere la PowCard.
         }
     }
@@ -218,39 +225,23 @@ public class CLIView implements View {
     public void chooseStartingCell(){
         List<Integer> coordinate;
         int powIndex;
-        printStream.println("\nSelect the SpawnPoint cell where you want to start. Write number of line, then column.");
-        printStream.println("There are three SpawnPoint cells in the game:");
-        printStream.println("Line 0, column 2 - Blue cell");
-        printStream.println("Line 1, column 0 - Red cell");
-        printStream.println("Line 2, column 3 - Yellow cell");
-        printStream.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
+        printOut("\nSelect the SpawnPoint cell where you want to start. Write number of line, then column.");
+        printOut("There are three SpawnPoint cells in the game:");
+        printOut("Line 0, column 2 - Blue cell");
+        printOut("Line 1, column 0 - Red cell");
+        printOut("Line 2, column 3 - Yellow cell");
+        printOut("You have these PowCards, choose with the color of one of them the spawn point cell:");
         this.showPlayerPowWithColors();
-        printStream.println("Insert: \nLine (Enter)\nColumn (Enter)\nNumber PowCard to use (Enter)\n");
+        printOut("Insert: \nLine (Enter)\nColumn (Enter)\nNumber PowCard to use (Enter)\n");
         coordinate=getData.getCoordinate(0,2,0,3);
         while(!((coordinate.get(0)==0 && coordinate.get(1)==2)||(coordinate.get(0)==1&&coordinate.get(1)==0)||(coordinate.get(0)==2 && coordinate.get(1)==3))){
-            printStream.println("Not a valid SpawnPoint\n");
+            printOut("Not a valid SpawnPoint\n");
             coordinate=getData.getCoordinate(0,2,0,3);
         }
         powIndex = getData.getInt(1, 2);
         powIndex--;
         Message message=new SpawnPointClientRequest(coordinate.get(0),coordinate.get(1),powIndex,client.getUserID());
         client.sendMessage(message);
-
-        /*
-        int flag=0;
-        while(flag==0){
-            try{
-                //game.firstTurn(p, powindex, x, y);
-                flag=1;
-            } catch(InvalidColorException e){
-                printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
-                x= getData.getInt(0, 2);
-                y= getData.getInt(0, 3);
-                powindex = getData.getInt(1, 2);
-                powindex--;}
-        }
-        this.showPlayerPows();
-        */
     }
 
 
@@ -260,10 +251,10 @@ public class CLIView implements View {
      **********************************************************
      */
     @Override
-    public void welcomeMessage(int idClient) { printStream.println("START."); }
+    public void welcomeMessage(int idClient) { printOut("START."); }
 
     @Override
-    public void endMessage() { printStream.println("GAME OVER."); }
+    public void endMessage() { printOut("GAME OVER."); }
 
     @Override
     public void printMap() {
@@ -311,31 +302,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.printf(" _________________________________________________                 \n");
-        printStream.printf("|      Blue      |       Blue     |     Blue      |                \n");
-        printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
-        printStream.printf("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    \n");
-        printStream.printf("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    \n");
-        printStream.printf("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    \n");
-        printStream.printf("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    \n");
-        printStream.printf("|                |                |   SpawnPoint  |                \n");
-        printStream.printf("|_______| |______|________________|______| |______|_______________ \n");
-        printStream.printf("|      Red       |      Red       |      Red      |    Yellow     |\n");
-        printStream.printf("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.printf("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |\n");
-        printStream.printf("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |\n");
-        printStream.printf("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.printf("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.printf("|   SpawnPoint   |                |               |               |\n");
-        printStream.printf("|________________|______| |_______|_______________|_______________|\n");
-        printStream.printf("                 |      Grey      |      Grey     |    Yellow     |\n");
-        printStream.printf("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.printf("     "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |\n");
-        printStream.printf("     "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |\n");
-        printStream.printf("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.printf("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.printf("                 |                |               |   SpawnPoint  |\n");
-        printStream.printf("                 |________________|_______________|_______________|\n");
+        printOut(" _________________________________________________                 \n");
+        printOut("|      Blue      |       Blue     |     Blue      |                \n");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
+        printOut("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    \n");
+        printOut("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    \n");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    \n");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    \n");
+        printOut("|                |                |   SpawnPoint  |                \n");
+        printOut("|_______| |______|________________|______| |______|_______________ \n");
+        printOut("|      Red       |      Red       |      Red      |    Yellow     |\n");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |\n");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |\n");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
+        printOut("|   SpawnPoint   |                |               |               |\n");
+        printOut("|________________|______| |_______|_______________|_______________|\n");
+        printOut("                 |      Grey      |      Grey     |    Yellow     |\n");
+        printOut("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
+        printOut("     "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |\n");
+        printOut("     "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |\n");
+        printOut("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
+        printOut("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
+        printOut("                 |                |               |   SpawnPoint  |\n");
+        printOut("                 |________________|_______________|_______________|\n");
     }
     private void printmap2(){
         String[][] map = new String[3][4];
@@ -374,31 +365,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.printf(" _________________________________________________________________ \n");
-        printStream.printf("|      Blue      |       Blue     |     Blue      |   Green       |\n");
-        printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
-        printStream.printf("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |\n");
-        printStream.printf("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |\n");
-        printStream.printf("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |\n");
-        printStream.printf("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |\n");
-        printStream.printf("|                |                |   SpawnPoint  |               |\n");
-        printStream.printf("|______| |_______|________________|______| |______|______| |______|\n");
-        printStream.printf("|      Red       |      Red       |     Yellow    |    Yellow     |\n");
-        printStream.printf("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.printf("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |\n");
-        printStream.printf("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |\n");
-        printStream.printf("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.printf("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.printf("|   SpawnPoint   |                |               |               |\n");
-        printStream.printf("|________________|______| |_______|_______________|_______________|\n");
-        printStream.printf("                 |      Grey      |     Yellow    |    Yellow     |\n");
-        printStream.printf("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.printf("     "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
-        printStream.printf("     "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
-        printStream.printf("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.printf("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.printf("                 |                |               |   SpawnPoint  |\n");
-        printStream.printf("                 |________________|_______________|_______________|\n");
+        printOut(" _________________________________________________________________ \n");
+        printOut("|      Blue      |       Blue     |     Blue      |   Green       |\n");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
+        printOut("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |\n");
+        printOut("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |\n");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |\n");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |\n");
+        printOut("|                |                |   SpawnPoint  |               |\n");
+        printOut("|______| |_______|________________|______| |______|______| |______|\n");
+        printOut("|      Red       |      Red       |     Yellow    |    Yellow     |\n");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |\n");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |\n");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
+        printOut("|   SpawnPoint   |                |               |               |\n");
+        printOut("|________________|______| |_______|_______________|_______________|\n");
+        printOut("                 |      Grey      |     Yellow    |    Yellow     |\n");
+        printOut("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
+        printOut("     "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
+        printOut("     "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
+        printOut("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
+        printOut("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
+        printOut("                 |                |               |   SpawnPoint  |\n");
+        printOut("                 |________________|_______________|_______________|\n");
     }
     private void printmap3(){
         String[][] map = new String[3][4];
@@ -437,31 +428,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.printf(" _________________________________________________________________ \n");
-        printStream.printf("|      Red       |       Blue     |     Blue      |   Green       |\n");
-        printStream.printf("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
-        printStream.printf("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |\n");
-        printStream.printf("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |\n");
-        printStream.printf("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |\n");
-        printStream.printf("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |\n");
-        printStream.printf("|                |                |   SpawnPoint  |               |\n");
-        printStream.printf("|________________|______| |_______|______| |______|______| |______|\n");
-        printStream.printf("|      Red       |     Pink       |     Yellow    |    Yellow     |\n");
-        printStream.printf("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.printf("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |\n");
-        printStream.printf("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |\n");
-        printStream.printf("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.printf("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.printf("|   SpawnPoint   |                |               |               |\n");
-        printStream.printf("|______| |_______|______| |_______|_______________|_______________|\n");
-        printStream.printf("|      Grey      |      Grey      |     Yellow    |    Yellow     |\n");
-        printStream.printf("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.printf("|    "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
-        printStream.printf("|    "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
-        printStream.printf("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.printf("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.printf("|                |                |               |   SpawnPoint  |\n");
-        printStream.printf("|________________|________________|_______________|_______________|\n");
+        printOut(" _________________________________________________________________ \n");
+        printOut("|      Red       |       Blue     |     Blue      |   Green       |\n");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
+        printOut("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |\n");
+        printOut("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |\n");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |\n");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |\n");
+        printOut("|                |                |   SpawnPoint  |               |\n");
+        printOut("|________________|______| |_______|______| |______|______| |______|\n");
+        printOut("|      Red       |     Pink       |     Yellow    |    Yellow     |\n");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |\n");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |\n");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
+        printOut("|   SpawnPoint   |                |               |               |\n");
+        printOut("|______| |_______|______| |_______|_______________|_______________|\n");
+        printOut("|      Grey      |      Grey      |     Yellow    |    Yellow     |\n");
+        printOut("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
+        printOut("|    "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
+        printOut("|    "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
+        printOut("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
+        printOut("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
+        printOut("|                |                |               |   SpawnPoint  |\n");
+        printOut("|________________|________________|_______________|_______________|\n");
     }
 
 
@@ -469,11 +460,11 @@ public class CLIView implements View {
     @Override
     public void showPlayerWeapons() {
         List<Weapon> weaponcards = client.getPlayerVisibleData().getPlayer().getWeapons();
-        if(!weaponcards.isEmpty()) printStream.println("Your Weapon Cards are: ");
-        else printStream.println("You have no Weapon Cards");
+        if(!weaponcards.isEmpty()) printOut("Your Weapon Cards are: ");
+        else printOut("You have no Weapon Cards");
         int i=1;
         for(Weapon weaponcard:weaponcards){
-            printStream.println(i+". "+weaponcard.getName());
+            printOut(i+". "+weaponcard.getName());
             i++;
         }
     }
@@ -482,11 +473,11 @@ public class CLIView implements View {
     @Override
     public void showPlayerPows() {
         List<PowCard> powcards = client.getPlayerVisibleData().getPlayer().getPows();
-        if(!powcards.isEmpty()) printStream.println("Your PowCards are: ");
-        else printStream.println("Your have no PowCards");
+        if(!powcards.isEmpty()) printOut("Your PowCards are: ");
+        else printOut("Your have no PowCards");
         int i=1;
         for(PowCard powcard:powcards){
-            printStream.println(i+". "+powcard.getName());
+            printOut(i+". "+powcard.getName());
             i++;
         }
     }
@@ -495,11 +486,11 @@ public class CLIView implements View {
     @Override
     public void showPlayerPowWithColors() {
         List<PowCard> powCards = client.getPlayerVisibleData().getPlayer().getPows();
-        printStream.println("Your PowCards are: ");
+        printOut("Your PowCards are: ");
         int i=1;
         for(PowCard powCard:powCards){
             //Spawn point cell are just blue, red and yellow. Check of validity is made in controller class.
-            printStream.println(i+". "+powCard.getName()+" with the color: "+ getData.getColorFromInt(powCard.getColor()));
+            printOut(i+". "+powCard.getName()+" with the color: "+ getData.getColorFromInt(powCard.getColor()));
             i++;
         }
     }
@@ -508,11 +499,11 @@ public class CLIView implements View {
     @Override
     public void showPlayerPowsForAttack(){
         List<PowCard> powcards = client.getPlayerVisibleData().getPlayer().getPows();
-        printStream.println("Player "+ client.getPlayerVisibleData().getPlayer().getName()+" your PowCards are: ");
+        printOut("Player "+ client.getPlayerVisibleData().getPlayer().getName()+" your PowCards are: ");
 
         int i=1;
         for(PowCard powcard:powcards){
-            printStream.println(i+". "+powcard.getName());
+            printOut(i+". "+powcard.getName());
             i++;
         }
     }
@@ -520,22 +511,22 @@ public class CLIView implements View {
     //Method to show the active player how many ammos he has
     @Override
     public void showPlayerAmmos(){
-        printStream.println("You have:");
-        printStream.println(client.getPlayerVisibleData().getPlayer().getAmmo(0)+" red Ammos");
-        printStream.println(client.getPlayerVisibleData().getPlayer().getAmmo(1)+" blue Ammos");
-        printStream.println(client.getPlayerVisibleData().getPlayer().getAmmo(2)+" yellow Ammos");
+        printOut("You have:");
+        printOut(client.getPlayerVisibleData().getPlayer().getAmmo(0)+" red Ammos");
+        printOut(client.getPlayerVisibleData().getPlayer().getAmmo(1)+" blue Ammos");
+        printOut(client.getPlayerVisibleData().getPlayer().getAmmo(2)+" yellow Ammos");
     }
 
     //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
     @Override
     //TODO da rivedere serve notificare a chi è attaccato
     public void notifyAttackedPlayer(Player attackedplayer){
-        printStream.println("Player "+attackedplayer.getName()+"you have being attacked. Do you want to use any Pow?");
-        printStream.println("0. Yes");
-        printStream.println("1. No");
+        printOut("Player "+attackedplayer.getName()+"you have being attacked. Do you want to use any Pow?");
+        printOut("0. Yes");
+        printOut("1. No");
         int choice=this.getData.getInt(-1, 1);
         if(choice!=-1){
-            printStream.println("Player "+attackedplayer.getName()+"which Pow do you want to use?");
+            printOut("Player "+attackedplayer.getName()+"which Pow do you want to use?");
             showPlayerPows();
             int numberOfPow=this.getData.getInt(-1, 2);
             if(numberOfPow!=-1){
@@ -543,7 +534,7 @@ public class CLIView implements View {
                 //TODO quale metodo per l'effetto del potenziamento
                 //TODO verifica che il potenziamento sia uno di quelli che si possono usare anche non durante il proprio turno
             }else{
-                printStream.println("You don't own this pow!");
+                printOut("You don't own this pow!");
             }
         }
     }
@@ -555,12 +546,12 @@ public class CLIView implements View {
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
         int y = client.getPlayerVisibleData().getPlayer().getCel().getY();
         SpawnPointCell cell = (SpawnPointCell)client.getPlayerVisibleData().getDashboard().getMap(x, y);
-        printStream.println("In the SpawnPoint Cell at line "+x+" and column "+y+" there are these Weapon Cards: ");
+        printOut("In the SpawnPoint Cell at line "+x+" and column "+y+" there are these Weapon Cards: ");
         List<Weapon> weapons = cell.getSpawnPointCellWeapons();
 
         int i=1;
         for(Weapon weapon:weapons){
-            printStream.println(i+". "+weapon.getName());
+            printOut(i+". "+weapon.getName());
             i++;
         }
     }
@@ -569,7 +560,7 @@ public class CLIView implements View {
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     @Override
     public int getWeaponCard(){
-        printStream.println("Which WeaponCard do you want to buy?");
+        printOut("Which WeaponCard do you want to buy?");
         int numberOfWeapon=0;
         List<Weapon> weaponcards=new ArrayList<>();
         int CardToBuy=-1;
@@ -582,10 +573,10 @@ public class CLIView implements View {
         }
 
         //Print of weapon cards with their index and price and money of the player
-        printStream.println("You have "+client.getPlayerVisibleData().getPlayer().getAmmo(0)+" red Ammos");
-        printStream.println("You have "+client.getPlayerVisibleData().getPlayer().getAmmo(1)+" blue Ammos");
-        printStream.println("You have "+client.getPlayerVisibleData().getPlayer().getAmmo(2)+" yellow Ammos");
-        printStream.println("Choose -1 not to buy.\n");
+        printOut("You have "+client.getPlayerVisibleData().getPlayer().getAmmo(0)+" red Ammos");
+        printOut("You have "+client.getPlayerVisibleData().getPlayer().getAmmo(1)+" blue Ammos");
+        printOut("You have "+client.getPlayerVisibleData().getPlayer().getAmmo(2)+" yellow Ammos");
+        printOut("Choose -1 not to buy.\n");
         int numberRedAmmos;
         int numberBlueAmmos;
         int numberYellowAmmos;
@@ -598,12 +589,12 @@ public class CLIView implements View {
             numberRedAmmos=price.get(0);
             numberBlueAmmos=price.get(1);
             numberYellowAmmos=price.get(2);
-            printStream.println(i+". "+weaponcards.get(i).getName()+" \nPrice:");
-            printStream.println(numberRedAmmos+" red Ammos");
+            printOut(i+". "+weaponcards.get(i).getName()+" \nPrice:");
+            printOut(numberRedAmmos+" red Ammos");
             nRedAmmos.add(numberRedAmmos);
-            printStream.println(numberBlueAmmos+" blue Ammos");
+            printOut(numberBlueAmmos+" blue Ammos");
             nBlueAmmos.add(numberBlueAmmos);
-            printStream.println(numberYellowAmmos+" yellow Ammos\n");
+            printOut(numberYellowAmmos+" yellow Ammos\n");
             nYellowAmmos.add(numberYellowAmmos);
         }
 
@@ -614,28 +605,28 @@ public class CLIView implements View {
                 nYellowAmmos.get(numberOfWeapon)<=client.getPlayerVisibleData().getPlayer().getAmmo(2)){
             CardToBuy= numberOfWeapon;
         }else{
-            printStream.println("You don't have enough money to buy this card!");
+            printOut("You don't have enough money to buy this card!");
         }
         return CardToBuy;
     }
 
     @Override
     public int getPowCard(){
-        printStream.println("Which PowCard do you want to use?");
+        printOut("Which PowCard do you want to use?");
         showPlayerPows();
         int numberOfPow=this.getData.getInt(-1, 2);
         if(numberOfPow!=-1){
             client.getPlayerVisibleData().getPlayer().getPowByIndex(numberOfPow).getLife();
             //TODO quale metodo per l'effetto del potenziamento
         }else{
-            printStream.println("You don't own this pow!");
+            printOut("You don't own this pow!");
         }
         return numberOfPow;
     }
 
     @Override
     public int getWeaponCardtoAttack(){
-        printStream.println("Which WeaponCard do you want to use?");
+        printOut("Which WeaponCard do you want to use?");
         showPlayerWeapons();
         int numberOfWeapon=this.getData.getInt(1, 3);
         return numberOfWeapon;
@@ -644,11 +635,11 @@ public class CLIView implements View {
     //Method to ask the direction for movement
     @Override
     public String getDirection(){
-        printStream.println("Which direction do you want to move for a single step? Write:");
-        printStream.println("'N' for north");
-        printStream.println("'E' for east");
-        printStream.println("'S' for south");
-        printStream.println("'W' for west");
+        printOut("Which direction do you want to move for a single step? Write:");
+        printOut("'N' for north");
+        printOut("'E' for east");
+        printOut("'S' for south");
+        printOut("'W' for west");
         return this.getData.getValidDirectionForPlayer();
     }
 
@@ -656,12 +647,12 @@ public class CLIView implements View {
     @Override
     public List<String> getListDirection(){
         List<String> destination = new ArrayList<>();
-        printStream.println("Write the sequence of movements you want to do:");
-        printStream.println("'N' for north");
-        printStream.println("'E' for east");
-        printStream.println("'S' for south");
-        printStream.println("'W' for west");
-        printStream.println("'Stop' to terminate");
+        printOut("Write the sequence of movements you want to do:");
+        printOut("'N' for north");
+        printOut("'E' for east");
+        printOut("'S' for south");
+        printOut("'W' for west");
+        printOut("'Stop' to terminate");
         String stop = "Stop";
 
         //Movements are maximum of three cells, so in three direction. In special movements for some actions there are restrictions
@@ -677,7 +668,7 @@ public class CLIView implements View {
     }
 
     @Override
-    public void printPlayerMove(){printStream.println("You have moved.");}
+    public void printPlayerMove(){printOut("You have moved.");}
 
     @Override
     public void printPlayerData() {
@@ -720,21 +711,21 @@ public class CLIView implements View {
     @Override
     //TODO
     public void printDamagedPlayer(int numberdamages, String attackerplayername){
-        printStream.println("You have received "+numberdamages+" damages by Player "+attackerplayername);
+        printOut("You have received "+numberdamages+" damages by Player "+attackerplayername);
     }
 
     //Method to advise the player he has been given marks
     @Override
     //TODO
     public void printMarkedPlayer(int numbermarks, String attackerplayername){
-        printStream.println("You have received "+numbermarks+" marks by Player "+attackerplayername);
+        printOut("You have received "+numbermarks+" marks by Player "+attackerplayername);
     }
 
     //Method to advise the player of the consequences of his attack
     @Override
     //TODO
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername){
-        printStream.println("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
+        printOut("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
     }
 
 
