@@ -85,24 +85,39 @@ public class Match implements Serializable {
                 }
             }
         }
-        InfoMatch message=new InfoMatch("Selected map "+ dashboard.getMapType() + " . Stampo di seguito:");
-        notifyAllClients(this,message);
         updateClientDashboard();
     }
-    private void fillSpawnPoint(SpawnPointCell cell) {
-        try {
-            int index;
-            for (index = 0; index < 3; index++) {
-                cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
-            }
-        } catch (FullCellException e) {
-            //This method fill the dashboard for the first time, this Exception is impossible
-        }
+    public void notifyNewMap() {
+        InfoMatch message=new InfoMatch("Selected map "+ dashboard.getMapType() + " . Stampo di seguito:");
+        notifyAllClients(this,message);
     }
+    private void fillSpawnPoint(SpawnPointCell cell) {
+            for (int index = 0; index < 3; index++) {
+                try {
+                    if (cell.getSpawnPointCellWeapons().get(index) == null) {
+                        cell.setWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                    }
+                }catch (IndexOutOfBoundsException e){
+                    try {
+                        cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                    } catch (FullCellException e1) {
+                        //Nothing to do
+                    }
+                }
+            }
+            //This method fill the dashboard for the first time, this Exception is impossible
+    }
+
 
     private void fillNormal(NormalCell cell) {
         try {
-            cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
+            if(cell.getAmmoCard()==null){
+                cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
+            }
+            else if(cell.getAmmoCard().getStatus()) {
+                ammoDeck.discardCard(cell.getAmmoCard());
+                cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
+            }
         } catch (FullCellException e) {
             //This method fill the dashboard for the first time, this Exception is impossible
         }
@@ -112,6 +127,23 @@ public class Match implements Serializable {
         Message infoMap = new DashboardData(this.dashboard);
         notifyAllClients(this, infoMap);
     }
+    public void updateEndAction() {
+        this.updateClientDashboard();
+
+    }
+    public void updateEndTurn() {
+        this.fillDashboard();
+        this.updateClientDashboard();
+        this.round++;
+    }
+
+
+
+    //TODO: messaggi per Match!!!!
+    public void assignScore(List<Integer> score){
+        for(int i=0; i<score.size(); i++){getPlayerByColor(i).setScore(score.get(i));}
+    }
+
     //________________________________________________________________________________________________________________//
     //metodo inizializzazione PowCard Player
     public void firstTurnPow() {
@@ -176,10 +208,6 @@ public class Match implements Serializable {
         }
         Message infoAmmo=new NewAmmo(ammo);
         notifySpecificClient(player.getID(),infoAmmo);
-    }
-
-    public void assignScore(List<Integer> score){
-        for(int i=0; i<score.size(); i++){getPlayerByColor(i).setScore(score.get(i));}
     }
 
     public void setPlayerCel(Player player, int x, int y) {

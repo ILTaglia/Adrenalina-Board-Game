@@ -561,13 +561,11 @@ public class CLIView implements View {
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
         int y = client.getPlayerVisibleData().getPlayer().getCel().getY();
         NormalCell cell = (NormalCell)client.getPlayerVisibleData().getDashboard().getMap(x, y);
-        List<String> ammos = cell.getAmmoCard();
-        if(ammos.size()==2){printOut("With this AmmoCard you can collect a PowCard");}
+        AmmoCard ammo = cell.getAmmoCard();
+        if(ammo.getType()==1){printOut("With this AmmoCard you can collect a PowCard");}
         printOut("In the Cell at line "+x+" and column "+y+" there is an Ammo Card that contains: ");
-        for(int i=0; i<ammos.size(); i++){
-            if(ammos.get(i)=="0"){printOut("Red Ammo");}
-            if(ammos.get(i)=="1"){printOut("Blue Ammo");}
-            if(ammos.get(i)=="2"){printOut("Yellow Ammo");}
+        for(int i=0; i<ammo.toString().length(); i++){
+            printOut("One "+getData.getColorFromInt(ammo.toString().charAt(i))+" ammo");
         }
     }
 

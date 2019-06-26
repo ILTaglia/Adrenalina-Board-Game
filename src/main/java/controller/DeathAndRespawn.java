@@ -10,12 +10,10 @@ import java.util.List;
 public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
     private int death;
-    private List<Integer> score;
 
     //calculateScore the points to give to players that made damages to the player
     public DeathAndRespawn(){
         this.death=0;
-        score = new ArrayList<>();
     }
 
     //calculates score when a player dies
@@ -23,6 +21,7 @@ public class DeathAndRespawn {
         int playerColor;
         int firstBlood;
         int flag;
+        List<Integer> score=new ArrayList<>();
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
         if(match.getCheck()){
@@ -35,7 +34,7 @@ public class DeathAndRespawn {
         death= playerKilled.getDeath();
         playerKilled.setDeath();
         firstBlood=playerKilled.getFirstBlood();
-        score.set(firstBlood, 1);
+        score.add(firstBlood, 1);
         //match.getPlayer(firstBlood).setScore(1);
         for(int k=0; k<5; k++){
             playerColor = playerKilled.getMaxDamages();
@@ -61,13 +60,7 @@ public class DeathAndRespawn {
             }
             if(flag==1) break;
         }
-        if(match.getDashboard().getIndex()==9){
-            FinalFrenzy finalFrenzy = new FinalFrenzy(match, playerKilled.getColor());
-            endgame(match, match.getDashboard());
-            /*when a match ends the killshot track is full, so index is 9. The attribution of points considering the killshot
-            * track is done by another method in order to better test the attribution of points (see DashboardTest, in
-            * which the method endgame is used). Besides this choice makes the code more readable.*/
-        }
+        match.assignScore(score);
     }
 
     public void endgame(Match m, Dashboard d){

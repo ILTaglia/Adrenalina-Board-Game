@@ -10,16 +10,16 @@ public class SpawnPointCell extends Cell {
     private ArrayList<Weapon> weaponsSpawnPoint;
 
     //Quando creo lascio i campi carta vuoti, il controller poi creerà mazzo e distribuirà le carti arma a inizio partita
-    public SpawnPointCell(int color, int N_port, int E_port, int S_port, int W_port){
+    public SpawnPointCell(int color, int nPort, int ePort, int sPort, int wPort){
         this.color=color;
         this.type=0; //spawnpoint
         weaponsSpawnPoint =new ArrayList<>();
 
 
-        this.port[0] = N_port;
-        this.port[1] = E_port;
-        this.port[2] = S_port;
-        this.port[3] = W_port;
+        this.port[0] = nPort;
+        this.port[1] = ePort;
+        this.port[2] = sPort;
+        this.port[3] = wPort;
     }
 
     public void addWeaponCard(Weapon weapon, int index) throws FullCellException{
