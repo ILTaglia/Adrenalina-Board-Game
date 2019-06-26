@@ -58,7 +58,7 @@ public class DeathAndRespawnTest {
         DeathAndRespawn c = new DeathAndRespawn();
         assertTrue(match.getCheck());
         try{
-            c.calculatescore(match, player1, player3, 2);
+            c.calculateScore(match, player1, player3, 2);
         } catch (NotExistingDashboardException e){}
 
         assertEquals(3, player1.getFirstBlood());
