@@ -58,6 +58,7 @@ public class PlayerVisibleData implements Serializable {
         this.playersFirstBlood.put(playerName,null);
         this.damagesOfAll.put(playerName,new HashMap<>());
         this.marksOfAll.put(playerName,new HashMap<>());
+        //TODO serve la posizione dei player this.playersPosition(playerName, );
 
     }
     public Player getPlayer(){
@@ -86,11 +87,14 @@ public class PlayerVisibleData implements Serializable {
 
 
 
+    /*Metodi get*/
+    //public List<Coordinate> getPlayerPosition(){return this.positionOtherPlayers;}
+
     //TODO: Get in base alle necessità:
     /*
     public List<Integer> getPlayerDeath(){return this.deathOtherPlayers;}
 
-    public List<Coordinate> getPlayerPosition(){return this.positionOtherPlayers;}
+
 
     public List<Integer> getPlayerFirstblood(){return this.firstbloodOherPlayers;}
 

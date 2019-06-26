@@ -57,11 +57,13 @@ public class GrabAmmoTest {
         catch(ActionNotAllowedException e){}
         assertTrue(grabammo.isValid(match, player1.getID()));
         destination.add("N");
+        destination.add("E");
         assertTrue(run.isValid(match, destination));
         assertThrows(ActionNotAllowedException.class, () -> run.movement(match, player1.getID(), destination, isMovementbeforeGrab, false));
         assertEquals(0, player1.getAction());
         //player1 has not enough damages to move before grabbing
         player1.setDamage(4, 3);
+        destination.remove("E");
         //player1 has enough damages to move before grabbing
 
         assertTrue(run.isValid(match, destination));

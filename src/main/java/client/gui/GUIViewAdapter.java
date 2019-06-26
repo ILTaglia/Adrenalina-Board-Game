@@ -87,6 +87,11 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
+    public void showAmmoCard() {
+
+    }
+
+    @Override
     public void notifyAttackedPlayer(Player attackedplayer) {
 
     }

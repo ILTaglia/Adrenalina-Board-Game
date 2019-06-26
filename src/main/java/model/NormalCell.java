@@ -4,6 +4,9 @@ import exceptions.CardAlreadyCollectedException;
 import exceptions.FullCellException;
 import exceptions.MoreThanTreeAmmosException;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class NormalCell extends Cell {
     private AmmoCard ammoNormalCell;
 
@@ -30,4 +33,6 @@ public class NormalCell extends Cell {
     public int getCardType(){
         return ammoNormalCell.getType();
     }
+
+    public List<String> getAmmoCard(){ return Arrays.asList(ammoNormalCell.toString());}
 }

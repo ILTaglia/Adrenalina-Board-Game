@@ -71,6 +71,9 @@ public interface View {
     //Method to show Weapon Cards in SpawnPoint Cell
     void showSpawnPointWeapons();
 
+    //Method to show AmmoCard in Normal Cell
+    void showAmmoCard();
+
     void notifyAttackedPlayer(Player attackedplayer);
 
     //Method to show the active player its PowCards
