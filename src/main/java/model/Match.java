@@ -178,6 +178,10 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(),infoAmmo);
     }
 
+    public void assignScore(List<Integer> score){
+        for(int i=0; i<score.size(); i++){getPlayerByColor(i).setScore(score.get(i));}
+    }
+
     public void setPlayerCel(Player player, int x, int y) {
         player.setCel(x, y);
         Message infoSpawnPoint=new NewPosition(x,y);

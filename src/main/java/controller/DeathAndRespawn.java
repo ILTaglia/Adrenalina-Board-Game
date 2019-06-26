@@ -4,13 +4,18 @@ import model.Match;
 import model.Dashboard;
 import exceptions.NotExistingDashboardException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
     private int death;
+    private List<Integer> score;
 
     //calculateScore the points to give to players that made damages to the player
     public DeathAndRespawn(){
         this.death=0;
+        score = new ArrayList<>();
     }
 
     //calculates score when a player dies
@@ -30,13 +35,20 @@ public class DeathAndRespawn {
         death= playerKilled.getDeath();
         playerKilled.setDeath();
         firstBlood=playerKilled.getFirstBlood();
-        match.getPlayer(firstBlood).setScore(1);
+        score.set(firstBlood, 1);
+        //match.getPlayer(firstBlood).setScore(1);
         for(int k=0; k<5; k++){
             playerColor = playerKilled.getMaxDamages();
-            if(death>=5) match.getPlayer(playerColor).setScore(1);
+            int previousPointsAlreadyGiven = score.get(k);
+            //In case of firstblood I can't just set the number of damages, I have to increase it
+            if(death>=5){
+                score.set(playerColor, 1+previousPointsAlreadyGiven);
+                //match.getPlayer(playerColor).setScore(1);
+            }
             /*addition of the maximum number of points to the player that made
              * more damages. Use the number of death as a parameter.*/
-            match.getPlayer(playerColor).setScore(points[death]);
+            score.set(playerColor, points[death]+previousPointsAlreadyGiven);
+            //match.getPlayer(playerColor).setScore(points[death]);
             death++;
             playerKilled.setDamage(0, playerColor);
             flag=1;
