@@ -174,7 +174,7 @@ public class Client {
             view.chooseMap();
         }
         if(message.getContent().equals("SpawnRequest")){
-            view.chooseStartingCell();  //TODO:Sistemare funzione in base a quanto visto
+            view.chooseStartingCell();
         }
         if(message.getContent().equals("ActionRequest")){
             view.chooseAction();
@@ -198,7 +198,7 @@ public class Client {
             view.createPlayer();
         }
         if(message.getContent().equals("ActionError")){
-            //Nothing to do, not handled //TODO
+            //Nothing to do, just info. //TODO
         }
         if(message.getContent().equals("RunError")){
             view.chooseAction();

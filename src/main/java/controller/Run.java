@@ -37,17 +37,15 @@ public class Run extends Action {
         if(!super.isValid(match,userID)){
             throw new NotYourTurnException();
         }
-        if(isMovementBeforeGrab&&!(match.getActivePlayer().getTotalDamage()>2 && destination.size()<3)){
-                throw new ActionNotAllowedException("Hai "+match.getActivePlayer().getTotalDamage()+" danni. Se non hai almeno 3 danni non puoi usare questa azione.");
-
-            /*if (!(match.getActivePlayer().getTotalDamage()<3 && destination.size()==1)){
+        if(isMovementBeforeGrab){
+            if(match.getActivePlayer().getTotalDamage()<3&&destination.size()!=1){
                 throw new ActionNotAllowedException("Primo caso (< 3,==1) //TODO Scrivere nella Run l'eccezione");
-            }Non mi pare ci siano due casi ma uno solo come per la shoot
-            if (!(match.getActivePlayer().getTotalDamage()>2 && destination.size()<3)){
-                throw new ActionNotAllowedException("Hai "+match.getActivePlayer().getTotalDamage()+" danni. Se non hai almeno 3 danni non puoi usare questa azione.");
-            }*/
+            }
+            else if(match.getActivePlayer().getTotalDamage()>3&&destination.size()>=3){
+                throw new ActionNotAllowedException("Secondo caso (< 3,==1) //TODO Scrivere nella Run l'eccezione");
+            }
         }
-        if(isMovementBeforeShoot&&!(match.getActivePlayer().getTotalDamage()>5 && destination.size()<2)){
+        if(isMovementBeforeShoot&&(match.getActivePlayer().getTotalDamage()<5 || destination.size()>=2)){
                 throw new ActionNotAllowedException("Hai "+match.getActivePlayer().getTotalDamage()+" danni. Se non hai almeno 5 danni non puoi usare questa azione.");
         }
         if(isValid(match, destination)) {

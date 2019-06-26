@@ -88,7 +88,13 @@ public class Game{
     public void setSpawn(String userID, Coordinate coordinate,int powCardIndex){
         checkUserAction(userID);
         Spawn playerSpawn = new Spawn();
-        playerSpawn.spawn(match,match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
+        try {
+            playerSpawn.spawn(match, match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
+        }catch (InvalidColorException e){
+            Message errorMessage=new ActionError("Colore non valido, riprova (Migliorare messaggio)");
+            gameRoom.sendErrorMessage(userID,errorMessage);
+            askSpawnPoint();
+        }
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
@@ -119,6 +125,9 @@ public class Game{
     5. recharge
     */
     public void performAction(String userID, int chosenAction) {
+        //per sicurezza li rimetto a false (inizializzo)
+        isMovementBeforeShoot=false;
+        isMovementBeforeGrab=false;
         checkUserAction(userID);
         switch(chosenAction) {
             case (0):
@@ -128,17 +137,13 @@ public class Game{
                 this.selectGrab(userID);
                 break;
             case (2):
+                this.askWeaponToShoot();
                 //Richiesta al giocatore con arma con cui vuole attaccare
                 //Da cui poi si chiamerà la shoot
 
-                //Solita struttura askWeaponToAttack->performAttack (Shoot)
-                /*
-                int attackingweapon = view.getWeaponCardtoAttack();
-                //TODO chiede al giocatore con che arma (restituisce l'indice) vuole attaccare
-                attackingweapon--;
-                this.shoot();
-                //TODO LE ARMIIIII
-                break;*/
+                //Per capire vedi funzionamento altre azioni.
+
+                break;
             case (3):
                 this.askRun();
                 isMovementBeforeGrab=true;
@@ -189,6 +194,7 @@ public class Game{
         } catch (ActionNotAllowedException e) {
             Message message=new ActionError(e.getMessage());
             gameRoom.sendErrorMessage(userID,message);
+            askRun();           //TODO: Modificare a livello CLI View
         }
     }
 
@@ -207,17 +213,7 @@ public class Game{
             this.grabAmmoTile(userID);
         }
     }
-    /*
-    private void checkWeaponGrab(){
-        GrabWeapon grabWeapon = new GrabWeapon();
-        try {
-            grabWeapon.isValid(match.getActivePlayer());
-            askWeaponGrab();
-        }catch (MaxNumberofCardsException e) {
-            askToDiscardWeaponCard();
-        }
-    }
-    */
+
     private void askWeaponGrab(){
         gameRoom.askWeaponGrab(match.getActivePlayer().getID());
     }
@@ -288,7 +284,9 @@ public class Game{
         } catch(MaxNumberofCardsException exc){
             askToDiscardPowCard();
         } catch (CardAlreadyCollectedException e) {
-            //TODO GESTIONE ERRORE
+            Message message=new ActionError("You have already used this Card, cambia azione.");
+            gameRoom.sendErrorMessage(userID,message);
+            askAction();
         } catch (NotYourTurnException e) {
             Message message=new ActionError("Not your turn");
             gameRoom.sendErrorMessage(userID,message);
@@ -312,6 +310,12 @@ public class Game{
         nextStep();
     }
 
+    //TODO:Chiedi indice arma da usare per l'attacco e il Player da attaccare.
+    private void askWeaponToShoot(){
+
+    }
+    //TODO
+    //Completa attacco in base al funzionamento della parte della Shoot
     private void shoot(){
 
     }
@@ -332,6 +336,9 @@ public class Game{
 
     //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
+
+        //Riporto a False i valori delle is*
+
         System.out.println("Print temporanea. Fine prima azione!");
         match.updateClientDashboard();
         //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
@@ -366,115 +373,5 @@ public class Game{
         for(Player p:match.getPlayers()) p.resetAction();
         match.getPlayerByIndex(0).setActive();
     }
-
-
-
-
-
-
-
-
-    /*
-    //TODO anche qui bisogna scrivere i messaggi. Questo è il main del controller
-    public static void main(String[] args){
-        PrintStream printStream=System.out;
-        GetData getData=new GetData();
-
-        printStream.println("Welcome to Adrenalina!");
-
-        printStream.println("\nPlease, choose which communication protocol you want to use:");
-        printStream.println("1. Socket");
-        printStream.println("2. RMI");
-
-        int CommunicationChoice=getData.getInt(1, 2);
-
-        printStream.println("\nPlease, choose which graphics you want to play with:");
-        printStream.println("1. CLI");
-        printStream.println("2. GUIView");
-        int GraphicChoice=getData.getInt(1, 2);
-
-        printStream.println("\nPlease, choose the color of the player:");
-        printStream.println("Blue - Green - Yellow - Pink - Grey");
-        String color = getData.getValidColorForPlayer();
-
-        printStream.println("\nPlease, enter your name to play in the game:");
-        String name= getData.getName();
-
-        Player player = new Player(name, color, "12345678");
-
-        printStream.println("\nPlease, choose the color of the player:");
-        printStream.println("Blue - Green - Yellow - Pink - Grey");
-        color = getData.getValidColorForPlayer();
-        printStream.println("\nPlease, enter your name to play in the game:");
-        name= getData.getName();
-        Player player1 = new Player(name, color, "10583741");
-
-        printStream.println("\nPlease, choose the color of the player:");
-        printStream.println("Blue - Green - Yellow - Pink - Grey");
-        color = getData.getValidColorForPlayer();
-        printStream.println("\nPlease, enter your name to play in the game:");
-        name= getData.getName();
-        Player player2 = new Player(name, color, "14253954");
-
-        Game game = new Game();
-        Match match = game.match;
-        try {
-            match.addPlayer(player);
-            match.addPlayer(player1);
-            match.addPlayer(player2);
-        }
-        catch (MaxNumberPlayerException e){ printStream.println("Maximum number of players reached.");}
-
-        printStream.println("\nPlease, "+match.getPlayerByIndex(0).getName()+" choose the type of dashboard:1, 2, 3");
-        int maptype = getData.getInt(1, 3);
-        game.select(maptype);
-
-        game.startGame();
-        View view = new CLIView(match);
-        for(Player p:match.getPlayers()){
-            printStream.println(p.getName());
-            view.showPlayerPowWithColors(p);
-        }
-        for(Player p:match.getPlayers()){
-            printStream.println("\nPlease, "+p.getName()+" select the SpawnPoint cell where you want to start. Write number of line, then column.");
-            printStream.println("There are three SpawnPoint cells in the game:");
-            printStream.println("Line 0, column 2 - Blue cell");
-            printStream.println("Line 1, column 0 - Red cell");
-            printStream.println("Line 2, column 3 - Yellow cell");
-            printStream.println("You have these PowCards, choose with the color of one of them the spawn point cell:");
-            view.showPlayerPowWithColors(p);
-            printStream.println("Insert: \nLine\nColumn\nNumber PowCard to use");
-            int x= getData.getInt(0, 2);
-            int y= getData.getInt(0, 3);
-            int powindex = getData.getInt(1, 2);
-            while(!((x==0 && y==2)||(x==1&&y==0)||(x==2 && y==3))){
-                printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
-                x= getData.getInt(0, 2);
-                y= getData.getInt(0, 3);
-                powindex = getData.getInt(1, 2);
-            }
-            powindex--;
-            int flag=0;
-            while(flag==0){
-                try{
-                    game.firstTurn(p, powindex, x, y);
-                    flag=1;
-                } catch(InvalidColorException e){
-                    printStream.println("Not a valid SpawnPoint; insert new: \nLine\nColumn\nNumber of PowCard to use");
-                    x= getData.getInt(0, 2);
-                    y= getData.getInt(0, 3);
-                    powindex = getData.getInt(1, 2);
-                    powindex--;}
-            }
-            view.showPlayerPows(p);
-        }
-        player.setDamage(6, 0);
-        //TODO serve al connectionHandler a reference alla partita che sta giocando
-        for(int i=0; i<match.getPlayersSize(); i++){
-            game.play(match, view);
-            game.setTurn();
-        }
-    }
-    */
 
 }

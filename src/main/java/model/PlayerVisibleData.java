@@ -80,7 +80,7 @@ public class PlayerVisibleData implements Serializable {
         return null;
     }
 
-    public void setNumberOfAmmo(int numberOfAmmo,int color){
+    public void setNumberOfAmmo(int color,int numberOfAmmo){
         playerAmmo.set(color,numberOfAmmo);
     }
 
