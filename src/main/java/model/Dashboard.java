@@ -65,6 +65,22 @@ public class Dashboard implements Serializable {
             map[2][3] = new SpawnPointCell(2, 0, 0, 0, 0); //yellow
         }
 
+        //index 4 for 4° map
+        if (i == 4) {
+            map[0][0] = new NormalCell(5, 0, 1, 0, 0); //red
+            map[0][1] = new NormalCell(0, 0, 0, 1, 1); //blue
+            map[0][2] = new SpawnPointCell(0, 0, 0, 1, 0); //blue
+            map[0][3] = new NormalCell(-1, 0, 0, 0, 0); //not exists
+            map[1][0] = new SpawnPointCell(5, 0, 0, 1, 0); //red
+            map[1][1] = new NormalCell(3, 1, 0, 1, 0); //pink
+            map[1][2] = new NormalCell(3, 1, 1, 0, 0); //pink
+            map[1][3] = new NormalCell(2, 0, 0, 0, 1); //yellow
+            map[2][0] = new NormalCell(4, 1, 0, 0, 0); //grey
+            map[2][1] = new NormalCell(4, 1, 0, 0, 0); //grey
+            map[2][2] = new NormalCell(4, 0, 1, 0, 0); //grey
+            map[2][3] = new SpawnPointCell(2, 0, 0, 0, 1); //yellow
+        }
+
         trackIndex = 0;
         killShotTrack = new int[2][8];
         killShotPoints = new ArrayList<>();

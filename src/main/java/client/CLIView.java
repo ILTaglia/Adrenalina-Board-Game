@@ -101,13 +101,15 @@ public class CLIView implements View {
 
     @Override
     public void chooseMap() {
-        printOut("Mappa 1");
+        printOut("Map 1");
         this.printmap1();
-        printOut("Mappa 2");
+        printOut("Map 2");
         this.printmap2();
-        printOut("Mappa 3");
+        printOut("Map 3");
         this.printmap3();
-        printOut("Digitare mappa prescelta: 1, 2, 3");
+        printOut("Map 4");
+        this.printmap4();
+        printOut("Digit chosen map: 1, 2, 3, 4");
         int choice = getData.getInt(1, 3);
         String mapRequired = Integer.toString(choice);
         Message mapRequest=new MapClientRequest(mapRequired,client.getUserID());
@@ -261,6 +263,7 @@ public class CLIView implements View {
         if(indexMap==1){this.printmap1();}
         if(indexMap==2){this.printmap2();}
         if(indexMap==3){this.printmap3();}
+        if(indexMap==4){this.printmap4();}
     }
 
     //Supporting methods to be used only internally the print map method
@@ -448,6 +451,70 @@ public class CLIView implements View {
         printStream.println("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
         printStream.println("|    "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
         printStream.println("|    "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
+        printStream.println("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
+        printStream.println("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
+        printStream.println("|                |                |               |   SpawnPoint  |\n");
+        printStream.println("|________________|________________|_______________|_______________|\n");
+    }
+
+    private void printmap4(){
+        String[][] map = new String[3][4];
+        String[][] map1 = new String[3][4];
+        String[][] map2 = new String[3][4];
+        String[][] map3 = new String[3][4];
+        String[][] map4 = new String[3][4];
+
+        String s = "        ";
+        for(int i=0; i<3; i++){
+            for(int j=0; j<4; j++){
+                map[i][j]=s;
+                map1[i][j]=s;
+                map2[i][j]=s;
+                map3[i][j]=s;
+                map4[i][j]=s;
+            }
+        }
+        int line;
+        int column;
+        /*
+        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
+            else {
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
+                else{
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
+                    else {
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
+                    }
+                }
+            }
+        }
+        */
+        printStream.println(" _________________________________________________                 \n");
+        printStream.println("|      Red       |       Blue     |     Blue      |                \n");
+        printStream.println("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
+        printStream.println("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    \n");
+        printStream.println("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    \n");
+        printStream.println("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    \n");
+        printStream.println("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    \n");
+        printStream.println("|                |                |   SpawnPoint  |                \n");
+        printStream.println("|________________|______| |_______|______| |______|_______________ \n");
+        printStream.println("|      Red       |     Pink       |     Pink      |    Yellow     |\n");
+        printStream.println("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
+        printStream.println("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |\n");
+        printStream.println("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |\n");
+        printStream.println("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
+        printStream.println("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
+        printStream.println("|   SpawnPoint   |                |               |               |\n");
+        printStream.println("|______| |_______|______| |_______|_______________|_______________|\n");
+        printStream.println("|      Grey      |      Grey      |     Grey    |    Yellow     |\n");
+        printStream.println("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
+        printStream.println("|    "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |\n");
+        printStream.println("|    "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |\n");
         printStream.println("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
         printStream.println("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
         printStream.println("|                |                |               |   SpawnPoint  |\n");
