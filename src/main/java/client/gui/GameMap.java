@@ -16,6 +16,7 @@ public class GameMap {
     public GameMap(PlayerVisibleData data)
     {
         this.mapindex=data.getDashboard().getMapType();
+        this.data=data;
     }
     public void mostra()
     {
@@ -83,6 +84,50 @@ public class GameMap {
             icon.setImage(scaledImage);
             JLabel arma = new JLabel(icon);
             arma.setBounds(1,1,200,400);
+
+            //############################################
+            //##        MORTAL TRACK                #####
+            //############################################
+
+            int space=46;
+            int base=177;
+            int killtrack [][]=data.getDashboard().getKillShotTrack();
+
+
+            ImageIcon damage1 = new ImageIcon(loaddamageimage(killtrack[0][0]));
+            JLabel dam1 = new JLabel(damage1);
+            dam1.setBounds(base,50,30,30);
+
+            ImageIcon damage2 = new ImageIcon(loaddamageimage(killtrack[0][1]));
+            JLabel dam2 = new JLabel(damage2);
+            dam2.setBounds(base+space,50,30,30);
+
+            ImageIcon damage3 = new ImageIcon(loaddamageimage(killtrack[0][2]));
+            JLabel dam3 = new JLabel(damage3);
+            dam3.setBounds(base+2*space,50,30,30);
+
+            ImageIcon damage4 = new ImageIcon(loaddamageimage(killtrack[0][3]));
+            JLabel dam4 = new JLabel(damage4);
+            dam4.setBounds(base+3*space,50,30,30);
+
+            ImageIcon damage5 = new ImageIcon(loaddamageimage(killtrack[0][4]));
+            JLabel dam5 = new JLabel(damage5);
+            dam5.setBounds(base+4*space,50,30,30);
+
+            ImageIcon damage6 = new ImageIcon(loaddamageimage(killtrack[0][5]));
+            JLabel dam6 = new JLabel(damage6);
+            dam6.setBounds(base+5*space,50,30,30);
+
+            ImageIcon damage7 = new ImageIcon(loaddamageimage(killtrack[0][6]));
+            JLabel dam7 = new JLabel(damage7);
+            dam7.setBounds(base+6*space,50,30,30);
+
+            ImageIcon damage8 = new ImageIcon(loaddamageimage(killtrack[0][7]));
+            JLabel dam8 = new JLabel(damage8);
+            dam8.setBounds(base+7*space,50,30,30);
+
+
+
 
 
 
@@ -183,6 +228,15 @@ public class GameMap {
             schermata.add(player2);
             schermata.add(player3);
             schermata.add(player4);
+
+            schermata.add(dam1);
+            schermata.add(dam2);
+            schermata.add(dam3);
+            schermata.add(dam4);
+            schermata.add(dam5);
+            schermata.add(dam6);
+            schermata.add(dam7);
+            schermata.add(dam8);
 
 
             schermata.add(arma);
@@ -302,6 +356,37 @@ public class GameMap {
         return percorso+"\\src\\main\\java\\client\\gui\\media\\cards\\Personaggio.png";
     }
 
+    public String loaddamageimage(int colorindex)
+    {
+        String percorso=System.getProperty("user.dir");
+        percorso=percorso+"\\src\\main\\java\\client\\gui\\media\\cards";
+        if(colorindex==0)
+        {
+            percorso=percorso+"\\Blu.png";
+        }
+        if(colorindex==1)
+        {
+            percorso=percorso+"\\Green.png";
+        }
+        if(colorindex==2)
+        {
+            percorso=percorso+"\\Yellow.png";
+        }
+        if(colorindex==3)
+        {
+            percorso=percorso+"\\Pink.png";
+        }
+        if(colorindex==4)
+        {
+            percorso=percorso+"\\Grey.png";
+        }
+        if(colorindex==5)
+        {
+            percorso=percorso+"\\Red.png";
+        }
+        return percorso;
+    }
+
 
 
 
@@ -309,8 +394,21 @@ public class GameMap {
     public static void main(String []args)
     {
         Dashboard mappa = new Dashboard(1);
-        Player player = new Player("UtenteDiProva","Green","abcde");
-        PlayerVisibleData datas = new PlayerVisibleData(player);
+        Player player1 = new Player("UtenteDiProva","Green","abcde");
+        Player player2 = new Player("UtenteDiProva","Blue","abcde");
+        Player player3 = new Player("UtenteDiProva","Yellow","abcde");
+        Player player4 = new Player("UtenteDiProva","Pink","abcde");
+        Player player5 = new Player("UtenteDiProva","Grey","abcde");
+
+        PlayerVisibleData datas = new PlayerVisibleData(player1);
+        mappa.setKillShotTrack(player1,0);
+        mappa.setKillShotTrack(player2,1);
+        mappa.setKillShotTrack(player2,2);
+        mappa.setKillShotTrack(player3,3);
+        mappa.setKillShotTrack(player2,4);
+        mappa.setKillShotTrack(player4,5);
+        mappa.setKillShotTrack(player5,6);
+        mappa.setKillShotTrack(player1,7);
         datas.setDashboard(mappa);
         GameMap map = new GameMap(datas);
 
