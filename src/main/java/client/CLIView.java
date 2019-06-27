@@ -20,7 +20,7 @@ public class CLIView implements View {
     private Client client;
     private GetData getData=new GetData();
 
-    private static PrintStream printStream=System.out;
+    private static PrintStream printOut=System.out;
 
     //Indici provvisori, verificare se possibile lasciarli. Servono per memorizzare delle scelte da parte dell'utente.
     private int indexSelectedWeapon;
@@ -304,31 +304,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.println(" _________________________________________________                 \n");
-        printStream.println("|      Blue      |       Blue     |     Blue      |                \n");
-        printStream.println("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
-        printStream.println("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    \n");
-        printStream.println("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    \n");
-        printStream.println("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    \n");
-        printStream.println("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    \n");
-        printStream.println("|                |                |   SpawnPoint  |                \n");
-        printStream.println("|_______| |______|________________|______| |______|_______________ \n");
-        printStream.println("|      Red       |      Red       |      Red      |    Yellow     |\n");
-        printStream.println("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.println("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |\n");
-        printStream.println("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |\n");
-        printStream.println("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.println("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.println("|   SpawnPoint   |                |               |               |\n");
-        printStream.println("|________________|______| |_______|_______________|_______________|\n");
-        printStream.println("                 |      Grey      |      Grey     |    Yellow     |\n");
-        printStream.println("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.println("     "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |\n");
-        printStream.println("     "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |\n");
-        printStream.println("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.println("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.println("                 |                |               |   SpawnPoint  |\n");
-        printStream.println("                 |________________|_______________|_______________|\n");
+        printOut(" _________________________________________________                 ");
+        printOut("|      Blue      |       Blue     |     Blue      |                ");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");
+        printOut("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    ");
+        printOut("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    ");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    ");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    ");
+        printOut("|                |                |   SpawnPoint  |                ");
+        printOut("|_______| |______|________________|______| |______|_______________ ");
+        printOut("|      Red       |      Red       |      Red      |    Yellow     |");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |");
+        printOut("|   SpawnPoint   |                |               |               |");
+        printOut("|________________|______| |_______|_______________|_______________|");
+        printOut("                 |      Grey      |      Grey     |    Yellow     |");
+        printOut("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |");
+        printOut("     "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |");
+        printOut("     "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |");
+        printOut("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |");
+        printOut("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |");
+        printOut("                 |                |               |   SpawnPoint  |");
+        printOut("                 |________________|_______________|_______________|");
     }
     private void printmap2(){
         String[][] map = new String[3][4];
@@ -367,31 +367,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.println(" _________________________________________________________________ \n");
-        printStream.println("|      Blue      |       Blue     |     Blue      |   Green       |\n");
-        printStream.println("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
-        printStream.println("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |\n");
-        printStream.println("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |\n");
-        printStream.println("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |\n");
-        printStream.println("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |\n");
-        printStream.println("|                |                |   SpawnPoint  |               |\n");
-        printStream.println("|______| |_______|________________|______| |______|______| |______|\n");
-        printStream.println("|      Red       |      Red       |     Yellow    |    Yellow     |\n");
-        printStream.println("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.println("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |\n");
-        printStream.println("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |\n");
-        printStream.println("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.println("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.println("|   SpawnPoint   |                |               |               |\n");
-        printStream.println("|________________|______| |_______|_______________|_______________|\n");
-        printStream.println("                 |      Grey      |     Yellow    |    Yellow     |\n");
-        printStream.println("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.println("     "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
-        printStream.println("     "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
-        printStream.println("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.println("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.println("                 |                |               |   SpawnPoint  |\n");
-        printStream.println("                 |________________|_______________|_______________|\n");
+        printOut(" _________________________________________________________________ ");
+        printOut("|      Blue      |       Blue     |     Blue      |   Green       |");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
+        printOut("|    "+map1[0][0]+"    |    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |");
+        printOut("|    "+map2[0][0]+"    |    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |");
+        printOut("|                |                |   SpawnPoint  |               |");
+        printOut("|______| |_______|________________|______| |______|______| |______|");
+        printOut("|      Red       |      Red       |     Yellow    |    Yellow     |");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |");
+        printOut("|   SpawnPoint   |                |               |               |");
+        printOut("|________________|______| |_______|_______________|_______________|");
+        printOut("                 |      Grey      |     Yellow    |    Yellow     |");
+        printOut("     "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |");
+        printOut("     "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |");
+        printOut("     "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |");
+        printOut("     "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |");
+        printOut("     "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |");
+        printOut("                 |                |               |   SpawnPoint  |");
+        printOut("                 |________________|_______________|_______________|");
     }
     private void printmap3(){
         String[][] map = new String[3][4];
@@ -430,31 +430,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.println(" _________________________________________________________________ \n");
-        printStream.println("|      Red       |       Blue     |     Blue      |   Green       |\n");
-        printStream.println("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |\n");
-        printStream.println("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |\n");
-        printStream.println("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |\n");
-        printStream.println("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |\n");
-        printStream.println("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |\n");
-        printStream.println("|                |                |   SpawnPoint  |               |\n");
-        printStream.println("|________________|______| |_______|______| |______|______| |______|\n");
-        printStream.println("|      Red       |     Pink       |     Yellow    |    Yellow     |\n");
-        printStream.println("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.println("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |\n");
-        printStream.println("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |\n");
-        printStream.println("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.println("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.println("|   SpawnPoint   |                |               |               |\n");
-        printStream.println("|______| |_______|______| |_______|_______________|_______________|\n");
-        printStream.println("|      Grey      |      Grey      |     Yellow    |    Yellow     |\n");
-        printStream.println("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.println("|    "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |\n");
-        printStream.println("|    "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |\n");
-        printStream.println("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.println("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.println("|                |                |               |   SpawnPoint  |\n");
-        printStream.println("|________________|________________|_______________|_______________|\n");
+        printOut(" _________________________________________________________________ ");
+        printOut("|      Red       |       Blue     |     Blue      |   Green       |");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
+        printOut("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   _    "+map1[0][3]+"   |");
+        printOut("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   _    "+map2[0][3]+"   |");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"   |");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"   |");
+        printOut("|                |                |   SpawnPoint  |               |");
+        printOut("|________________|______| |_______|______| |______|______| |______|");
+        printOut("|      Red       |     Pink       |     Yellow    |    Yellow     |");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   |    "+map1[1][3]+"   |");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   |    "+map2[1][3]+"   |");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |");
+        printOut("|   SpawnPoint   |                |               |               |");
+        printOut("|______| |_______|______| |_______|_______________|_______________|");
+        printOut("|      Grey      |      Grey      |     Yellow    |    Yellow     |");
+        printOut("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |");
+        printOut("|    "+map1[2][0]+"    |    "+map1[2][1]+"    _    "+map1[2][2]+"   |    "+map1[2][3]+"   |");
+        printOut("|    "+map2[2][0]+"    |    "+map2[2][1]+"    _    "+map2[2][2]+"   |    "+map2[2][3]+"   |");
+        printOut("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |");
+        printOut("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |");
+        printOut("|                |                |               |   SpawnPoint  |");
+        printOut("|________________|________________|_______________|_______________|");
     }
 
     private void printmap4(){
@@ -494,31 +494,31 @@ public class CLIView implements View {
             }
         }
         */
-        printStream.println(" _________________________________________________                 \n");
-        printStream.println("|      Red       |       Blue     |     Blue      |                \n");
-        printStream.println("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    \n");
-        printStream.println("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    \n");
-        printStream.println("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    \n");
-        printStream.println("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    \n");
-        printStream.println("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    \n");
-        printStream.println("|                |                |   SpawnPoint  |                \n");
-        printStream.println("|________________|______| |_______|______| |______|_______________ \n");
-        printStream.println("|      Red       |     Pink       |     Pink      |    Yellow     |\n");
-        printStream.println("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |\n");
-        printStream.println("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |\n");
-        printStream.println("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |\n");
-        printStream.println("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |\n");
-        printStream.println("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |\n");
-        printStream.println("|   SpawnPoint   |                |               |               |\n");
-        printStream.println("|______| |_______|______| |_______|_______________|_______________|\n");
-        printStream.println("|      Grey      |      Grey      |     Grey    |    Yellow     |\n");
-        printStream.println("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |\n");
-        printStream.println("|    "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |\n");
-        printStream.println("|    "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |\n");
-        printStream.println("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |\n");
-        printStream.println("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |\n");
-        printStream.println("|                |                |               |   SpawnPoint  |\n");
-        printStream.println("|________________|________________|_______________|_______________|\n");
+        printOut(" _________________________________________________                 ");
+        printOut("|      Red       |       Blue     |     Blue      |                ");
+        printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");
+        printOut("|    "+map1[0][0]+"    _    "+map1[0][1]+"    |    "+map1[0][2]+"   |    "+map1[0][3]+"    ");
+        printOut("|    "+map2[0][0]+"    _    "+map2[0][1]+"    |    "+map2[0][2]+"   |    "+map2[0][3]+"    ");
+        printOut("|    "+map3[0][0]+"    |    "+map3[0][1]+"    |    "+map3[0][2]+"   |    "+map3[0][3]+"    ");
+        printOut("|    "+map4[0][0]+"    |    "+map4[0][1]+"    |    "+map4[0][2]+"   |    "+map4[0][3]+"    ");
+        printOut("|                |                |   SpawnPoint  |                ");
+        printOut("|________________|______| |_______|______| |______|_______________ ");
+        printOut("|      Red       |     Pink       |     Pink      |    Yellow     |");
+        printOut("|    "+map[1][0]+"    |    "+map[1][1]+"    |    "+map[1][2]+"   |    "+map[1][3]+"   |");
+        printOut("|    "+map1[1][0]+"    |    "+map1[1][1]+"    |    "+map1[1][2]+"   _    "+map1[1][3]+"   |");
+        printOut("|    "+map2[1][0]+"    |    "+map2[1][1]+"    |    "+map2[1][2]+"   _    "+map2[1][3]+"   |");
+        printOut("|    "+map3[1][0]+"    |    "+map3[1][1]+"    |    "+map3[1][2]+"   |    "+map3[1][3]+"   |");
+        printOut("|    "+map4[1][0]+"    |    "+map4[1][1]+"    |    "+map4[1][2]+"   |    "+map4[1][3]+"   |");
+        printOut("|   SpawnPoint   |                |               |               |");
+        printOut("|______| |_______|______| |_______|_______________|_______________|");
+        printOut("|      Grey      |      Grey      |     Grey      |    Yellow     |");
+        printOut("|    "+map[2][0]+"    |    "+map[2][1]+"    |    "+map[2][2]+"   |    "+map[2][3]+"   |");
+        printOut("|    "+map1[2][0]+"    |    "+map1[2][1]+"    |    "+map1[2][2]+"   _    "+map1[2][3]+"   |");
+        printOut("|    "+map2[2][0]+"    |    "+map2[2][1]+"    |    "+map2[2][2]+"   _    "+map2[2][3]+"   |");
+        printOut("|    "+map3[2][0]+"    |    "+map3[2][1]+"    |    "+map3[2][2]+"   |    "+map3[2][3]+"   |");
+        printOut("|    "+map4[2][0]+"    |    "+map4[2][1]+"    |    "+map4[2][2]+"   |    "+map4[2][3]+"   |");
+        printOut("|                |                |               |   SpawnPoint  |");
+        printOut("|________________|________________|_______________|_______________|");
     }
 
 
