@@ -12,7 +12,7 @@ public class FinalFrenzy {
 
     public FinalFrenzy(Match match, int activatingPlayerColor){
         List<Player> allPLayers = match.getPlayers();
-        Player pl = match.getPlayerByColor(activatingPlayerColor);
+        Player pl = match.getPlayer(activatingPlayerColor);
         if(allPLayers.indexOf(pl)>0){
             playersBeforetheFirst = allPLayers.subList(allPLayers.indexOf(pl), allPLayers.size()-1);
             playersAftertheFirst = allPLayers.subList(0, allPLayers.indexOf(pl)-1);

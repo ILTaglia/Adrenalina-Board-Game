@@ -115,9 +115,6 @@ public class MatchTest {
         assertFalse(match.getNoDamagedPlayers().contains(player1));
         assertTrue(match.getNoDamagedPlayers().contains(player2));
 
-        assertEquals(player1, match.getPlayerByColor(0));
-        assertEquals(player2, match.getPlayerByColor(3));
-        assertNull(match.getPlayerByColor(5));
         match.firstTurnPow();
         assertEquals(2,player1.getPows().size());
         assertEquals(2,player2.getPows().size());
