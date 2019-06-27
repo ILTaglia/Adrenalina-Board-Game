@@ -256,7 +256,7 @@ public class Match implements Serializable {
         }
         return list;
     }
-    
+
     public boolean getCheck() {
         return this.checkDashboard;
     }
