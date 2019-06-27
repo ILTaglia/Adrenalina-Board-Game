@@ -101,13 +101,15 @@ public class CLIView implements View {
 
     @Override
     public void chooseMap() {
-        printOut("Mappa 1");
+        printOut("Map 1");
         this.printmap1();
-        printOut("Mappa 2");
+        printOut("Map 2");
         this.printmap2();
-        printOut("Mappa 3");
+        printOut("Map 3");
         this.printmap3();
-        printOut("Digitare mappa prescelta: 1, 2, 3");
+        printOut("Map 4");
+        this.printmap4();
+        printOut("Digit chosen map: 1, 2, 3, 4");
         int choice = getData.getInt(1, 3);
         String mapRequired = Integer.toString(choice);
         Message mapRequest=new MapClientRequest(mapRequired,client.getUserID());
@@ -261,6 +263,7 @@ public class CLIView implements View {
         if(indexMap==1){this.printmap1();}
         if(indexMap==2){this.printmap2();}
         if(indexMap==3){this.printmap3();}
+        if(indexMap==4){this.printmap4();}
     }
 
     //Supporting methods to be used only internally the print map method
