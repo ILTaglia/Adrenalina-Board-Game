@@ -22,8 +22,6 @@ public class CLIView implements View {
     private Client client;
     private GetData getData=new GetData();
 
-    private static PrintStream printOut=System.out;
-
     //Indici provvisori, verificare se possibile lasciarli. Servono per memorizzare delle scelte da parte dell'utente.
     private int indexSelectedWeapon;
     private int requestedAction;
