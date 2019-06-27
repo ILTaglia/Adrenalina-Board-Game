@@ -7,6 +7,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import model.*;
+import network.messages.ReConnectClientRequest;
+import network.messages.SecondConnectionRequest;
 import network.messages.clientRequest.*;
 import network.messages.Message;
 import network.client.Client;
@@ -19,8 +21,6 @@ public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private Client client;
     private GetData getData=new GetData();
-
-    private static PrintStream printOut=System.out;
 
     //Indici provvisori, verificare se possibile lasciarli. Servono per memorizzare delle scelte da parte dell'utente.
     private int indexSelectedWeapon;
@@ -65,6 +65,24 @@ public class CLIView implements View {
         String user=getData.getName();
         client.requestToWR(user);
     }
+
+    @Override
+    public void askToReConnect() {
+        printOut("Have you been disconnected?\n");
+        if(getData.askYesOrNo()) {
+            printOut("Inserisci lo UserID che ti è stato assegnato a inizio partita:");
+            String userIDToReConnect = getData.getName();
+            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);
+            client.sendMessage(reConnectRequest);
+        }
+        else{
+            printOut("Inserisci nuovamente lo username che desideri:");
+            String username = getData.getName();
+            Message connectionRequest=new SecondConnectionRequest(username);
+            client.sendMessage(connectionRequest);
+        }
+    }
+
 
     /*
      **********************************************************

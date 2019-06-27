@@ -2,6 +2,7 @@ package network.server.socket;
 
 import network.client.Client;
 import network.messages.Message;
+import network.server.ClientInterface;
 import network.server.GameServer;
 
 import java.io.IOException;
@@ -80,6 +81,10 @@ public class GameSocketSvr extends Thread {
 
     private boolean isStopped(){        //TODO: verificare utilità metodo
         return this.isStopped;
+    }
+
+    public void handleDisconnect(ClientInterface clientInterface) {
+        gameServer.handleDisconnect(clientInterface);
     }
 
     //---------------------------------Metodi di dubbia utilità-----------------------------------------------------------//

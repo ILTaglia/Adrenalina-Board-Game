@@ -18,6 +18,8 @@ public interface View {
 
     void login();
 
+    void askToReConnect();
+
     /*
      **********************************************************
      * Metodi per Eventi/Eccezioni                              *

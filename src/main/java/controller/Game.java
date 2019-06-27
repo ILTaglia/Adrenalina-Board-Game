@@ -375,4 +375,7 @@ public class Game{
         isMovementBeforeGrab=false;
     }
 
+    public void setPlayerDisconnected(String userID) {
+        match.getPlayerByID(userID);
+    }
 }

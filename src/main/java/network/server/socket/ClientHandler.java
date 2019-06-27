@@ -12,7 +12,8 @@ import java.net.Socket;
 public class ClientHandler implements Runnable, ClientInterface {
     private final Socket clientSocket;
     private final GameSocketSvr server;
-    private String playerUsername;
+    private String playerID;
+    private boolean connected;
 
 
     //Stream per serializzazione|de-serializzazione
@@ -28,6 +29,15 @@ public class ClientHandler implements Runnable, ClientInterface {
         }catch(IOException e){
             System.out.println(e.getMessage());     //TODO:LOGGER
         }
+        this.connected=true;
+    }
+    public void setPlayerID(String playerID){
+        this.playerID=playerID;
+    }
+
+    @Override
+    public String getPlayerID() {
+        return this.playerID;
     }
 
     @Override
@@ -46,10 +56,8 @@ public class ClientHandler implements Runnable, ClientInterface {
                         //Send error Message "An other user has already this username in your Match, please change it"
                     }
                     else {
-                        playerUsername = requestedUsername;
-                        //server.saveUser(playerUsername,this);  // Alternativamente lo può fare direttamente quando aggiungo al WR
                         //Si può evitare di controllare partite già iniziate perchè il connectionHandler è univocamente collegato con ID.
-                        server.addClientToWR(this, playerUsername);
+                        server.addClientToWR(this, requestedUsername);
                     }
                 }
                 else{
@@ -57,7 +65,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                 }
             }
         }catch (IOException|ClassNotFoundException e){
-            //TODO: Chiudere la connessione (?)
+            server.handleDisconnect(this);
         }
     }
     @Override
@@ -67,8 +75,13 @@ public class ClientHandler implements Runnable, ClientInterface {
             streamOut.writeObject(message);
             streamOut.flush();
         }catch (IOException e){
-            System.out.println("Errore nell'invio del messaggio");
+            server.handleDisconnect(this);
         }
+    }
+
+    @Override
+    public void setConnection(boolean connected) {
+        this.connected=connected;
     }
 
 }
