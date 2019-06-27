@@ -13,4 +13,6 @@ public interface ClientInterface extends Remote {
     void sendMessage(Message message) throws RemoteException;
 
     void setConnection(boolean connected);
+
+    void closeConnection();
 }

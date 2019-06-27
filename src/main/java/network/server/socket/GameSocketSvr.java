@@ -62,6 +62,10 @@ public class GameSocketSvr extends Thread {
         return gameServer.isAlreadyInQueue(requestedUsername);
     }
 
+    public boolean isPlayerDisconnected(String requestedUsername){
+        return gameServer.isPlayerDisconnected(requestedUsername);
+    }
+
     public void handleMessage(Message message){
         gameServer.handleMessage(message);
     }
@@ -85,6 +89,13 @@ public class GameSocketSvr extends Thread {
 
     public void handleDisconnect(ClientInterface clientInterface) {
         gameServer.handleDisconnect(clientInterface);
+    }
+
+    public boolean checkUserID(String username, String userIDToReconnect) { return gameServer.checkUserID(username,userIDToReconnect);
+    }
+
+    public void handleReconnect(String userID,ClientInterface clientInterface){
+
     }
 
     //---------------------------------Metodi di dubbia utilità-----------------------------------------------------------//

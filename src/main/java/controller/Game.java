@@ -374,8 +374,12 @@ public class Game{
         isMovementBeforeShoot=false;
         isMovementBeforeGrab=false;
     }
-
+    //TODO: completare metodi per Player Disconnesso
     public void setPlayerDisconnected(String userID) {
+        match.getPlayerByID(userID);
+    }
+
+    public void reConnectPlayer(String userID) {
         match.getPlayerByID(userID);
     }
 }

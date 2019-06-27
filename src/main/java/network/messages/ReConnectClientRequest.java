@@ -1,8 +1,16 @@
 package network.messages;
 
 public class ReConnectClientRequest extends ConnectionMessage {
-    public ReConnectClientRequest(String infoToConnect){
+
+    private String userIDToReconnect;
+
+    public ReConnectClientRequest(String infoToConnect,String userIDToReconnect){
         super(infoToConnect);
-        this.content="ReconnectRequest";
+        this.userIDToReconnect=userIDToReconnect;
+        this.content="ReConnectRequest";
+    }
+
+    public String getUserIDToReconnect() {
+        return userIDToReconnect;
     }
 }

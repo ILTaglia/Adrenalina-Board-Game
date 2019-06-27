@@ -1,15 +1,16 @@
 package network.server;
 
 import network.messages.*;
-import network.messages.clientRequest.ClientRequestMessage;
+import network.messages.clientRequest.*;
 import network.messages.clientRequest.CardToWeaponGrabClientRequest;
 import network.messages.clientRequest.RunClientRequest;
 import network.messages.clientRequest.SpawnPointClientRequest;
 import network.messages.gameRequest.ReConnectServerRequest;
 import network.messages.playerDataMessage.InfoID;
+import network.messages.playerDataMessage.InfoMatch;
+import network.messages.playerDataMessage.InfoMessage;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
-import utils.NotifyClient;
 
 import java.rmi.RemoteException;
 import java.util.*;
@@ -24,7 +25,6 @@ public class GameServer {
 
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
-    private NotifyClient notifyClient;
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                            //Collega Username e IdPlayer
@@ -124,16 +124,24 @@ public class GameServer {
     public boolean isAlreadyInQueue(String requestedUsername) {
         return waitingRoom.isAlreadyInQueue(requestedUsername);
     }
+    public boolean isPlayerDisconnected(String username){
+        if(usernameToUserID.containsKey(username)&& !userIDToStatusConnection.get(usernameToUserID.get(username))){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    public boolean checkUserID(String username, String userIDToReconnect) {
+        if(usernameToUserID.get(username).equals(userIDToReconnect)&& !userIDToStatusConnection.get(userIDToReconnect)){
+            return true;
+        }
+        return false;
+    }
 
     public synchronized void addClientToWR(String playerUsername, ClientInterface clientInterface){
-        if(usernameToUserID.containsValue(playerUsername)){
-            Message reConnectRequest=new ReConnectServerRequest();
-            try {
-                clientInterface.sendMessage(reConnectRequest);
-            } catch (RemoteException e) {
-                //TODO: disconnect nel caso che il Player non sia ancora connesso praticamente
-            }
-        }
         assignIDToUsername(playerUsername);
         assignClientHandlerToID(playerUsername,clientInterface);
         Message infoIDMessage=new InfoID( usernameToUserID.get(playerUsername));
@@ -151,13 +159,19 @@ public class GameServer {
         userIDToStatusConnection.replace(clientInterface.getPlayerID(),false);
         userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
     }
-    public synchronized void handleReConnect(String userID){
-
+    public synchronized void handleReConnect(ClientInterface clientInterface,String userID){
+        clientInterface.setConnection(true);
+        userIDToClientInterface.replace(userID,clientInterface);
+        userIDToStatusConnection.replace(clientInterface.getPlayerID(),true);
+        userIDToGameRoom.get(clientInterface.getPlayerID()).reConnectPlayer(clientInterface.getPlayerID());
+        Message confirmationMessage=new InfoMatch("Bentornato carissimo!\n");       //TODO: modificare tipo e contenuto messaggio.
+        sendMessageToID(userID,confirmationMessage);
     }
 
     //Metodo probabilmente utile solo per i Client connessi con Socket, nel caso di RMI diventa "inutile", serve solo a marchiare il client disconnesso
     public synchronized void closeConnection(String userID){
-
+        userIDToClientInterface.get(userID).closeConnection();
+        handleDisconnect(userIDToClientInterface.get(userID));
     }
 
     private void  assignIDToUsername(String playerUsername) {
@@ -214,6 +228,7 @@ public class GameServer {
     private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
         gameSocketSvr.close();
     }
+
 
 
 
