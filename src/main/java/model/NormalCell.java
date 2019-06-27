@@ -26,13 +26,11 @@ public class NormalCell extends Cell {
 
     //Exception must be handled by controller
     public void collectCard(Player player) throws CardAlreadyCollectedException, MoreThanTreeAmmosException {
-
         ammoNormalCell.collectCard(player);
-
     }
     public int getCardType(){
         return ammoNormalCell.getType();
     }
 
-    public List<String> getAmmoCard(){ return Arrays.asList(ammoNormalCell.toString());}
+    public AmmoCard getAmmoCard(){ return ammoNormalCell;}
 }

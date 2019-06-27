@@ -4,58 +4,63 @@ import model.Match;
 import model.Dashboard;
 import exceptions.NotExistingDashboardException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
     private int death;
 
-    //calculatescore the points to give to players that made damages to the player
+    //calculateScore the points to give to players that made damages to the player
     public DeathAndRespawn(){
         this.death=0;
     }
 
     //calculates score when a player dies
-    public void calculatescore(Match m, Player playerkilled, Player playerkiller, int n) throws NotExistingDashboardException {
+    public void calculateScore(Match match, Player playerKilled, Player playerKiller, int n) throws NotExistingDashboardException {
+        int playerColor;
+        int firstBlood;
+        int flag;
+        List<Integer> score=new ArrayList<>();
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
-        if(m.getCheck()) m.getDashboard().setKillShotTrack(playerkiller, n);
+        if(match.getCheck()){
+            match.getDashboard().setKillShotTrack(playerKiller, n);
+        }
         else throw new NotExistingDashboardException();
         //adds signals to killshot track
 
-        if(n==2) playerkiller.setmarks(1, playerkilled.getColor()); //revenge mark in the killed player
-        death= playerkilled.getDeath();
-        playerkilled.setDeath();
-        int playercolor;
-
-        int firstblood=playerkilled.getFirstBlood();
-        m.getPlayer(firstblood).setScore(1);
-
-        int flag=0;
-
+        if(n==2) playerKiller.setmarks(1, playerKilled.getColor()); //revenge mark in the killed player
+        death= playerKilled.getDeath();
+        playerKilled.setDeath();
+        firstBlood=playerKilled.getFirstBlood();
+        score.add(firstBlood, 1);
+        //match.getPlayer(firstBlood).setScore(1);
         for(int k=0; k<5; k++){
-            playercolor = playerkilled.getMaxDamages();
-            if(death>=5) m.getPlayer(playercolor).setScore(1);
+            playerColor = playerKilled.getMaxDamages();
+            int previousPointsAlreadyGiven = score.get(k);
+            //In case of firstblood I can't just set the number of damages, I have to increase it
+            if(death>=5){
+                score.set(playerColor, 1+previousPointsAlreadyGiven);
+                //match.getPlayer(playerColor).setScore(1);
+            }
             /*addition of the maximum number of points to the player that made
              * more damages. Use the number of death as a parameter.*/
-            m.getPlayer(playercolor).setScore(points[death]);
+            score.set(playerColor, points[death]+previousPointsAlreadyGiven);
+            //match.getPlayer(playerColor).setScore(points[death]);
             death++;
-            playerkilled.setDamage(0, playercolor);
+            playerKilled.setDamage(0, playerColor);
             flag=1;
             /* in the copied list cancel the old max and assign the second score of the array points
              * to the new max element. If other players made damages flag is set back to zero and
              * the iteration is repeated, while, if no other players made damages flag rests 1 and
              * the attribution of scores is stopped.*/
             for(int h=0; h<5; h++) {
-                if(playerkilled.getNumberDamage(h)!=0 && h!=playerkilled.getColor()) flag=0;
+                if(playerKilled.getNumberDamage(h)!=0 && h!=playerKilled.getColor()) flag=0;
             }
             if(flag==1) break;
         }
-        if(m.getDashboard().getIndex()==9){
-            FinalFrenzy finalFrenzy = new FinalFrenzy(m, playerkilled.getColor());
-            endgame(m, m.getDashboard());
-            /*when a match ends the killshot track is full, so index is 9. The attribution of points considering the killshot
-            * track is done by another method in order to better test the attribution of points (see DashboardTest, in
-            * which the method endgame is used). Besides this choice makes the code more readable.*/
-        }
+        match.assignScore(score);
     }
 
     public void endgame(Match m, Dashboard d){
@@ -85,13 +90,13 @@ public class DeathAndRespawn {
     }
 
 
-    public void respawn(Player playerkilled){
+    public void respawn(Player playerKilled){
         for(int i=0; i<5; i++) {
-            if(i!=playerkilled.getColor()) playerkilled.setDamage(0, i);
+            if(i!=playerKilled.getColor()) playerKilled.setDamage(0, i);
         }
-        playerkilled.resetAction();
-        playerkilled.resetFirstBlood();
-        playerkilled.setCel(-1, -1);
+        playerKilled.resetAction();
+        playerKilled.resetFirstBlood();
+        playerKilled.setCel(-1, -1);
     }
 }
 

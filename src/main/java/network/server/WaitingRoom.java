@@ -27,7 +27,7 @@ public class WaitingRoom {
         }
         waitingClients.add(username);
         System.out.println("New Client Added! Queue: ["+waitingClients+"]");
-        if(waitingClients.size()==1){
+        if(waitingClients.size()==2){
             timer.cancel();
             newGameRoom();
         }

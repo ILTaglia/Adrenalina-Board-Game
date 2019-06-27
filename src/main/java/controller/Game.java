@@ -47,7 +47,7 @@ public class Game{
     }
 
     public void setMap(int mapRequired) {
-        System.out.println("Selected Map: " + mapRequired);
+        printOut("Selected Map: " + mapRequired);
         match.createDashboard(mapRequired);
         //HO TUTTO IL NECESSARIO PER INIZIARE LA PARTITA E ISTANZIARE EFFETTIVAMENTE TUTTO NELLA MATCH
         setGameReady();
@@ -60,6 +60,7 @@ public class Game{
     private void setGameReady(){
         match.shuffleAllDecks();            //shuffle all the decks
         match.fillDashboard();              //this method assign 3 Weapons for each SpawnPoint Cell and an AmmoCard for each NormalCell
+        match.notifyNewMap();
         setPlayerReady();
     }
 
@@ -98,6 +99,8 @@ public class Game{
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
+
+        //TODO:Modifica per controllo turno
         askAction();
 
     }
@@ -126,8 +129,7 @@ public class Game{
     */
     public void performAction(String userID, int chosenAction) {
         //per sicurezza li rimetto a false (inizializzo)
-        isMovementBeforeShoot=false;
-        isMovementBeforeGrab=false;
+        resetActionBool();
         checkUserAction(userID);
         switch(chosenAction) {
             case (0):
@@ -336,18 +338,14 @@ public class Game{
 
     //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
-
-        //Riporto a False i valori delle is*
-
-        System.out.println("Print temporanea. Fine prima azione!");
-        match.updateClientDashboard();
-        //IF qualcuno è morto, chiamare la spawn per lui, poi continuare normalmente (da Gestire!)
+        resetActionBool();
         if(match.getActivePlayer().getAction()<2) {
+            match.updateEndAction();
             askAction();
         }
         else if(match.getActivePlayer().getAction()==2){
-            //TODO: messaggio fine turno, sulla View fare in modo che si stampino le info aggiornate del Player
-            //TODO: modificare coda Players e giocatore attivo
+            match.updateEndTurn();
+            setTurn();
         }
     }
 
@@ -359,8 +357,7 @@ public class Game{
             if(match.getPlayers().get(i).equals(p)){
                 index = i;
                 if(i==match.getPlayersSize()-1){
-                    this.resetTurn(match);
-                    return;
+                    resetTurn();
                 }
             }
         }
@@ -369,9 +366,13 @@ public class Game{
         match.getPlayerByIndex(index).setActive();
     }
 
-    private void resetTurn(Match match){
-        for(Player p:match.getPlayers()) p.resetAction();
+    private void resetTurn(){
+        for(Player player:match.getPlayers()) player.resetAction();
         match.getPlayerByIndex(0).setActive();
+    }
+    private void resetActionBool(){
+        isMovementBeforeShoot=false;
+        isMovementBeforeGrab=false;
     }
 
 }
