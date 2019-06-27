@@ -194,6 +194,9 @@ public class Client {
         if(message.getContent().equals("PowToWeaponGrabRequest")){
             view.askUsePowToGrabWeapon();
         }
+        if(message.getContent().equals("ReConnectionRequest")){
+            view.askToReConnect();
+        }
     }
 
     private void handleErrorMessage(Message message){

@@ -6,16 +6,35 @@ import network.client.Client;
 import network.messages.Message;
 import network.server.ClientInterface;
 
+import java.rmi.RemoteException;
+
 public class RMIConnection implements ClientInterface {
 
+    private String playerID;
     private Client client;
+    private boolean connected;
 
     public RMIConnection(Client client) {
         this.client=client;
+
+    }
+
+    @Override
+    public void setPlayerID(String playerID) {
+        this.playerID=playerID;
+    }
+    @Override
+    public String getPlayerID() {
+        return this.playerID;
     }
 
     @Override
     public void sendMessage(Message message) {
-        (new Thread(() -> client.handleMessage(message))).start();
+            (new Thread(() -> client.handleMessage(message))).start();
+    }
+
+    @Override
+    public void setConnection(boolean connected) {
+        this.connected=connected;
     }
 }
