@@ -61,8 +61,8 @@ public class Login {
         inizia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inizia.setBackground(Color.RED);
-                inizia.repaint();
+                //inizia.setBackground(Color.RED);
+                //inizia.repaint();
                 System.out.println(user.getText());
                 System.out.println(pass.getText());
                 System.out.println(sceltaconnessione.getSelectedIndex());

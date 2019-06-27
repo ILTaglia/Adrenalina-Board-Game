@@ -76,5 +76,7 @@ public class GUIView {
         cardToBuy=true;
         mapPanel.showCardToBuy(match, idClient);
     }
+
+
 }
 

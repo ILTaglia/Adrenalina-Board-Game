@@ -127,7 +127,10 @@ public class Dashboard implements Serializable {
         }
         return k;
     }
-
+    public int [][] getKillShotTrack()
+    {
+        return this.killShotTrack;
+    }
     public int getRowDim() {
         return this.map.length;
     }

@@ -2,6 +2,8 @@ package network.client;
 
 import client.CLIView;
 import client.View;
+import client.gui.GUIView;
+import client.gui.GUIViewAdapter;
 import exceptions.MaxNumberofCardsException;
 import exceptions.UsernameAlreadyUsedException;
 import model.PlayerVisibleData;
@@ -41,6 +43,10 @@ public class Client {
             cliView.start();
         }
         else{
+            Client client=new Client();
+            View guiview =new GUIViewAdapter(client);
+            client.addView(guiview);
+            guiview.start();
             //Avvia GUIView
         }
         //Una volta avviata la View si devono fare le richieste che servono alla View e avviare le connessioni.

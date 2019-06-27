@@ -2,25 +2,35 @@ package client.gui;
 
 import client.View;
 import model.Player;
+import network.client.Client;
 import network.messages.Message;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GUIViewAdapter implements View {
+    private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private GUIView guiView;
     private static Waiter waiter;
+    private Client client;
+    private int indexSelectedWeapon;
+    private int requestedAction;
 
     /*Adapter to use GUIView. When GUIView is called you are in wait to be woken up by the desired information*/
-    public GUIViewAdapter(){
+    public GUIViewAdapter(Client client){
         this.guiView=new GUIView();
         waiter=new Waiter();
         //guiView.setWaiter(waiter);
         waiter.setGuiViewAdapter(this);
+        this.client=client;
+        LOGGER.setLevel(Level.INFO);
     }
 
     @Override
     public void start() {
+
 
     }
 
@@ -200,4 +210,8 @@ public class GUIViewAdapter implements View {
     public void chooseDiscardPowCard() {
 
     }
+
+
+
+
 }
