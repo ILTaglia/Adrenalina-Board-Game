@@ -71,10 +71,7 @@ public class GameMap {
 
 
 
-        String userimage = loaduserimage(0);
-        ImageIcon user = new ImageIcon(userimage);
-        JLabel playerimage = new JLabel(user);
-        playerimage.setBounds(Cx,Cy,50,49);
+
 
 
 
@@ -217,6 +214,102 @@ public class GameMap {
 
 
 
+        //############################################
+        //##        PLAYERS IMAGE                #####
+        //############################################
+
+        int sep= 40;
+
+        //TODO LEGGERE LA POSIZIONE DEI PLAYER E SOMMARE ALLE ATTUALE LA VARIABILE movex MOLTIPLICATA PER L'INDICE DELLE COORDINATE
+
+        String userimage = loaduserimage(0);
+        ImageIcon user = new ImageIcon(userimage);
+        JLabel playerimage = new JLabel(user);
+        playerimage.setBounds(Cx,Cy,50,49);
+
+        String userimage2 = loaduserimage(1);
+        ImageIcon user2 = new ImageIcon(userimage2);
+        JLabel playerimage2 = new JLabel(user2);
+        playerimage2.setBounds(Cx+sep,Cy,50,49);
+
+        String userimage3 = loaduserimage(2);
+        ImageIcon user3 = new ImageIcon(userimage3);
+        JLabel playerimage3 = new JLabel(user3);
+        playerimage3.setBounds(Cx,Cy+sep,50,49);
+
+        String userimage4 = loaduserimage(3);
+        ImageIcon user4 = new ImageIcon(userimage4);
+        JLabel playerimage4 = new JLabel(user4);
+        playerimage4.setBounds(Cx+sep,Cy+sep,50,49);
+
+        String userimage5 = loaduserimage(4);
+        ImageIcon user5 = new ImageIcon(userimage5);
+        JLabel playerimage5 = new JLabel(user5);
+        playerimage5.setBounds(Cx+2*sep,Cy,50,49);
+
+
+
+        //############################################
+        //##        OBJECTS BUTTON                #####
+        //############################################
+
+        int y=Cy-30,x=Cx-20, hb=25, lb=150;
+        JButton mmo00 = new JButton("show objects");
+        mmo00.setBounds(x,y,120,20);
+        schermata.add(mmo00);
+
+        JButton mmo01 = new JButton("show objects");
+        mmo01.setBounds(x+movex,y,120,20);
+        schermata.add(mmo01);
+
+        JButton mmo02 = new JButton("show objects");
+        mmo02.setBounds(x+2*movex,y,120,20);
+        schermata.add(mmo02);
+
+        if(mapindex==2||mapindex==3)
+        {
+            JButton mmo03 = new JButton("show objects");
+            mmo03.setBounds(x+3*movex,y,120,20);
+            schermata.add(mmo03);
+        }
+
+
+        JButton mmo10= new JButton("show objects");
+        mmo10.setBounds(x,y+movey,120,20);
+        schermata.add(mmo10);
+
+        JButton mmo11 = new JButton("show objects");
+        mmo11.setBounds(x+movex,y+movey,120,20);
+        schermata.add(mmo11);
+
+        JButton mmo12 = new JButton("show objects");
+        mmo12.setBounds(x+2*movex,y+movey,120,20);
+        schermata.add(mmo12);
+
+        JButton mmo13 = new JButton("show objects");
+        mmo13.setBounds(x+3*movex,y+movey,120,20);
+        schermata.add(mmo13);
+
+        if(mapindex==3||mapindex==4)
+        {
+            JButton mmo20 = new JButton("show objects");
+            mmo20.setBounds(x,y+2*movey,120,20);
+            schermata.add(mmo20);
+        }
+
+
+        JButton mmo21 = new JButton("show objects");
+        mmo21.setBounds(x+movex,y+2*movey,120,20);
+        schermata.add(mmo21);
+
+        JButton mmo22 = new JButton("show objects");
+        mmo22.setBounds(x+2*movex,y+2*movey,120,20);
+        schermata.add(mmo22);
+
+        JButton mmo23 = new JButton("show objects");
+        mmo23.setBounds(x+3*movex,y+2*movey,120,20);
+        schermata.add(mmo23);
+
 
 
 
@@ -345,6 +438,10 @@ public class GameMap {
 
         schermata.add(arma);
         schermata.add(playerimage);
+        schermata.add(playerimage2);
+        schermata.add(playerimage3);
+        schermata.add(playerimage4);
+        schermata.add(playerimage5);
 
         schermata.add(up);
         schermata.add(right);
@@ -468,8 +565,28 @@ public class GameMap {
     public String loaduserimage(int index)
     {
         String percorso = System.getProperty("user.dir");
-        //TODO qui si farà un controllo sul nome della carta, a seconda del quale restituisco il link corretto
-        return percorso+"\\src\\main\\java\\client\\gui\\media\\cards\\Personaggio.png";
+        percorso=percorso+"\\src\\main\\java\\client\\gui\\media\\cards";
+        if(index==0)
+        {
+            percorso=percorso+"\\Blu.png";
+        }
+        if(index==1)
+        {
+            percorso=percorso+"\\Green.png";
+        }
+        if(index==2)
+        {
+            percorso=percorso+"\\Yellow.png";
+        }
+        if(index==3)
+        {
+            percorso=percorso+"\\Pink.png";
+        }
+        if(index==4)
+        {
+            percorso=percorso+"\\Grey.png";
+        }
+        return percorso;
     }
 
     public String loaddamageimage(int colorindex)
@@ -529,6 +646,7 @@ public class GameMap {
         GameMap map = new GameMap(datas);
 
         map.mostra();
+
     }
 
     public String loadmapimage(int index)
