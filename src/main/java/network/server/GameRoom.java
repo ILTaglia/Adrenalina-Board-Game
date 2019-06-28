@@ -57,6 +57,10 @@ public class GameRoom {
         gameController.setPlayerDisconnected(userID);
     }
 
+    public void reConnectPlayer(String userID) {
+        gameController.reConnectPlayer(userID);
+    }
+
     public void sendErrorMessage(String userID,Message message){
         gameServer.sendMessageToID(userID,message);
     }
@@ -123,6 +127,7 @@ public class GameRoom {
     public void discardPowCard(String userID, int indexPowCard) {
         gameController.discardPowCard(userID,indexPowCard);
     }
+
 
 
 }

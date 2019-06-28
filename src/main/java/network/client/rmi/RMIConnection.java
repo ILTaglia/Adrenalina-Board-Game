@@ -37,4 +37,9 @@ public class RMIConnection implements ClientInterface {
     public void setConnection(boolean connected) {
         this.connected=connected;
     }
+
+    @Override
+    public void closeConnection() {
+        //TODO
+    }
 }

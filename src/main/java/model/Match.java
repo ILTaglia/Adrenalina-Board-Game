@@ -141,7 +141,7 @@ public class Match implements Serializable {
 
     //TODO: messaggi per Match!!!!
     public void assignScore(List<Integer> score){
-        for(int i=0; i<score.size(); i++){getPlayerByColor(i).setScore(score.get(i));}
+        for(int i=0; i<score.size(); i++){getPlayer(i).setScore(score.get(i));}
     }
 
     //________________________________________________________________________________________________________________//
@@ -256,17 +256,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
-    public Player getPlayerByColor(int color) {
-        for (Player player : this.players) {
-            if (player.getColor() == color) {
-                return player;
-            }
-        }
-        return null;
-    }
-
-
 
     public boolean getCheck() {
         return this.checkDashboard;
