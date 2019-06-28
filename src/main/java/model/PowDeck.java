@@ -60,7 +60,7 @@ public class PowDeck extends Deck{
                         }
                         else {
                             next = -1;
-                            //this.PC = O;
+                            this.PC = O;
                             S.addAll(O);
                             this.stack =S;
                         }

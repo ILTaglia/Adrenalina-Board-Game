@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -98,6 +100,36 @@ public class MatchTest {
         assertFalse(player3.getActive());
         assertFalse(player4.getActive());
         assertEquals(player2, match.getActivePlayer());
+
+        //Note, I put Hermione as the first player
+        assertEquals(player1, match.getPlayerByID("18263100"));
+        assertNotEquals(player2, match.getPlayerByID("18263100"));
+    }
+
+    @Test
+    public void spawn(){
+        match.createDashboard(3);
+        match.fillDashboard();
+        match.firstTurnPow();
+        assertEquals(-1, player1.getCel().getX());
+        assertEquals(-1, player1.getCel().getY());
+        assertEquals(2, player1.getNumberPow());
+        //hypothesis that player1 wants to spawn with its first PowCard
+        if(player1.getPowByIndex(0).getColor()==0){
+            match.spawnPlayer(player1, 0, 1, 0);
+            assertEquals(1, player1.getCel().getX());
+            assertEquals(0, player1.getCel().getY());
+        }
+        if(player1.getPowByIndex(0).getColor()==1){
+            match.spawnPlayer(player1, 0, 0, 2);
+            assertEquals(0, player1.getCel().getX());
+            assertEquals(2, player1.getCel().getY());
+        }
+        if(player1.getPowByIndex(0).getColor()==2){
+            match.spawnPlayer(player1, 0, 2, 3);
+            assertEquals(2, player1.getCel().getX());
+            assertEquals(3, player1.getCel().getY());
+        }
     }
 
     @Test
@@ -123,11 +155,38 @@ public class MatchTest {
     }
 
     @Test
+    public void score(){
+        match.createPlayer("Karka", "Grey", "18114320");
+        player5 = match.getPlayerByIndex(4);
+        assertEquals(0, player1.getScore()); //color 0
+        assertEquals(0, player2.getScore()); //color 3
+        assertEquals(0, player3.getScore()); //color 1
+        assertEquals(0, player4.getScore()); //color 2
+        assertEquals(0, player5.getScore()); //color 4
+        List<Integer> score = new ArrayList<>();
+        score.add(4); //0
+        score.add(2); //1
+        score.add(1); //2
+        score.add(0); //3
+        score.add(3); //4
+        match.assignScore(score);
+
+        //Note that player1, 2... are not in order of color, but in order of index, by the order
+        //in which they have registered to the match
+        assertEquals(4, player1.getScore());
+        assertEquals(0, player2.getScore());
+        assertEquals(2, player3.getScore());
+        assertEquals(1, player4.getScore());
+        assertEquals(3, player5.getScore());
+    }
+
+    @Test
     public void dashboard(){
         match.createDashboard(1);
         Dashboard d = match.getDashboard();
         match.fillDashboard();
         match.shuffleAllDecks();
+        player1.setActive();
 
         SpawnPointCell c = (SpawnPointCell)d.getMap(0, 2);
         assertEquals(3, c.getSpawnPointCellWeapons().size());
@@ -149,7 +208,11 @@ public class MatchTest {
             player1.addAmmo(yellowAmmo);
             player1.addAmmo(yellowAmmo);
         } catch(MoreThanTreeAmmosException e){}
+        assertEquals(3, player1.getAmmo(2));
         assertThrows(MoreThanTreeAmmosException.class, () -> player1.addAmmo(yellowAmmo));
+        try{match.removeAmmo(1, yellowAmmo);}
+        catch(NotEnoughAmmosException e){}
+        assertEquals(2, player1.getAmmo(2));
         player1.setCel(2, 3);
         assertEquals(0, player1.getNumberWeapon());
         List<Weapon> beforeGrabbingWeapons = c.getSpawnPointCellWeapons();
@@ -164,6 +227,9 @@ public class MatchTest {
         assertEquals(beforeGrabbingWeapons.get(1), player1.getWeaponByIndex(0));
         assertEquals(beforeGrabbingWeapons.get(2), afterGrabbingWeapons.get(2));
         assertEquals(1, player1.getNumberWeapon());
+
+        match.setWeaponCard(c, 1);
+        assertEquals(3, c.getSpawnPointCellWeapons().size());
 
         try{
             player1.removeAmmo(2, blueAmmo);

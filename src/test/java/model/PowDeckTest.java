@@ -67,4 +67,9 @@ public class PowDeckTest {
         powcard = (PowCard) W.drawCard();
         assertEquals(2,powcard.getColor());
     }
+
+    @Test
+    public void get(){
+        assertEquals(powcard, W.getPow(0));
+    }
 }

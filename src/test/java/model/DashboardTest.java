@@ -17,6 +17,11 @@ public class DashboardTest {
         Dashboard d1 = new Dashboard(1);
         Dashboard d2 = new Dashboard(2);
         Dashboard d3 = new Dashboard(3);
+        Dashboard d4 = new Dashboard(4);
+        assertEquals(2, d2.getMapType());
+        assertEquals(3, d3.getMapType());
+        assertEquals(4, d4.getMapType());
+
         Match match = new Match();
 
         //try {
@@ -40,6 +45,10 @@ public class DashboardTest {
         match.getDashboard().setKillShotTrack(player3,2);
         match.getDashboard().setKillShotTrack(player2,1);
         match.getDashboard().setKillShotTrack(player1,1);
+
+        int[][] killShotTrack = match.getDashboard().getKillShotTrack();
+        assertEquals(2, killShotTrack.length);
+        assertEquals(8, killShotTrack[0].length);
 
         /*This test controls that when a match ends, points of the killshot track are given to players that have
         * signals in the track*/
