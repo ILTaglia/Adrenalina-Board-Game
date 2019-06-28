@@ -141,7 +141,10 @@ public class Match implements Serializable {
 
     //TODO: messaggi per Match!!!!
     public void assignScore(List<Integer> score){
-        for(int i=0; i<score.size(); i++){getPlayer(i).setScore(score.get(i));}
+        for(int i=0; i<score.size(); i++){
+            try{getPlayer(i).setScore(score.get(i));}
+            catch(InvalidColorException e){}
+        }
     }
 
     //________________________________________________________________________________________________________________//

@@ -23,6 +23,7 @@ public class Ammo_DeckTest {
         in_size_stack=ammo_deck.sizeStack();
 
         ammo_card=(AmmoCard)ammo_deck.drawCard();
+        assertFalse(ammo_card.getStatus());
 
         assertEquals(in_size_stack-1,ammo_deck.sizeStack());
         assertEquals(0,ammo_deck.sizeStackDiscarded());

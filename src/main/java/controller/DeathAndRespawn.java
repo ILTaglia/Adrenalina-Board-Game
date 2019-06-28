@@ -22,6 +22,11 @@ public class DeathAndRespawn {
         int firstBlood;
         int flag;
         List<Integer> score=new ArrayList<>();
+        score.add(0);
+        score.add(0);
+        score.add(0);
+        score.add(0);
+        score.add(0);
         //parameter is the killed player, and the killer
         //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
         if(match.getCheck()){
