@@ -150,14 +150,20 @@ public class GameServer {
         }catch (RemoteException e) {
             //TODO: disconnect nel caso che il Player non sia ancora connesso praticamente
         }
+        //Imposto a connesso il Player, a termine del timer verifico che siano ancora tutti connessi
         waitingRoom.addUserToRoom(playerUsername);
     }
 
     public synchronized void handleDisconnect(ClientInterface clientInterface){
-        //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom che il singolo giocatore è disconnesso
+        //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
         clientInterface.setConnection(false);
         userIDToStatusConnection.replace(clientInterface.getPlayerID(),false);
-        userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
+        if(userIDToGameRoom.containsValue(userIDToGameRoom.get(clientInterface.getPlayerID()))) {
+            userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
+        }
+        else{
+            //TODO: Metodo per la WR
+        }
     }
     public synchronized void handleReConnect(ClientInterface clientInterface,String userID){
         clientInterface.setConnection(true);
@@ -190,6 +196,7 @@ public class GameServer {
         HashMap<String, String> userList=new HashMap<>();
         for(String username:usernameList){
             userList.put(username,usernameToUserID.get(username));
+            userIDToStatusConnection.put(usernameToUserID.get(username),true);
         }
         GameRoom gameRoom=new GameRoom(userList,this);
         for(String playerUsername:usernameList){
