@@ -9,14 +9,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OfficialShootVersion {
-    ShootManagement shootManagement;
-    CreateListAttackable createListAttackable;
-    Match match;
-    Player player;
-    Weapon weapon;
-    List<Integer> lista;
-    int type;
-    List<TypeAttack> attacks;
+    private ShootManagement shootManagement;
+    private CreateListAttackable createListAttackable;
+    private Match match;
+    private Player player;
+    private Weapon weapon;
+    private List<Integer> lista;
+    private int type;
+    private List<TypeAttack> attacks;
+    private int flagfirstattack;
+    private TypeAttack actualattack;
+    private int firstattacksettedflag;
+
+    //########  ATTACK INFO #########
+
+    private List <Integer> extra;
+    private int distance;
+    private int moveme;
+    private int moveyou;
+    private int typeattack; //Says if it is a Finite distance, more distance ecc
+
+    //########  END ATTACK INFO #########
+
+
+
+
+
 
 
     //############################################
@@ -32,6 +50,14 @@ public class OfficialShootVersion {
         this.weapon=null;
         this.lista=new ArrayList<Integer>();
         this.attacks=new ArrayList<TypeAttack>();
+        this.flagfirstattack=0;
+        this.actualattack=null;
+        this.firstattacksettedflag=0;
+        this.extra= new ArrayList<Integer>();
+        this.distance=0;
+        this.moveme=0;
+        this.moveyou=0;
+        this.typeattack=0;
     }
 
     //############################################
@@ -129,8 +155,42 @@ public class OfficialShootVersion {
     }
 
     //############################################
-    //##        GENERATE TYPE ATTACK LIST    #####
+    //##        AUTOSELECT FIRST ATTACK      #####
     //############################################
+
+    public void setfirstattack()
+    {
+        this.actualattack=this.attacks.get(0);
+        this.firstattacksettedflag=1;
+        this.attacks.remove(0);
+    }
+
+
+    //############################################
+    //##        LOAD ATTACK INFO              #####
+    //############################################
+
+    public void loadinfo()
+    {
+        this.extra=this.actualattack.getExtras();
+        this.distance=this.actualattack.getDistance();
+        this.moveme=this.actualattack.getMoveMe();
+        this.moveyou=this.actualattack.getMoveYou();
+        this.typeattack= this.actualattack.getType();
+    }
+
+
+    //############################################
+    //##        ATTACK LAUNCHER              #####
+    //############################################
+
+    //This will start the attack defining the type of the attack and calling the correct method for that attack
+
+
+
+
+
+
 
 
 
