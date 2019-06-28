@@ -1,7 +1,10 @@
 package controller;
 
+import exceptions.MaxNumberPlayerException;
+import exceptions.MaxNumberofCardsException;
 import model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -309,7 +312,7 @@ public class UndefinedAttack {
                             this.ricorsivebit=1;
                             simpleattack(t);
                         }
-/*
+
                         for(int i=0;i<t.getNumberEffect();i++)
                         {
                             Effect e = t.getEffect(i);
@@ -329,7 +332,7 @@ public class UndefinedAttack {
                                 }
                                 while(scelta<0||scelta>cont-1);
                                 Player second = this.listAttackable.getAttackableplayers().get(scelta);
-                                for(int k=0;k<e.getNumberDamage();k++)
+                                for(int k=0;k<e.getnumberdamage();k++)
                                 {
                                     Damage damage = e.getDamage(k);
                                     System.out.println("Status attacco : " +this.manageplayerattack(second,e.getId(),damage));
@@ -351,19 +354,19 @@ public class UndefinedAttack {
                                 }
                                 while(scelta<0||scelta>cont-1);
                                 Coordinate second = this.listAttackable.getAttackablecells().get(scelta);
-                                for(int k=0;k<e.getNumberDamage();k++)
+                                for(int k=0;k<e.getnumberdamage();k++)
                                 {
                                     Damage damage = e.getDamage(k);
                                     System.out.println("Status attacco : " +this.managecellattack(second,e.getId(),damage));
                                 }
                             }
-                        }*/
+                        }
                     }
 
                 }
             }
     }
-    /*
+
     public static void main(String args[])
     {
         Match match;
@@ -376,15 +379,13 @@ public class UndefinedAttack {
 
         match = new Match();
 
-        try {
+
             match.createPlayer("Giovanni", "Blue", "10583741");
             match.createPlayer("Marco", "Pink", "14253954");
             match.createPlayer("Codecasa", "Green", "18263100");
             match.createPlayer("Bussetti", "Yellow", "18263100");
             match.createPlayer("Norma", "Grey", "18263100");
-        } catch (MaxNumberPlayerException e) {
-            System.out.println("Too many players in the game.");
-        }
+
 
         player1 = match.getPlayerByIndex(0);
         player2 = match.getPlayerByIndex(1);
@@ -436,6 +437,6 @@ public class UndefinedAttack {
         System.out.println(weapon5.getName());
         System.out.println(weapon6.getName());
     }
-    */
+
 
 }
