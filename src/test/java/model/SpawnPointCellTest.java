@@ -1,9 +1,8 @@
 package model;
 
 import exceptions.FullCellException;
-import exceptions.MaxNumberofCardsException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +13,7 @@ public class SpawnPointCellTest {
     Player player3;
     SpawnPointCell spawnPointCell;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");

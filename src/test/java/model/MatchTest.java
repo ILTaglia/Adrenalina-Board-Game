@@ -2,8 +2,8 @@ package model;
 
 import controller.GrabWeapon;
 import exceptions.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +20,7 @@ public class MatchTest {
     Player player5;
 
 
-    @Before
+    @BeforeEach
     public void SetUp(){
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");
