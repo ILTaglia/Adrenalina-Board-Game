@@ -162,9 +162,21 @@ public class GameServer {
             userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
         }
         else{
-            //TODO: Metodo per la WR
+            usernameToUserID.forEach((username,userID)-> {
+                if(userID.equals(clientInterface.getPlayerID())) {
+                    waitingRoom.removePlayerInQueue(username);
+                    usernameToUserID.remove(username,userID);
+                    clientInterface.closeConnection();      //???????TODO
+                    userIDToStatusConnection.remove(userID);//TODO
+                }
+            });
         }
+        printOut("ciao");
     }
+
+    private void printOut(String ciao) {
+    }
+
     public synchronized void handleReConnect(ClientInterface clientInterface,String userID){
         clientInterface.setConnection(true);
         userIDToClientInterface.replace(userID,clientInterface);

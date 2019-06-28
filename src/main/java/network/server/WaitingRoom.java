@@ -4,6 +4,8 @@ import network.server.GameServer;
 
 import java.util.*;
 
+import static utils.printStream.printOut;
+
 public class WaitingRoom {
 
     private Queue<String> waitingClients;
@@ -27,7 +29,7 @@ public class WaitingRoom {
         }
         waitingClients.add(username);
         System.out.println("New Client Added! Queue: ["+waitingClients+"]");
-        if(waitingClients.size()==2){
+        if(waitingClients.size()==maxNumberPlayer){
             timer.cancel();
             newGameRoom();
         }
@@ -51,6 +53,7 @@ public class WaitingRoom {
 
     public void removePlayerInQueue(String playerUsername){
         waitingClients.remove(playerUsername);
+        printOut(playerUsername+" è stato rimosso.");
     }
 
     public boolean isAlreadyInQueue(String requestedUsername) {
