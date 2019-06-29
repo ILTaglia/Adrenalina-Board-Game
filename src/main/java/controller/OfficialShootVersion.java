@@ -200,6 +200,7 @@ public class OfficialShootVersion {
     {
         this.actualattack=this.attacks.get(0);
         this.attacks.remove(0);
+        loadinfo();
 
     }
 
@@ -233,12 +234,12 @@ public class OfficialShootVersion {
     }
 
 
-    //############################################
-    //##        ATTACK LAUNCHER              #####
-    //############################################
+        //############################################
+        //##        ATTACK LAUNCHER              #####
+        //############################################
 
-    //This will start the attack defining the type of the attack and calling the correct method for that attack
-    //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
+        //This will start the attack defining the type of the attack and calling the correct method for that attack
+        //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
 
     public void attacklauncher()
     {
@@ -469,6 +470,33 @@ public class OfficialShootVersion {
         }
     }
 
+
+
+
+
+    //############################################
+    //##        METODI DI GET E SET          #####
+    //############################################
+
+    public int getmoveme()
+    {
+        return this.moveme;
+    }
+
+    public Player getPlayer()
+    {
+        return this.player;
+    }
+
+    public int getFlagfirstattack()
+    {
+        return this.flagfirstattack;
+    }
+
+    public void setFlagfirstattack(int i)
+    {
+        this.flagfirstattack=i;
+    }
 
 
 

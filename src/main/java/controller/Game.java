@@ -139,7 +139,7 @@ public class Game{
                 this.selectGrab(userID);
                 break;
             case (2):
-                this.askWeaponToShoot();
+                //this.askWeaponToShoot(); //TODO, HO COMMENTATO PERCHE' IL METODO ORA SI ASPETTA ALTRI PARAMETRI
                 //Richiesta al giocatore con arma con cui vuole attaccare
                 //Da cui poi si chiamerà la shoot
 
@@ -180,7 +180,7 @@ public class Game{
                 selectGrab(userID);
             }
             if(isMovementBeforeShoot){
-                this.shoot();
+               // this.shoot();   //TODO, HO COMMENTATO PERCHE' IL METODO ORA SI ASPETTA ALTRI PARAMETRI
             }
             run.registerMovementAction(match);
             //In caso di successo dell'azione aumento di 1 la variabile azione del Player
@@ -313,14 +313,133 @@ public class Game{
     }
 
     //TODO:Chiedi indice arma da usare per l'attacco e il Player da attaccare.
-    private void askWeaponToShoot(){
+    private void askWeaponToShoot(Player whoPerformsTheAttack){
+        OfficialShootVersion shootelaborator = new OfficialShootVersion(this.match,whoPerformsTheAttack);
+        if(!shootelaborator.checkplayer())
+        {
+            //TODO ERRORE GIOCATORE NON TROVATO --> NON DOVREBBE MAI ACCADERE PERO'
+        }
+        List<Weapon> listofguns=shootelaborator.getguns();
+        int choose=0;
+        //TODO INVIO LISTA DI ARMI E CHIEDO RESTITUZIONE DI UN INTERO IDENTIFICATIVO FINO A QUANDO L'INTERO NON E' CORRETTO
+        shootelaborator.chooseweapon(listofguns.get(choose));
+        shoot(whoPerformsTheAttack,shootelaborator);
 
     }
     //TODO
     //Completa attacco in base al funzionamento della parte della Shoot
-    private void shoot(){
+    private void shoot(Player whoPerformsTheAttack, OfficialShootVersion shootelaborator){
+        List<Integer> possibleTypesOfSeries = shootelaborator.gettypes();
+        int choose=0;
+        //TODO INVIO LISTA NUMERI POSSIBILI E MI ASPETTO UN INTERO COME RISPOSTA (CONTENUTO TRA I PRECEDENTI)
+        shootelaborator.settype(choose);
+        shootelaborator.generateattacks();
+        shootelaborator.setfirstattack();
+        shootelaborator=attacklauncher(shootelaborator);
+        while(shootelaborator.checkotherattacks())
+        {
+            int checkstop=0;
+            //TODO MESSAGGIO IN CUI CHIEDO SE HO INTENZIONE O MENO DI PROSEGUIRE CON IL PROSSIMO ATTACCO, RESTITUISCE UN NUMERO (0 O 1)
+            if(checkstop==0)
+            {
+                shootelaborator.setsuccessiveattack();
+                shootelaborator=attacklauncher(shootelaborator);
+            }
+        }
+
+
 
     }
+
+    //-----------------------------------------Metodi necessari alla Shoot-------------------------------------------------//
+
+    //############################################
+    //##        ATTACK LAUNCHER              #####
+    //############################################
+
+    //This will start the attack defining the type of the attack and calling the correct method for that attack
+    //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
+
+    private OfficialShootVersion attacklauncher(OfficialShootVersion shootelaborator)
+    {
+        if(shootelaborator.payextra())
+        {
+            int typeattack= shootelaborator.getTypeAttack();
+            if(typeattack==1||typeattack==2||typeattack==3||typeattack==4||typeattack==5||typeattack==9||typeattack==11)
+            {
+                shootelaborator=standardattack(shootelaborator);
+            }
+
+            if(shootelaborator.getFlagfirstattack()==0)
+            {
+                shootelaborator.setFlagfirstattack(1);
+            }
+
+        }
+        else
+        {
+            //TODO MESSAGGIO ERRORE E ANNULLAMENTO ATTACCO
+        }
+        return shootelaborator;
+    }
+
+
+    //############################################
+    //##        STANDARD EXECUTION           #####
+    //############################################
+
+    //Is used only by
+    //Finite distance 	1
+    //Undefined distance	2
+    //MoreDistance	3
+    //Cardinal	4
+    //Not seen	5
+    //Allroom	9
+    //Infiniteline	11
+
+
+    //L'attacco come prima cosa controlla se ci siano degli spostamenti che posso fare, in tal caso li esegue
+    //Subito dopo elabora la lista di giocatori e celle attaccabili
+    //Avvia i metodi di esecuzione effetti finchè ce ne siano
+
+
+    private OfficialShootVersion standardattack(OfficialShootVersion shootelaborator)
+    {
+        if(shootelaborator.getmoveme()!=0)
+        {
+            shootelaborator.run(shootelaborator.getPlayer(),shootelaborator.getmoveme());
+        }
+        shootelaborator.generatelistattackable(shootelaborator.getPlayer());
+        List <Player> attackablePlayers= shootelaborator.getlistattackable(1);
+        List <Coordinate> attackableCells= shootelaborator.getlistattackable(1);
+        while(shootelaborator.loadeffect())
+        {
+            int typetarget=shootelaborator.getTypeTarget();
+            if(typetarget==1)
+            {
+                int choosevictim=0;
+                //TODO MOSTRO ALL'UTENTE LA LISTA DEI PLAYER ATTACCABILI E CHIEDO UN INDICE, SE ERRATO O LISTA VUOTA MESSAGGIO DI ERRORE
+                shootelaborator.setvictimplayer(attackablePlayers.get(choosevictim));
+            }
+            else
+            {
+                int choosevictim=0;
+                //TODO MOSTRO ALL'UTENTE LA LISTA DELLE CELLE ATTACCABILI E CHIEDO UN INDICE, SE ERRATO O LISTA VUOTA MESSAGGIO DI ERRORE
+                shootelaborator.setvictimcell(attackableCells.get(choosevictim));
+            }
+        }
+
+
+        return shootelaborator;
+    }
+
+
+
+
+    //-----------------------------------------Fine Metodi necessari alla Shoot--------------------------------------------//
+
+
+
     //TODO: Quando è lecita la recharge?
     private void recharge(){
         /*recharge a weapon checking if the weapon is already loaded*/
