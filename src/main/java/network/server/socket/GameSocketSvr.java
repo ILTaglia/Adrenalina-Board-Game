@@ -58,7 +58,7 @@ public class GameSocketSvr extends Thread {
         gameServer.addClientToWR(username,clientHandler);
     }
 
-    public boolean isAlreadyInQueue(String requestedUsername) { //TODO: VERIFICA PARALLELISMI DI TUTTO QUESTO
+    public boolean isAlreadyInQueue(String requestedUsername) {
         return gameServer.isAlreadyInQueue(requestedUsername);
     }
 
@@ -97,7 +97,5 @@ public class GameSocketSvr extends Thread {
     public void handleReconnect(String userID,ClientInterface clientInterface){
 
     }
-
-    //---------------------------------Metodi di dubbia utilità-----------------------------------------------------------//
 
 }

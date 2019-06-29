@@ -13,19 +13,20 @@ public class WaitingRoom {
     private final int minNumberPlayer;
     private final int maxNumberPlayer;
     private Timer timer;
-    private final int queueTimer=30000;            //in ms queue timer is 60*10^(3) ms => 60 s
+    private final int queueTimer;            //in ms queue timer is 60*10^(3) ms => 60 s
 
 
-    public WaitingRoom(GameServer server,int min,int max){
+    public WaitingRoom(GameServer server,int queueTimer,int min,int max){
         waitingClients=new LinkedList<>();
         this.gameServer=server;
         this.minNumberPlayer=min;
         this.maxNumberPlayer=max;
+        this.queueTimer=queueTimer;
     }
     public void addUserToRoom(String username){
         waitingClients.add(username);
-        System.out.println("New Client Added! Queue: ["+waitingClients+"]");
-        if(waitingClients.size()==1){
+        printOut("New Client Added! Queue: "+waitingClients);
+        if(waitingClients.size()==minNumberPlayer){
             timer= new Timer();
             printOut("Waiting " + (queueTimer/1000) + " seconds for new Players, then start match");
             startTimer();

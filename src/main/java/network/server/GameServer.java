@@ -24,6 +24,9 @@ public class GameServer {
 
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
+    private static final int TIMER = 30000;
+    private static final int socketServerPort=7218;
+    private static final int rmiServerPort=1099;
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                            //Collega Username e IdPlayer
@@ -32,12 +35,9 @@ public class GameServer {
     private HashMap<String,Boolean> userIDToStatusConnection;                   //PlayerID to his Connection Status
     //Se non è ancora in GameRoom si potrebbe mettere il campo String a "WaitingRoom"
     //Così facendo eviterei di dovermi inventare altro per i WaitingPlayers
-    //private HashMap<String,GameRoom> idGameRoomToGameRoom;                //TODO: quest'ultimo è evitabile secondo me
 
     //----------------------------------------------------------------------//
 
-    private int socketServerPort=7218;
-    private int rmiServerPort=1099;
     private WaitingRoom waitingRoom;                                        //Stanza per i giocatori in attesa
 
     // Implementazione vera e propria dei Server
@@ -48,13 +48,13 @@ public class GameServer {
     public static void main(String[] args) {
         GameServer gameServer = new GameServer();
         gameServer.launchServer();
-        //TODO: parametri, lettura da file dei parametri
+        //TODO: parametri, lettura da riga di comando dei parametri (TIMER PRINCIPALMENTE)
     }
 
     private GameServer(){
         this.gameSocketSvr=new GameSocketSvr(this);
         this.gameRMISvr=new GameRMISvr(this);
-        this.waitingRoom= new WaitingRoom(this,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
+        this.waitingRoom= new WaitingRoom(this,TIMER,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.usernameToUserID =new HashMap<>();
         this.userIDToClientInterface =new HashMap<>();
         this.userIDToGameRoom =new HashMap<>();
@@ -67,7 +67,7 @@ public class GameServer {
         try {
             gameRMISvr.start(rmiServerPort);
         }catch (RemoteException e){
-            System.out.println(e.getMessage());
+            printOut(e.getMessage());
         }
         registerServer(this);
 
@@ -75,51 +75,6 @@ public class GameServer {
     }
     //TODO: synchronized? A che livello?
     //------------------------Metodi usati dalle ClientInterface------------------------------------//
-
-    public synchronized void handleMessage(Message message) {
-        switch(message.getType()) {
-            case "clientRequest":
-                ClientRequestMessage requestMessage=(ClientRequestMessage) message;
-                handleRequest(requestMessage);
-                break;
-        }
-    }
-
-    private void handleRequest(ClientRequestMessage requestMessage) {
-        switch(requestMessage.getContent()){
-            case "ColorRequest":
-                userIDToGameRoom.get(requestMessage.getUserID()).registerPlayerColor(requestMessage.getUserID(),requestMessage.getInfo());
-                break;
-            case "MapRequest":
-                userIDToGameRoom.get(requestMessage.getUserID()).setMapChoice(Integer.parseInt(requestMessage.getInfo()));
-                break;
-            case "SpawnPointRequest":
-                SpawnPointClientRequest spawnPointRequest=(SpawnPointClientRequest) requestMessage;
-                userIDToGameRoom.get(spawnPointRequest.getUserID()).setSpawnPoint(spawnPointRequest.getUserID(),spawnPointRequest.getCoordinate(),Integer.parseInt(spawnPointRequest.getInfo()));
-                break;
-            case "ActionRequest":
-                userIDToGameRoom.get(requestMessage.getUserID()).performAction(requestMessage.getUserID(), Integer.parseInt(requestMessage.getInfo()));
-                break;
-            case "RunRequest":
-                RunClientRequest runRequest=(RunClientRequest) requestMessage;
-                userIDToGameRoom.get(runRequest.getUserID()).performRun(requestMessage.getUserID(),runRequest.getDirection());
-                break;
-            case "WeaponGrabRequest":
-                userIDToGameRoom.get(requestMessage.getUserID()).performWeaponGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
-                break;
-            case "WeaponDiscardToGrabRequest":
-                CardToWeaponGrabClientRequest discardWeaponMessage=(CardToWeaponGrabClientRequest) requestMessage;
-                userIDToGameRoom.get(requestMessage.getUserID()).discardWeaponCardToGrab(discardWeaponMessage.getUserID(),Integer.parseInt(discardWeaponMessage.getInfo()),Integer.parseInt(discardWeaponMessage.getIndexCardToDiscard()));
-                break;
-            case "PowToWeaponGrabRequest":
-                CardToWeaponGrabClientRequest powToConvertMessage=(CardToWeaponGrabClientRequest) requestMessage;
-                userIDToGameRoom.get(powToConvertMessage.getUserID()).performWeaponGrabWithPowCard(powToConvertMessage.getUserID(),Integer.parseInt(powToConvertMessage.getInfo()),Integer.parseInt(powToConvertMessage.getIndexCardToDiscard()));
-                break;
-            case "PowCardDiscardRequest":
-                userIDToGameRoom.get(requestMessage.getUserID()).discardPowCard(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
-                break;
-        }
-    }
 
     public boolean isAlreadyInQueue(String requestedUsername) {
         return waitingRoom.isAlreadyInQueue(requestedUsername);
@@ -162,7 +117,6 @@ public class GameServer {
             userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
         }
         else{
-            printOut("Ciao");
             usernameToUserID.forEach((username,userID)-> {
                 if(userID.equals(clientInterface.getPlayerID())) {
                     waitingRoom.removePlayerInQueue(username);
@@ -172,7 +126,6 @@ public class GameServer {
                 }
             });
         }
-        printOut("ciao");
     }
 
     public synchronized void handleReConnect(ClientInterface clientInterface,String userID){
@@ -180,14 +133,14 @@ public class GameServer {
         userIDToClientInterface.replace(userID,clientInterface);
         userIDToStatusConnection.replace(clientInterface.getPlayerID(),true);
         userIDToGameRoom.get(clientInterface.getPlayerID()).reConnectPlayer(clientInterface.getPlayerID());
-        Message confirmationMessage=new InfoMatch("Bentornato carissimo!\n");       //TODO: modificare tipo e contenuto messaggio.
+        Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");       //TODO: modificare tipo e contenuto messaggio.
         sendMessageToID(userID,confirmationMessage);
     }
 
     //Metodo probabilmente utile solo per i Client connessi con Socket, nel caso di RMI diventa "inutile", serve solo a marchiare il client disconnesso
+    //Sui socket chiude forzatamente la connessione.
     public synchronized void closeConnection(String userID){
         userIDToClientInterface.get(userID).closeConnection();
-        handleDisconnect(userIDToClientInterface.get(userID));
     }
 
     private void  assignIDToUsername(String playerUsername) {
@@ -238,6 +191,52 @@ public class GameServer {
         }
     }
 
+    //------------------------Metodi usati per la gestione dei messaggi in ingresso-----------------------------------//
+
+    public synchronized void handleMessage(Message message) {
+        switch(message.getType()) {
+            case "clientRequest":
+                ClientRequestMessage requestMessage=(ClientRequestMessage) message;
+                handleRequest(requestMessage);
+                break;
+        }
+    }
+
+    private void handleRequest(ClientRequestMessage requestMessage) {
+        switch(requestMessage.getContent()){
+            case "ColorRequest":
+                userIDToGameRoom.get(requestMessage.getUserID()).registerPlayerColor(requestMessage.getUserID(),requestMessage.getInfo());
+                break;
+            case "MapRequest":
+                userIDToGameRoom.get(requestMessage.getUserID()).setMapChoice(Integer.parseInt(requestMessage.getInfo()));
+                break;
+            case "SpawnPointRequest":
+                SpawnPointClientRequest spawnPointRequest=(SpawnPointClientRequest) requestMessage;
+                userIDToGameRoom.get(spawnPointRequest.getUserID()).setSpawnPoint(spawnPointRequest.getUserID(),spawnPointRequest.getCoordinate(),Integer.parseInt(spawnPointRequest.getInfo()));
+                break;
+            case "ActionRequest":
+                userIDToGameRoom.get(requestMessage.getUserID()).performAction(requestMessage.getUserID(), Integer.parseInt(requestMessage.getInfo()));
+                break;
+            case "RunRequest":
+                RunClientRequest runRequest=(RunClientRequest) requestMessage;
+                userIDToGameRoom.get(runRequest.getUserID()).performRun(requestMessage.getUserID(),runRequest.getDirection());
+                break;
+            case "WeaponGrabRequest":
+                userIDToGameRoom.get(requestMessage.getUserID()).performWeaponGrab(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
+                break;
+            case "WeaponDiscardToGrabRequest":
+                CardToWeaponGrabClientRequest discardWeaponMessage=(CardToWeaponGrabClientRequest) requestMessage;
+                userIDToGameRoom.get(requestMessage.getUserID()).discardWeaponCardToGrab(discardWeaponMessage.getUserID(),Integer.parseInt(discardWeaponMessage.getInfo()),Integer.parseInt(discardWeaponMessage.getIndexCardToDiscard()));
+                break;
+            case "PowToWeaponGrabRequest":
+                CardToWeaponGrabClientRequest powToConvertMessage=(CardToWeaponGrabClientRequest) requestMessage;
+                userIDToGameRoom.get(powToConvertMessage.getUserID()).performWeaponGrabWithPowCard(powToConvertMessage.getUserID(),Integer.parseInt(powToConvertMessage.getInfo()),Integer.parseInt(powToConvertMessage.getIndexCardToDiscard()));
+                break;
+            case "PowCardDiscardRequest":
+                userIDToGameRoom.get(requestMessage.getUserID()).discardPowCard(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
+                break;
+        }
+    }
 
 
     //-------------------------------Metodi da completare----------------------------//
@@ -245,8 +244,6 @@ public class GameServer {
     private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
         gameSocketSvr.close();
     }
-
-
 
 
     //TODO: implementare metodi disconnessione/gestione riconnessione

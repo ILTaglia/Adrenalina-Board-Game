@@ -84,7 +84,6 @@ public class ClientHandler implements Runnable, ClientInterface {
                 }
             }
         }catch (IOException|ClassNotFoundException e){
-            printOut("Connection Lost");
             server.handleDisconnect(this);
         }
     }
@@ -109,7 +108,7 @@ public class ClientHandler implements Runnable, ClientInterface {
         try {
             this.clientSocket.close();
         } catch (IOException e) {
-            /*Fallita chiusura Socket //TODO*/
+            printOut("Connection close Failed");
         }
     }
 
