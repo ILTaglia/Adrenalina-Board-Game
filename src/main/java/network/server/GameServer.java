@@ -5,10 +5,8 @@ import network.messages.clientRequest.*;
 import network.messages.clientRequest.CardToWeaponGrabClientRequest;
 import network.messages.clientRequest.RunClientRequest;
 import network.messages.clientRequest.SpawnPointClientRequest;
-import network.messages.gameRequest.ReConnectServerRequest;
 import network.messages.playerDataMessage.InfoID;
 import network.messages.playerDataMessage.InfoMatch;
-import network.messages.playerDataMessage.InfoMessage;
 import network.server.rmi.GameRMISvr;
 import network.server.socket.GameSocketSvr;
 
@@ -16,6 +14,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 import static utils.NotifyClient.registerServer;
+import static utils.printStream.printOut;
 
 
 //la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente
@@ -59,6 +58,7 @@ public class GameServer {
         this.usernameToUserID =new HashMap<>();
         this.userIDToClientInterface =new HashMap<>();
         this.userIDToGameRoom =new HashMap<>();
+        this.userIDToStatusConnection=new HashMap<>();
     }
 
     private void launchServer(){
@@ -158,23 +158,21 @@ public class GameServer {
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
         clientInterface.setConnection(false);
         userIDToStatusConnection.replace(clientInterface.getPlayerID(),false);
-        if(userIDToGameRoom.containsValue(userIDToGameRoom.get(clientInterface.getPlayerID()))) {
+        if(userIDToGameRoom.containsKey(clientInterface.getPlayerID())) {
             userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
         }
         else{
+            printOut("Ciao");
             usernameToUserID.forEach((username,userID)-> {
                 if(userID.equals(clientInterface.getPlayerID())) {
                     waitingRoom.removePlayerInQueue(username);
                     usernameToUserID.remove(username,userID);
-                    clientInterface.closeConnection();      //???????TODO
-                    userIDToStatusConnection.remove(userID);//TODO
+                    clientInterface.closeConnection();
+                    userIDToStatusConnection.remove(userID);
                 }
             });
         }
         printOut("ciao");
-    }
-
-    private void printOut(String ciao) {
     }
 
     public synchronized void handleReConnect(ClientInterface clientInterface,String userID){

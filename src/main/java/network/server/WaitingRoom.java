@@ -23,12 +23,13 @@ public class WaitingRoom {
         this.maxNumberPlayer=max;
     }
     public void addUserToRoom(String username){
-        if(waitingClients.isEmpty()){
-            timer= new Timer();
-            startTimer();
-        }
         waitingClients.add(username);
         System.out.println("New Client Added! Queue: ["+waitingClients+"]");
+        if(waitingClients.size()==1){
+            timer= new Timer();
+            printOut("Waiting " + (queueTimer/1000) + " seconds for new Players, then start match");
+            startTimer();
+        }
         if(waitingClients.size()==maxNumberPlayer){
             timer.cancel();
             newGameRoom();
@@ -40,15 +41,15 @@ public class WaitingRoom {
             @Override
             public void run() {
                 if(waitingClients.size()<minNumberPlayer){
-                    System.out.println("Only " + waitingClients.size()+" players in Queue, waiting for new players...");
-                    startTimer();
+                    printOut("Timer scaduto, meno giocatori del necessario");
+                    timer.cancel();
                 }
-                else{//TODO: Metodo che verifichi che tutti sono ancora online???
-                        newGameRoom();
+                else{
+                    printOut("Timer scaduto, si inizia");
+                    newGameRoom();
                 }
             }
         },queueTimer);
-
     }
 
     public void removePlayerInQueue(String playerUsername){
@@ -63,7 +64,7 @@ public class WaitingRoom {
     //A scadenza di timer si lancia una nuova GameRoom e lì vengono aggiunti i giocatori.
     public void newGameRoom(){
 
-        System.out.println("Now New Game Room");
+        printOut("Now New Game Room");
 
         List<String> usernameList=new ArrayList<>();
         while(!waitingClients.isEmpty()){

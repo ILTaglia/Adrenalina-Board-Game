@@ -11,6 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import static utils.printStream.printOut;
+
 public class ClientHandler implements Runnable, ClientInterface {
     private final Socket clientSocket;
     private final GameSocketSvr server;
@@ -82,6 +84,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                 }
             }
         }catch (IOException|ClassNotFoundException e){
+            printOut("Connection Lost");
             server.handleDisconnect(this);
         }
     }
