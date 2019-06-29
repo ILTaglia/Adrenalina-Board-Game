@@ -20,6 +20,7 @@ public class OfficialShootVersion {
 
     //########  ATTACK INFO #########
 
+    private int typeTarget;
     private List <Integer> extra;
     private int distance;
     private int moveme;
@@ -80,6 +81,7 @@ public class OfficialShootVersion {
         this.currenteffect=null;
         this.Ideffect=0;
         this.damages=new ArrayList<Damage>();
+        this.typeTarget=0;
     }
 
     //############################################
@@ -204,9 +206,10 @@ public class OfficialShootVersion {
     //############################################
     //##        PAYMENT FOR EXTRAS   #####
     //############################################
-    public void payextra()
+    public boolean payextra()
     {
-
+        ManagingWeapons manage=new ManagingWeapons(this.match);
+        return manage.unlockExtraFunction(this.player,this.extra);
     }
 
 
@@ -239,15 +242,20 @@ public class OfficialShootVersion {
 
     public void attacklauncher()
     {
-        if(this.typeattack==1||this.typeattack==2||this.typeattack==3||this.typeattack==4||this.typeattack==5||this.typeattack==9||this.typeattack==11)
+        if(payextra()) //Caso pagamento riuscito
         {
-            standardattack();
+            if(this.typeattack==1||this.typeattack==2||this.typeattack==3||this.typeattack==4||this.typeattack==5||this.typeattack==9||this.typeattack==11)
+            {
+                standardattack();
+            }
+
+            if(this.flagfirstattack==0)
+            {
+                this.flagfirstattack=1;
+            }
         }
 
-        if(this.flagfirstattack==0)
-        {
-            this.flagfirstattack=1;
-        }
+
     }
 
 
@@ -282,6 +290,18 @@ public class OfficialShootVersion {
 
     }
 
+    //############################################
+    //##        INFO ABOUT TYPE OF ATTACK     #####
+    //############################################
+
+    public int getTypeAttack()
+    {
+        return this.typeattack;
+    }
+
+
+
+
 
     //############################################
     //##        RUN MOVEMENT                 #####
@@ -290,6 +310,8 @@ public class OfficialShootVersion {
     public void run(Player persontomove, int maxnumbermovement)
     {
         //TODO INTERFACCIARLO CON MOVEMENT
+
+
     }
 
 
@@ -310,7 +332,7 @@ public class OfficialShootVersion {
 
 
     //############################################
-    //##        RETURNING CHOSEN LIST OF ATTACKABLE PLAYERS/CELLS        #####
+    //##        RETURNING CHOSEN LIST OF ATTACKABLE PLAYERS/CELLS#####
     //############################################
 
     public List getlistattackable(int type)
@@ -341,8 +363,21 @@ public class OfficialShootVersion {
                 this.damages.add(this.currenteffect.getDamage(i));
             }
             this.Ideffect=this.currenteffect.getId();
+            this.typeTarget=this.currenteffect.getType();
             return true;
         }
+    }
+
+    //############################################
+    //##        RETURNING THE TYPE OF BERSAGLIO   #####
+    //############################################
+
+    // 1 player
+    // 2 cella
+
+    public int getTypeTarget()
+    {
+        return this.typeTarget;
     }
 
 
@@ -351,6 +386,8 @@ public class OfficialShootVersion {
     //############################################
     //##        SETTING PLAYER TO ATTACK       #####
     //############################################
+
+    //Setta e attacca il player
 
     public boolean setvictimplayer(Player victim)
     {
@@ -364,6 +401,11 @@ public class OfficialShootVersion {
         }
         if(flag==0)
         {
+            if(this.moveyou!=0)
+            {
+                run(victim, moveyou);
+                this.moveyou=0;
+            }
             return true;
         }
         else
@@ -376,6 +418,7 @@ public class OfficialShootVersion {
     //##        SETTING CELL TO ATTACK       #####
     //############################################
 
+    //Setta e attacca la cella
 
     public boolean setvictimcell(Coordinate victim)
     {
@@ -396,6 +439,37 @@ public class OfficialShootVersion {
             return false;
         }
     }
+
+
+    //############################################
+    //##        METODI DI CONTROLLO       #####
+    //############################################
+
+    public boolean checkotherattacks()
+    {
+        if(this.attacks.size()!=0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public boolean checkothereffects()
+    {
+        if(this.listofeffect.size()!=0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 
 
 
