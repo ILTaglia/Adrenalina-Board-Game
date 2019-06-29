@@ -2,9 +2,8 @@ package controller;
 
 import exceptions.*;
 import model.*;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class GrabWeaponTest {
 
     Boolean isMovementbeforeGrab;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         match = new Match();
         run = new Run();

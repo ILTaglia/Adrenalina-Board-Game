@@ -1,8 +1,7 @@
 package controller;
 import exceptions.*;
 import model.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import static org.junit.Assert.*;

@@ -4,8 +4,8 @@ import model.Coordinate;
 import model.Player;
 import model.Match;
 import exceptions.NotExistingDashboardException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +17,7 @@ public class DeathAndRespawnTest {
     Player player5;
     Match match;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");

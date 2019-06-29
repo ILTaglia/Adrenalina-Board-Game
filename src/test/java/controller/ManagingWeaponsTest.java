@@ -4,8 +4,8 @@ import exceptions.MaxNumberofCardsException;
 import exceptions.MoreThanTreeAmmosException;
 import exceptions.NotEnoughAmmosException;
 import model.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,7 +27,7 @@ public class ManagingWeaponsTest {
     ManagingWeapons manage;
 
 
-    @Before
+    @BeforeEach
     public void SetUp(){
         match = new Match();
         manage = new ManagingWeapons(match);

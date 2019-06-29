@@ -2,8 +2,8 @@ package controller;
 
 import exceptions.*;
 import model.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class PresenceCheckTest {
     Player player3;
     GrabWeapon grabweapon;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");

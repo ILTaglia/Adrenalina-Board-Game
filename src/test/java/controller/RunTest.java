@@ -7,8 +7,8 @@ import model.Coordinate;
 import model.Player;
 import exceptions.InvalidDirectionException;
 import exceptions.MaxNumberPlayerException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public class RunTest {
     Player player3;
     Player player4;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception, MaxNumberPlayerException {
         match = new Match();
         r = new Run();
