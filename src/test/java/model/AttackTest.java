@@ -389,5 +389,476 @@ public class AttackTest {
         assertEquals(A.getExtras().get(1),2);
     }
 
+    @Test
+    public void EffectTest5()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(5,1,2,5,4);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest5(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(5,1,2,5,4);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest5(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(5,1,2,5,4);
+        assertEquals(2, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest5(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(5,1,2,5,4);
+        assertEquals(1, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest5(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(5,1,2,5,4);
+        assertEquals(5, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest5(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(5,1,2,5,4);
+        assertEquals(4, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest6()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(6,7,8,9,10);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest6(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(6,7,8,9,10);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest6(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(6,7,8,9,10);
+        assertEquals(8, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest6(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(6,7,8,9,10);
+        assertEquals(7, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest6(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(6,7,8,9,10);
+        assertEquals(9, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest6(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(6,7,8,9,10);
+        assertEquals(10, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest7()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(7,6,5,4,3);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest7(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(7,6,5,4,3);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest7(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(7,6,5,4,3);
+        assertEquals(5, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest7(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(7,6,5,4,3);
+        assertEquals(6, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest7(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(7,6,5,4,3);
+        assertEquals(4, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest7(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(7,6,5,4,3);
+        assertEquals(3, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest8()
+    {
+        TypeAttack A;
+        A = new AttackFactory().getinstanceof(8,0,1,0,0);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest8(){
+        TypeAttack A;
+        A = new AttackFactory().getinstanceof(8,0,1,0,0);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest8(){
+        TypeAttack A;
+        A = new AttackFactory().getinstanceof(8,0,1,0,0);
+        assertEquals(1, A.getDistance());
+        A.setDistance(2);
+        assertEquals(2, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest8(){
+        TypeAttack A;
+        A = new AttackFactory().getinstanceof(8,0,1,0,0);
+        assertEquals(0, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest8(){
+        TypeAttack A;
+        A = new AttackFactory().getinstanceof(8,0,1,0,0);
+        assertEquals(0, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest8(){
+        TypeAttack A;
+        A = new AttackFactory().getinstanceof(8,0,1,0,0);
+        assertEquals(0, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest9()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(9,0,1,0,0);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest9(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(9,0,1,0,0);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest9(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(9,0,1,0,0);
+        assertEquals(1, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest9(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(9,0,1,0,0);
+        assertEquals(0, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest9(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(9,0,1,0,0);
+        assertEquals(0, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest9(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(9,0,1,0,0);
+        assertEquals(0, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest10()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(10,0,1,0,0);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest10(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(10,0,1,0,0);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest10(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(10,0,1,0,0);
+        assertEquals(1, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest10(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(10,0,1,0,0);
+        assertEquals(0, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest10(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(10,0,1,0,0);
+        assertEquals(0, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest10(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(10,0,1,0,0);
+        assertEquals(0, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest11()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(11,0,1,0,0);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest11(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(11,0,1,0,0);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest11(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(11,0,1,0,0);
+        assertEquals(1, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest11(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(11,0,1,0,0);
+        assertEquals(0, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest11(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(11,0,1,0,0);
+        assertEquals(0, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest11(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(11,0,1,0,0);
+        assertEquals(0, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
+
+    @Test
+    public void EffectTest12()
+    {
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(12,0,1,0,0);
+
+        A.addEffect(new EffectFactory().getinstanceof(1,1));
+        A.addEffect(new EffectFactory().getinstanceof(2,2));
+        assertEquals(2, A.getNumberEffect());
+        assertEquals(2, A.getEffect(1).getId());
+
+    }
+
+    @Test
+    public void ExtraTest12(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(12,0,1,0,0);
+        A.addExtra(1);
+        A.addExtra(2);
+        assertEquals(2, A.getNumberExtra());
+        assertEquals(2, A.getExtras().get(1));
+    }
+
+    @Test
+    public void DistanceTest12(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(12,0,1,0,0);
+        assertEquals(1, A.getDistance());
+        A.setDistance(1);
+        assertEquals(1, A.getDistance());
+    }
+
+    @Test
+    public void TypeplayerTest12(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(12,0,1,0,0);
+        assertEquals(0, A.getTypePlayer());
+        A.setTypePlayer(2);
+        assertEquals(2, A.getTypePlayer());
+    }
+
+    @Test
+    public void MovemeTest12(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(12,0,1,0,0);
+        assertEquals(0, A.getMoveMe());
+        A.setMoveMe(2);
+        assertEquals(2, A.getMoveMe());
+    }
+
+    @Test
+    public void MoveyouTest12(){
+        TypeAttack A;
+        A=new AttackFactory().getinstanceof(12,0,1,0,0);
+        assertEquals(0, A.getMoveYou());
+        A.setMoveYou(2);
+        assertEquals(2, A.getMoveYou());
+    }
 
 }
