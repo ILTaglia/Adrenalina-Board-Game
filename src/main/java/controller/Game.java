@@ -313,7 +313,7 @@ public class Game{
     }
 
     //TODO:Chiedi indice arma da usare per l'attacco e il Player da attaccare.
-    private void askWeaponToShoot(Player whoPerformsTheAttack){
+    public void askWeaponToShoot(Player whoPerformsTheAttack){
         OfficialShootVersion shootelaborator = new OfficialShootVersion(this.match,whoPerformsTheAttack);
         if(!shootelaborator.checkplayer())
         {
@@ -328,7 +328,7 @@ public class Game{
     }
     //TODO
     //Completa attacco in base al funzionamento della parte della Shoot
-    private void shoot(Player whoPerformsTheAttack, OfficialShootVersion shootelaborator){
+    public void shoot(Player whoPerformsTheAttack, OfficialShootVersion shootelaborator){
         List<Integer> possibleTypesOfSeries = shootelaborator.gettypes();
         int choose=0;
         //TODO INVIO LISTA NUMERI POSSIBILI E MI ASPETTO UN INTERO COME RISPOSTA (CONTENUTO TRA I PRECEDENTI)
@@ -360,14 +360,22 @@ public class Game{
     //This will start the attack defining the type of the attack and calling the correct method for that attack
     //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
 
-    private OfficialShootVersion attacklauncher(OfficialShootVersion shootelaborator)
+    public OfficialShootVersion attacklauncher(OfficialShootVersion shootelaborator)
     {
         if(shootelaborator.payextra())
         {
             int typeattack= shootelaborator.getTypeAttack();
-            if(typeattack==1||typeattack==2||typeattack==3||typeattack==4||typeattack==5||typeattack==9||typeattack==11)
+            if(typeattack==1||typeattack==2||typeattack==3||typeattack==4||typeattack==5||typeattack==8||typeattack==9||typeattack==11)
             {
                 shootelaborator=standardattack(shootelaborator);
+            }
+            if(typeattack==7)
+            {
+                shootelaborator=allaroundattack(shootelaborator);
+            }
+            if(typeattack==12)
+            {
+                shootelaborator=movingtomeattack(shootelaborator);
             }
 
             if(shootelaborator.getFlagfirstattack()==0)
@@ -402,14 +410,21 @@ public class Game{
     //Subito dopo elabora la lista di giocatori e celle attaccabili
     //Avvia i metodi di esecuzione effetti finchè ce ne siano
 
-
-    private OfficialShootVersion standardattack(OfficialShootVersion shootelaborator)
+    private OfficialShootVersion moveAndList(OfficialShootVersion shootelaborator)
     {
         if(shootelaborator.getmoveme()!=0)
         {
             shootelaborator.run(shootelaborator.getPlayer(),shootelaborator.getmoveme());
         }
         shootelaborator.generatelistattackable(shootelaborator.getPlayer());
+        return shootelaborator;
+    }
+
+
+
+    public OfficialShootVersion standardattack(OfficialShootVersion shootelaborator)
+    {
+        shootelaborator=moveAndList(shootelaborator);
         List <Player> attackablePlayers= shootelaborator.getlistattackable(1);
         List <Coordinate> attackableCells= shootelaborator.getlistattackable(1);
         while(shootelaborator.loadeffect())
@@ -419,7 +434,11 @@ public class Game{
             {
                 int choosevictim=0;
                 //TODO MOSTRO ALL'UTENTE LA LISTA DEI PLAYER ATTACCABILI E CHIEDO UN INDICE, SE ERRATO O LISTA VUOTA MESSAGGIO DI ERRORE
-                shootelaborator.setvictimplayer(attackablePlayers.get(choosevictim));
+                if(shootelaborator.setvictimplayer(attackablePlayers.get(choosevictim)))
+                {
+                    shootelaborator.run(attackablePlayers.get(choosevictim),shootelaborator.getMoveyou());
+                }
+
             }
             else
             {
@@ -432,6 +451,61 @@ public class Game{
 
         return shootelaborator;
     }
+
+    public OfficialShootVersion allaroundattack(OfficialShootVersion shootelaborator)
+    {
+        shootelaborator=moveAndList(shootelaborator);
+        List <Player> attackablePlayers= shootelaborator.getlistattackable(1);
+        List <Coordinate> attackableCells= shootelaborator.getlistattackable(1);
+        while(shootelaborator.loadeffect())
+        {
+            int dir=0;
+            shootelaborator.setdirectiontoshoot(dir);
+            for(int i=0;i<4;i++)
+            {
+                int typetarget=shootelaborator.getTypeTarget();
+                if(typetarget==1)
+                {
+                    int choosevictim=0;
+                    //TODO MOSTRO ALL'UTENTE LA LISTA DEI PLAYER ATTACCABILI E CHIEDO UN INDICE, SE ERRATO O LISTA VUOTA MESSAGGIO DI ERRORE
+                    if(shootelaborator.setvictimplayer(attackablePlayers.get(choosevictim)))
+                    {
+                        shootelaborator.run(attackablePlayers.get(choosevictim),shootelaborator.getMoveyou());
+                    }
+                    dir++;
+                    shootelaborator.setdirectiontoshoot(dir);
+
+                }
+                else
+                {
+                    int choosevictim=0;
+                    //TODO MOSTRO ALL'UTENTE LA LISTA DELLE CELLE ATTACCABILI E CHIEDO UN INDICE, SE ERRATO O LISTA VUOTA MESSAGGIO DI ERRORE
+                    shootelaborator.setvictimcell(attackableCells.get(choosevictim));
+                    dir++;
+                    shootelaborator.setdirectiontoshoot(dir);
+                }
+
+            }
+        }
+
+        return shootelaborator;
+    }
+
+
+    public OfficialShootVersion movingtomeattack(OfficialShootVersion shootelaborator)
+    {
+        shootelaborator=moveAndList(shootelaborator);
+        List <Player> attackablePlayers= shootelaborator.getlistattackable(1);
+        int choosevictim=0;
+        //TODO MOSTRO ALL'UTENTE LA LISTA DEI PLAYER SPOSTABILI E CHIEDO UN INDICE, SE ERRATO O LISTA VUOTA MESSAGGIO DI ERRORE
+        while(shootelaborator.loadeffect())
+        {
+            shootelaborator.run(attackablePlayers.get(choosevictim),shootelaborator.getMoveyou());
+            shootelaborator.setvictimplayer(attackablePlayers.get(choosevictim));
+        }
+        return shootelaborator;
+    }
+
 
 
 
@@ -501,4 +575,6 @@ public class Game{
     public void reConnectPlayer(String userID) {
         match.getPlayerByID(userID);
     }
+
+
 }

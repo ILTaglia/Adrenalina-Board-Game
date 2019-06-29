@@ -483,6 +483,11 @@ public class OfficialShootVersion {
         return this.moveme;
     }
 
+    public int getMoveyou()
+    {
+        return this.moveyou;
+    }
+
     public Player getPlayer()
     {
         return this.player;
@@ -500,6 +505,20 @@ public class OfficialShootVersion {
 
 
 
+    //----------------------------Metodi utili per gestione attackable----------------------------------------------------------//
+
+    public boolean setdirectiontoshoot(int direction)
+    {
+        if(direction>=0&&direction<=3)
+        {
+            createListAttackable.setDirection(direction);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
 
