@@ -164,7 +164,7 @@ public class Match implements Serializable {
         player.setCel(x, y);
         PowCard powCard=player.getPowByIndex(indexPowCard);
         try{
-            player.removePow(powCard);       //TODO: perchè non una removeByIndex per i Pow che restituisce la carta rimossa?
+            player.removePow(powCard);
             powDeck.discardCard(powCard);
         }
         catch(ZeroCardsOwnedException | NotOwnedCardException e){}
