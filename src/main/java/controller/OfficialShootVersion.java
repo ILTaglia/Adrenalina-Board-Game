@@ -1,9 +1,6 @@
 package controller;
 
-import model.Match;
-import model.Player;
-import model.TypeAttack;
-import model.Weapon;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +25,25 @@ public class OfficialShootVersion {
     private int moveme;
     private int moveyou;
     private int typeattack; //Says if it is a Finite distance, more distance ecc
+    private List<Effect> listofeffect;
 
     //########  END ATTACK INFO #########
+
+    private List<Player> attackableplayers;
+    private List<Coordinate> attackablecells;
+    private Player victimplayer;
+    private Coordinate victimcell;
+
+
+    //########  EFFECT INFO #########
+    private Effect currenteffect;
+    private int Ideffect;
+    private List <Damage> damages;
+
+    //########  END EFFECT INFO #########
+
+
+
 
 
 
@@ -58,6 +72,14 @@ public class OfficialShootVersion {
         this.moveme=0;
         this.moveyou=0;
         this.typeattack=0;
+        this.listofeffect=new ArrayList<Effect>();
+        this.attackablecells=new ArrayList<Coordinate>();
+        this.attackableplayers=new ArrayList<Player>();
+        this.victimplayer=null;
+        this.victimcell=null;
+        this.currenteffect=null;
+        this.Ideffect=0;
+        this.damages=new ArrayList<Damage>();
     }
 
     //############################################
@@ -163,6 +185,7 @@ public class OfficialShootVersion {
         this.actualattack=this.attacks.get(0);
         this.firstattacksettedflag=1;
         this.attacks.remove(0);
+        this.firstattacksettedflag=1;
     }
 
 
@@ -177,6 +200,11 @@ public class OfficialShootVersion {
         this.moveme=this.actualattack.getMoveMe();
         this.moveyou=this.actualattack.getMoveYou();
         this.typeattack= this.actualattack.getType();
+        for(int i=0;i<this.actualattack.getNumberEffect();i++)
+        {
+            this.listofeffect.add(this.actualattack.getEffect(i));
+        }
+
     }
 
 
@@ -185,6 +213,173 @@ public class OfficialShootVersion {
     //############################################
 
     //This will start the attack defining the type of the attack and calling the correct method for that attack
+    //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
+
+    public void attacklauncher()
+    {
+        if(this.typeattack==1||this.typeattack==2||this.typeattack==3||this.typeattack==4||this.typeattack==5||this.typeattack==9||this.typeattack==11)
+        {
+            standardattack();
+        }
+
+        if(this.flagfirstattack==0)
+        {
+            this.flagfirstattack=1;
+        }
+    }
+
+
+
+    //############################################
+    //##        STANDARD EXECUTION           #####
+    //############################################
+
+    //Is used only by
+    //Finite distance 	1
+    //Undefined distance	2
+    //MoreDistance	3
+    //Cardinal	4
+    //Not seen	5
+    //Allroom	9
+    //Infiniteline	11
+
+
+    //L'attacco come prima cosa controlla se ci siano degli spostamenti che posso fare, in tal caso li esegue
+    //Subito dopo elabora la lista di giocatori e celle attaccabili
+    //Avvia i metodi di esecuzione effetti finchè ce ne siano   ->No, rinviato a livello superiore perchè l'utente può scegliere quando fermarsi
+
+
+
+    public void standardattack()
+    {
+        if(this.moveme!=0)
+        {
+            run(this.player,this.moveme);
+        }
+        generatelistattackable(this.player);
+
+    }
+
+
+    //############################################
+    //##        RUN MOVEMENT                 #####
+    //############################################
+
+    public void run(Player persontomove, int maxnumbermovement)
+    {
+        //TODO INTERFACCIARLO CON MOVEMENT
+    }
+
+
+    //############################################
+    //##        CREATE LIST ATTACKABLE        #####
+    //############################################
+
+    public void generatelistattackable(Player viewer)
+    {
+        createListAttackable.createlist(this.match,this.actualattack,viewer);
+        this.attackableplayers=createListAttackable.getAttackableplayers();
+        this.attackablecells=createListAttackable.getAttackablecells();
+    }
+
+
+
+
+
+
+    //############################################
+    //##        RETURNING CHOSEN LIST OF ATTACKABLE PLAYERS/CELLS        #####
+    //############################################
+
+    public List getlistattackable(int type)
+    {
+        if(type==1)
+        {
+            return this.attackableplayers;
+        }
+        return this.attackablecells;
+    }
+
+    //############################################
+    //##        LOADING INFO CURRENT EFFECT   #####
+    //############################################
+
+    public boolean loadeffect()
+    {
+        if(this.listofeffect.size()==0)
+        {
+            return false;
+        }
+        else
+        {
+            this.currenteffect=this.listofeffect.get(0);
+            this.listofeffect.remove(0);
+            for(int i=0;i<this.currenteffect.getnumberdamage();i++)
+            {
+                this.damages.add(this.currenteffect.getDamage(i));
+            }
+            this.Ideffect=this.currenteffect.getId();
+            return true;
+        }
+    }
+
+
+
+
+    //############################################
+    //##        SETTING PLAYER TO ATTACK       #####
+    //############################################
+
+    public boolean setvictimplayer(Player victim)
+    {
+        int flag=0;
+        for(int i=0;i<this.damages.size();i++)
+        {
+            if(shootManagement.shoot(this.match,this.attackableplayers,this.player,victim,this.Ideffect,this.damages.get(i))!=0)
+            {
+                flag=1;
+            }
+        }
+        if(flag==0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //############################################
+    //##        SETTING CELL TO ATTACK       #####
+    //############################################
+
+
+    public boolean setvictimcell(Coordinate victim)
+    {
+        int flag=0;
+        for(int i=0;i<this.damages.size();i++)
+        {
+            if(shootManagement.shoot(this.match,this.attackablecells,this.player,victim,this.Ideffect,this.damages.get(i))!=0)
+            {
+                flag=1;
+            }
+        }
+        if(flag==0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
+
+
+
 
 
 
