@@ -275,7 +275,7 @@ public class Game{
         int xCoordinate=match.getActivePlayer().getCel().getX();
         int yCoordinate=match.getActivePlayer().getCel().getY();
         SpawnPointCell cell = (SpawnPointCell) match.getActivePlayer().getCel().inmap(match.getDashboard(),xCoordinate,yCoordinate);
-        return cell.getSpawnPointCellWeapons().get(indexWeapon).returnPrice();
+        return cell.getSpawnPointCellWeapons().get(indexWeapon).getCostToRecharge();
     }
 
     private void grabAmmoTile(String userID){

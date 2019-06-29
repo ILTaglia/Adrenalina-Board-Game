@@ -185,8 +185,30 @@ public class OfficialShootVersion {
         this.actualattack=this.attacks.get(0);
         this.firstattacksettedflag=1;
         this.attacks.remove(0);
-        this.firstattacksettedflag=1;
+        loadinfo();
+
     }
+
+
+    //############################################
+    //##        SELECT OTHERS ATTACKS ATTACK      #####
+    //############################################
+
+    public void setsuccessiveattack()
+    {
+        this.actualattack=this.attacks.get(0);
+        this.attacks.remove(0);
+
+    }
+
+    //############################################
+    //##        PAYMENT FOR EXTRAS   #####
+    //############################################
+    public void payextra()
+    {
+
+    }
+
 
 
     //############################################

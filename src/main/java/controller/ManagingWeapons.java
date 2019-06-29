@@ -54,6 +54,27 @@ public class ManagingWeapons {
         return true;
     }
 
+    public boolean unlockExtraFunction(Player player, List<Integer> extraCost)
+    {
+        if(!areEnoughAmmoToGrabWeapon(player,extraCost))
+        {
+            return false;
+        }
+        for(int i=0;i<extraCost.size();i++)
+        {
+            try
+            {
+                match.removeAmmo(extraCost.get(i),new Ammo(i));
+            }
+            catch(NotEnoughAmmosException e)
+            {
+
+            }
+
+        }
+        return true;
+    }
+
     //Method to convert a powcard in case you don't have enough ammos
     public void convertPowToGrab(Player player, List<Integer> weaponToGrabCost, int indexPowCard)throws NotEnoughAmmosException {
         int color = player.getPowByIndex(indexPowCard).getColor();      //color of the powcard

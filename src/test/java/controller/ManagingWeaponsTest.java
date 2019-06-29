@@ -93,7 +93,7 @@ public class ManagingWeaponsTest {
         player1.setActive();
         SpawnPointCell spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
         Weapon weaponToGrab = spawnPointCell.getSpawnPointCellWeapons().get(1);
-        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weaponToGrab.returnPrice()));
+        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weaponToGrab.getCostToRecharge()));
         try{
             player1.addAmmo(redAmmo);
             player1.addAmmo(redAmmo);
@@ -106,7 +106,7 @@ public class ManagingWeaponsTest {
             player1.addAmmo(yellowAmmo);
         }
         catch(MoreThanTreeAmmosException e){}
-        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weaponToGrab.returnPrice()));
+        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weaponToGrab.getCostToRecharge()));
     }
 
     @Test
@@ -125,11 +125,11 @@ public class ManagingWeaponsTest {
         player1.setActive();
         SpawnPointCell spawnPointCell = (SpawnPointCell)d.getMap(0, 2);
         Weapon weapontograb = spawnPointCell.getSpawnPointCellWeapons().get(1);
-        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb.returnPrice()));
+        assertFalse(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb.getCostToRecharge()));
         assertEquals(0, player1.getAmmo(0));
-        try{manage.convertPowToGrab(player1, weapontograb.returnPrice(), 0);}
+        try{manage.convertPowToGrab(player1, weapontograb.getCostToRecharge(), 0);}
         catch(NotEnoughAmmosException e){}
         assertEquals(1, player1.getAmmo(0));
-        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb.returnPrice()));
+        assertTrue(manage.areEnoughAmmoToGrabWeapon(player1, weapontograb.getCostToRecharge()));
     }
 }

@@ -1,6 +1,5 @@
 package client;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -685,7 +684,7 @@ public class CLIView implements View {
         List<Integer> nYellowAmmos = new ArrayList<>();
 
         for(int i=0;i<weaponcards.size();i++){
-            List<Integer> price = weaponcards.get(i).returnPrice();
+            List<Integer> price = weaponcards.get(i).getCostToRecharge();
             numberRedAmmos=price.get(0);
             numberBlueAmmos=price.get(1);
             numberYellowAmmos=price.get(2);

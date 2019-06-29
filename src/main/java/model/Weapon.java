@@ -64,7 +64,7 @@ public class Weapon extends Card {
         this.used=false;
     }
 
-    public List<Integer> returnPrice(){
+    public List<Integer> getCostToRecharge(){
         List<Integer> weaponcost = new ArrayList<>();
         int numberRedAmmos=0;
         int numberBlueAmmos=0;
@@ -78,5 +78,22 @@ public class Weapon extends Card {
         weaponcost.add(numberBlueAmmos);
         weaponcost.add(numberYellowAmmos);
         return weaponcost;
+    }
+
+    public List<Integer> getCostToGrab(){
+        List <Integer> weaponcost = getCostToRecharge();
+        List <Integer> correctweaponcost = new ArrayList<Integer>();
+        int freecost=getCost(0);
+        int correctcost= weaponcost.get(freecost)-1;
+        for(int i=0;i<3;i++)
+        {
+            if(i!=freecost)
+            {
+                correctweaponcost.add(weaponcost.get(i));
+            }
+            else
+                correctweaponcost.add(correctcost);
+        }
+        return correctweaponcost;
     }
 }
