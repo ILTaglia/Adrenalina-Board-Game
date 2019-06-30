@@ -4,6 +4,7 @@ import controller.Game;
 import model.Coordinate;
 import network.messages.*;
 import network.messages.error.ColorError;
+import network.messages.error.PaymentError;
 import network.messages.gameRequest.*;
 
 import java.util.HashMap;
@@ -129,6 +130,42 @@ public class GameRoom {
 
     public void discardPowCard(String userID, int indexPowCard) {
         gameController.discardPowCard(userID,indexPowCard);
+    }
+
+    public void askweapon(String userID)
+    {
+        Message message= new ShootingGunRequest("Insert the index of the gun you would like to use");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askIndexSerie(String userID)
+    {
+        Message message = new ShootingSerieIndexRequest("Insert the index of the serie you want to use");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void informPaymentError(String userID)
+    {
+        Message message = new PaymentError("You don't have the ammo to buy that");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askPlayerIndex(String userID)
+    {
+        Message message= new PlayerIndexRequest("Insert the index of the player you want to attack");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askCellIndex(String userID)
+    {
+        Message message = new CellIndexRequest("Insert the index of the cell you would like to attack");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askNextAttack(String userID)
+    {
+        Message message=new NextAttackRequest("Digit 1 if you want to continue or 2 if you want to stop with the next attack");
+        gameServer.sendMessageToID(userID,message);
     }
 
 

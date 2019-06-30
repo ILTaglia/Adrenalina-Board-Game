@@ -337,8 +337,7 @@ public class Game{
     public void askWeaponToShoot(){
         this.shootelaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
         shootelaborator.setstatus(1);
-        //TODO MOSTRO ARMI (IL GIOCATORE LE HA GIA') E MI ASPETTO CHE RESTITUISCA UN INTERO CHE FA DA INDICE
-
+        gameRoom.askweapon(match.getActivePlayer().getID());
     }
 
     public void shoot()
@@ -384,7 +383,7 @@ public class Game{
     {
 
         shootelaborator.setstatus(2);
-        //TODO MI ASPETTO CHE L'UTENTE MI DIA UN INDICE CHE STABILISCA LA SERIE DI ATTACCHI DA INTRAPRENDERE
+        gameRoom.askIndexSerie(match.getActivePlayer().getID());
     }
 
     public void verifyIndexSerie(int index)
@@ -412,7 +411,7 @@ public class Game{
         }
         else
         {
-            //TODO MESSAGGIO ERRORE. IMPOSSIBILE PAGARE PER QUESTA FUNZIONALITA'. annullo quindi attacco
+            gameRoom.informPaymentError(match.getActivePlayer().getID());
         }
     }
 
@@ -463,12 +462,12 @@ public class Game{
         if(typetarget==1)
         {
             shootelaborator.setstatus(4);
-            //TODO MESSAGGIO RICHIESTA PLAYER DA ATTACCARE
+            gameRoom.askPlayerIndex(match.getActivePlayer().getID());
         }
         else
         {
             shootelaborator.setstatus(5);
-            //TODO MESSAGGIO RICHIESTA CELLA DA ATTACCARE
+            gameRoom.askCellIndex(match.getActivePlayer().getID());
         }
     }
 
@@ -519,7 +518,7 @@ public class Game{
     public void continueshootinganswer()
     {
         shootelaborator.setstatus(8);
-        //TODO RICHIESTA INTENZIONE PROSECUZIONE PROSSIMO ATTACCO
+        gameRoom.askNextAttack(match.getActivePlayer().getID());
     }
 
     public void checkcelltoattack(int index)
