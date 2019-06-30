@@ -44,6 +44,34 @@ public class OfficialShootVersion {
     //########  END EFFECT INFO #########
 
 
+    //############VARIABILI DI STATUS###############
+    /*Lo status contiene un valore identificativo dello stato in cui si trova per gestire i risvegli dopo le risposte dal client
+    *
+    * Sono presenti i seguenti stati:
+    *
+    * 1. Sono in attesa di una risposta sull'arma da utilizzare
+    * 2. Sono in attesa di risposta del tipo di serie di attacchi da eseguire
+    * 3. Sono in attesa della risposta sul pagamento
+    * 4. Sono in attesa di risposta del giocatore da attaccare
+    * 5. Sono in attesa di risposta della cella da attaccare
+    * 6. Sono in attesa del susseguirsi dello spostamento del player attaccato
+    * 7. Sono in attesa dello spostamento del player principale
+    * 8. Sono in attesa di risuposta sull'intenzione di proseguire o meno con un prossimo attacco
+    *
+    *
+    * */
+    private int status;
+
+
+    //############VARIABILI DI METODO DI ATTACCO###############
+    /*La variabile in questione tiene traccia del tipo di attacco intrapreso. da questo ne deriva infatti una diversa gestione nella game
+    *
+    * i valori attribuibili sono i seguenti e con i significati posti a lato:
+    *
+    * 1. Standard Attack*/
+    private int attackmethod;
+
+
 
 
 
@@ -82,6 +110,15 @@ public class OfficialShootVersion {
         this.Ideffect=0;
         this.damages=new ArrayList<Damage>();
         this.typeTarget=0;
+        this.status=0;
+        this.attackmethod=0;
+
+
+
+
+
+
+
     }
 
     //############################################
@@ -501,6 +538,26 @@ public class OfficialShootVersion {
     public void setFlagfirstattack(int i)
     {
         this.flagfirstattack=i;
+    }
+
+    public int getStatus()
+    {
+        return this.status;
+    }
+
+    public void setstatus(int status)
+    {
+        this.status=status;
+    }
+
+    public int getAttackmethod()
+    {
+        return this.attackmethod;
+    }
+
+    public void setAttackmethod(int method)
+    {
+        this.attackmethod=method;
     }
 
 

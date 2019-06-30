@@ -4,6 +4,7 @@ import model.*;
 import network.messages.*;
 import network.messages.error.*;
 import network.server.GameRoom;
+import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class Game{
     private GameRoom gameRoom;      //CAPIRE SE USARE QUESTO O PREFERIRE LAVORARE DIRETTAMENTE CON NotifyClient
     private boolean isMovementBeforeGrab;
     private boolean isMovementBeforeShoot;
+    private OfficialShootVersion shootelaborator;
     //Gestione Timer
     private Timer timer;
     private final int queueTimer;
@@ -331,23 +333,228 @@ public class Game{
         nextStep();
     }
 
-    //TODO:Chiedi indice arma da usare per l'attacco e il Player da attaccare.
-    public void askWeaponToShoot(Player whoPerformsTheAttack){
-        OfficialShootVersion shootelaborator = new OfficialShootVersion(this.match,whoPerformsTheAttack);
-        if(!shootelaborator.checkplayer())
-        {
-            //TODO ERRORE GIOCATORE NON TROVATO --> NON DOVREBBE MAI ACCADERE PERO'
-        }
-        List<Weapon> listofguns=shootelaborator.getguns();
-        int choose=0;
-        //TODO INVIO LISTA DI ARMI E CHIEDO RESTITUZIONE DI UN INTERO IDENTIFICATIVO FINO A QUANDO L'INTERO NON E' CORRETTO
-        shootelaborator.chooseweapon(listofguns.get(choose));
-        shoot(whoPerformsTheAttack,shootelaborator);
+
+    public void askWeaponToShoot(){
+        this.shootelaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
+        shootelaborator.setstatus(1);
+        //TODO MOSTRO ARMI (IL GIOCATORE LE HA GIA') E MI ASPETTO CHE RESTITUISCA UN INTERO CHE FA DA INDICE
 
     }
-    //TODO
+
+    public void shoot()
+    {
+        askWeaponToShoot();
+    }
+
+    public void wakeupshoot(int chosenindex)
+    {
+
+        if(shootelaborator.getStatus()==1)
+        {
+            shootelaborator.chooseweapon(shootelaborator.getguns().get(chosenindex));
+            askserieToShoot();
+        }
+        if(shootelaborator.getStatus()==2)
+        {
+            verifyIndexSerie(chosenindex);
+        }
+
+        if(shootelaborator.getStatus()==4)
+        {
+            checkplayertoattack(chosenindex);
+        }
+
+        if(shootelaborator.getStatus()==5)
+        {
+            checkcelltoattack(chosenindex);
+        }
+
+        if(shootelaborator.getStatus()==6)
+        {
+            checkeffectorchangeattack();
+        }
+
+        if(shootelaborator.getStatus()==8)
+        {
+            answertocontinue(chosenindex);
+        }
+    }
+
+    public void askserieToShoot()
+    {
+
+        shootelaborator.setstatus(2);
+        //TODO MI ASPETTO CHE L'UTENTE MI DIA UN INDICE CHE STABILISCA LA SERIE DI ATTACCHI DA INTRAPRENDERE
+    }
+
+    public void verifyIndexSerie(int index)
+    {
+        List<Integer> possibleTypesOfSeries = shootelaborator.gettypes();
+        if(!possibleTypesOfSeries.contains(index))
+        {
+            askserieToShoot();
+        }
+        else
+        {
+            shootelaborator.settype(index);
+            shootelaborator.generateattacks();
+            shootelaborator.setfirstattack();
+            askPaymentbeforeShoot();
+        }
+    }
+
+    public void askPaymentbeforeShoot()
+    {
+        shootelaborator.setstatus(3);
+        if(shootelaborator.payextra())
+        {
+            decideShootingMethod();
+        }
+        else
+        {
+            //TODO MESSAGGIO ERRORE. IMPOSSIBILE PAGARE PER QUESTA FUNZIONALITA'. annullo quindi attacco
+        }
+    }
+
+    public void decideShootingMethod()
+    {
+        int typeattack= shootelaborator.getTypeAttack();
+        if(typeattack==1||typeattack==2||typeattack==3||typeattack==4||typeattack==5||typeattack==8||typeattack==9||typeattack==11)
+        {
+            standardattack();
+        }
+
+        if(shootelaborator.getFlagfirstattack()==0)
+        {
+            shootelaborator.setFlagfirstattack(1);
+        }
+    }
+
+    public void standardattack()
+    {
+        shootelaborator.setAttackmethod(1);
+        moveAndList();
+        starteffect();
+    }
+
+    public void starteffect()
+    {
+        if(shootelaborator.loadeffect())
+        {
+            askBersaglio();
+        }
+    }
+
+    public void askBersaglio()
+    {
+        int typetarget=shootelaborator.getTypeTarget();
+
+        if(typetarget==1)
+        {
+            shootelaborator.setstatus(4);
+            //TODO MESSAGGIO RICHIESTA PLAYER DA ATTACCARE
+        }
+        else
+        {
+            shootelaborator.setstatus(5);
+            //TODO MESSAGGIO RICHIESTA CELLA DA ATTACCARE
+        }
+    }
+
+    public void checkplayertoattack(int index)
+    {
+        List <Player> attackablePlayers= shootelaborator.getlistattackable(1);
+        if(!(index>=attackablePlayers.size()||index<0))
+        {
+            if(shootelaborator.setvictimplayer(attackablePlayers.get(index)))
+            {
+                if(shootelaborator.getMoveyou()!=0)
+                {
+                    shootelaborator.setstatus(6);
+                    shootelaborator.run(attackablePlayers.get(index),shootelaborator.getMoveyou());
+                }
+                else
+                {
+                    if(shootelaborator.checkotherattacks())
+                    {
+                        checkeffectorchangeattack();
+                    }
+                }
+            }
+            else
+            {
+                askBersaglio();
+            }
+        }
+        else
+        {
+            askBersaglio();
+        }
+
+    }
+
+    public void checkeffectorchangeattack()
+    {
+        if(shootelaborator.checkothereffects())
+        {
+            starteffect();
+        }
+        else
+        {
+            continueshootinganswer();
+        }
+    }
+
+    public void continueshootinganswer()
+    {
+        shootelaborator.setstatus(8);
+        //TODO RICHIESTA INTENZIONE PROSECUZIONE PROSSIMO ATTACCO
+    }
+
+    public void checkcelltoattack(int index)
+    {
+        List <Coordinate> attackableCells=shootelaborator.getlistattackable(2);
+        if(!(index<0||index>=attackableCells.size()))
+        {
+            if(shootelaborator.setvictimcell(attackableCells.get(index)))
+            {
+                checkeffectorchangeattack();
+
+            }
+            else
+            {
+                askBersaglio();
+            }
+        }
+        else
+        {
+            askBersaglio();
+        }
+    }
+
+    public void answertocontinue(int index)
+    {
+        if(index==1)
+        {
+            shootelaborator.setsuccessiveattack();
+            askPaymentbeforeShoot();
+        }
+
+    }
+
+    private void moveAndList()
+    {
+        if(shootelaborator.getmoveme()!=0)
+        {
+            shootelaborator.run(shootelaborator.getPlayer(),shootelaborator.getmoveme());
+        }
+        shootelaborator.generatelistattackable(shootelaborator.getPlayer());
+    }
+
+/*
+    //TODO #####################DA QUI E' TUTA PARTE VECCHIA, DA CANCELLARE, LA TENGO PER CONTROLLARE SE HO MESSO TUTTO NELLA NUOVA VERSIONE#######################
     //Completa attacco in base al funzionamento della parte della Shoot
-    public void shoot(Player whoPerformsTheAttack, OfficialShootVersion shootelaborator){
+    public void shoot(Player whoPerformsTheAttack){
         List<Integer> possibleTypesOfSeries = shootelaborator.gettypes();
         int choose=0;
         //TODO INVIO LISTA NUMERI POSSIBILI E MI ASPETTO UN INTERO COME RISPOSTA (CONTENUTO TRA I PRECEDENTI)
@@ -379,6 +586,7 @@ public class Game{
     //This will start the attack defining the type of the attack and calling the correct method for that attack
     //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
 
+
     public OfficialShootVersion attacklauncher(OfficialShootVersion shootelaborator)
     {
         if(shootelaborator.payextra())
@@ -408,7 +616,7 @@ public class Game{
             //TODO MESSAGGIO ERRORE E ANNULLAMENTO ATTACCO
         }
         return shootelaborator;
-    }
+    }*/
 
 
     //############################################
@@ -429,18 +637,10 @@ public class Game{
     //Subito dopo elabora la lista di giocatori e celle attaccabili
     //Avvia i metodi di esecuzione effetti finchè ce ne siano
 
-    private OfficialShootVersion moveAndList(OfficialShootVersion shootelaborator)
-    {
-        if(shootelaborator.getmoveme()!=0)
-        {
-            shootelaborator.run(shootelaborator.getPlayer(),shootelaborator.getmoveme());
-        }
-        shootelaborator.generatelistattackable(shootelaborator.getPlayer());
-        return shootelaborator;
-    }
 
 
 
+/*
     public OfficialShootVersion standardattack(OfficialShootVersion shootelaborator)
     {
         shootelaborator=moveAndList(shootelaborator);
@@ -523,7 +723,7 @@ public class Game{
             shootelaborator.setvictimplayer(attackablePlayers.get(choosevictim));
         }
         return shootelaborator;
-    }
+    }*/
 
 
 
