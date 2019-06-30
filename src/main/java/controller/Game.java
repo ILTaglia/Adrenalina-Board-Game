@@ -475,10 +475,7 @@ public class Game{
                 }
                 else
                 {
-                    if(shootelaborator.checkotherattacks())
-                    {
-                        checkeffectorchangeattack();
-                    }
+                    checkeffectorchangeattack();
                 }
             }
             else
@@ -501,7 +498,10 @@ public class Game{
         }
         else
         {
-            continueshootinganswer();
+            if(shootelaborator.checkotherattacks())
+            {
+                continueshootinganswer();
+            }
         }
     }
 
