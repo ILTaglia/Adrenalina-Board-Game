@@ -68,8 +68,12 @@ public class OfficialShootVersion {
     *
     * i valori attribuibili sono i seguenti e con i significati posti a lato:
     *
-    * 1. Standard Attack*/
+    * 1. Standard Attack
+    * 2. Ricorsivfe Attack
+    * */
+
     private int attackmethod;
+
 
 
 
@@ -435,6 +439,10 @@ public class OfficialShootVersion {
             if(shootManagement.shoot(this.match,this.attackableplayers,this.player,victim,this.Ideffect,this.damages.get(i))!=0)
             {
                 flag=1;
+                if(this.attackmethod==2)
+                {
+                    this.createListAttackable.setViewer(victim);
+                }
             }
         }
         if(flag==0)
@@ -575,6 +583,11 @@ public class OfficialShootVersion {
         {
             return false;
         }
+    }
+
+    public void setviewer(Player viewer)
+    {
+        this.createListAttackable.setViewer(viewer);
     }
 
 

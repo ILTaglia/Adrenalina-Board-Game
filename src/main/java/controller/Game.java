@@ -423,6 +423,10 @@ public class Game{
         {
             standardattack();
         }
+        if(typeattack==10)
+        {
+            ricorsiveattack();
+        }
 
         if(shootelaborator.getFlagfirstattack()==0)
         {
@@ -433,6 +437,13 @@ public class Game{
     public void standardattack()
     {
         shootelaborator.setAttackmethod(1);
+        moveAndList();
+        starteffect();
+    }
+
+    public void ricorsiveattack()
+    {
+        shootelaborator.setAttackmethod(2);
         moveAndList();
         starteffect();
     }
