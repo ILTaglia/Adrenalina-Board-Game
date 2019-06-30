@@ -41,5 +41,15 @@ public class RMIHandler implements ConnectionHandler {
             System.out.println(e.getMessage());
         }
     }
+    //TODO
+    @Override
+    public void askToTryToReconnect() {
+
+    }
+
+    @Override
+    public void attemptToReconnect(String userID) {
+
+    }
 
 }

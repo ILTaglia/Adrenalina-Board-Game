@@ -68,10 +68,9 @@ public class ClientHandler implements Runnable, ClientInterface {
                     }
                 }
                 else if(message.getType().equals("ConnectionMessage")&&message.getContent().equals("ReConnectRequest")){
-                    ReConnectClientRequest reConnectRequest=(ReConnectClientRequest) message;
-                    if(server.checkUserID(reConnectRequest.getInfo(),reConnectRequest.getUserIDToReconnect())){
-                        setPlayerID(reConnectRequest.getUserIDToReconnect());
-                        server.handleReconnect(reConnectRequest.getUserIDToReconnect(),this);
+                    if(server.checkUserID(message.getInfo())){
+                        setPlayerID(message.getInfo());
+                        server.handleReconnect(message.getInfo(),this);
                     }
                     else{
                         ConnectionError errorMessage = new ConnectionError("userID not valid. Connect as new Player.");
@@ -79,8 +78,13 @@ public class ClientHandler implements Runnable, ClientInterface {
                     }
                 }
                 else if(message.getType().equals("ConnectionMessage")&&message.getContent().equals("ReConnectAttempt")){
-                    if(message.getContent().equals(playerID)){
-
+                    if(server.checkUserID(message.getInfo())){
+                        setPlayerID(message.getInfo());
+                        server.handleReconnect(message.getInfo(),this);
+                    }
+                    else{
+                        setPlayerID(message.getInfo());
+                        server.reAddClientToWR(message.getInfo(),this);
                     }
                 }
                 else{

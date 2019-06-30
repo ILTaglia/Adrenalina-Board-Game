@@ -2,16 +2,17 @@ package network.client.socket;
 
 import network.client.Client;
 import network.client.ConnectionHandler;
+import network.messages.ReConnectClientRequest;
 import network.messages.clientRequest.ConnectionClientRequest;
 import network.messages.Message;
 
-//TODO Aggiungere Booleani per verifiche sulla connessione
+
 
 
 public class SocketHandler implements ConnectionHandler {
 
     private Client client;
-    private SocketConnection server; //TODO: valutare una serverInterface più generica che raccolga sia RMI che Socket
+    private SocketConnection server;
 
     public SocketHandler(String serverIP, int serverPort, Client client){
         this.client=client;
@@ -35,8 +36,14 @@ public class SocketHandler implements ConnectionHandler {
     }
 
     @Override
-    public void tryToReconnect() {
-        client.tryToReconnect();
+    public void askToTryToReconnect() {
+        server.closeSocket();
+        client.askToTryToReconnect();
+    }
+
+    @Override
+    public void attemptToReconnect(String userID) {
+        sendMessage(new ReConnectClientRequest(userID));
     }
 
 }

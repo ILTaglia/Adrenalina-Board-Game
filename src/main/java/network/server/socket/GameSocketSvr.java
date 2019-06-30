@@ -91,11 +91,14 @@ public class GameSocketSvr extends Thread {
         gameServer.handleDisconnect(clientInterface);
     }
 
-    public boolean checkUserID(String username, String userIDToReconnect) { return gameServer.checkUserID(username,userIDToReconnect);
+    public boolean checkUserID(String userIDToReconnect) { return gameServer.checkUserID(userIDToReconnect);
     }
 
     public void handleReconnect(String userID,ClientInterface clientInterface){
-
+        gameServer.handleReConnect(userID,clientInterface);
     }
 
+    public void reAddClientToWR(String userID, ClientInterface clientInterface) {
+        gameServer.reAddClientToWR(userID,clientInterface);
+    }
 }

@@ -69,11 +69,9 @@ public class CLIView implements View {
     public void askToReConnect() {
         printOut("Have you been disconnected?\n");
         if(getData.askYesOrNo()) {
-            printOut("Digitare proprio username:");
-            String username=getData.getName();
             printOut("Inserisci lo UserID che ti è stato assegnato a inizio partita:");
             String userIDToReConnect = getData.getName();
-            Message reConnectRequest = new ReConnectClientRequest(username,userIDToReConnect);      //TODO IMPORTANTE; lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
+            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      //TODO IMPORTANTE; lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
             client.sendMessage(reConnectRequest);
         }
         else{

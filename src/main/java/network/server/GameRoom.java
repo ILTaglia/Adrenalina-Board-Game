@@ -34,7 +34,7 @@ public class GameRoom {
     //Metodo chiamato direttamente dal GameServer che da l'avvio della GameRoom
     //Nel metodo viene richiesto il colore al Player tramite un messaggio di richiesta
     public void setUpGame(){
-        this.gameController=new Game(this);
+        this.gameController=new Game(this,30000);                    //TODO: IMPORTANTE, lettura da args durata timer
         Message registrationRequest= new ColorGameRequest("This message is to require a color to Client");
         gameServer.sendMessageToAll(userList.values(),registrationRequest);
     }

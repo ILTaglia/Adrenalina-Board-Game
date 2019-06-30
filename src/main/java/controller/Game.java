@@ -4,7 +4,6 @@ import model.*;
 import network.messages.*;
 import network.messages.error.*;
 import network.server.GameRoom;
-import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.util.List;
 import java.util.Map;
@@ -810,4 +809,7 @@ public class Game{
     }
 
 
+    public void setPlayerDisconnected(String userID) {
+        //TODO
+    }
 }

@@ -21,6 +21,8 @@ public class Client {
     private boolean isToUseSocket;
     private View view;
     private String userID;
+    private String serverIP = "127.0.0.1";
+    private int serverPort = 7218;
 
     private ConnectionHandler connectionHandler;
 
@@ -65,8 +67,6 @@ public class Client {
 
     public void launchConnection(){
         if(isToUseSocket){
-            String serverIP = "127.0.0.1";
-            int serverPort = 7218;
             connectionHandler=new SocketHandler(serverIP, serverPort, this);
         }
         else{
@@ -93,19 +93,17 @@ public class Client {
         }
     }
 
-    public void tryToReconnect() {
+    public void askToTryToReconnect() {
         //Chiedo all'utente se voglia riconnettersi
         if(view.askToTryToReConnect()){
-            //Il tentativo di riconnessione viene utilizzato principalmente per la GameRoom, se ero in WaitingRoom rifaccio tutto.
-
+            if(isToUseSocket){
+                connectionHandler=new SocketHandler(serverIP, serverPort, this);
+                connectionHandler.attemptToReconnect(userID);
+            }
         }else{
             //Chiudo il client
             System.exit(0);
         }
-    }
-
-    public void handleReConnection(){
-
     }
 
 

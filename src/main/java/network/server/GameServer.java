@@ -32,7 +32,7 @@ public class GameServer {
     private HashMap<String,String> usernameToUserID;                            //Collega Username e IdPlayer
     private HashMap<String, ClientInterface> userIDToClientInterface;           //Non per forza utile
     private HashMap<String,GameRoom> userIDToGameRoom;                        //Collega IdPlayer e Partita in cui è inserito
-    private HashMap<String,Boolean> userIDToStatusConnection;                   //PlayerID to his Connection Status
+    private HashMap<String,Boolean> userIDInGameToStatusConnection;                   //PlayerID to his Connection Status
     //Se non è ancora in GameRoom si potrebbe mettere il campo String a "WaitingRoom"
     //Così facendo eviterei di dovermi inventare altro per i WaitingPlayers
 
@@ -58,7 +58,7 @@ public class GameServer {
         this.usernameToUserID =new HashMap<>();
         this.userIDToClientInterface =new HashMap<>();
         this.userIDToGameRoom =new HashMap<>();
-        this.userIDToStatusConnection=new HashMap<>();
+        this.userIDInGameToStatusConnection =new HashMap<>();
     }
 
     private void launchServer(){
@@ -80,7 +80,7 @@ public class GameServer {
         return waitingRoom.isAlreadyInQueue(requestedUsername);
     }
     public boolean isPlayerDisconnected(String username){
-        if(usernameToUserID.containsKey(username)&& !userIDToStatusConnection.get(usernameToUserID.get(username))){
+        if(usernameToUserID.containsKey(username)&& !userIDInGameToStatusConnection.get(usernameToUserID.get(username))){
             return true;
         }
         else{
@@ -90,7 +90,7 @@ public class GameServer {
     }
 
     public boolean checkUserID(String userIDToReconnect) {
-        if(usernameToUserID.containsValue(userIDToReconnect)&& !userIDToStatusConnection.get(userIDToReconnect)){
+        if(usernameToUserID.containsValue(userIDToReconnect)&& !userIDInGameToStatusConnection.get(userIDToReconnect)){
             return true;
         }
         else{
@@ -115,7 +115,7 @@ public class GameServer {
     public synchronized void handleDisconnect(ClientInterface clientInterface){
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
         clientInterface.setConnection(false);
-        userIDToStatusConnection.replace(clientInterface.getPlayerID(),false);
+        userIDInGameToStatusConnection.replace(clientInterface.getPlayerID(),false);
         if(userIDToGameRoom.containsKey(clientInterface.getPlayerID())) {
             userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
         }
@@ -125,18 +125,32 @@ public class GameServer {
                     waitingRoom.removePlayerInQueue(username);
                     usernameToUserID.remove(username,userID);
                     clientInterface.closeConnection();
-                    userIDToStatusConnection.remove(userID);
+                    userIDInGameToStatusConnection.remove(userID);
                 }
             });
         }
     }
 
-    public synchronized void handleReConnect(ClientInterface clientInterface,String userID){
+    public synchronized void handleReConnect(String userID,ClientInterface clientInterface){
         clientInterface.setConnection(true);
         userIDToClientInterface.replace(userID,clientInterface);
-        userIDToStatusConnection.replace(clientInterface.getPlayerID(),true);
+        userIDInGameToStatusConnection.replace(clientInterface.getPlayerID(),true);
         userIDToGameRoom.get(clientInterface.getPlayerID()).reConnectPlayer(clientInterface.getPlayerID());
         Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");       //TODO: modificare tipo e contenuto messaggio.
+        sendMessageToID(userID,confirmationMessage);
+    }
+    public void reAddClientToWR(String userID, ClientInterface clientInterface) {
+        userIDToClientInterface.replace(userID,clientInterface);
+        String name=null;
+        for (Map.Entry<String, String> entry : usernameToUserID.entrySet()) {
+            String username = entry.getKey();
+            String id = entry.getValue();
+            if (id.equals(userID)) {
+                name = username;
+            }
+        }
+        waitingRoom.addUserToRoom(name);
+        Message confirmationMessage=new InfoMatch("Sei stato riaggiunto nella WR!\n");       //TODO: modificare tipo e contenuto messaggio.
         sendMessageToID(userID,confirmationMessage);
     }
 
@@ -162,7 +176,7 @@ public class GameServer {
         HashMap<String, String> userList=new HashMap<>();
         for(String username:usernameList){
             userList.put(username,usernameToUserID.get(username));
-            userIDToStatusConnection.put(usernameToUserID.get(username),true);
+            userIDInGameToStatusConnection.put(usernameToUserID.get(username),true);
         }
         GameRoom gameRoom=new GameRoom(userList,this);
         for(String playerUsername:usernameList){
@@ -249,7 +263,6 @@ public class GameServer {
     }
 
 
-    //TODO: implementare metodi disconnessione/gestione riconnessione
 }
 
 

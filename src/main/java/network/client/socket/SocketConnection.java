@@ -1,18 +1,21 @@
 package network.client.socket;
 
-import network.client.ConnectionHandler;
 import network.messages.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.Connection;
+
+import static utils.printStream.printOut;
 
 public class SocketConnection extends Thread {
 
     private SocketHandler connectionHandler;
+    private String host;
+    private int port;
     private Socket clientSocket;
+    private boolean connectionEstablished;
 
     //Stream per serializzazione|de-serializzazione
     private ObjectInputStream streamIn;
@@ -20,36 +23,35 @@ public class SocketConnection extends Thread {
 
     public SocketConnection(String host, int port, SocketHandler connectionHandler){
         this.connectionHandler = connectionHandler;
+        this.host=host;
+        this.port=port;
         try{
             this.clientSocket = new Socket(host, port);
+            connectionEstablished=true;
         }catch (IOException e){
-
+            connectionEstablished=false;
         }
         try {
             this.streamOut = new ObjectOutputStream(clientSocket.getOutputStream());
             this.streamIn = new ObjectInputStream(clientSocket.getInputStream());
         }catch (IOException|NullPointerException e){
-           //TODO
+            connectionEstablished=false;
         }
     }
 
     @Override
     public void run(){
-        boolean bool=true;
         try{
-            while(bool){
+            while(connectionEstablished){
                 Message message=(Message) streamIn.readObject();
                 connectionHandler.handleMessage(message);
             }
         }catch (IOException |ClassNotFoundException e){
-            connectionHandler.tryToReconnect();
-            bool=false;
-            //System.out.println(e.getCause());
-            //System.out.println(e.getMessage());
+            connectionEstablished=false;
+            connectionHandler.askToTryToReconnect();
         }
     }
 
-    //TODO: Verificare uso reset & flush
     //Metodo per inviare messaggi
     public synchronized void sendMessage(Message message){
         try {
@@ -57,8 +59,17 @@ public class SocketConnection extends Thread {
             streamOut.writeObject(message);
             streamOut.flush();
         }catch (IOException e){
-            System.out.println("Errore nell'invio del messaggio");
-            connectionHandler.tryToReconnect();
+            connectionEstablished=false;
+            connectionHandler.askToTryToReconnect();
         }
     }
+
+    public void closeSocket() {
+        try {
+            clientSocket.close();
+        } catch (IOException e) {
+            printOut("Failed to close connection");
+        }
+    }
+
 }
