@@ -73,7 +73,7 @@ public class CLIView implements View {
             String username=getData.getName();
             printOut("Inserisci lo UserID che ti è stato assegnato a inizio partita:");
             String userIDToReConnect = getData.getName();
-            Message reConnectRequest = new ReConnectClientRequest(username,userIDToReConnect);
+            Message reConnectRequest = new ReConnectClientRequest(username,userIDToReConnect);      //TODO IMPORTANTE; lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
             client.sendMessage(reConnectRequest);
         }
         else{
@@ -81,6 +81,19 @@ public class CLIView implements View {
             String username = getData.getName();
             Message connectionRequest=new SecondConnectionRequest(username);
             client.sendMessage(connectionRequest);
+        }
+    }
+
+    public boolean askToTryToReConnect(){
+        printOut("You have been disconnected");
+        printOut("Do you want to try to re connect?\n");
+        if(getData.askYesOrNo()){
+            printOut("Ok, connection attempt in progress ...");
+            return true;
+        }
+        else{
+            printOut("If you want to reconnect re open Game. Bye Bye.");
+            return false;
         }
     }
 

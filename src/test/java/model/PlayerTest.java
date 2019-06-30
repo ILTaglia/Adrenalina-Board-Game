@@ -99,7 +99,7 @@ class PlayerTest {
         Player player4 = new Player("Aries", "Yellow", "18992302");
         Player player5 = new Player("Karka", "Grey", "18114320");
         assertEquals(0, player1.getTotalDamage());
-        assertEquals(0, player1.getDeath());
+        assertEquals(0, player1.getNumberOfDeath());
         player1.setDamage(3,3); //from player2
         player1.setDamage(2,2); //from player4
         player1.setDamage(3,4); //from player5
@@ -295,15 +295,15 @@ class PlayerTest {
 
     @Test
     void getDeath() {
-        assertEquals(0, player1.getDeath());
+        assertEquals(0, player1.getNumberOfDeath());
     }
 
     @Test
     void setDeath() {
         player1.setDeath();
-        assertEquals(1, player1.getDeath());
+        assertEquals(1, player1.getNumberOfDeath());
         player1.setDeathFrienzy(4);
-        assertEquals(4, player1.getDeath());
+        assertEquals(4, player1.getNumberOfDeath());
     }
 
     @Test

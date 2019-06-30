@@ -7,6 +7,8 @@ import network.server.GameRoom;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static utils.NotifyClient.*;
 import static utils.printStream.printOut;
@@ -18,15 +20,18 @@ public class Game{
     private GameRoom gameRoom;      //CAPIRE SE USARE QUESTO O PREFERIRE LAVORARE DIRETTAMENTE CON NotifyClient
     private boolean isMovementBeforeGrab;
     private boolean isMovementBeforeShoot;
+    //Gestione Timer
+    private Timer timer;
+    private final int queueTimer;
 
-    public Game(GameRoom gameRoom){
+
+    public Game(GameRoom gameRoom, int queueTimer){
+        this.queueTimer=queueTimer;
         this.gameRoom=gameRoom;
         this.match = new Match();
         manageWeapon=new ManagingWeapons(match);
         registerNewMatch(gameRoom,match);
     }
-
-    //TODO: Coda giocatori in partita
 
 
 
@@ -116,7 +121,20 @@ public class Game{
 
 
     private void askAction(){
+        timer= new Timer();
+        printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
+        startTimer();
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
+    }
+    public void startTimer() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //TODO: InfoMessage al Player in cui lo si informa che salterà il turno e cade connessione
+                disconnectPlayer(match.getActivePlayer().getID());
+                nextStep();
+            }
+        }, queueTimer);
     }
     /*
     Le possibili azioni sono:
@@ -166,6 +184,7 @@ public class Game{
 
 
     private void askRun(){
+
         gameRoom.askDestinationRun(match.getActivePlayer().getID());
     }
 
@@ -540,6 +559,8 @@ public class Game{
             match.updateEndTurn();
             setTurn();
         }
+        //Se il giocatore successivo è disconnesso passa a quello dopo.
+        //Controllo che i giocatori siano più di 3 se no dichiaro vincitore!
     }
 
 
@@ -568,12 +589,14 @@ public class Game{
         isMovementBeforeGrab=false;
     }
     //TODO: completare metodi per Player Disconnesso
-    public void setPlayerDisconnected(String userID) {
-        match.getPlayerByID(userID);
+
+    public void disconnectPlayer(String userID) {
+        gameRoom.closeConnection(userID);
+        match.setPlayerDisconnected(userID);
     }
 
     public void reConnectPlayer(String userID) {
-        match.getPlayerByID(userID);
+        match.setPlayerReConnected(userID);
     }
 
 

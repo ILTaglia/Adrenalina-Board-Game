@@ -47,8 +47,7 @@ public class ClientHandler implements Runnable, ClientInterface {
     @Override
     public void run(){
         try{
-            boolean bool=true;
-            while(bool){
+            while(connected){
                 String requestedUsername;
                 Message message=(Message) streamIn.readObject();
                 if(message.getType().equals("clientRequest")&&message.getContent().equals("ConnectionRequest")){
@@ -77,6 +76,11 @@ public class ClientHandler implements Runnable, ClientInterface {
                     else{
                         ConnectionError errorMessage = new ConnectionError("userID not valid. Connect as new Player.");
                         sendMessage(errorMessage);
+                    }
+                }
+                else if(message.getType().equals("ConnectionMessage")&&message.getContent().equals("ReConnectAttempt")){
+                    if(message.getContent().equals(playerID)){
+
                     }
                 }
                 else{

@@ -19,7 +19,7 @@ public class GameRoom {
     private GameServer gameServer;
     private Game gameController;
     private HashMap<String,String> userList;
-    private HashMap<String,String> userIDtoColor;       //TODO:Variabile sarebbe da evitare ma non saprei come
+    private HashMap<String,String> userIDtoColor;
 
     public GameRoom(Map<String,String> userList, GameServer gameServer){
         this.gameServer=gameServer;
@@ -59,6 +59,9 @@ public class GameRoom {
 
     public void reConnectPlayer(String userID) {
         gameController.reConnectPlayer(userID);
+    }
+    public void closeConnection(String userID){
+        gameServer.closeConnection(userID);
     }
 
     public void sendErrorMessage(String userID,Message message){

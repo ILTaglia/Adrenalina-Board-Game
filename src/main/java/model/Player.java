@@ -10,17 +10,20 @@ public class Player implements Serializable {
     private boolean active; //if true the player is active, if false the player is waiting its turn
     private ArrayList<Integer> damages; //list to sign every possible damage
     private ArrayList<Integer> marks; //list for marks given to this player by others
-    private ArrayList<Ammo> ammos; //list to show how many ammo for each color you have
+    private ArrayList<Ammo> ammo; //list to show how many ammo for each color you have
     private int color; //player color is represented by an id integer
     private Coordinate cel; //position of the player
     private ArrayList<Weapon> gun; //list for the weapons of the player
     private ArrayList<PowCard> pow; //list for the power up of the player
-    private int death; //number to show how many times the player died
+    private int numberOfDeath; //number to show how many times the player died
     private int action; //number of the action taken by the player in one turn
     private int firstBlood; //number of the player that gave the damage 1
     private int score; //points of the player
     private int round; //number to identify the number of turn is beeing played
     private ArrayList<Integer> order;
+
+    private boolean connected;
+    private boolean dead;
 
 
     public Player(String name, String color, String id){
@@ -45,10 +48,10 @@ public class Player implements Serializable {
         this.marks.add(0);
         this.marks.add(0);
 
-        this.ammos = new ArrayList<>();
-        ammos.add(new Ammo(0));
-        ammos.add(new Ammo(1));
-        ammos.add(new Ammo(2));
+        this.ammo = new ArrayList<>();
+        ammo.add(new Ammo(0));
+        ammo.add(new Ammo(1));
+        ammo.add(new Ammo(2));
         //at the beginning you have 1 ammo for each color
         //0 is red, you start with one red ammo
         //1 is blue, you start with one blue ammo
@@ -79,7 +82,7 @@ public class Player implements Serializable {
         this.pow = new ArrayList<>();
 
         this.cel = new Coordinate(-1, -1); //index of the position of the player (default position is (-1, -1)
-        this.death=0;
+        this.numberOfDeath =0;
         this.firstBlood = -1;
         this.action=0;
         this.score=0;
@@ -172,26 +175,26 @@ public class Player implements Serializable {
         return 0;
     }
 
-    //return number of ammos of color c
+    //return number of ammo of color c
     public int getAmmo(int color) throws InvalidColorException {
         if(color<0 || color>2) throw new InvalidColorException();
-        return (int) ammos.stream().filter(x->x.getAmmo()==color).count();
+        return (int) ammo.stream().filter(x->x.getAmmo()==color).count();
     }
 
     //add ammo
     public void addAmmo(Ammo ammo) throws MoreThanTreeAmmosException{
         if(getAmmo(ammo.getAmmo())>=3) {
             throw new MoreThanTreeAmmosException();
-        } else ammos.add(ammo);
+        } else this.ammo.add(ammo);
     }
 
-    //discardWeapon number n of ammos passed as parameter
+    //discardWeapon number n of ammo passed as parameter
     public void removeAmmo(int n, Ammo ammo) throws NotEnoughAmmosException {
         int nAmmos=this.getAmmo(ammo.getAmmo());
         if(nAmmos<n) throw new NotEnoughAmmosException();
-        for(int i=0; i<ammos.size(); i++) {
-            if(ammo.getAmmo()==ammos.get(i).getAmmo()){
-                ammos.remove(i);
+        for(int i = 0; i< this.ammo.size(); i++) {
+            if(ammo.getAmmo()== this.ammo.get(i).getAmmo()){
+                this.ammo.remove(i);
                 n--;
             }
             if(n==0) return;
@@ -266,11 +269,11 @@ public class Player implements Serializable {
 
     public void setCel(int x, int y){cel.set(x, y);}
 
-    public int getDeath(){return this.death;}
+    public int getNumberOfDeath(){return this.numberOfDeath;}
 
-    public void setDeath(){this.death+=1;}
+    public void setDeath(){this.numberOfDeath +=1;}
 
-    public void setDeathFrienzy(int n){this.death=n;}
+    public void setDeathFrienzy(int n){this.numberOfDeath =n;}
 
     //return number of actions taken till this moment
     public int getAction(){return this.action;}
@@ -288,7 +291,21 @@ public class Player implements Serializable {
     //add the points of a single turn to the global score
     public void setScore(int s){this.score=this.score+s;}
 
-    //----- Metodo per la View, vediamo se tenerlo
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+    public boolean isConnected() {
+        return connected;
+    }
+
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+    public boolean isDead() {
+        return dead;
+    }
+
 
 
 }

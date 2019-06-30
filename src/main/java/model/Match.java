@@ -62,6 +62,19 @@ public class Match implements Serializable {
     }
     //________________________________________________________________________________________________________________//
 
+    //---------------------------------Metodi gestione connessione ---------------------------------------------------//
+
+    public void setPlayerDisconnected(String userID) {
+        getPlayerByID(userID).setConnected(false);
+        Message infoPlayerDisconnected=new InfoMatch("Player "+ getPlayerByID(userID).getName() + " is disconnected from game.");
+        notifyAllExceptOneClient(userID,infoPlayerDisconnected);
+    }
+    public void setPlayerReConnected(String userID) {
+        getPlayerByID(userID).setConnected(true);
+        Message infoPlayerDisconnected=new InfoMatch("Player "+ getPlayerByID(userID).getName() + " re joined game.");
+        notifyAllExceptOneClient(userID,infoPlayerDisconnected);
+    }
+
     //---------------------------------Metodi inizializzazione Dashboard----------------------------------------------//
 
     //selectedDashboard is the index of the chosen map
@@ -146,6 +159,7 @@ public class Match implements Serializable {
             catch(InvalidColorException e){}
         }
     }
+
 
     //________________________________________________________________________________________________________________//
     //metodo inizializzazione PowCard Player

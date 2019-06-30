@@ -23,13 +23,13 @@ public class SocketConnection extends Thread {
         try{
             this.clientSocket = new Socket(host, port);
         }catch (IOException e){
-            //TODO: Implementare le catch
+
         }
         try {
             this.streamOut = new ObjectOutputStream(clientSocket.getOutputStream());
             this.streamIn = new ObjectInputStream(clientSocket.getInputStream());
         }catch (IOException|NullPointerException e){
-            //TODO: Implementare le catch
+           //TODO
         }
     }
 
@@ -42,9 +42,10 @@ public class SocketConnection extends Thread {
                 connectionHandler.handleMessage(message);
             }
         }catch (IOException |ClassNotFoundException e){
+            connectionHandler.tryToReconnect();
             bool=false;
-            System.out.println(e.getCause());
-            System.out.println(e.getMessage());
+            //System.out.println(e.getCause());
+            //System.out.println(e.getMessage());
         }
     }
 
@@ -57,6 +58,7 @@ public class SocketConnection extends Thread {
             streamOut.flush();
         }catch (IOException e){
             System.out.println("Errore nell'invio del messaggio");
+            connectionHandler.tryToReconnect();
         }
     }
 }

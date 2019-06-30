@@ -7,4 +7,6 @@ public interface ConnectionHandler {
 
     void registerToWR(String username) throws UsernameAlreadyUsedException;
     void sendMessage(Message message);
+
+    void tryToReconnect();
 }

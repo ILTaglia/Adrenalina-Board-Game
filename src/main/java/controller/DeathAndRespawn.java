@@ -36,7 +36,7 @@ public class DeathAndRespawn {
         //adds signals to killshot track
 
         if(n==2) playerKiller.setmarks(1, playerKilled.getColor()); //revenge mark in the killed player
-        death= playerKilled.getDeath();
+        death= playerKilled.getNumberOfDeath();
         playerKilled.setDeath();
         firstBlood=playerKilled.getFirstBlood();
         score.add(firstBlood, 1);

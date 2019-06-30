@@ -20,6 +20,8 @@ public interface View {
 
     void askToReConnect();
 
+    boolean askToTryToReConnect();
+
     /*
      **********************************************************
      * Metodi per Eventi/Eccezioni                              *

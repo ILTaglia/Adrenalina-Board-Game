@@ -93,6 +93,21 @@ public class Client {
         }
     }
 
+    public void tryToReconnect() {
+        //Chiedo all'utente se voglia riconnettersi
+        if(view.askToTryToReConnect()){
+            //Il tentativo di riconnessione viene utilizzato principalmente per la GameRoom, se ero in WaitingRoom rifaccio tutto.
+
+        }else{
+            //Chiudo il client
+            System.exit(0);
+        }
+    }
+
+    public void handleReConnection(){
+
+    }
+
 
     public void sendMessage(Message message){
         connectionHandler.sendMessage(message);
@@ -229,6 +244,7 @@ public class Client {
     public String getUserID(){
         return this.userID;
     }
+
 
 
 }

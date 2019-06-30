@@ -36,7 +36,7 @@ public class DeathAndRespawnTest {
     /*@Test
     public void calculatescore(){
         assertEquals(0, player1.getTotalDamage());
-        assertEquals(0, player1.getDeath());
+        assertEquals(0, player1.getNumberOfDeath());
         //player3 kills player1 with revenge
         assertEquals(0, player3.getmarks(0));
         player1.setDamage(3,3); //from player2
@@ -67,7 +67,7 @@ public class DeathAndRespawnTest {
         assertEquals(4, player4.getScore()); //third is player4 (because it made damage before player3 even if they gave the same number of damages)
         assertEquals(2, player3.getScore()); //fourth is player3
 
-        assertEquals(1, player1.getDeath());
+        assertEquals(1, player1.getNumberOfDeath());
         //check revenge
         assertEquals(1, player3.getmarks(0));
 

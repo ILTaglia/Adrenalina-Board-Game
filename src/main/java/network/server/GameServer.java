@@ -89,11 +89,14 @@ public class GameServer {
 
     }
 
-    public boolean checkUserID(String username, String userIDToReconnect) {
-        if(usernameToUserID.get(username).equals(userIDToReconnect)&& !userIDToStatusConnection.get(userIDToReconnect)){
+    public boolean checkUserID(String userIDToReconnect) {
+        if(usernameToUserID.containsValue(userIDToReconnect)&& !userIDToStatusConnection.get(userIDToReconnect)){
             return true;
         }
-        return false;
+        else{
+            return false;
+        }
+
     }
 
     public synchronized void addClientToWR(String playerUsername, ClientInterface clientInterface){

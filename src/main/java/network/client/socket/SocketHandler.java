@@ -34,4 +34,9 @@ public class SocketHandler implements ConnectionHandler {
         client.handleMessage(message);
     }
 
+    @Override
+    public void tryToReconnect() {
+        client.tryToReconnect();
+    }
+
 }
