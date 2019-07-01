@@ -1,6 +1,7 @@
 package client.gui;
 
 import client.View;
+import model.Weapon;
 import model.Player;
 import network.client.Client;
 import network.messages.Message;
@@ -222,5 +223,7 @@ public class GUIViewAdapter implements View {
         return false;
     }
 
+    @Override
+    public void showWeaponInfo(Weapon weapon){}
 
 }

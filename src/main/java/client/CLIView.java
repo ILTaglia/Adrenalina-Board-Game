@@ -43,7 +43,7 @@ public class CLIView implements View {
 
     @Override
     public void setConnection(){
-        printOut("Scegliere quale tipologia di connessione utilizzare:\t\n" +
+        printOut("Choose the type of connection you want to use:\t\n" +
                 "1. RMI" +
                 "2. Socket");
         int connectionChoice=getData.getInt(1, 2);
@@ -60,7 +60,7 @@ public class CLIView implements View {
 
     @Override
     public void login(){
-        printOut("Digitare proprio username:");
+        printOut("Digit your username:");
         String user=getData.getName();
         client.requestToWR(user);
     }
@@ -69,13 +69,13 @@ public class CLIView implements View {
     public void askToReConnect() {
         printOut("Have you been disconnected?\n");
         if(getData.askYesOrNo()) {
-            printOut("Inserisci lo UserID che ti è stato assegnato a inizio partita:");
+            printOut("Insert the userID you have been assigned at the start of the game:");
             String userIDToReConnect = getData.getName();
             Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      //TODO IMPORTANTE; lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
             client.sendMessage(reConnectRequest);
         }
         else{
-            printOut("Inserisci nuovamente lo username che desideri:");
+            printOut("Insert again the username you want to use:");
             String username = getData.getName();
             Message connectionRequest=new SecondConnectionRequest(username);
             client.sendMessage(connectionRequest);
@@ -122,7 +122,7 @@ public class CLIView implements View {
 
     @Override
     public void createPlayer(){
-        printOut("Digitare proprio colore:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
+        printOut("Digit you color:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
         String colorRequired=getData.getValidColorForPlayer();
         ColorClientRequest colorRequest=new ColorClientRequest(colorRequired,client.getUserID());
         printOut("Your required the color: "+ colorRequired);
@@ -140,7 +140,7 @@ public class CLIView implements View {
         printOut("Map 4");
         this.printmap4();
         printOut("Digit chosen map: 1, 2, 3, 4");
-        int choice = getData.getInt(1, 3);
+        int choice = getData.getInt(1, 4);
         String mapRequired = Integer.toString(choice);
         Message mapRequest=new MapClientRequest(mapRequired,client.getUserID());
         client.sendMessage(mapRequest);
@@ -209,11 +209,6 @@ public class CLIView implements View {
     public void askUsePowToGrabWeapon() {
         int indexPowCard;
         if(getData.askYesOrNo()){
-            //Non chiedo nuovamente l'arma e sfrutto informazione salvata precedentemente
-            /*
-            printStream.println("Which Weapon do you want to grab?");       //TODO: mettere un campo per memorizzare eventuali informazioni di questo tipo?
-            indexWeapon=getData.getInt(0,2);
-            */
             showPlayerPows();
             printOut("Which pow card do you want to use to grab Weapon?");
             indexPowCard=getData.getInt(1,getNumberOfPow())-1;
@@ -223,7 +218,6 @@ public class CLIView implements View {
         else{
             printOut("If you don't want to grab this Weapon you can choose an other action");
             chooseAction();
-            //TODO: richiamo la richiesta di azione o chiedo un altro Weapon?
         }
 
 
@@ -561,6 +555,7 @@ public class CLIView implements View {
         int i=1;
         for(Weapon weaponcard:weaponcards){
             printOut(i+". "+weaponcard.getName());
+            showWeaponInfo(weaponcard);
             i++;
         }
     }
@@ -647,7 +642,10 @@ public class CLIView implements View {
 
         int i=1;
         for(Weapon weapon:weapons){
-            printOut(i+". "+weapon.getName());
+            printOut(i+". "+weapon.getName()+" a this price:");
+            printOut(weapon.getCostToGrab().get(0)+" red Ammos");
+            printOut(weapon.getCostToGrab().get(1)+" blue Ammos");
+            printOut(weapon.getCostToGrab().get(2)+" yellow Ammos");
             i++;
         }
     }
@@ -709,7 +707,6 @@ public class CLIView implements View {
         }
 
         numberOfWeapon=this.getData.getInt(-1, 2);
-        //TODO questo serve per dire al player che non ha abbastanza soldi per comprare la carta selezionata
         if(numberOfWeapon!=-1 && nRedAmmos.get(numberOfWeapon)<=client.getPlayerVisibleData().getPlayer().getAmmo(0) &&
                 nBlueAmmos.get(numberOfWeapon)<=client.getPlayerVisibleData().getPlayer().getAmmo(1) &&
                 nYellowAmmos.get(numberOfWeapon)<=client.getPlayerVisibleData().getPlayer().getAmmo(2)){
@@ -845,5 +842,13 @@ public class CLIView implements View {
         printOut("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
     }
 
+    @Override
+    public void showWeaponInfo(Weapon weapon){
+        printOut(weapon.getName());
+        for(int i=0; i<weapon.getNumberAttack(); i++){
+            printOut("You can move of "+weapon.getAttack(i).getMoveMe()+" before shooting");
+            printOut("You can move your enemy of "+weapon.getAttack(i).getMoveYou()+" before shooting");
+        }
+    }
 
 }
