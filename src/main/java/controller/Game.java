@@ -41,6 +41,7 @@ public class Game{
     public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor) {
 
         userList.keySet().forEach(username -> match.createPlayer(username, userIDtoColor.get(userList.get(username)), userList.get(username)));
+        match.getPlayers().forEach(player-> player.setConnected(true));
         //una volta creati i Player informo tutti i Player (eccetto lo stesso) dei dati degli altri
         match.notifyOfOtherPlayers();
         askMap((String)userList.values().toArray()[0]);
@@ -120,9 +121,9 @@ public class Game{
 
 
     private void askAction(){
-        timer= new Timer();
-        printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
-        startTimer();
+        //timer= new Timer();
+        //printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
+        //startTimer();
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
     private void startTimer() {
@@ -756,9 +757,9 @@ public class Game{
 
     //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
-        timer.cancel();
+        //timer.cancel();
         resetActionBool();
-        if(match.getActivePlayer().getAction()<2&&match.getActivePlayer().isConnected()) {
+        if((match.getActivePlayer().getAction() < 2) && match.getActivePlayer().isConnected()) {
             printOut("Test");
             match.updateEndAction();
             askAction();
