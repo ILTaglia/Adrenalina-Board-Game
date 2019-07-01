@@ -169,6 +169,8 @@ public class CLIView implements View {
     @Override
     public void chooseRunDirection() {
         List<String> direction;
+        printMap();
+        showDirection();
         do{
             direction=getData.getValidListDirectionForPlayer();
             if(direction.isEmpty()) printOut("You need to choose at least one direction.");
@@ -698,7 +700,7 @@ public class CLIView implements View {
         List<Integer> nYellowAmmos = new ArrayList<>();
 
         for(int i=0;i<weaponcards.size();i++){
-            List<Integer> price = weaponcards.get(i).getCostToRecharge();
+            List<Integer> price = weaponcards.get(i).getCostToGrab();
             numberRedAmmos=price.get(0);
             numberBlueAmmos=price.get(1);
             numberYellowAmmos=price.get(2);
@@ -744,39 +746,14 @@ public class CLIView implements View {
         return numberOfWeapon;
     }
 
-    //Method to ask the direction for movement
     @Override
-    public String getDirection(){
-        printOut("Which direction do you want to move for a single step? Write:");
-        printOut("'N' for north");
-        printOut("'E' for east");
-        printOut("'S' for south");
-        printOut("'W' for west");
-        return this.getData.getValidDirectionForPlayer();
-    }
-
-    //Method to ask the list direction for movement
-    @Override
-    public List<String> getListDirection(){
-        List<String> destination = new ArrayList<>();
-        printOut("Write the sequence of movements you want to do:");
+    public void showDirection(){
+    printOut("Write the sequence of movements you want to do:");
         printOut("'N' for north");
         printOut("'E' for east");
         printOut("'S' for south");
         printOut("'W' for west");
         printOut("'Stop' to terminate");
-        String stop = "Stop";
-
-        //Movements are maximum of three cells, so in three direction. In special movements for some actions there are restrictions
-        //for example moving of maximum one before shooting but this method is for a general input of sequence
-        for(int i=0; i<3; i++){
-            String d = this.getData.getValidDirectionForPlayer();
-            if(!d.equals(stop)) destination.add(d);
-            else {
-                return destination;
-            }
-        }
-        return destination;
     }
 
     @Override

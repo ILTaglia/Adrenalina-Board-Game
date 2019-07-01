@@ -96,11 +96,8 @@ public interface View {
     //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
     int getWeaponCard();
 
-    //Method to ask the direction for movement
-    String getDirection();
-
-    //Method to ask the list direction for movement
-    List<String> getListDirection();
+    //Method to show all the possible directions
+    void showDirection();
 
     int getNumberOfPow();
 
