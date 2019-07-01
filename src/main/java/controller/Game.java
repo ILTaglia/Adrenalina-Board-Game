@@ -342,38 +342,41 @@ public class Game{
         askWeaponToShoot();
     }
 
-    public void wakeupshoot(int chosenindex)
+    public void wakeupshoot(int chosenindex, String userID)
     {
+        if(match.getActivePlayer().getID().equals(userID))
+        {
+            if(shootelaborator.getStatus()==1)
+            {
+                shootelaborator.chooseweapon(shootelaborator.getguns().get(chosenindex));
+                askserieToShoot();
+            }
+            if(shootelaborator.getStatus()==2)
+            {
+                verifyIndexSerie(chosenindex);
+            }
 
-        if(shootelaborator.getStatus()==1)
-        {
-            shootelaborator.chooseweapon(shootelaborator.getguns().get(chosenindex));
-            askserieToShoot();
-        }
-        if(shootelaborator.getStatus()==2)
-        {
-            verifyIndexSerie(chosenindex);
+            if(shootelaborator.getStatus()==4)
+            {
+                checkplayertoattack(chosenindex);
+            }
+
+            if(shootelaborator.getStatus()==5)
+            {
+                checkcelltoattack(chosenindex);
+            }
+
+            if(shootelaborator.getStatus()==6)
+            {
+                checkeffectorchangeattack();
+            }
+
+            if(shootelaborator.getStatus()==8)
+            {
+                answertocontinue(chosenindex);
+            }
         }
 
-        if(shootelaborator.getStatus()==4)
-        {
-            checkplayertoattack(chosenindex);
-        }
-
-        if(shootelaborator.getStatus()==5)
-        {
-            checkcelltoattack(chosenindex);
-        }
-
-        if(shootelaborator.getStatus()==6)
-        {
-            checkeffectorchangeattack();
-        }
-
-        if(shootelaborator.getStatus()==8)
-        {
-            answertocontinue(chosenindex);
-        }
     }
 
     public void askserieToShoot()

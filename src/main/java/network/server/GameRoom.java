@@ -133,6 +133,11 @@ public class GameRoom {
         gameController.discardPowCard(userID,indexPowCard);
     }
 
+    public void getIndexShoot(String userID, int index)
+    {
+        gameController.wakeupshoot(index,userID);
+    }
+
     public void askWeapon(String userID)
     {
         Message message= new ShootingGunRequest("Insert the index of the gun you would like to use");

@@ -836,14 +836,6 @@ public class CLIView implements View {
     @Override
     public void getGunIndex()
     {
-        /*
-        List<String> direction;
-        do{
-            direction=getData.getValidListDirectionForPlayer();
-            if(direction.isEmpty()) printOut("You need to choose at least one direction.");
-        }while(direction.isEmpty());
-        Message message=new RunClientRequest(direction,client.getUserID());
-        client.sendMessage(message);*/
 
         printOut("Insert the index of the gun you would like to use:");
         int gunindex= getData.getInt(0,2);

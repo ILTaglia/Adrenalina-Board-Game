@@ -276,6 +276,11 @@ public class GameServer {
             case "PowCardDiscardRequest":
                 userIDToGameRoom.get(requestMessage.getUserID()).discardPowCard(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
                 break;
+            case "shootingIndexRequest":
+            {
+                int intero = Integer.parseInt(requestMessage.getInfo());
+                userIDToGameRoom.get(requestMessage.getUserID()).getIndexShoot(requestMessage.getUserID(),intero);
+            }
         }
     }
 
