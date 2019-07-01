@@ -129,4 +129,19 @@ public interface View {
 
     void showWeaponInfo(Weapon weapon);
 
+    //Method for attacks
+
+    void getGunIndex();
+
+    void getSerieIndex();
+
+    void getPlayerIndex();
+
+    void getCellIndex();
+
+    void showPaymentError();
+
+    void getNextAttack();
+
+
 }

@@ -215,6 +215,26 @@ public class Client {
         if(message.getContent().equals("PowToWeaponGrabRequest")){
             view.askUsePowToGrabWeapon();
         }
+        if(message.getContent().equals("GunIndex"))
+        {
+            view.getGunIndex();
+        }
+        if(message.getContent().equals("serieIndex"))
+        {
+            view.getSerieIndex();
+        }
+        if(message.getContent().equals("PlayerIndex"))
+        {
+            view.getPlayerIndex();
+        }
+        if(message.getContent().equals("cellIndex"))
+        {
+            view.getCellIndex();
+        }
+        if(message.getContent().equals("nextAttack"))
+        {
+            view.getNextAttack();
+        }
     }
 
     private void handleConnectionMessage(Message message){
@@ -246,6 +266,10 @@ public class Client {
         }
         if(message.getContent().equals("MaxPowCardError")){
             view.chooseDiscardPowCard();
+        }
+        if(message.getContent().equals("PaymentError"))
+        {
+            view.showPaymentError();
         }
     }
 

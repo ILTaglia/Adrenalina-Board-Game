@@ -12,6 +12,7 @@ import network.messages.clientRequest.*;
 import network.messages.Message;
 import network.client.Client;
 import network.messages.clientRequest.PowCardDiscardClientRequest;
+import network.messages.gameRequest.ShootingSerieIndexRequest;
 import utils.*;
 
 import static utils.printStream.printOut;
@@ -854,5 +855,74 @@ public class CLIView implements View {
             printOut("You can move your enemy of "+weapon.getAttack(i).getMoveYou()+" before shooting");
         }
     }
+
+    @Override
+    public void getGunIndex()
+    {
+        /*
+        List<String> direction;
+        do{
+            direction=getData.getValidListDirectionForPlayer();
+            if(direction.isEmpty()) printOut("You need to choose at least one direction.");
+        }while(direction.isEmpty());
+        Message message=new RunClientRequest(direction,client.getUserID());
+        client.sendMessage(message);*/
+
+        printOut("Insert the index of the gun you would like to use:");
+        int gunindex= getData.getInt(0,2);
+        String index = Integer.toString(gunindex);
+        Message message = new ShootIndexRequest(index,client.getUserID());
+        client.sendMessage(message);
+
+    }
+
+    @Override
+    public void getSerieIndex()
+    {
+        printOut("Insert the index of the serie you would like to use:");
+        int gunIndex= getData.getInt(0,1);
+        String index = Integer.toString(gunIndex);
+        Message message = new ShootIndexRequest(index,client.getUserID());
+        client.sendMessage(message);
+    }
+
+    @Override
+    public void getPlayerIndex()
+    {
+        printOut("Insert the index of the Player you Would like to shoot to");
+        int gunIndex= getData.getInt(0,5);
+        String index = Integer.toString(gunIndex);
+        Message message = new ShootIndexRequest(index,client.getUserID());
+        client.sendMessage(message);
+    }
+
+    @Override
+    public void getCellIndex()
+    {
+        printOut("Insert the index of the Cell you would like to shoot to:");
+        int gunIndex= getData.getInt(0,50);
+        String index = Integer.toString(gunIndex);
+        Message message = new ShootIndexRequest(index,client.getUserID());
+        client.sendMessage(message);
+    }
+
+    @Override
+    public void getNextAttack()
+    {
+        printOut("Do you want to continue with the next attack of the card?");
+        printOut("1: Yes");
+        printOut("2: No");
+        int gunIndex= getData.getInt(1,2);
+        String index = Integer.toString(gunIndex);
+        Message message = new ShootIndexRequest(index,client.getUserID());
+        client.sendMessage(message);
+    }
+
+    @Override
+    public void showPaymentError()
+    {
+        printOut("You don't have enougth ammo!");
+    }
+
 
 }
