@@ -4,6 +4,8 @@ import controller.DeathAndRespawn;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class DashboardTest {
@@ -60,13 +62,8 @@ public class DashboardTest {
         assertEquals(6, player2.getScore());
         assertEquals(4, player3.getScore());
 
-        for(int i=0; i<3; i++){
-            for(int j=0; j<4; j++){
-                System.out.println(d1.getMap(i, j).toString());
-            }
-        }
-
-        //check print to verify ports are memorized correctly
+        String portstocheck = "[0, 0, 1, 0]";
+        assertEquals(portstocheck, d1.getMap(0, 0). toString());
 
     }
 

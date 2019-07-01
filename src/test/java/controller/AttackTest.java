@@ -100,12 +100,12 @@ public class AttackTest {
         //System.out.println(player1.getTotalDamage());
         AttackPlayer attackPlayer=new AttackPlayer();
         attackPlayer.assigndamages(match,player2,player1,damage);
-        System.out.println(player1.getmarks(0));
-        System.out.println(player1.getmarks(1));
-        System.out.println(player1.getmarks(2));
-        System.out.println(player1.getmarks(3));
+        assertEquals(-1, player1.getmarks(0));
+        assertEquals(0, player1.getmarks(1));
+        assertEquals(0, player1.getmarks(2));
+        assertEquals(2, player1.getmarks(3));
+        assertEquals(0, player1.getTotalDamage());
         //assertEquals(player1.getmarks(0),5);
-        System.out.println(player1.getTotalDamage());
         attackPlayer.assigncelldamages(match,coordinate,player2,damage2);
         //assertEquals(player1.getTotalDamage(),7);
         //assertEquals(player3.getTotalDamage(),2);

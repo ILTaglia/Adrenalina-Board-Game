@@ -185,10 +185,9 @@ public class ListAttackableTest {
         assertFalse(lister.getAttackableplayers().contains(player5));
         assertEquals(lister.getAttackableplayers().size(),2);
 
-        for(Player p : lister.getAttackableplayers())
-        {
-            System.out.println(p.getName());
-        }
+        assertEquals("Giovanni", lister.getAttackableplayers().get(0).getName());
+        assertEquals("Codecasa", lister.getAttackableplayers().get(1).getName());
+
     }
 
     @Test
@@ -198,10 +197,7 @@ public class ListAttackableTest {
         TypeAttack attack = new AttackFactory().getinstanceof(8,0,1,0,0);
         CreateListAttackable lister = new CreateListAttackable();
         lister.createlist(match,attack,player2);
-        for(Player p : lister.getAttackableplayers())
-        {
-            System.out.println(p.getName());
-        }
+
     }
 
     @Test

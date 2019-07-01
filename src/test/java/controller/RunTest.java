@@ -59,9 +59,9 @@ public class RunTest {
         try{
             r.movement(match, player1.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         //assertFalse(r.atomicValidity(match.getDashboard(), player1, 0, 2, 0));
         assertEquals(0, player1.getCel().getX());
         assertEquals(2, player1.getCel().getY());
@@ -69,18 +69,18 @@ public class RunTest {
         try{
             r.movement(match, player1.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player1.getCel().getX());
         assertEquals(3, player1.getCel().getY());
         destination.set(0, "S");
         try{
             r.movement(match, player1.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
 
         assertEquals(1, player1.getCel().getX());
         assertEquals(3, player1.getCel().getY());
@@ -98,18 +98,18 @@ public class RunTest {
         try{
             r.movement(match, player4.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player4.getCel().getX());
         assertEquals(1, player4.getCel().getY());
         destination.set(0, "W");
         try{
             r.movement(match, player4.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player4.getCel().getX());
         assertEquals(0, player4.getCel().getY());
 
@@ -120,27 +120,27 @@ public class RunTest {
         try{
             r.movement(match, player3.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(2, player3.getCel().getX());
         assertEquals(1, player3.getCel().getY());
         destination.set(0, "N");
         try{
             r.movement(match, player3.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(1, player3.getCel().getX());
         assertEquals(1, player3.getCel().getY());
         destination.set(0, "S");
         try{
             r.movement(match, player3.getID(), destination, false, false);
         }
-        catch(InvalidDirectionException e){ System.out.println("Invalid direction."); }
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(2, player3.getCel().getX());
         assertEquals(1, player3.getCel().getY());
     }
@@ -179,8 +179,8 @@ public class RunTest {
             r.movement(match, player1.getID(), destination, false, false);
         }
         catch(InvalidDirectionException e){}
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player1.getCel().getX());
         assertEquals(3, player1.getCel().getY());
 
@@ -196,8 +196,8 @@ public class RunTest {
             r.movement(match, player4.getID(), destination, false, false);
         }
         catch(InvalidDirectionException e){}
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player4.getCel().getX());
         assertEquals(3, player4.getCel().getY());
 
@@ -215,8 +215,8 @@ public class RunTest {
             r.movement(match, player3.getID(), destination, false, false);
         }
         catch(InvalidDirectionException e){}
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player3.getCel().getX());
         assertEquals(3, player3.getCel().getY());
 
@@ -230,8 +230,8 @@ public class RunTest {
             r.movement(match, player2.getID(), destination, false, false);
         }
         catch(InvalidDirectionException e){}
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(0, player2.getCel().getX());
         assertEquals(1, player2.getCel().getY());
         destination.set(2, "S");
@@ -239,8 +239,8 @@ public class RunTest {
             r.movement(match, player2.getID(), destination, false, false);
         }
         catch(InvalidDirectionException e){}
-        catch(NotYourTurnException e){ System.out.println("Not your turn.");}
-        catch(ActionNotAllowedException e){ System.out.println("Invalid action.");}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
         assertEquals(2, player2.getCel().getX());
         assertEquals(0, player2.getCel().getY());
     }
