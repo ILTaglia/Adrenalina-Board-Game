@@ -641,14 +641,16 @@ public class CLIView implements View {
         List<Weapon> weapons = cell.getSpawnPointCellWeapons();
         int i=1;
         for(Weapon weapon:weapons){
-            if(weapon!=null) {
+            try {
                 printOut(i + ". " + weapon.getName() + " at this price:");
                 printOut(weapon.getCostToGrab().get(0) + " red Ammos");
                 printOut(weapon.getCostToGrab().get(1) + " blue Ammos");
                 printOut(weapon.getCostToGrab().get(2) + " yellow Ammos");
                 i++;
+            } catch (NullPointerException e){
+                printOut(i + ". Arma già raccolta.");
+                i++;
             }
-            else printOut("Arma già raccolta.");
         }
     }
 
