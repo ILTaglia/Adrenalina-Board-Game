@@ -115,30 +115,43 @@ public class GameServer {
 
     public synchronized void handleDisconnect(ClientInterface clientInterface){
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
-        clientInterface.setConnection(false);
-        userIDInGameToStatusConnection.replace(clientInterface.getPlayerID(),false);
-        updatePlayerStatus(clientInterface.getPlayerID(),false);
-        if(userIDToGameRoom.containsKey(clientInterface.getPlayerID())) {
-            userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
+        String userID;
+        try {
+            userID=clientInterface.getPlayerID();
+            clientInterface.setConnection(false);
+        } catch (RemoteException e) {
+            userID=null;
+            //TODO
+        }
+        userIDInGameToStatusConnection.replace(userID,false);
+        updatePlayerStatus(userID,false);
+        if(userIDToGameRoom.containsKey(userID)) {
+            userIDToGameRoom.get(userID).disconnectPlayer(userID);
         }
         else{
-            usernameToUserID.forEach((username,userID)-> {
-                if(userID.equals(clientInterface.getPlayerID())) {
+            for (Map.Entry<String, String> entry : usernameToUserID.entrySet()) {
+                String username = entry.getKey();
+                String id = entry.getValue();
+                if (id.equals(userID)) {
                     waitingRoom.removePlayerInQueue(username);
-                    usernameToUserID.remove(username,userID);
-                    clientInterface.closeConnection();
+                    usernameToUserID.remove(username, id);
                     userIDInGameToStatusConnection.remove(userID);
                 }
-            });
+            }
         }
+        closeConnection(userID);
     }
 
     public synchronized void handleReConnect(String userID,ClientInterface clientInterface){
-        clientInterface.setConnection(true);
+        try {
+            clientInterface.setConnection(false);
+        } catch (RemoteException e) {
+            //TODO
+        }
         userIDToClientInterface.replace(userID,clientInterface);
-        userIDInGameToStatusConnection.replace(clientInterface.getPlayerID(),true);
-        updatePlayerStatus(clientInterface.getPlayerID(),true);
-        userIDToGameRoom.get(clientInterface.getPlayerID()).reConnectPlayer(clientInterface.getPlayerID());
+        userIDInGameToStatusConnection.replace(userID,true);
+        updatePlayerStatus(userID,true);
+        userIDToGameRoom.get(userID).reConnectPlayer(userID);
         Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");       //TODO: modificare tipo e contenuto messaggio.
         sendMessageToID(userID,confirmationMessage);
     }
@@ -160,7 +173,11 @@ public class GameServer {
     //Metodo probabilmente utile solo per i Client connessi con Socket, nel caso di RMI diventa "inutile", serve solo a marchiare il client disconnesso
     //Sui socket chiude forzatamente la connessione.
     public synchronized void closeConnection(String userID){
-        userIDToClientInterface.get(userID).closeConnection();
+        try {
+            userIDToClientInterface.get(userID).closeConnection();
+        } catch (RemoteException e) {
+            //TODO
+        }
     }
 
     private void  assignIDToUsername(String playerUsername) {
@@ -171,7 +188,11 @@ public class GameServer {
     private void assignClientHandlerToID(String playerUsername, ClientInterface clientHandler){
         String playerID=usernameToUserID.get(playerUsername);
         userIDToClientInterface.put(playerID,clientHandler);
-        clientHandler.setPlayerID(playerID);
+        try {
+            clientHandler.setPlayerID(playerID);
+        } catch (RemoteException e) {
+            //TODO
+        }
     }
     //Metodo in cui viene lanciato effettivamente il gioco, si crea una stanza per i giocatori che hanno effettuato il login e
     //si chiama il metodo per runnare la partita.

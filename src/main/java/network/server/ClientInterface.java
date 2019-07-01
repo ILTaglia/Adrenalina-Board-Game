@@ -8,11 +8,11 @@ import java.rmi.RemoteException;
 public interface ClientInterface extends Remote {
 
 
-    void setPlayerID(String playerID);
-    String getPlayerID();
+    void setPlayerID(String playerID) throws RemoteException;
+    String getPlayerID() throws RemoteException;
     void sendMessage(Message message) throws RemoteException;
 
-    void setConnection(boolean connected);
+    void setConnection(boolean connected) throws RemoteException;
 
-    void closeConnection();
+    void closeConnection()throws RemoteException;
 }
