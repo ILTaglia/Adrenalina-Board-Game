@@ -639,14 +639,16 @@ public class CLIView implements View {
         SpawnPointCell cell = (SpawnPointCell)client.getPlayerVisibleData().getDashboard().getMap(x, y);
         printOut("In the SpawnPoint Cell at line "+x+" and column "+y+" there are these Weapon Cards: ");
         List<Weapon> weapons = cell.getSpawnPointCellWeapons();
-
         int i=1;
         for(Weapon weapon:weapons){
-            printOut(i+". "+weapon.getName()+" a this price:");
-            printOut(weapon.getCostToGrab().get(0)+" red Ammos");
-            printOut(weapon.getCostToGrab().get(1)+" blue Ammos");
-            printOut(weapon.getCostToGrab().get(2)+" yellow Ammos");
-            i++;
+            if(weapon!=null) {
+                printOut(i + ". " + weapon.getName() + " at this price:");
+                printOut(weapon.getCostToGrab().get(0) + " red Ammos");
+                printOut(weapon.getCostToGrab().get(1) + " blue Ammos");
+                printOut(weapon.getCostToGrab().get(2) + " yellow Ammos");
+                i++;
+            }
+            else printOut("Arma già raccolta.");
         }
     }
 
