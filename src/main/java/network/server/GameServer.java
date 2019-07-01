@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 import static utils.NotifyClient.registerServer;
+import static utils.NotifyClient.updatePlayerStatus;
 import static utils.printStream.printOut;
 
 
@@ -25,8 +26,8 @@ public class GameServer {
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
     private static final int TIMER = 30000;
-    private static final int socketServerPort=7218;
-    private static final int rmiServerPort=1099;
+    private static final int SOCKET_SERVER_PORT =7218;
+    private static final int RMI_SERVER_PORT =1099;
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                            //Collega Username e IdPlayer
@@ -62,10 +63,10 @@ public class GameServer {
     }
 
     private void launchServer(){
-        gameSocketSvr.start(socketServerPort);
+        gameSocketSvr.start(SOCKET_SERVER_PORT);
         gameSocketSvr.start();
         try {
-            gameRMISvr.start(rmiServerPort);
+            gameRMISvr.start(RMI_SERVER_PORT);
         }catch (RemoteException e){
             printOut(e.getMessage());
         }
@@ -116,6 +117,7 @@ public class GameServer {
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
         clientInterface.setConnection(false);
         userIDInGameToStatusConnection.replace(clientInterface.getPlayerID(),false);
+        updatePlayerStatus(clientInterface.getPlayerID(),false);
         if(userIDToGameRoom.containsKey(clientInterface.getPlayerID())) {
             userIDToGameRoom.get(clientInterface.getPlayerID()).disconnectPlayer(clientInterface.getPlayerID());
         }
@@ -135,6 +137,7 @@ public class GameServer {
         clientInterface.setConnection(true);
         userIDToClientInterface.replace(userID,clientInterface);
         userIDInGameToStatusConnection.replace(clientInterface.getPlayerID(),true);
+        updatePlayerStatus(clientInterface.getPlayerID(),true);
         userIDToGameRoom.get(clientInterface.getPlayerID()).reConnectPlayer(clientInterface.getPlayerID());
         Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");       //TODO: modificare tipo e contenuto messaggio.
         sendMessageToID(userID,confirmationMessage);

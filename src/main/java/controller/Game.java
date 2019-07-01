@@ -34,8 +34,6 @@ public class Game{
         registerNewMatch(gameRoom,match);
     }
 
-
-
     //TODO IMPORTANTE metodi isValid
 
     //------------------------Metodi per il SetUp della partita-----------------------------------------------------------//
@@ -127,7 +125,7 @@ public class Game{
         startTimer();
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
-    public void startTimer() {
+    private void startTimer() {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -185,7 +183,6 @@ public class Game{
 
 
     private void askRun(){
-
         gameRoom.askDestinationRun(match.getActivePlayer().getID());
     }
 
@@ -336,7 +333,7 @@ public class Game{
     public void askWeaponToShoot(){
         this.shootelaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
         shootelaborator.setstatus(1);
-        gameRoom.askweapon(match.getActivePlayer().getID());
+        gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
     public void shoot()
@@ -759,17 +756,21 @@ public class Game{
 
     //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
+        timer.cancel();
         resetActionBool();
-        if(match.getActivePlayer().getAction()<2) {
+        if(match.getActivePlayer().getAction()<2&&match.getActivePlayer().isConnected()) {
+            printOut("Test");
             match.updateEndAction();
             askAction();
         }
-        else if(match.getActivePlayer().getAction()==2){
+        else if(match.getActivePlayer().getAction()==2||!match.getActivePlayer().isConnected()){
             match.updateEndTurn();
-            setTurn();
+            printOut("Fine turno falsa");
+            //setTurn();
         }
         //Se il giocatore successivo è disconnesso passa a quello dopo.
         //Controllo che i giocatori siano più di 3 se no dichiaro vincitore!
+
     }
 
 
@@ -801,7 +802,7 @@ public class Game{
 
     public void disconnectPlayer(String userID) {
         gameRoom.closeConnection(userID);
-        match.setPlayerDisconnected(userID);
+        //La chiamata sulla match viene fatta in seguito
     }
 
     public void reConnectPlayer(String userID) {
@@ -810,6 +811,6 @@ public class Game{
 
 
     public void setPlayerDisconnected(String userID) {
-        //TODO
+        match.setPlayerDisconnected(userID);
     }
 }

@@ -146,7 +146,7 @@ public class Match implements Serializable {
     }
     public void updateEndTurn() {
         this.fillDashboard();
-        this.updateClientDashboard();
+        // updateClientDashboard chiamato direttamente dalla fill!
         this.round++;
     }
 

@@ -32,7 +32,6 @@ public class WaitingRoom {
             startTimer();
         }
         if(waitingClients.size()==maxNumberPlayer){
-            timer.cancel();
             newGameRoom();
         }
     }
@@ -64,9 +63,8 @@ public class WaitingRoom {
 
     //A scadenza di timer si lancia una nuova GameRoom e lì vengono aggiunti i giocatori.
     public void newGameRoom(){
-
         printOut("Now New Game Room");
-
+        timer.cancel();
         List<String> usernameList=new ArrayList<>();
         while(!waitingClients.isEmpty()){
             usernameList.add(waitingClients.poll());

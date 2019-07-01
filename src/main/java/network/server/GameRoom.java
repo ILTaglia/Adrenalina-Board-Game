@@ -61,6 +61,7 @@ public class GameRoom {
     public void reConnectPlayer(String userID) {
         gameController.reConnectPlayer(userID);
     }
+
     public void closeConnection(String userID){
         gameServer.closeConnection(userID);
     }
@@ -132,7 +133,7 @@ public class GameRoom {
         gameController.discardPowCard(userID,indexPowCard);
     }
 
-    public void askweapon(String userID)
+    public void askWeapon(String userID)
     {
         Message message= new ShootingGunRequest("Insert the index of the gun you would like to use");
         gameServer.sendMessageToID(userID,message);

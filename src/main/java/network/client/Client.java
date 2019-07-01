@@ -124,6 +124,9 @@ public class Client {
             case "infoGame":
                 handleInfoMessage(message);
                 break;
+            case "Connection":
+                handleConnectionMessage(message);
+                break;
         }
     }
 
@@ -182,6 +185,11 @@ public class Client {
                 for (int i=0;i<ammoMessage.getListAmmo().size();i++) {
                     playerVisibleData.setNumberOfAmmo(i,ammoMessage.getListAmmo().get(i));
                 }
+                break;
+            case "InfoMatch":
+                view.showInfoMessage(message);
+                break;
+
         }
     }
 
@@ -207,10 +215,14 @@ public class Client {
         if(message.getContent().equals("PowToWeaponGrabRequest")){
             view.askUsePowToGrabWeapon();
         }
-        if(message.getContent().equals("ReConnectionRequest")){
+    }
+
+    private void handleConnectionMessage(Message message){
+        if(message.getContent().equals("ReConnectRequest")){
             view.askToReConnect();
         }
     }
+
 
     private void handleErrorMessage(Message message){
         if(message.getContent().equals("ConnectionError")){

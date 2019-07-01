@@ -217,7 +217,10 @@ public class GUIViewAdapter implements View {
 
     }
 
-
+    @Override
+    public boolean askToTryToReConnect() {
+        return false;
+    }
 
 
 }

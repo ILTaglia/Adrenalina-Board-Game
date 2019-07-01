@@ -15,6 +15,7 @@ public class NotifyClient {
     private static GameServer gameServer;
     private static Map<String, GameRoom> userIDtoGameRoom =new HashMap<>();
     private static Map<Match,GameRoom> matchToGameRoom=new HashMap<>();
+    private static Map<String,Boolean> userIDToStatusConnection=new HashMap<>();
 
     public static void registerServer(GameServer server){
         gameServer=server;
@@ -23,10 +24,14 @@ public class NotifyClient {
     public static void registerNewGame(Collection<String> userIDs, GameRoom gameRoom){
         for(String userID:userIDs){
             userIDtoGameRoom.put(userID,gameRoom);
+            userIDToStatusConnection.put(userID,true);
         }
     }
     public static void registerNewMatch(GameRoom gameRoom,Match match){
         matchToGameRoom.put(match,gameRoom);
+    }
+    public static void updatePlayerStatus(String userID,boolean connected){
+        userIDToStatusConnection.replace(userID,connected);
     }
 
     public static void notifyAllClients(Match match,Message message){
@@ -38,7 +43,7 @@ public class NotifyClient {
         Collection<String> userIDs=result.keySet();
         for(String userID:userIDs){
             try {
-                gameServer.sendMessageToID(userID,message);
+                sendMessageToID(userID,message);
             }catch (NullPointerException e){
                 //Test case: gameServer not instantiated
             }
@@ -54,7 +59,7 @@ public class NotifyClient {
         Collection<String> userIDs=result.keySet();
         for(String userID:userIDs){
             try {
-                gameServer.sendMessageToID(userID,message);
+                sendMessageToID(userID,message);
             }catch (NullPointerException e){
                 //Test case: gameServer not instantiated
             }
@@ -62,11 +67,15 @@ public class NotifyClient {
     }
     public static void notifySpecificClient(String userID, Message message){
         try {
-            gameServer.sendMessageToID(userID,message);
+            sendMessageToID(userID,message);
         }catch (NullPointerException e){
             //Test case: gameServer not instantiated
         }
     }
 
-
+    private static void sendMessageToID(String userID,Message message){
+        if(userIDToStatusConnection.get(userID)){
+            gameServer.sendMessageToID(userID,message);
+        }
+    }
 }

@@ -1,9 +1,8 @@
 package network.server.socket;
 
-import network.messages.ReConnectClientRequest;
 import network.messages.error.ConnectionError;
 import network.messages.Message;
-import network.messages.gameRequest.ReConnectServerRequest;
+import network.messages.ReConnectServerRequest;
 import network.server.ClientInterface;
 
 import java.io.IOException;
@@ -67,7 +66,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                         server.addClientToWR(this, requestedUsername);
                     }
                 }
-                else if(message.getType().equals("ConnectionMessage")&&message.getContent().equals("ReConnectRequest")){
+                else if(message.getType().equals("Connection")&&message.getContent().equals("ReConnectRequest")){
                     if(server.checkUserID(message.getInfo())){
                         setPlayerID(message.getInfo());
                         server.handleReconnect(message.getInfo(),this);
@@ -77,7 +76,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                         sendMessage(errorMessage);
                     }
                 }
-                else if(message.getType().equals("ConnectionMessage")&&message.getContent().equals("ReConnectAttempt")){
+                else if(message.getType().equals("Connection")&&message.getContent().equals("ReConnectAttempt")){
                     if(server.checkUserID(message.getInfo())){
                         setPlayerID(message.getInfo());
                         server.handleReconnect(message.getInfo(),this);
