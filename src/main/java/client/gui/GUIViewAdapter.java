@@ -133,14 +133,7 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
-    public String getDirection() {
-        return null;
-    }
-
-    @Override
-    public List<String> getListDirection() {
-        return null;
-    }
+    public void showDirection(){}
 
     @Override
     public int getNumberOfPow() {

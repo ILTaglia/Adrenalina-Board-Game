@@ -101,7 +101,7 @@ public class GameRoom {
     }
 
     public void askDestinationRun(String userID){
-        Message message=new RunDirectionGameRequest("Choose direction "+"TODO per la View stampare le direzioni una volta ricevuto questo messaggio");
+        Message message=new RunDirectionGameRequest("Choose direction");
         gameServer.sendMessageToID(userID,message);
     }
     public void performRun(String userID, List<String> direction){
@@ -110,7 +110,7 @@ public class GameRoom {
     }
 
     public void askWeaponGrab(String userID) {
-        Message message=new WeaponGrabGameRequest("Choose which weapon grab"+"TODO per la View stampare le carte disponibili");
+        Message message=new WeaponGrabGameRequest("Choose which weapon grab");
         gameServer.sendMessageToID(userID,message);
     }
     public void performWeaponGrab(String userID,int indexWeapon){
