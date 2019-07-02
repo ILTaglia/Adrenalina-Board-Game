@@ -1,8 +1,8 @@
 package client.gui;
 
 import client.View;
-import model.Weapon;
 import model.Player;
+import model.Weapon;
 import network.client.Client;
 import network.messages.Message;
 
@@ -133,7 +133,9 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
-    public void showDirection(){}
+    public void showDirection() {
+
+    }
 
     @Override
     public int getNumberOfPow() {
@@ -172,6 +174,11 @@ public class GUIViewAdapter implements View {
 
     @Override
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername) {
+
+    }
+
+    @Override
+    public void showWeaponInfo(Weapon weapon) {
 
     }
 
@@ -216,8 +223,6 @@ public class GUIViewAdapter implements View {
         return false;
     }
 
-    @Override
-    public void showWeaponInfo(Weapon weapon){}
 
     @Override
     public void getGunIndex() {

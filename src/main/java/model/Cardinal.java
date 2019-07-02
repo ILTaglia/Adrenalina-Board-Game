@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cardinal implements TypeAttack {
+    /**
+     * type player is an identifier that allows to define in what type of series an attack of a weapon will be performed
+     * extra are the money required to unlock extra functions when a player shoots
+     * distance is an int that indicates the distance between the attacking player and the attacked player
+     * moveme is an int that indicates of how many steps the attacking player can move
+     * moveyou is an int that indicates of how many steps the attacked player can move
+     * E is the list containing all the effects that a weapon with the given type attack will own
+     */
     private List<Integer> extra;
     private int typePlayer;
     private int distance;

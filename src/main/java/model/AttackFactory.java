@@ -1,6 +1,16 @@
 package model;
 
 public class AttackFactory {
+    /**
+     *
+     * @param i is the identifier of the type of attack
+     * @param typeplayer is an identifier that allows to define in what type of series an attack of a weapon will be performed
+     * @param distance is an int that indicates the distance between the attacking player and the attacked player
+     * @param moveme is an int that indicates of how many steps the attacking player can move
+     * @param moveyou is an int that indicates of how many steps the attacked player can move
+     * @return the type of attack corresponding to the identifier i, created with the other passed parameters
+     * (typeplayer, distance, moveme, moveyou)
+     */
     public TypeAttack getinstanceof(int i, int typeplayer, int distance, int moveme, int moveyou)
     {
         if(i==1)
