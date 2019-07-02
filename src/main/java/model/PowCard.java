@@ -50,18 +50,7 @@ public abstract class PowCard extends Card {
      */
     public abstract int getMoveme();
 
-    /**
-     *
-     * @param life is the int that indicates
-     */
-    public abstract void setLife(int life);
 
-    /**
-     *
-     * @return
-     */
-    public abstract int getLife();
-    public abstract void setMarks(int marks);
-    public abstract int getMarks();
+    public abstract int getType();
 
 }

@@ -603,6 +603,45 @@ public class Game{
     }
 
 
+    //-----------------------------Metodi per potenziamenti------------------------------------------------------------//
+
+    public void usePow()
+    {
+        //TODO CHIEDERE POTENZIAMENTO
+    }
+
+    private void useTargetingScope()
+    {
+
+    }
+
+    public void setPowIndex(int index)
+    {
+        if(index<match.getActivePlayer().getPows().size())
+        {
+            PowCard powCard = match.getActivePlayer().getPowByIndex(index);
+            if(powCard.getType()==0) //Newton
+            {
+
+            }
+            if(powCard.getType()==1) //Targeting Scope
+            {
+
+            }
+            if(powCard.getType()==2) //Teleporter
+            {
+                //TODO ASK COORDINATE
+            }
+            if(powCard.getType()==3) //Granate
+            {
+
+            }
+        }
+    }
+
+    //-----------------------------Fine Metodi per potenziamenti------------------------------------------------------//
+
+
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
 
     private void nextStep() {
