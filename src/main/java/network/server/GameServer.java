@@ -281,6 +281,11 @@ public class GameServer {
                 int intero = Integer.parseInt(requestMessage.getInfo());
                 userIDToGameRoom.get(requestMessage.getUserID()).getIndexShoot(requestMessage.getUserID(),intero);
             }
+            case "muxIndex":
+            {
+                int intero = Integer.parseInt(requestMessage.getInfo());
+                userIDToGameRoom.get(requestMessage.getUserID()).getIndexShoot(requestMessage.getUserID(),intero);
+            }
         }
     }
 

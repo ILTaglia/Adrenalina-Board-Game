@@ -914,5 +914,53 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    @Override
+    public void getPowIndex() {
+        printOut("Digit 1 to use Teleporter, 2 to use Newton, 3 to cancel");
+        int gunIndex= getData.getInt(1,3);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new MuxPowRequest(index,client.getUserID());
+        client.sendMessage(messaage);
+    }
+
+    @Override
+    public void getPosIndex() {
+        printOut("the number of the cell (from 1 to 12)");
+        int gunIndex= getData.getInt(1,12);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new MuxPowRequest(index,client.getUserID());
+        client.sendMessage(messaage);
+
+    }
+
+    @Override
+    public void getDirectionIndex() {
+        printOut("Digit the direction");
+        int gunIndex= getData.getInt(0,3);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new MuxPowRequest(index,client.getUserID());
+        client.sendMessage(messaage);
+
+    }
+
+    @Override
+    public void getNumberStep() {
+        printOut("Digit the number of steps (max 3)");
+        int gunIndex= getData.getInt(1,3);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new MuxPowRequest(index,client.getUserID());
+        client.sendMessage(messaage);
+
+    }
+
+    @Override
+    public void getMovePlayerIndex() {
+        printOut("Digit the number of the player");
+        int gunIndex= getData.getInt(1,5);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new MuxPowRequest(index,client.getUserID());
+        client.sendMessage(messaage);
+    }
+
 
 }

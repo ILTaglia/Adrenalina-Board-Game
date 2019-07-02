@@ -22,6 +22,7 @@ public class Game{
     //Gestione Timer
     private Timer timer;
     private final int queueTimer;
+    private SupportPow supportPow;
 
     public Game(GameRoom gameRoom, int queueTimer){
         this.queueTimer=queueTimer;
@@ -620,37 +621,182 @@ public class Game{
 
     public void usePow()
     {
-        //TODO CHIEDERE POTENZIAMENTO
+        supportPow= new SupportPow();
+        askIndexPow();
     }
 
-    private void useTargetingScope()
+    public void askIndexPow()
     {
-
+        supportPow.setStatus(1);
+        gameRoom.askIndexPow(match.getActivePlayer().getID());
     }
 
-    public void setPowIndex(int index)
+    public void muxPow(int index, String userID)
     {
-        if(index<match.getActivePlayer().getPows().size())
+        if(match.getActivePlayer().getID().equals(userID))
         {
-            PowCard powCard = match.getActivePlayer().getPowByIndex(index);
-            if(powCard.getType()==0) //Newton
+            if(supportPow.getStatus()==1&&index==1)
+        {
+            checkTeleporter();
+        }
+            if(supportPow.getStatus()==1&&index==2)
             {
-
+                checkNewton();
             }
-            if(powCard.getType()==1) //Targeting Scope
+            if(supportPow.getStatus()==1&&index==3)
             {
-
+                nextStep();
             }
-            if(powCard.getType()==2) //Teleporter
+            if(supportPow.getStatus()==2)
             {
-                //TODO ASK COORDINATE
+                useTeleport(index);
             }
-            if(powCard.getType()==3) //Granate
+            if(supportPow.getStatus()==3)
             {
-
+                askNumberSteps();
+            }
+            if(supportPow.getStatus()==4)
+            {
+                askPlayerIndex();
+            }
+            if(supportPow.getStatus()==5)
+            {
+                executeSteps(index);
             }
         }
+
     }
+
+    public void checkTeleporter()
+    {
+        int flag=0;
+        for(PowCard p : match.getActivePlayer().getPows())
+        {
+            if(p.getType()==2)
+            {
+                flag=1;
+            }
+        }
+        if(flag==0)
+        {
+            askIndexPow();
+        }
+        else
+        {
+            askPosition();
+        }
+    }
+
+    public void askPosition()
+    {
+        supportPow.setStatus(2);
+        gameRoom.askPos(match.getActivePlayer().getID());
+    }
+
+    public void checkNewton()
+    {
+        int flag=0;
+        for(PowCard p : match.getActivePlayer().getPows())
+        {
+            if(p.getType()==0)
+            {
+                flag=1;
+            }
+        }
+        if(flag==0)
+        {
+            askIndexPow();
+        }
+        else
+        {
+            askDirection();
+        }
+    }
+
+    public void askDirection()
+    {
+        supportPow.setStatus(3);
+        gameRoom.askDirection(match.getActivePlayer().getID());
+    }
+
+    public void askNumberSteps()
+    {
+        supportPow.setStatus(4);
+        gameRoom.askStep(match.getActivePlayer().getID());
+    }
+
+    public void useTeleport(int index)
+    {
+        //TODO CONTROLLO SUL FATTO CHE LA MAPPA LO CONSENTA
+        Coordinate coordinate = new Coordinate(0,0);
+        if(index==1)
+        {
+            coordinate=new Coordinate(0,0);
+        }
+        if(index==2)
+        {
+            coordinate=new Coordinate(0,1);
+        }
+        if(index==3)
+        {
+            coordinate=new Coordinate(0,2);
+        }
+        if(index==4)
+        {
+            coordinate=new Coordinate(0,3);
+        }
+        if(index==5)
+        {
+            coordinate=new Coordinate(1,0);
+        }
+        if(index==6)
+        {
+            coordinate=new Coordinate(1,1);
+        }
+        if(index==7)
+        {
+            coordinate=new Coordinate(1,2);
+        }
+        if(index==8)
+        {
+            coordinate=new Coordinate(1,3);
+        }
+        if(index==9)
+        {
+            coordinate=new Coordinate(2,0);
+        }
+        if(index==10)
+        {
+            coordinate=new Coordinate(2,1);
+        }
+        if(index==11)
+        {
+            coordinate=new Coordinate(2,2);
+        }
+        if(index==12)
+        {
+            coordinate=new Coordinate(2,3);
+        }
+        Run movement = new Run();
+        movement.resetPosition(match.getActivePlayer(),coordinate);
+        nextStep();
+    }
+
+    public void askPlayerIndex()
+    {
+        supportPow.setStatus(5);
+        gameRoom.askPlayer(match.getActivePlayer().getID());
+    }
+
+    public void executeSteps(int index)
+    {
+        match.getPlayers().get(index);
+        Run run = new Run();
+        //TODO CONTROLLO CHE IL MOVIMENTO SIA VALIDO E NEL CASO LO SPOSTO
+        nextStep();
+    }
+
+
 
     //-----------------------------Fine Metodi per potenziamenti------------------------------------------------------//
 
@@ -816,6 +962,12 @@ public class Game{
             }
         }, queueTimer);
     }
+
+
+
+
+
+
 
 
 

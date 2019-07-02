@@ -142,5 +142,15 @@ public interface View {
 
     void getDirection();
 
+    void getPowIndex();
+
+    void getPosIndex();
+
+    void getDirectionIndex();
+
+    void getNumberStep();
+
+    void getMovePlayerIndex();
+
 
 }

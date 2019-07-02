@@ -259,5 +259,30 @@ public class GUIViewAdapter implements View {
 
     }
 
+    @Override
+    public void getPowIndex() {
+
+    }
+
+    @Override
+    public void getPosIndex() {
+
+    }
+
+    @Override
+    public void getDirectionIndex() {
+
+    }
+
+    @Override
+    public void getNumberStep() {
+
+    }
+
+    @Override
+    public void getMovePlayerIndex() {
+
+    }
+
 
 }

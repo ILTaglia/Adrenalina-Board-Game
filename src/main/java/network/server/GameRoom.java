@@ -138,6 +138,11 @@ public class GameRoom {
         gameController.wakeupshoot(index,userID);
     }
 
+    public void getMuxIndex(String userID, int index)
+    {
+        gameController.muxPow(index,userID);
+    }
+
     public void askWeapon(String userID)
     {
         Message message= new ShootingGunRequest("Insert the index of the gun you would like to use");
@@ -179,6 +184,38 @@ public class GameRoom {
         Message message = new DirectionRequest("Insert the index of the direction you want to choose");
         gameServer.sendMessageToID(userID,message);
     }
+
+    public void askIndexPow(String userID)
+    {
+        Message message = new IndexPowRequest("Insert the type of powerup");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askPos(String userID)
+    {
+        Message message = new PositionRequest("Insert the index of the position");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askDirection(String userID)
+    {
+        Message message = new DirRequest("Insert the index of the direction you want to choose");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askStep(String userID)
+    {
+        Message message = new NumberStepRequest("Insert the number of steps");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askPlayer(String userID)
+    {
+        Message message = new MovePlayerRequest("Insert the index of the player");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+
 
 
 
