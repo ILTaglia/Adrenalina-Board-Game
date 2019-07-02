@@ -17,6 +17,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         this.gameServer=gameServer;
     }
 
+    //Il metodo serve al Client a registrarsi al server, chiede lo username e la backend (clientInterface) da registrare sul Server per poter interagire con il Client
     @Override
     public void registerToQueue(String requestedUsername, ClientInterface clientInterface) throws UsernameAlreadyUsedException {
         if(gameServer.isPlayerDisconnected(requestedUsername)){
@@ -29,6 +30,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
             gameServer.addClientToWR(requestedUsername,clientInterface);
         }
     }
+
+    //Questo metodo è utile nel caso in cui un Player non voglia entrare in partita ma voglia iniziarne un'altra seppur con lo stesso username
     @Override
     public void newRegistrationToQueue(String username, ClientInterface clientInterface) throws UsernameAlreadyUsedException {
         if (gameServer.isAlreadyInQueue(username)){
@@ -39,6 +42,7 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         }
     }
 
+    //Metodo che serve al Client per mandare messaggi al Server che verranno gestiti e porteranno avanti il gioco.
     @Override
     public void handleMessage(Message message) {
         gameServer.handleMessage(message);

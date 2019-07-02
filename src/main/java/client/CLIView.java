@@ -49,14 +49,7 @@ public class CLIView implements View {
         int connectionChoice=getData.getInt(1, 2);
 
         client.setConnection(connectionChoice==2);
-        /*
-        if(connectionChoice==1){
-            client.setConnection(false);
-        }
-        else{
-            client.setConnection(true);
-        }
-        */
+
         client.launchConnection();
     }
 
@@ -73,7 +66,7 @@ public class CLIView implements View {
         if(getData.askYesOrNo()) {
             printOut("Insert the userID you have been assigned at the start of the game:");
             String userIDToReConnect = getData.getName();
-            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      //TODO IMPORTANTE; lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
+            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
             client.sendMessage(reConnectRequest);
         }
         else{
