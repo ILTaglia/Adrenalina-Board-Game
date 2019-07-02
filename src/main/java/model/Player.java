@@ -160,10 +160,12 @@ public class Player implements Serializable {
     }
 
     //return number of marks given by a single enemy (parameter is the color of the enemy player)
-    public int getMarks(int c){
-        if(c==this.getColor()) return -1; //not self made marks
+    public int getMarks(int colorOfWhoMarked){
+        if(colorOfWhoMarked==this.getColor()) return -1; //not self made marks
         /*Attention! You could test that for every player in the position this.color() you have zero for marks and damages*/
-        return marks.get(c);
+        int numberOfMarks=marks.get(colorOfWhoMarked);
+        marks.set(colorOfWhoMarked,0);
+        return numberOfMarks;
     }
 
     //set the number of marks, parameters are the number of marks to add(numberOfMarksToAdd) and the color of the player that gave them (colorOfWhoMarks)
