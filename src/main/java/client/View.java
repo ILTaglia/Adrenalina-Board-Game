@@ -140,5 +140,7 @@ public interface View {
 
     void getNextAttack();
 
+    void getDirection();
+
 
 }

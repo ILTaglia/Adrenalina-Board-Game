@@ -57,6 +57,7 @@ public class OfficialShootVersion {
     * 6. Sono in attesa del susseguirsi dello spostamento del player attaccato
     * 7. Sono in attesa dello spostamento del player principale
     * 8. Sono in attesa di risuposta sull'intenzione di proseguire o meno con un prossimo attacco
+    * 9. SOno in attesa di una direzione
     *
     *
     * */
@@ -70,6 +71,7 @@ public class OfficialShootVersion {
     *
     * 1. Standard Attack
     * 2. Ricorsivfe Attack
+    * 3. All room
     * */
 
     private int attackmethod;

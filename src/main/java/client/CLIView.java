@@ -893,5 +893,15 @@ public class CLIView implements View {
         printOut("You don't have enougth ammo!");
     }
 
+    @Override
+    public void getDirection()
+    {
+        printOut("Insert the index of the direction?");
+        int gunIndex= getData.getInt(0,3);
+        String index = Integer.toString(gunIndex);
+        Message message = new ShootIndexRequest(index,client.getUserID());
+        client.sendMessage(message);
+    }
+
 
 }

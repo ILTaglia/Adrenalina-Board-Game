@@ -109,6 +109,7 @@ public class Game{
         askAction();
 
     }
+
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
 
     //TODO: verificare utilità metodo
@@ -326,6 +327,10 @@ public class Game{
         nextStep();
     }
 
+    public void shoot()
+    {
+        askWeaponToShoot();
+    }
 
     public void askWeaponToShoot(){
         this.shootelaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
@@ -365,6 +370,10 @@ public class Game{
             if(shootelaborator.getStatus()==8)
             {
                 answertocontinue(chosenindex);
+            }
+            if(shootelaborator.getStatus()==9)
+            {
+                setDirectionToShoot(chosenindex);
             }
         }
 
@@ -417,11 +426,22 @@ public class Game{
         {
             ricorsiveattack();
         }
+        if(typeattack==11)
+        {
+            allroomattack();
+        }
 
         if(shootelaborator.getFlagfirstattack()==0)
         {
             shootelaborator.setFlagfirstattack(1);
         }
+    }
+
+    public void allroomattack()
+    {
+        shootelaborator.setAttackmethod(3);
+        moveAndList();
+        starteffect();
     }
 
     public void standardattack()
@@ -543,13 +563,33 @@ public class Game{
 
     }
 
+    public void setDirectionToShoot(int index)
+    {
+        shootelaborator.setdirectiontoshoot(index);
+        shootelaborator.generatelistattackable(shootelaborator.getPlayer());
+        List <Coordinate> list = shootelaborator.getlistattackable(2);
+        for(Coordinate c : list)
+        {
+            shootelaborator.setvictimcell(c);
+        }
+    }
+
     private void moveAndList()
     {
         if(shootelaborator.getmoveme()!=0)
         {
             shootelaborator.run(shootelaborator.getPlayer(),shootelaborator.getmoveme());
         }
-        shootelaborator.generatelistattackable(shootelaborator.getPlayer());
+        if(shootelaborator.getTypeAttack()==3)
+        {
+            shootelaborator.setstatus(9);
+            gameRoom.askDirectionToShoot(match.getActivePlayer().getID());
+        }
+        else
+        {
+            shootelaborator.generatelistattackable(shootelaborator.getPlayer());
+        }
+
     }
 
     //-----------------------------------------Fine Metodi necessari alla Shoot--------------------------------------------//

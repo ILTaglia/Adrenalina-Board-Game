@@ -174,6 +174,12 @@ public class GameRoom {
         gameServer.sendMessageToID(userID,message);
     }
 
+    public void askDirectionToShoot(String userID)
+    {
+        Message message = new DirectionRequest("Insert the index of the direction you want to choose");
+        gameServer.sendMessageToID(userID,message);
+    }
+
 
 
 }

@@ -235,6 +235,10 @@ public class Client {
         {
             view.getNextAttack();
         }
+        if(message.getContent().equals("directionRequest"))
+        {
+            view.getNextAttack();
+        }
     }
 
     private void handleConnectionMessage(Message message){
