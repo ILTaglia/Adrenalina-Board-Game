@@ -329,6 +329,8 @@ public class Game{
     public void askWeaponToShoot(){
         this.shootElaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
         shootElaborator.setstatus(1);
+        supportPow= new SupportPow();
+        supportPow.setAttacker(this.match.getActivePlayer());
         gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
@@ -499,6 +501,10 @@ public class Game{
         {
             if(shootElaborator.setvictimplayer(attackablePlayers.get(index)))
             {
+                if(!supportPow.getVictims().contains(attackablePlayers.get(index)))
+                {
+                    supportPow.addVictim(attackablePlayers.get(index));
+                }
                 if(shootElaborator.getMoveyou()!=0)
                 {
                     shootElaborator.setstatus(6);
@@ -536,10 +542,69 @@ public class Game{
             }
             else
             {
-                nextStep();
+                //nextStep();
+                particoularpowers();
             }
         }
     }
+
+
+
+    public void particoularpowers()
+    {
+        //Controllo se l'attacker ha un potenziamento di tipo mirino
+        int flag=0;
+        for(PowCard p : match.getActivePlayer().getPows())
+        {
+            if(p.getType()==1)
+            {
+                flag=1;
+            }
+        }
+        if(flag==1)
+        {
+            gameRoom.askScopePow(match.getActivePlayer().getID());
+        }
+
+        for(Player p : supportPow.getVictims())
+        {
+            int flag2=0;
+            for(PowCard pow : p.getPows())
+            {
+                if(pow.getType()==3)
+                {
+                    flag2=1;
+                }
+            }
+            if(flag2==1)
+            {
+                gameRoom.askGranadePow(p.getID());
+            }
+        }
+
+        if(flag!=1)
+        {
+            nextStep();
+        }
+    }
+
+    public void usescope(int index)
+    {
+        if(index<supportPow.getVictims().size()&&index>=0)
+        {
+            match.getPlayer(supportPow.getVictims().get(index).getColor()).setDamage(1, supportPow.getAttacker().getColor());
+        }
+        nextStep();
+    }
+
+    public void usegranade(int index, String userID)
+    {
+        if(index==1)
+        {
+            match.setMarks(match.getPlayerByID(userID),match.getActivePlayer(),1);
+        }
+    }
+
 
     public void continueshootinganswer()
     {
@@ -636,9 +701,9 @@ public class Game{
         if(match.getActivePlayer().getID().equals(userID))
         {
             if(supportPow.getStatus()==1&&index==1)
-        {
+            {
             checkTeleporter();
-        }
+            }
             if(supportPow.getStatus()==1&&index==2)
             {
                 checkNewton();
@@ -653,10 +718,12 @@ public class Game{
             }
             if(supportPow.getStatus()==3)
             {
+                supportPow.setDirection(index);
                 askNumberSteps();
             }
             if(supportPow.getStatus()==4)
             {
+                supportPow.setSteps(index);
                 askPlayerIndex();
             }
             if(supportPow.getStatus()==5)

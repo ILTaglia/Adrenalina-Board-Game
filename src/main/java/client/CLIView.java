@@ -963,5 +963,15 @@ public class CLIView implements View {
         client.sendMessage(messaage);
     }
 
+    @Override
+    public void getScopeIndex() {
+
+    }
+
+    @Override
+    public void getGranadeIndex() {
+
+    }
+
 
 }

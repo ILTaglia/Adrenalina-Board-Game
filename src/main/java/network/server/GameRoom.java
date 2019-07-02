@@ -215,6 +215,18 @@ public class GameRoom {
         gameServer.sendMessageToID(userID,message);
     }
 
+    public void askScopePow(String userID)
+    {
+        Message message = new AskScope("Insert the index of the player you want to use the scope to, or press -1 not to use it");
+        gameServer.sendMessageToID(userID,message);
+    }
+
+    public void askGranadePow(String userID)
+    {
+        Message message = new AskGranade("Insert 1 if you want to use the granade, 2 if you don't want");
+        gameServer.sendMessageToID(userID,message);
+    }
+
 
 
 

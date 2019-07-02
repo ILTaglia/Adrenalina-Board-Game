@@ -152,5 +152,11 @@ public interface View {
 
     void getMovePlayerIndex();
 
+    void getScopeIndex();
+
+    void getGranadeIndex();
+
+
+
 
 }
