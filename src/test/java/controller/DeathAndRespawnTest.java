@@ -3,7 +3,6 @@ package controller;
 import model.Coordinate;
 import model.Player;
 import model.Match;
-import exceptions.NotExistingDashboardException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

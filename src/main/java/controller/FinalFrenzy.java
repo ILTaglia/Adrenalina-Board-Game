@@ -66,7 +66,6 @@ public class FinalFrenzy {
     }
 
     public void shootInFrenzy(){
-        Shoot shoot = new Shoot();
         //TODO da completare
     }
 

@@ -6,7 +6,6 @@ import network.client.Client;
 import network.messages.Message;
 import network.server.ClientInterface;
 
-import java.rmi.RemoteException;
 
 public class RMIConnection implements ClientInterface {
 
@@ -40,6 +39,6 @@ public class RMIConnection implements ClientInterface {
 
     @Override
     public void closeConnection() {
-        //TODO
+
     }
 }

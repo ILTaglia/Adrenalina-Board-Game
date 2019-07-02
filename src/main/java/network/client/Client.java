@@ -2,7 +2,6 @@ package network.client;
 
 import client.CLIView;
 import client.View;
-import client.gui.GUIView;
 import client.gui.GUIViewAdapter;
 import exceptions.MaxNumberofCardsException;
 import exceptions.UsernameAlreadyUsedException;
@@ -15,6 +14,8 @@ import network.messages.playerDataMessage.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Scanner;
+
+import static utils.Print.printOut;
 
 public class Client {
     private PlayerVisibleData playerVisibleData;
@@ -35,8 +36,7 @@ public class Client {
 
         Scanner userChoice;
         userChoice=new Scanner(System.in);
-        System.out.println("Inserire 0 per usare GUIView, 1 per CLI:\t");
-
+        printOut("Inserire 0 per usare GUIView, 1 per CLI:\t");             //MODIFICARE INSERIMENTO DATI
         //Ad ogni View si associa un Client e viceversa
         if(userChoice.nextInt()==1){
             Client client=new Client();
@@ -159,7 +159,7 @@ public class Client {
                 try {
                     this.playerVisibleData.getPlayer().addPow(((NewPowCard) message).getPowCard());
                 } catch (MaxNumberofCardsException e) {
-                    //Gestita non dal Player //TODO
+                    //Not handled by Player
                 }
                 break;
             case "NewWeaponCard":
@@ -167,7 +167,7 @@ public class Client {
                 try {
                     this.playerVisibleData.getPlayer().addWeapon(((NewWeaponCard) message).getWeaponCard());
                 } catch (MaxNumberofCardsException e) {
-                    //Gestita non dal Player //TODO
+                    //Not handled by Player
                 }
                 break;
             case "NewCardUsed":
@@ -256,7 +256,7 @@ public class Client {
             view.createPlayer();
         }
         if(message.getContent().equals("ActionError")){
-            //Nothing to do, just info. //TODO
+            //Nothing to do, just info.
         }
         if(message.getContent().equals("RunError")){
             view.chooseAction();
@@ -276,8 +276,6 @@ public class Client {
             view.showPaymentError();
         }
     }
-
-    //-------------------------------Metodi da completare----------------------------//
 
     public String getUserID(){
         return this.userID;

@@ -1,9 +1,9 @@
 package utils;
 
 import java.io.PrintStream;
-//TODO: Dare un senso ai nomi dei metodi
 
-public class printStream {
+public class Print {
+
     private static PrintStream streamPrint=System.out;
 
     public static void printOut(String stringToPrint){

@@ -15,7 +15,7 @@ import java.util.*;
 
 import static utils.NotifyClient.registerServer;
 import static utils.NotifyClient.updatePlayerStatus;
-import static utils.printStream.printOut;
+import static utils.Print.printOut;
 
 
 //la classe unisce sia il server Socket che RMI, in questo modo ho il vantaggio di poter gestire contemporaneamente

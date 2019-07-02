@@ -2,7 +2,6 @@ package controller;
 import model.Player;
 import model.Match;
 import model.Dashboard;
-import exceptions.NotExistingDashboardException;
 
 import java.util.ArrayList;
 import java.util.List;

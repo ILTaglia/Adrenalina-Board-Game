@@ -8,7 +8,7 @@ import network.server.GameRoom;
 import java.util.*;
 
 import static utils.NotifyClient.*;
-import static utils.printStream.printOut;
+import static utils.Print.printOut;
 
 public class Game{
 

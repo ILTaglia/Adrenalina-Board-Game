@@ -1,13 +1,12 @@
 package utils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static utils.printStream.printOut;
+import static utils.Print.printOut;
 
 public class GetData {
     //private InputStreamReader reader= new InputStreamReader(System.in);

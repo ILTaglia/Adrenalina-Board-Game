@@ -1,10 +1,8 @@
 package network.server;
 
-import network.server.GameServer;
-
 import java.util.*;
 
-import static utils.printStream.printOut;
+import static utils.Print.printOut;
 
 public class WaitingRoom {
 

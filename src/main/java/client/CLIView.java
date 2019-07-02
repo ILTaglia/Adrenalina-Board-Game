@@ -12,10 +12,9 @@ import network.messages.clientRequest.*;
 import network.messages.Message;
 import network.client.Client;
 import network.messages.clientRequest.PowCardDiscardClientRequest;
-import network.messages.gameRequest.ShootingSerieIndexRequest;
 import utils.*;
 
-import static utils.printStream.printOut;
+import static utils.Print.printOut;
 
 public class CLIView implements View {
     private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -246,6 +245,11 @@ public class CLIView implements View {
     @Override
     public int getNumberOfPow(){
         return client.getPlayerVisibleData().getPlayer().getPows().size();
+    }
+
+    @Override
+    public int getPowCard() {
+        return 0;
     }
 
 
@@ -611,6 +615,7 @@ public class CLIView implements View {
         printOut(client.getPlayerVisibleData().getPlayer().getAmmo(2)+" yellow Ammos");
     }
 
+    /*
     //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
     @Override
     //TODO da rivedere serve notificare a chi è attaccato
@@ -632,6 +637,7 @@ public class CLIView implements View {
             }
         }
     }
+    */
 
 
     //Method to show Weapon Cards in SpawnPoint Cell
@@ -669,6 +675,11 @@ public class CLIView implements View {
         for(int i=0; i<ammo.toString().length(); i++){
             printOut("One "+getData.getColorFromInt(ammo.toString().charAt(i))+" ammo");
         }
+    }
+
+    @Override
+    public void notifyAttackedPlayer(Player attackedplayer) {
+
     }
 
 
@@ -723,7 +734,7 @@ public class CLIView implements View {
         }
         return CardToBuy;
     }
-
+    /*
     @Override
     public int getPowCard(){
         printOut("Which PowCard do you want to use?");
@@ -737,7 +748,7 @@ public class CLIView implements View {
         }
         return numberOfPow;
     }
-
+    */
     @Override
     public int getWeaponCardtoAttack(){
         printOut("Which WeaponCard do you want to use?");

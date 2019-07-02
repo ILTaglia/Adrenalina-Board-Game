@@ -1,5 +1,6 @@
 package network.server.rmi;
 
+
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.Message;
 import network.server.ClientInterface;
