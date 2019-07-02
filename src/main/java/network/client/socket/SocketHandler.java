@@ -6,13 +6,11 @@ import network.messages.ReConnectClientRequest;
 import network.messages.clientRequest.ConnectionClientRequest;
 import network.messages.Message;
 
-
-
-
 public class SocketHandler implements ConnectionHandler {
 
     private Client client;
     private SocketConnection server;
+    private boolean connectionEstablished;
 
     public SocketHandler(String serverIP, int serverPort, Client client){
         this.client=client;
@@ -44,6 +42,11 @@ public class SocketHandler implements ConnectionHandler {
     @Override
     public void attemptToReconnect(String userID) {
         sendMessage(new ReConnectClientRequest(userID));
+    }
+
+    @Override
+    public void newConnectionRequest(String username) {
+
     }
 
 }

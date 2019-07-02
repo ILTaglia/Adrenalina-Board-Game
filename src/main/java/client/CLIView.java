@@ -48,13 +48,15 @@ public class CLIView implements View {
                 "2. Socket");
         int connectionChoice=getData.getInt(1, 2);
 
+        client.setConnection(connectionChoice==2);
+        /*
         if(connectionChoice==1){
             client.setConnection(false);
         }
         else{
             client.setConnection(true);
         }
-
+        */
         client.launchConnection();
     }
 
@@ -77,8 +79,7 @@ public class CLIView implements View {
         else{
             printOut("Insert again the username you want to use:");
             String username = getData.getName();
-            Message connectionRequest=new SecondConnectionRequest(username);
-            client.sendMessage(connectionRequest);
+            client.newConnectionRequest(username);
         }
     }
 

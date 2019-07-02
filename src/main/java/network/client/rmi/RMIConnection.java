@@ -41,4 +41,9 @@ public class RMIConnection implements ClientInterface {
     public void closeConnection() {
 
     }
+
+    @Override
+    public void requestToReconnect() {
+
+    }
 }

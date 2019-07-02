@@ -11,12 +11,14 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static utils.Print.printOut;
+
 public class GameSocketSvr extends Thread {
 
-    private ExecutorService pool;
-    private boolean isStopped=false;
-    private ServerSocket serverSocket;
-    private GameServer gameServer;      //Necessario avere il GameServer in modo da poter chiamare metodi su quello
+    private ExecutorService pool;           //pool per ClientHandler in parallelo
+    private boolean isStopped=false;        //boolean per registrare stato attività Server
+    private ServerSocket serverSocket;      //serverSocket per accettare nuove connessioni dai client, istanzio in questa classe
+    private GameServer gameServer;          //Necessario avere il GameServer in modo da poter chiamare metodi su quello
 
     public GameSocketSvr(GameServer server){
         this.gameServer=server;
@@ -27,28 +29,28 @@ public class GameSocketSvr extends Thread {
         try {
             serverSocket = new ServerSocket(port);
         }catch (IOException e){
-            System.out.println(e.getMessage());
+            printOut(e.getMessage());
         }
-        System.out.println("Socket ON");
+        printOut("Socket ON");
         pool = Executors.newCachedThreadPool();
     }
 
     //Metodo che runna il SocketServer, accetta le connessioni e per ciascun connectionHandler collegato istanzia un ClientHandler
     @Override
     public void run(){
-        while(!isStopped()){
+        while(!isStopped){
             Socket clientSocket;
             try {
                 clientSocket = serverSocket.accept();
             }catch (IOException e){
-                if(isStopped()){
-                    System.out.println("Server Closed.");                   //TODO: LOGGER
-                    return;
-                }
-                throw new RuntimeException("error connecting",e);
+                clientSocket=null;
+                if(isStopped) printOut("Server Closed.");
+                else printOut("Error accepting new Connection");
             }
-            System.out.println("New Client connected at address: " + clientSocket.getRemoteSocketAddress());
-            pool.submit(new ClientHandler(this,clientSocket));
+            if(clientSocket!=null) {
+                printOut("New Socket Client connected at address: " + clientSocket.getRemoteSocketAddress());
+                pool.submit(new ClientHandler(this, clientSocket));
+            }
         }
     }
 
@@ -65,33 +67,15 @@ public class GameSocketSvr extends Thread {
     public boolean isPlayerDisconnected(String requestedUsername){
         return gameServer.isPlayerDisconnected(requestedUsername);
     }
-
     public void handleMessage(Message message){
         gameServer.handleMessage(message);
     }
-
-
-    //---------------------------------Metodi da completare-----------------------------------------------------------//
-
-    //Metodo che chiude il server, TODO capire come usarlo
-    public void close(){
-        this.isStopped=true;
-        try {
-            this.serverSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException("error closing server", e);
-        }
-    }
-
-    private boolean isStopped(){        //TODO: verificare utilità metodo
-        return this.isStopped;
-    }
-
     public void handleDisconnect(ClientInterface clientInterface) {
         gameServer.handleDisconnect(clientInterface);
     }
 
-    public boolean checkUserID(String userIDToReconnect) { return gameServer.checkUserID(userIDToReconnect);
+    public boolean checkUserID(String userIDToReconnect) {
+        return gameServer.checkUserID(userIDToReconnect);
     }
 
     public void handleReconnect(String userID,ClientInterface clientInterface){
@@ -101,4 +85,18 @@ public class GameSocketSvr extends Thread {
     public void reAddClientToWR(String userID, ClientInterface clientInterface) {
         gameServer.reAddClientToWR(userID,clientInterface);
     }
+
+
+    //Metodo che chiude il server, capire quando chiamarlo //TODO
+    public void close(){
+        this.isStopped=true;
+        try {
+            this.serverSocket.close();
+        } catch (IOException e) {
+            printOut("Error while closing Server");
+            printOut(e.getCause().toString());
+        }
+    }
+
+
 }

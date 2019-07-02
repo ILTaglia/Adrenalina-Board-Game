@@ -13,11 +13,10 @@ import java.net.Socket;
 import static utils.Print.printOut;
 
 public class ClientHandler implements Runnable, ClientInterface {
-    private final Socket clientSocket;
+    private final Socket clientSocket;          //Canale di comunicazione
     private final GameSocketSvr server;
     private String playerID;
     private boolean connected;
-
 
     //Stream per serializzazione|de-serializzazione
     private ObjectInputStream streamIn;
@@ -51,15 +50,14 @@ public class ClientHandler implements Runnable, ClientInterface {
                 Message message=(Message) streamIn.readObject();
                 if(message.getType().equals("clientRequest")&&message.getContent().equals("ConnectionRequest")){
                     requestedUsername = message.getInfo();
+                    if(server.isPlayerDisconnected(requestedUsername)) {
+                        requestToReconnect();
+                    }
                     //Controllo Username in primis sulla queue, altrimenti restituisce subito errore e si chiede un nuovo username.
-                    if (server.isAlreadyInQueue(requestedUsername)) {
+                    else if (server.isAlreadyInQueue(requestedUsername)) {
                         ConnectionError errorMessage = new ConnectionError("An other user has already this username in your Match, please change it");
                         sendMessage(errorMessage);
                         //Send error Message "An other user has already this username in your Match, please change it"
-                    }
-                    else if(server.isPlayerDisconnected(requestedUsername)) {
-                        Message reConnectRequest = new ReConnectServerRequest();
-                        sendMessage(reConnectRequest);
                     }
                     else {
                         //Si può evitare di controllare partite già iniziate perchè il connectionHandler è univocamente collegato con ID.
@@ -117,6 +115,12 @@ public class ClientHandler implements Runnable, ClientInterface {
         } catch (IOException e) {
             printOut("Connection close Failed");
         }
+    }
+
+    @Override
+    public void requestToReconnect() {
+        Message reConnectRequest = new ReConnectServerRequest();
+        sendMessage(reConnectRequest);
     }
 
 }

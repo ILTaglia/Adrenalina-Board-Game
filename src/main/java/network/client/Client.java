@@ -9,6 +9,7 @@ import model.PlayerVisibleData;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
+import network.messages.SecondConnectionRequest;
 import network.messages.playerDataMessage.*;
 
 import java.rmi.NotBoundException;
@@ -92,6 +93,17 @@ public class Client {
             view.login();
         }
     }
+    public void newConnectionRequest(String username){
+        try{
+            connectionHandler.newConnectionRequest(username);
+        }catch (UsernameAlreadyUsedException e){
+            //Stampare sulla view la presenza dell'errore
+            view.showException(e.getMessage());
+            view.login();
+        }
+
+    }
+
 
     public void askToTryToReconnect() {
         //Chiedo all'utente se voglia riconnettersi

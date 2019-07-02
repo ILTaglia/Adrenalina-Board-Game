@@ -34,6 +34,15 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
     @Override
+    public void newConnectionRequest(String username) throws UsernameAlreadyUsedException{
+        try{
+            server.newRegistrationToQueue(username,clientInterface);
+        }catch (RemoteException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
     public void sendMessage(Message message){
         try {
             server.handleMessage(message);
@@ -41,6 +50,9 @@ public class RMIHandler implements ConnectionHandler {
             System.out.println(e.getMessage());
         }
     }
+
+
+
     //TODO
     @Override
     public void askToTryToReconnect() {
@@ -51,5 +63,7 @@ public class RMIHandler implements ConnectionHandler {
     public void attemptToReconnect(String userID) {
 
     }
+
+
 
 }

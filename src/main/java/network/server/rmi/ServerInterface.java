@@ -7,10 +7,13 @@ import network.server.ClientInterface;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+//Interfaccia del Server RMI
+
 public interface ServerInterface extends Remote {
 
     void registerToQueue(String username, ClientInterface clientInterface) throws UsernameAlreadyUsedException,RemoteException;
 
     void handleMessage(Message message) throws RemoteException;
 
+    void newRegistrationToQueue(String username, ClientInterface clientInterface) throws UsernameAlreadyUsedException,RemoteException;
 }

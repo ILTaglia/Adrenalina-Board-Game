@@ -7,9 +7,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
+import static utils.Print.printOut;
+
 public class GameRMISvr implements Remote {
 
-    GameServer gameServer;
+    private GameServer gameServer;
 
     public GameRMISvr(GameServer gameServer){
         this.gameServer=gameServer;
@@ -17,12 +19,11 @@ public class GameRMISvr implements Remote {
 
     public void start(int port) throws RemoteException {
         ServerImplementation serverImplementation= new ServerImplementation(gameServer);
-
         try {
             Registry registry = LocateRegistry.createRegistry(port);
             registry.rebind("Server", serverImplementation );
         }catch (Exception e){
-            //TODO: STUDIARE ECCEZIONI RMI
+            printOut("Error, re launch Server.");
         }
         System.out.println("RMI ON");
     }
