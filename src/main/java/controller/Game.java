@@ -365,8 +365,23 @@ public class Game{
             {
                 answertocontinue(chosenindex);
             }
+            if(shootElaborator.getStatus()==9)
+            {
+                setDirectionToShoot(chosenindex);
+            }
         }
 
+    }
+
+    public void setDirectionToShoot(int index)
+    {
+        shootElaborator.setdirectiontoshoot(index);
+        shootElaborator.generatelistattackable(shootElaborator.getPlayer());
+        List <Coordinate> list = shootElaborator.getlistattackable(2);
+        for(Coordinate c : list)
+        {
+            shootElaborator.setvictimcell(c);
+        }
     }
 
     public void askserieToShoot()
@@ -416,11 +431,22 @@ public class Game{
         {
             ricorsiveattack();
         }
+        if(typeattack==11)
+        {
+            allroomattack();
+        }
 
         if(shootElaborator.getFlagfirstattack()==0)
         {
             shootElaborator.setFlagfirstattack(1);
         }
+    }
+
+    public void allroomattack()
+    {
+        shootElaborator.setAttackmethod(3);
+        moveAndList();
+        starteffect();
     }
 
     public void standardattack()
@@ -546,9 +572,18 @@ public class Game{
     {
         if(shootElaborator.getmoveme()!=0)
         {
-            shootElaborator.run(shootElaborator.getPlayer(), shootElaborator.getmoveme());
+            shootElaborator.run(shootElaborator.getPlayer(),shootElaborator.getmoveme());
         }
-        shootElaborator.generatelistattackable(shootElaborator.getPlayer());
+        if(shootElaborator.getTypeAttack()==3)
+        {
+            shootElaborator.setstatus(9);
+            gameRoom.askDirectionToShoot(match.getActivePlayer().getID());
+        }
+        else
+        {
+            shootElaborator.generatelistattackable(shootElaborator.getPlayer());
+        }
+
     }
 
     //-----------------------------------------Fine Metodi necessari alla Shoot--------------------------------------------//
