@@ -157,12 +157,8 @@ public class Game{
                 this.selectGrab(userID);
                 break;
             case (2):
-                //this.askWeaponToShoot(); //TODO, HO COMMENTATO PERCHE' IL METODO ORA SI ASPETTA ALTRI PARAMETRI
+                this.askWeaponToShoot();
                 //Richiesta al giocatore con arma con cui vuole attaccare
-                //Da cui poi si chiamerà la shoot
-
-                //Per capire vedi funzionamento altre azioni.
-
                 break;
             case (3):
                 this.askRun();
@@ -221,7 +217,7 @@ public class Game{
     private void selectGrab(String userID){
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
-        if(match.getActivePlayer().getCel().inmap(match.getDashboard(), x, y).getType()==0){
+        if(match.getActivePlayer().getCel().inMap(match.getDashboard(), x, y).getType()==0){
             //this is a SpawnPoint cell
             /*In a SpawnPoint cell the player choose which weapon to buy, if it has too many weapons he is asked
              * if he wants to discardWeapon one of them, and in positive case he chooses which one to discardWeapon, then the selected one
@@ -292,7 +288,7 @@ public class Game{
     private List<Integer> getWeaponToGrabCost(int indexWeapon){
         int xCoordinate=match.getActivePlayer().getCel().getX();
         int yCoordinate=match.getActivePlayer().getCel().getY();
-        SpawnPointCell cell = (SpawnPointCell) match.getActivePlayer().getCel().inmap(match.getDashboard(),xCoordinate,yCoordinate);
+        SpawnPointCell cell = (SpawnPointCell) match.getActivePlayer().getCel().inMap(match.getDashboard(),xCoordinate,yCoordinate);
         return cell.getSpawnPointCellWeapons().get(indexWeapon).getCostToRecharge();
     }
 
@@ -335,11 +331,6 @@ public class Game{
         this.shootelaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
         shootelaborator.setstatus(1);
         gameRoom.askWeapon(match.getActivePlayer().getID());
-    }
-
-    public void shoot()
-    {
-        askWeaponToShoot();
     }
 
     public void wakeupshoot(int chosenindex, String userID)

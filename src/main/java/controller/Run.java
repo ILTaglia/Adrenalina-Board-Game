@@ -96,40 +96,40 @@ public class Run extends Action {
 
         //player wants to go to the north
         if (direction == 0 && x > 0) {
-            int actualcolor = player.getCel().inmap(map, x, y).getColor();
-            int nextcolor = player.getCel().inmap(map, x - 1, y).getColor();
+            int actualcolor = player.getCel().inMap(map, x, y).getColor();
+            int nextcolor = player.getCel().inMap(map, x - 1, y).getColor();
 
-            int port = player.getCel().inmap(map, x, y).portIsPresent(0);
+            int port = player.getCel().inMap(map, x, y).portIsPresent(0);
             if (actualcolor == nextcolor || port == 1) {
                 return true;
             } else return false;
         }
         //player wants to go the the east
         else if (direction == 1 && y < 3) {
-            int actualcolor = player.getCel().inmap(map, x, y).getColor();
-            int nextcolor = player.getCel().inmap(map, x, y + 1).getColor();
+            int actualcolor = player.getCel().inMap(map, x, y).getColor();
+            int nextcolor = player.getCel().inMap(map, x, y + 1).getColor();
 
-            int port = player.getCel().inmap(map, x, y).portIsPresent(1);
+            int port = player.getCel().inMap(map, x, y).portIsPresent(1);
             if (actualcolor == nextcolor || port == 1) {
                 return true;
             } else return false;
         }
         //player wants to go the south
         else if (direction == 2 && x < 2) {
-            int actualcolor = player.getCel().inmap(map, x, y).getColor();
-            int nextcolor = player.getCel().inmap(map, x + 1, y).getColor();
+            int actualcolor = player.getCel().inMap(map, x, y).getColor();
+            int nextcolor = player.getCel().inMap(map, x + 1, y).getColor();
 
-            int port = player.getCel().inmap(map, x, y).portIsPresent(2);
+            int port = player.getCel().inMap(map, x, y).portIsPresent(2);
             if (actualcolor == nextcolor || port == 1) {
                 return true;
             } else return false;
         }
         //player wants to go to the west
         else if (direction == 3 && y > 0) {
-            int actualcolor = player.getCel().inmap(map, x, y).getColor();
-            int nextcolor = player.getCel().inmap(map, x, y - 1).getColor();
+            int actualcolor = player.getCel().inMap(map, x, y).getColor();
+            int nextcolor = player.getCel().inMap(map, x, y - 1).getColor();
 
-            int port = player.getCel().inmap(map, x, y).portIsPresent(3);
+            int port = player.getCel().inMap(map, x, y).portIsPresent(3);
             if (actualcolor == nextcolor || port == 1) {
                 return true;
             } else return false;

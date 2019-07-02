@@ -9,15 +9,15 @@ import java.util.List;
 
 public class DeathAndRespawn {
     private int [] points = {8, 6, 4, 2, 1, 1};
-    private int death;
+    private int numberOfPlayerDeath;
 
     //calculateScore the points to give to players that made damages to the player
     public DeathAndRespawn(){
-        this.death=0;
+        this.numberOfPlayerDeath =0;
     }
 
     //calculates score when a player dies
-    public void calculateScore(Match match, Player playerKilled, Player playerKiller, int n) throws NotExistingDashboardException {
+    public void calculateScore(Match match, Player playerKiller,Player playerKilled, boolean withRevenge) {
         int playerColor;
         int firstBlood;
         int flag;
@@ -28,15 +28,19 @@ public class DeathAndRespawn {
         score.add(0);
         score.add(0);
         //parameter is the killed player, and the killer
-        //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
-        if(match.getCheck()){
-            match.getDashboard().setKillShotTrack(playerKiller, n);
-        }
-        else throw new NotExistingDashboardException();
-        //adds signals to killshot track
 
-        if(n==2) playerKiller.setmarks(1, playerKilled.getColor()); //revenge mark in the killed player
-        death= playerKilled.getNumberOfDeath();
+        //TODO: @Angelica questa parte l'ho spostata sulla match, verificare se va bene
+        //n is the int returned by the set_damage (if 1, just killing point, if 2, kill and revenge
+        //if(match.getCheck()){
+        //    match.getDashboard().setKillShotTrack(playerKiller, n);
+        //}
+        //else throw new NotExistingDashboardException();
+        //adds signals to killshot track
+        //if(n==2) playerKiller.setMarks(1, playerKilled.getColor()); //revenge mark in the killed player
+
+        match.playerDeath(playerKiller,playerKilled,withRevenge);
+
+        numberOfPlayerDeath = playerKilled.getNumberOfDeath();
         playerKilled.setDeath();
         firstBlood=playerKilled.getFirstBlood();
         score.add(firstBlood, 1);
@@ -45,15 +49,15 @@ public class DeathAndRespawn {
             playerColor = playerKilled.getMaxDamages();
             int previousPointsAlreadyGiven = score.get(k);
             //In case of firstblood I can't just set the number of damages, I have to increase it
-            if(death>=5){
+            if(numberOfPlayerDeath >=5){
                 score.set(playerColor, 1+previousPointsAlreadyGiven);
                 //match.getPlayer(playerColor).setScore(1);
             }
             /*addition of the maximum number of points to the player that made
-             * more damages. Use the number of death as a parameter.*/
-            score.set(playerColor, points[death]+previousPointsAlreadyGiven);
-            //match.getPlayer(playerColor).setScore(points[death]);
-            death++;
+             * more damages. Use the number of numberOfPlayerDeath as a parameter.*/
+            score.set(playerColor, points[numberOfPlayerDeath]+previousPointsAlreadyGiven);
+            //match.getPlayer(playerColor).setScore(points[numberOfPlayerDeath]);
+            numberOfPlayerDeath++;
             playerKilled.setDamage(0, playerColor);
             flag=1;
             /* in the copied list cancel the old max and assign the second score of the array points
@@ -65,7 +69,7 @@ public class DeathAndRespawn {
             }
             if(flag==1) break;
         }
-        match.assignScore(score);
+        match.assignScore(score,playerKilled);
     }
 
     public void endgame(Match m, Dashboard d){

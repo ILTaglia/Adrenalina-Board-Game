@@ -17,7 +17,7 @@ public class AttackPlayer {
         }
         else //Caso in cui ho un danno di tipo marks
         {
-            m.getPlayer(second.getColor()).setmarks(damage.getdamage(),first.getColor());
+            m.getPlayer(second.getColor()).setMarks(damage.getdamage(),first.getColor());
         }
     }
 

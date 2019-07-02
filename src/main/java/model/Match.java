@@ -66,20 +66,21 @@ public class Match implements Serializable {
 
     public void setPlayerDisconnected(String userID) {
         getPlayerByID(userID).setConnected(false);
-        Message infoPlayerDisconnected=new InfoMatch("Player "+ getPlayerByID(userID).getName() + " is disconnected from game.");
-        notifyAllExceptOneClient(userID,infoPlayerDisconnected);
+        Message infoPlayerDisconnected = new InfoMatch("Player " + getPlayerByID(userID).getName() + " is disconnected from game.");
+        notifyAllExceptOneClient(userID, infoPlayerDisconnected);
     }
+
     public void setPlayerReConnected(String userID) {
         getPlayerByID(userID).setConnected(true);
-        Message infoPlayerDisconnected=new InfoMatch("Player "+ getPlayerByID(userID).getName() + " re joined game.");
-        notifyAllExceptOneClient(userID,infoPlayerDisconnected);
+        Message infoPlayerDisconnected = new InfoMatch("Player " + getPlayerByID(userID).getName() + " re joined game.");
+        notifyAllExceptOneClient(userID, infoPlayerDisconnected);
     }
 
     //---------------------------------Metodi inizializzazione Dashboard----------------------------------------------//
 
     //selectedDashboard is the index of the chosen map
     public void createDashboard(int selectedDashboard) {
-        this.dashboard = new Dashboard(selectedDashboard);
+        this.dashboard = new Dashboard(selectedDashboard,8 );               //TODO
         checkDashboard = true;
     }
 
@@ -100,34 +101,35 @@ public class Match implements Serializable {
         }
         updateClientDashboard();
     }
+
     public void notifyNewMap() {
-        InfoMatch message=new InfoMatch("Selected map "+ dashboard.getMapType() + " . Stampo di seguito:");
-        notifyAllClients(this,message);
+        InfoMatch message = new InfoMatch("Selected map " + dashboard.getMapType() + " . Stampo di seguito:");
+        notifyAllClients(this, message);
     }
+
     private void fillSpawnPoint(SpawnPointCell cell) {
-            for (int index = 0; index < 3; index++) {
+        for (int index = 0; index < 3; index++) {
+            try {
+                if (cell.getSpawnPointCellWeapons().get(index) == null) {
+                    cell.setWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                }
+            } catch (IndexOutOfBoundsException e) {
                 try {
-                    if (cell.getSpawnPointCellWeapons().get(index) == null) {
-                        cell.setWeaponCard((Weapon) weaponDeck.drawCard(), index);
-                    }
-                }catch (IndexOutOfBoundsException e){
-                    try {
-                        cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
-                    } catch (FullCellException e1) {
-                        //Nothing to do
-                    }
+                    cell.addWeaponCard((Weapon) weaponDeck.drawCard(), index);
+                } catch (FullCellException e1) {
+                    //Nothing to do
                 }
             }
-            //This method fill the dashboard for the first time, this Exception is impossible
+        }
+        //This method fill the dashboard for the first time, this Exception is impossible
     }
 
 
     private void fillNormal(NormalCell cell) {
         try {
-            if(cell.getAmmoCard()==null){
+            if (cell.getAmmoCard() == null) {
                 cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
-            }
-            else if(cell.getAmmoCard().getStatus()) {
+            } else if (cell.getAmmoCard().getStatus()) {
                 ammoDeck.discardCard(cell.getAmmoCard());
                 cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
             }
@@ -136,14 +138,16 @@ public class Match implements Serializable {
         }
     }
 
-    public void updateClientDashboard(){
+    public void updateClientDashboard() {
         Message infoMap = new DashboardData(this.dashboard);
         notifyAllClients(this, infoMap);
     }
+
     public void updateEndAction() {
         this.updateClientDashboard();
 
     }
+
     public void updateEndTurn() {
         this.fillDashboard();
         // updateClientDashboard chiamato direttamente dalla fill!
@@ -151,13 +155,15 @@ public class Match implements Serializable {
     }
 
 
-
     //TODO: messaggi per Match!!!!
-    public void assignScore(List<Integer> score){
-        for(int i=0; i<score.size(); i++){
-            try{getPlayer(i).setScore(score.get(i));}
-            catch(InvalidColorException e){}
+    public void assignScore(List<Integer> score,Player deadPlayer) {
+        for (int i = 0; i < score.size(); i++) {
+            try {
+                getPlayer(i).setScore(score.get(i));
+            } catch (InvalidColorException e) {
+            }
         }
+        //TODO: messaggi per Player che ricevono punti. ExceptOne (player Dead)
     }
 
 
@@ -174,18 +180,18 @@ public class Match implements Serializable {
         }
     }
 
-    public void spawnPlayer(Player player,int indexPowCard, int x, int y) {
+    public void spawnPlayer(Player player, int indexPowCard, int x, int y) {
         player.setCel(x, y);
-        PowCard powCard=player.getPowByIndex(indexPowCard);
-        try{
+        PowCard powCard = player.getPowByIndex(indexPowCard);
+        try {
             player.removePow(powCard);
             powDeck.discardCard(powCard);
+        } catch (ZeroCardsOwnedException | NotOwnedCardException e) {
         }
-        catch(ZeroCardsOwnedException | NotOwnedCardException e){}
-        Message infoUsedCard=new NewCardUsed("PowCard",indexPowCard);
-        notifySpecificClient(player.getID(),infoUsedCard);
-        Message infoSpawnPoint=new NewPosition(x,y);
-        notifySpecificClient(player.getID(),infoSpawnPoint);
+        Message infoUsedCard = new NewCardUsed("PowCard", indexPowCard);
+        notifySpecificClient(player.getID(), infoUsedCard);
+        Message infoSpawnPoint = new NewPosition(x, y);
+        notifySpecificClient(player.getID(), infoSpawnPoint);
     }
 
     //Method to assign powCard to player
@@ -204,7 +210,7 @@ public class Match implements Serializable {
 
     public void assignWeaponCard(Player player, int indexWeapon) throws MaxNumberofCardsException {
         SpawnPointCell cell;
-        cell = (SpawnPointCell) player.getCel().inmap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
+        cell = (SpawnPointCell) player.getCel().inMap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
         Weapon weaponCard = (Weapon) cell.collectWeapon(indexWeapon);
         player.addWeapon(weaponCard);
         Message infoWeaponCard = new NewWeaponCard(weaponCard);
@@ -213,27 +219,55 @@ public class Match implements Serializable {
 
     public void assignAmmo(Player player) throws CardAlreadyCollectedException {
         NormalCell cell;
-        cell = (NormalCell) player.getCel().inmap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
+        cell = (NormalCell) player.getCel().inMap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
         try {
             cell.collectCard(player);
         } catch (MoreThanTreeAmmosException e) {
             //TODO: avviso il player
         }
-        List<Integer> ammo=new ArrayList<>();
-        for(int i=0;i<3;i++){
-            ammo.add(i,player.getAmmo(i));
+        List<Integer> ammo = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            ammo.add(i, player.getAmmo(i));
         }
-        Message infoAmmo=new NewAmmo(ammo);
-        notifySpecificClient(player.getID(),infoAmmo);
+        Message infoAmmo = new NewAmmo(ammo);
+        notifySpecificClient(player.getID(), infoAmmo);
     }
 
     public void setPlayerCel(Player player, int x, int y) {
         player.setCel(x, y);
-        Message infoSpawnPoint=new NewPosition(x,y);
-        notifySpecificClient(player.getID(),infoSpawnPoint);
+        Message infoSpawnPoint = new NewPosition(x, y);
+        notifySpecificClient(player.getID(), infoSpawnPoint);
+    }
+    //TODO: @Angelica controlla questi tre metodi plis
+    public int setDamage(Player playerAttacker, Player playerAttacked, int damage) {
+        int outcomeOfAttack;
+        outcomeOfAttack=playerAttacked.setDamage(damage,playerAttacker.getColor());
+        //TODO: segnalo attacco ricevuto al Player e gli do l'esito del suo stato.
+        return outcomeOfAttack;
     }
 
+    public void setMarks(Player playerAttacker, Player playerAttacked, int damage) {
+        playerAttacked.setMarks(damage,playerAttacker.getColor());
+        //TODO: segnalo attacco ricevuto al Player e gli do l'esito dei marchi.
+    }
 
+    public void playerDeath(Player playerKiller,Player playerKilled,boolean withRevenge){
+        //Aggiorno il tracciato mortale
+        if(withRevenge){
+            getDashboard().setKillShotTrack(playerKiller, 2);
+            playerKiller.setMarks(1,playerKilled.getColor());
+        }
+        else{
+            getDashboard().setKillShotTrack(playerKiller, 1);
+        }
+        //Segno il Player morto
+        playerKilled.setDead(true);
+
+        //TODO Segnalo tutto al Player
+
+    }
+
+    //Fine metodi da controllare
     //returns player by color
     public Player getPlayer(int color) throws InvalidColorException {
         for (Player p : this.players) {
@@ -357,7 +391,7 @@ public class Match implements Serializable {
         for (Player p : this.players) {
             if (!p.equals(player)) {
                 //color of the cell of the other player
-                int otherplayercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                int otherplayercellcolor = p.getCel().inMap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
                 if (otherplayercellcolor == cellColor) visible.add(p);
             }
         }
@@ -371,7 +405,7 @@ public class Match implements Serializable {
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            int otherplayercolor = p.getCel().inMap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
                             if (otherplayercolor == othercell.getColor()) visible.add(p);
                         }
                     }
@@ -384,7 +418,7 @@ public class Match implements Serializable {
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            int otherplayercolor = p.getCel().inMap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
                             if (otherplayercolor == othercell.getColor()) visible.add(p);
                         }
                     }
@@ -397,7 +431,7 @@ public class Match implements Serializable {
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            int otherplayercolor = p.getCel().inMap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
                             if (otherplayercolor == othercell.getColor()) visible.add(p);
                         }
                     }
@@ -410,7 +444,7 @@ public class Match implements Serializable {
                     for (Player p : this.players) {
                         if (!p.equals(player) && !visible.contains(p)) {
                             //color of the cell of the other player
-                            int otherplayercolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+                            int otherplayercolor = p.getCel().inMap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
                             if (otherplayercolor == othercell.getColor()) visible.add(p);
                         }
                     }
@@ -500,7 +534,7 @@ public class Match implements Serializable {
 
         //adds a player if it is in the same room
         for (Player p : this.players) {
-            int playercellcolor = p.getCel().inmap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
+            int playercellcolor = p.getCel().inMap(this.dashboard, p.getCel().getX(), p.getCel().getY()).getColor();
             if (playercellcolor == cellcolor) roomplayers.add(p);
         }
         return roomplayers;
@@ -799,7 +833,8 @@ public class Match implements Serializable {
         }
         return list;
     }
-
-
-
 }
+
+
+
+

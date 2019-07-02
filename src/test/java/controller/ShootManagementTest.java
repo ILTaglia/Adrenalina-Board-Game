@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Collections.addAll;
 import static org.junit.Assert.*;
 
 public class ShootManagementTest {
@@ -116,8 +115,8 @@ public class ShootManagementTest {
         a= shoot.shoot(match, visible,player1,player3,1, b);
         assertEquals(a,0);
         visible= match.getVisiblePlayers(player1);
-        assertEquals(visible.get(0).getmarks(player1.getColor()),3);
-        assertEquals(visible.get(1).getmarks(player1.getColor()),2);
+        assertEquals(visible.get(0).getMarks(player1.getColor()),3);
+        assertEquals(visible.get(1).getMarks(player1.getColor()),2);
 
     }
 

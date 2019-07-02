@@ -135,44 +135,42 @@ public class Player implements Serializable {
         return k;
     }
 
-    //set the number of damages, parameters are the number of damages to add (n) and the color of the player that gave them (c)
-    public int setDamage(int n, int c){
-        if(c==this.getColor()) return -1;
-        if(!order.contains(c))order.add(c);
+    //set the number of damages, parameters are the number of damages to add (damage) and the color of the player that gave them (colorAttacker)
+    public int setDamage(int damage, int colorAttacker){
+        if(colorAttacker==this.getColor()) return -1;
+        if(!order.contains(colorAttacker))order.add(colorAttacker);
         //command of reset
-        if(n==0){
-            damages.set(c, n);
+        if(damage==0){
+            damages.set(colorAttacker, damage);
             return 2;
         }
         int j= getTotalDamage();
-        if(j==0) this.firstBlood =c;
-        if(j+n==11){
-            damages.set(c, (damages.get(c)+n));
-            return 1; //killshot point to player with index c
+        if(j==0) this.firstBlood =colorAttacker;
+        if(j+damage==11){
+            damages.set(colorAttacker, (damages.get(colorAttacker)+damage));
+            return 1; //killshot point to player with index colorAttacker
         }
-        if(j+n>=12) {
+        if(j+damage>=12) {
             int h=12-j; //possible damages to fill the board of the player
-            damages.set(c, (damages.get(c)+h)); //extra damages are lost, a player cannot have more than 12 damages
-            return 2; //killshot and revenge for player with index c
+            damages.set(colorAttacker, (damages.get(colorAttacker)+h)); //extra damages are lost, a player cannot have more than 12 damages
+            return 2; //killshot and revenge for player with index colorAttacker
         }
-        damages.set(c, (damages.get(c)+n));
+        damages.set(colorAttacker, (damages.get(colorAttacker)+damage));
         return 0;
     }
 
     //return number of marks given by a single enemy (parameter is the color of the enemy player)
-    public int getmarks(int c){
+    public int getMarks(int c){
         if(c==this.getColor()) return -1; //not self made marks
         /*Attention! You could test that for every player in the position this.color() you have zero for marks and damages*/
-
         return marks.get(c);
     }
 
-    //set the number of marks, paramters are the number of marks to add(n) and the color of the player that gave them (c)
-    public int setmarks(int n, int c){
-        if(c==this.getColor()) return -1;
-        if(marks.get(c)+n>=3) marks.set(c, 3);
-        else marks.set(c, (marks.get(c)+n));
-        return 0;
+    //set the number of marks, parameters are the number of marks to add(numberOfMarksToAdd) and the color of the player that gave them (colorOfWhoMarks)
+    public void setMarks(int numberOfMarksToAdd, int colorOfWhoMarks){
+        if(colorOfWhoMarks==this.getColor()) throw new InvalidColorException();
+        else if(marks.get(colorOfWhoMarks)+numberOfMarksToAdd>=3) marks.set(colorOfWhoMarks, 3);
+        else marks.set(colorOfWhoMarks, (marks.get(colorOfWhoMarks)+numberOfMarksToAdd));
     }
 
     //return number of ammo of color c

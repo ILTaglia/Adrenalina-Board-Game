@@ -38,15 +38,15 @@ public class DeathAndRespawnTest {
         assertEquals(0, player1.getTotalDamage());
         assertEquals(0, player1.getNumberOfDeath());
         //player3 kills player1 with revenge
-        assertEquals(0, player3.getmarks(0));
+        assertEquals(0, player3.getMarks(0));
         player1.setDamage(3,3); //from player2
         player1.setDamage(2,2); //from player4
         player1.setDamage(3,4); //from player5
 
-        player1.setmarks(1,2);
-        player1.setmarks(2, 3);
-        assertEquals(1, player1.getmarks(2));
-        assertEquals(2, player1.getmarks(3));
+        player1.setMarks(1,2);
+        player1.setMarks(2, 3);
+        assertEquals(1, player1.getMarks(2));
+        assertEquals(2, player1.getMarks(3));
 
         player1.setDamage(2,3); //from player2
         player1.setDamage(2,1); //from player3
@@ -69,14 +69,14 @@ public class DeathAndRespawnTest {
 
         assertEquals(1, player1.getNumberOfDeath());
         //check revenge
-        assertEquals(1, player3.getmarks(0));
+        assertEquals(1, player3.getMarks(0));
 
         c.respawn(player1);
         assertEquals(-1, player1.getFirstBlood());
         assertEquals(0, player1.getAction());
         assertEquals(0, player1.getTotalDamage());
-        assertEquals(1, player1.getmarks(2));
-        assertEquals(2, player1.getmarks(3));
+        assertEquals(1, player1.getMarks(2));
+        assertEquals(2, player1.getMarks(3));
         Coordinate pos = new Coordinate(-1, -1);
         assertEquals(pos.getX(), player1.getCel().getX());
         assertEquals(pos.getY(), player1.getCel().getY());

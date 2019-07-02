@@ -60,7 +60,7 @@ public class UsePow {
 
     private void usegranade(Match m, Player first, Player second)
     {
-        m.getPlayer(second.getColor()).setmarks(1,first.getColor());
+        m.getPlayer(second.getColor()).setMarks(1,first.getColor());
     }
 
 

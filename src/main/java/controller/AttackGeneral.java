@@ -584,7 +584,7 @@ public class AttackGeneral {
             }
             else //Caso di attacco che mette marchi
             {
-                m.getPlayer(second.getColor()).setmarks(damage.getdamage(), first.getColor());
+                m.getPlayer(second.getColor()).setMarks(damage.getdamage(), first.getColor());
             }
         }
     }

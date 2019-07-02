@@ -9,12 +9,13 @@ public class Dashboard implements Serializable {
     private Cell[][] map;
     private int mapType; //index of the chosen map
     private int trackIndex;
+    private int numberOfSkulls;
     private int[][] killShotTrack;
     private ArrayList<Integer> killShotPoints;
     private ArrayList<Integer> ord;
     private boolean stop;
 
-    public Dashboard(int i) {
+    public Dashboard(int i,int numberOfSkulls) {
         map = new Cell[3][4];
         mapType = i;
 
@@ -80,9 +81,9 @@ public class Dashboard implements Serializable {
             map[2][2] = new NormalCell(4, 0, 1, 0, 0); //grey
             map[2][3] = new SpawnPointCell(2, 0, 0, 0, 1); //yellow
         }
-
+        this.numberOfSkulls=numberOfSkulls;
         trackIndex = 0;
-        killShotTrack = new int[2][8];
+        killShotTrack = new int[2][numberOfSkulls];
         killShotPoints = new ArrayList<>();
         killShotPoints.add(0);
         killShotPoints.add(0);
@@ -116,8 +117,9 @@ public class Dashboard implements Serializable {
         if (n == 1) killShotTrack[1][trackIndex] = -1;
         if (n == 2) killShotTrack[1][trackIndex] = player.getColor();
         trackIndex = trackIndex + 1;
-        //TODO se si finisce l'array finisce la partita
-        if (trackIndex == 9) return; //endgame
+    }
+    public boolean isKillShotTrackFull(){
+        return trackIndex > numberOfSkulls;
     }
 
     public int getMaxKillShot() {

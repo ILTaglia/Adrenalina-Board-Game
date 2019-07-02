@@ -2,12 +2,8 @@ package controller;
 
 import exceptions.NotYourTurnException;
 import model.Match;
-import model.NormalCell;
-import model.Player;
 import exceptions.CardAlreadyCollectedException;
 import exceptions.MaxNumberofCardsException;
-
-import java.util.List;
 
 public class GrabAmmo extends Grab{
     public GrabAmmo(){
@@ -17,7 +13,7 @@ public class GrabAmmo extends Grab{
         if(!super.isValid(match,userID)){
             throw new NotYourTurnException();
         }
-        int cardType=match.getActivePlayer().getCel().inmap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY()).getType();
+        int cardType=match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY()).getType();
         match.assignAmmo(match.getActivePlayer());
         if(1==cardType){        //cardType==1 if Card is AmmoPowTile
             match.assignPowCard(match.getActivePlayer());

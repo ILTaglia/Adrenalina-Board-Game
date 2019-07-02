@@ -135,45 +135,45 @@ class PlayerTest {
     @Test
     void getmarks() {
         for(int i=0; i<5; i++){
-            if(player1.getColor()!=i) assertEquals(0, player1.getmarks(i));
-            if(player2.getColor()!=i) assertEquals(0, player2.getmarks(i));
+            if(player1.getColor()!=i) assertEquals(0, player1.getMarks(i));
+            if(player2.getColor()!=i) assertEquals(0, player2.getMarks(i));
         }
         //verify that player1 has 3 marks by player2
-        player1.setmarks(3, player2.getColor());
-        assertEquals(3, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(3, player2.getColor());
+        assertEquals(3, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
 
         //verify nothing changed
-        player1.setmarks(2, player1.getColor());
-        assertEquals(3, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(2, player1.getColor());
+        assertEquals(3, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
     }
 
     @Test
     void setmarks() {
-        assertEquals(0, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        assertEquals(0, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
         //1 mark from player2 to player1
-        player1.setmarks(1, player2.getColor());
-        assertEquals(1, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(1, player2.getColor());
+        assertEquals(1, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
         //1 mark from player2 to player1
-        player1.setmarks(1, player2.getColor());
-        assertEquals(2, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(1, player2.getColor());
+        assertEquals(2, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
         //2 marks from player2 to player1
-        player1.setmarks(2, player2.getColor());
-        assertEquals(3, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(2, player2.getColor());
+        assertEquals(3, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
 
         //verify nothing changed
-        player1.setmarks(2, player1.getColor());
-        assertEquals(3, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(2, player1.getColor());
+        assertEquals(3, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
 
-        player1.setmarks(1, player2.getColor());
-        assertEquals(3, player1.getmarks(player2.getColor()));
-        assertEquals(-1, player1.getmarks(player1.getColor()));
+        player1.setMarks(1, player2.getColor());
+        assertEquals(3, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
     }
 
     @Test
