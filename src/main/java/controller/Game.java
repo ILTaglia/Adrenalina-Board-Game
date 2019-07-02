@@ -5,10 +5,7 @@ import network.messages.*;
 import network.messages.error.*;
 import network.server.GameRoom;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 import static utils.NotifyClient.*;
 import static utils.printStream.printOut;
@@ -21,6 +18,7 @@ public class Game{
     private boolean isMovementBeforeGrab;
     private boolean isMovementBeforeShoot;
     private OfficialShootVersion shootElaborator;
+    private int counterTurn;                        //Conto numero di turni con meno di tre giocatori in partita
     //Gestione Timer
     private Timer timer;
     private final int queueTimer;
@@ -29,6 +27,7 @@ public class Game{
         this.queueTimer=queueTimer;
         this.gameRoom=gameRoom;
         this.match = new Match();
+        this.counterTurn=0;
         manageWeapon=new ManagingWeapons(match);
         registerNewMatch(gameRoom,match);
     }
@@ -104,7 +103,7 @@ public class Game{
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
-        if(match.getRound()==1) {
+        if(match.getRound()==1&&match.getActivePlayer().getID().equals(userID)) {
             nextStep();
         }
     }
@@ -606,11 +605,15 @@ public class Game{
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
 
-    //TODO: a fine turno gestire carte sulla dashboard ecc.-> non posso farlo a fine della singola azione perchè rischierei di pescare più di una volta lo stesso
     private void nextStep() {
         //timer.cancel();
         resetActionBool();
-
+        //Controllo validità partita
+        checkGameValidity();
+        //Controllo eventuale Frenesia Finale
+        if(match.getDashboard().isKillShotTrackFull()){
+            //ULTIMO TURNO!
+        }
         if((match.getActivePlayer().getAction() < 2) && match.getActivePlayer().isConnected()) {
             match.updateEndAction();
             askAction();
@@ -623,15 +626,73 @@ public class Game{
         //Controllo che i giocatori siano più di 3 se no dichiaro vincitore!
 
     }
-
-    private void checkDeadPlayers(){
-        match.getPlayers().forEach(player ->{
-            if(player.isConnected()&&player.isDead()){
-                askSpawnPoint(player.getID());
-            }
-        });
+    private void checkGameValidity(){
+        if(!isGameValid()){
+            if(counterTurn>2){
+                endGame();
+            }else
+                counterTurn++;
+        }
+        else{
+            counterTurn=0;
+        }
     }
 
+    private boolean isGameValid() {
+        int connectedPlayers=0;
+        for (Player player : match.getPlayers()) {
+            if(player.isConnected()) connectedPlayers++;
+        }
+        return connectedPlayers >= 3;
+    }
+
+    private void checkDeadPlayers(){
+        int counter=0;
+        List<Player> deadConnectedPlayers=new ArrayList<>();
+        for (Player player : match.getPlayers()) {
+            if(match.getRound()==1&&player.getAction()==0) break;       //In the first turn players with 0 actions has not yet spawned
+            else if (player.isDead()) {
+                try {
+                    match.assignPowCard(player);
+                } catch (MaxNumberofCardsException e) {
+                    //At spawn player can own up to 4 cards
+                }
+                counter++;
+                if (player.isConnected()) {
+                    deadConnectedPlayers.add(player);
+                }
+            }
+        }
+        if(counter==0){
+            nextTurn();
+        }
+        else{
+            spawnConnectedPlayers(deadConnectedPlayers);
+        }
+
+    }
+
+    private void endGame(){
+        DeathAndRespawn deathAndRespawn=new DeathAndRespawn();
+        String winnerID=deathAndRespawn.winner(match);
+        //TODO: messaggi vincitore ecc
+    }
+
+    private void spawnConnectedPlayers(List<Player> deadConnectedPlayers){
+        for (Player player : deadConnectedPlayers) {
+            askSpawnPoint(player.getID());
+        }
+        timer=new Timer();
+        startSpawnTimer();
+    }
+    private void spawnDisconnectedPlayers(){
+        match.getPlayers().forEach(player ->{
+            if(player.isDead()&&!player.isConnected()){
+                match.spawnDeadPlayer(player);
+            }
+        });
+        nextTurn();
+    }
 
     private void nextTurn(){
         Player activePlayer = match.getActivePlayer();
@@ -650,9 +711,13 @@ public class Game{
             index++;
         }
         match.getPlayerByIndex(index).setActive();
-        askAction();
+        if(match.getRound()!=1) {
+            askAction();
+        }
+        else if(match.getRound()==1){
+            askSpawnPoint(match.getActivePlayer().getID());
+        }
     }
-
     private void nextRound(){
         int index=0;
         for(Player player:match.getPlayers()) player.resetAction();
@@ -667,6 +732,7 @@ public class Game{
         isMovementBeforeShoot=false;
         isMovementBeforeGrab=false;
     }
+
     //TODO: completare metodi per Player Disconnesso
 
     public void disconnectPlayer(String userID) {
@@ -682,4 +748,25 @@ public class Game{
     public void setPlayerDisconnected(String userID) {
         match.setPlayerDisconnected(userID);
     }
+    //----------------------------startTimer() per le ≠ richieste al Client-------------------------------------------//
+
+    public void startSpawnTimer(){
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                match.getPlayers().forEach(player ->{
+                    if(player.isDead()){
+                        disconnectPlayer(player.getID());
+                        spawnDisconnectedPlayers();
+                    }
+                });
+
+            }
+        }, queueTimer);
+    }
+
+
+
+
 }
+

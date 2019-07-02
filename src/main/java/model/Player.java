@@ -232,9 +232,9 @@ public class Player implements Serializable {
         return false;
     }
 
-    public void addPow(PowCard p) throws MaxNumberofCardsException{
-        if(pow.size()==3) throw new MaxNumberofCardsException(); //discardWeapon one pow
-        pow.add(p);
+    public void addPow(PowCard powCard) throws MaxNumberofCardsException{
+        if(pow.size()==3&&!dead) throw new MaxNumberofCardsException(); //discardWeapon one pow
+        pow.add(powCard);
     }
 
     public void removePow(PowCard p) throws ZeroCardsOwnedException, NotOwnedCardException{

@@ -188,6 +188,7 @@ public class Match implements Serializable {
             player.removePow(powCard);
             powDeck.discardCard(powCard);
         } catch (ZeroCardsOwnedException | NotOwnedCardException e) {
+            //Impossible Exception
         }
         Message infoUsedCard = new NewCardUsed("PowCard", indexPowCard);
         notifySpecificClient(player.getID(), infoUsedCard);
@@ -195,8 +196,29 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoSpawnPoint);
     }
 
+    public void spawnDeadPlayer(Player player){
+        PowCard powCard=player.getPowByIndex(player.getNumberPow()-1);
+        int colorPowCard=powCard.getColor();
+        try {
+            player.removePow(powCard);
+        } catch (ZeroCardsOwnedException | NotOwnedCardException e) {
+            //Impossible Exception
+        }
+        int indexR;
+        int indexC;
+        for (indexR = 0; indexR < dashboard.getRowDim(); indexR++) {
+            for (indexC = 0; indexC < dashboard.getColDim(); indexC++) {
+                Cell cell = this.getDashboard().getMap(indexR, indexC);
+                if ((cell.getType() == 0) && (cell.getColor() != colorPowCard)){
+                    player.setCel(indexR,indexC);
+                }
+            }
+        }
+        player.setDead(false);
+    }
+
     //Method to assign powCard to player
-    public void assignPowCard(Player player) throws MaxNumberofCardsException {     //TODO:Verificare se ha senso fare catch di una eccezione e poi rilanciarla
+    public void assignPowCard(Player player) throws MaxNumberofCardsException {
         PowCard powcard;
         powcard = (PowCard) powDeck.drawCard();
         try {
