@@ -223,4 +223,40 @@ public class GUIViewAdapter implements View {
     }
 
 
+    @Override
+    public void getGunIndex() {
+
+    }
+
+    @Override
+    public void getSerieIndex() {
+
+    }
+
+    @Override
+    public void getPlayerIndex() {
+
+    }
+
+    @Override
+    public void getCellIndex() {
+
+    }
+
+    @Override
+    public void showPaymentError() {
+
+    }
+
+    @Override
+    public void getNextAttack() {
+
+    }
+
+    @Override
+    public void getDirection() {
+
+    }
+
+
 }

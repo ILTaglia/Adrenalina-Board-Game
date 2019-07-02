@@ -626,7 +626,7 @@ public class GameMap {
 
     public static void main(String []args)
     {
-        Dashboard mappa = new Dashboard(1);
+        Dashboard mappa = new Dashboard(1,8);
         Player player1 = new Player("UtenteDiProva","Green","abcde");
         Player player2 = new Player("UtenteDiProva","Blue","abcde");
         Player player3 = new Player("UtenteDiProva","Yellow","abcde");
