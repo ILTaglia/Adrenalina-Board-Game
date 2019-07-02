@@ -31,6 +31,11 @@ public class DeathAndRespawnTest {
         player3 = match.getPlayerByIndex(2);
         player4 = match.getPlayerByIndex(3);
         player5 = match.getPlayerByIndex(4);
+        player1.setConnected(true);
+        player2.setConnected(true);
+        player3.setConnected(true);
+        player4.setConnected(true);
+        player5.setConnected(true);
     }
 
     /*@Test

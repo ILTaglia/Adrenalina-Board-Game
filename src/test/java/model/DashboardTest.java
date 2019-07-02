@@ -24,6 +24,15 @@ public class DashboardTest {
         assertEquals(3, d3.getMapType());
         assertEquals(4, d4.getMapType());
 
+        assertEquals(3, d1.getRowDim());
+        assertEquals(4, d1.getColDim());
+        assertEquals(3, d2.getRowDim());
+        assertEquals(4, d2.getColDim());
+        assertEquals(3, d3.getRowDim());
+        assertEquals(4, d3.getColDim());
+        assertEquals(3, d4.getRowDim());
+        assertEquals(4, d4.getColDim());
+
         Match match = new Match();
 
         //try {
@@ -69,9 +78,9 @@ public class DashboardTest {
 
     @Test
     public void existingCells(){
-        Dashboard d1 = new Dashboard(1);
-        Dashboard d2 = new Dashboard(2);
-        Dashboard d3 = new Dashboard(3);
+        Dashboard d1 = new Dashboard(1, 8);
+        Dashboard d2 = new Dashboard(2, 8);
+        Dashboard d3 = new Dashboard(3, 8);
 
         assertEquals(10, d1.getCells().size());
         assertEquals(11, d2.getCells().size());

@@ -5,8 +5,14 @@ import exceptions.InvalidColorException;
 import java.util.ArrayList;
 
 public class AmmoDeck extends Deck {
-//Rosso:0 Blue:1 Giallo:2
-//ATTENZIONE: Non chiamo Shuffle, sarà il controller a farlo a inizio partita
+    /**
+     * Conventions for Ammos:
+     * 0 = Red
+     * 1 = Blue
+     * 2 = Yellow
+     * The cards are created in order. In controller there is a shuffle method to change the order.
+     */
+
 
     private int[][] matrixAmmoDeck = {
             {0,1,1},
@@ -51,7 +57,12 @@ public class AmmoDeck extends Deck {
     
     public AmmoDeck() throws InvalidColorException {
 
-        //TODO Migliorare struttura dati per deck
+        /**
+         * stack is the ArrayList containing the cards to be collected.
+         * stackDiscarded is the ArrayList containing the cards already used and discarded.
+         *
+         * At the beginning stack is full of all AmmoTiles and AmmoPowTiles created, while stackDiscarded is empty.
+         */
         stack =new ArrayList<>();
         stackDiscarded =new ArrayList<>();
         int i;

@@ -88,10 +88,17 @@ public class DeathAndRespawn {
     public String winner(Match m){
         //returns the color of the winner player
         String id = "";
-        Player player=m.getPlayerByIndex(0);
-        for(int i=0; i<m.getPlayersSize(); i++){
-            for(int j=i+1; j<m.getPlayersSize(); j++){
-                if(player.getScore()<m.getPlayerByIndex(j).getScore()) player=m.getPlayerByIndex(j);
+        //Check of all the connected players
+        List<Player> connectedPlayers = new ArrayList<>();
+        for(Player pl:m.getPlayers()){
+            if(pl.isConnected()){connectedPlayers.add(pl);}
+        }
+        //chooses the first player that is also connected
+        Player player=connectedPlayers.get(0);
+
+        for(int i=0; i<connectedPlayers.size(); i++){
+            for(int j=i+1; j<connectedPlayers.size(); j++){
+                if(player.getScore()<connectedPlayers.get(j).getScore()) player=connectedPlayers.get(j);
             }
             id=player.getID();
         }
