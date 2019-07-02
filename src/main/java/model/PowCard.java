@@ -53,4 +53,6 @@ public abstract class PowCard extends Card {
 
     public abstract int getType();
 
+
+
 }
