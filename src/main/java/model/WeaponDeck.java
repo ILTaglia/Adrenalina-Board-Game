@@ -4,31 +4,31 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-//TODO IMPORTANTE: Classe Deck da usare !
+import java.util.List;
 public class WeaponDeck extends Deck{
-    private ArrayList<Weapon> W;
+    private List<Weapon> W;
 
-
+    //TODO IMPORTANTE: Classe Deck da Usare !
     public WeaponDeck(){
         stack =new ArrayList<>();
         stackDiscarded =new ArrayList<>();
-        //W=new ArrayList<Weapon>();
-        ArrayList <Integer> A;
+
+        ArrayList <Integer> list;
 
     }
 
     public void setWeapons(String filename)
     {
-        this.stack =this.readWeaponCards( filename);
+        this.stack =(ArrayList)this.readWeaponCards( filename);
     }
 
-    public ArrayList<Card> readWeaponCards(String fileName)
+    public List<Card> readWeaponCards(String fileName)
     {
-        ArrayList<Weapon> O;
-        O=new ArrayList<Weapon>();
-        ArrayList<Card> S=new ArrayList<>();
+        List<Weapon> weaponArrayList;
+        weaponArrayList=new ArrayList<>();
+        List<Card> cards=new ArrayList<>();
         String stringa=new String();
-        int CS=1;
+        int CurrentState=1;
         int cont=0;
         int contextra=0;
         try (FileReader file = new FileReader(fileName+".mdr")) {
@@ -36,7 +36,7 @@ public class WeaponDeck extends Deck{
             do {
                 next=file.read();
                 char nextc=(char)next;
-                switch(CS)
+                switch(CurrentState)
                 {
                     case 1:
                     {
@@ -50,9 +50,9 @@ public class WeaponDeck extends Deck{
                             }
                             else
                             {
-                                O.add(new Weapon(stringa));
+                                weaponArrayList.add(new Weapon(stringa));
                                 stringa=new String();
-                                CS=2;
+                                CurrentState=2;
                             }
                         }
                         break;
@@ -61,12 +61,12 @@ public class WeaponDeck extends Deck{
                     {
                         if(nextc!=' ')
                         {
-                            O.get(O.size()-1).addCost(Character.getNumericValue(nextc));
+                            weaponArrayList.get(weaponArrayList.size()-1).addCost(Character.getNumericValue(nextc));
                         }
                         else
                         if(nextc==' ')
                         {
-                            CS=3;
+                            CurrentState=3;
                             //cont++;
                         }
                         break;
@@ -75,110 +75,110 @@ public class WeaponDeck extends Deck{
                     {
                         if(nextc=='f')
                         {
-                            O.get(O.size()-1).addAttack(1,0,0,0,0);
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(1,0,0,0,0);
                         }
                         else
                         if(nextc=='u')
                         {
-                            O.get(O.size()-1).addAttack(2,0,0,0,0);
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(2,0,0,0,0);
                         }
                         else
                         if(nextc=='m')
                         {
-                            O.get(O.size()-1).addAttack(3,0,0,0,0);
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(3,0,0,0,0);
                         }
                         else
-                            O.get(O.size()-1).addAttack(4,0,0,0,0);
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(4,0,0,0,0);
 
-                        CS=4;
+                        CurrentState=4;
                         break;
                     }
                     case 4:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addExtra(Character.getNumericValue(nextc));
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).addExtra(Character.getNumericValue(nextc));
                         contextra++;
                         if(contextra==3)
                         {
-                            CS=5;
+                            CurrentState=5;
                             contextra=0;
                         }
                         break;
                     }
                     case 5:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setTypePlayer(Character.getNumericValue(nextc));
-                        CS=6;
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).setTypePlayer(Character.getNumericValue(nextc));
+                        CurrentState=6;
                         break;
                     }
                     case 6:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setDistance(Character.getNumericValue(nextc));
-                        CS=7;
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).setDistance(Character.getNumericValue(nextc));
+                        CurrentState=7;
                         break;
                     }
                     case 7:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveMe(Character.getNumericValue(nextc));
-                        CS=8;
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).setMoveMe(Character.getNumericValue(nextc));
+                        CurrentState=8;
                         break;
                     }
                     case 8:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).setMoveYou(Character.getNumericValue(nextc));
-                        CS=9;
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).setMoveYou(Character.getNumericValue(nextc));
+                        CurrentState=9;
                         break;
                     }
                     case 9:
                     {
                         if(nextc=='p')
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(1,0));
+                            weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(1,0));
                         }
                         else
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(2,0));
+                            weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).addEffect(new EffectFactory().getinstanceof(2,0));
                         }
-                        CS=10;
+                        CurrentState=10;
                         break;
                     }
                     case 10:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).setId(Character.getNumericValue(nextc));
-                        CS=11;
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).setId(Character.getNumericValue(nextc));
+                        CurrentState=11;
                         break;
                     }
                     case 11:
                     {
                         if(nextc=='l')
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(1,0);
+                            weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(1,0);
                         }
                         else
                         {
-                            O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(2,0);
+                            weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).adddamage(2,0);
                         }
-                        CS=12;
+                        CurrentState=12;
                         break;
                     }
                     case 12:
                     {
-                        O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getEffect(O.get(O.size()-1).getAttack(O.get(O.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
-                        CS=100;
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
+                        CurrentState=100;
                         break;
                     }
                     case 100:
                     {
                         if(nextc=='?')
-                            CS=11;
+                            CurrentState=11;
                         else
                         if(nextc=='!')
-                            CS=9;
+                            CurrentState=9;
                         else
                         if(nextc==':')
-                            CS=3;
+                            CurrentState=3;
                         else
                         if(nextc=='.')
-                            CS=1;
+                            CurrentState=1;
                         else
                             next=-1;
                     }
@@ -191,8 +191,8 @@ public class WeaponDeck extends Deck{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        S.addAll(O);
-        return S;
+        cards.addAll(weaponArrayList);
+        return cards;
     }
 
 

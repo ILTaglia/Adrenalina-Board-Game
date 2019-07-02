@@ -6,6 +6,28 @@ import java.util.List;
 import java.util.Collections;
 
 public class Dashboard implements Serializable {
+    /**
+     * map is a matrix 3 x 4. Considering the conventions used, we have x as the number of line (o<=x<=2) and
+     * y as the number of column (o<=y<=3)
+     *    0   1   2   3
+     * 0
+     * 1
+     * 2
+     *
+     * mapType is an index representing the number of chosen map, there are three possible choices (1, 2, 3, 4)
+     * trackIndex is an int representing the index of the KillShot Track, the position of the last added skull.
+     * It is useful to understand when game is over, and no more skulls can be assigned.
+     * numberOfSkulls is an int representing the length of the KillShot Track, there are different possible choices in the game
+     *
+     * killShotTrack is a matrix of size 2 x numberOfSkulls that contains int that represents the colors of the players
+     * that have killed someone. If the point is just for killshot, one int is added, if the point is for killshot and
+     * revenge, two int are added.
+     *
+     * killShotPoints is an ArrayList containing all the possible points to be given when calculating score
+     * ord is an ArrayList used to memorize the order in which the colors are added to the killshot track, it is useful
+     * to manage play-offs
+     * stop is a boolean that indicates when the killshot track is full
+     */
     private Cell[][] map;
     private int mapType; //index of the chosen map
     private int trackIndex;
@@ -15,6 +37,11 @@ public class Dashboard implements Serializable {
     private ArrayList<Integer> ord;
     private boolean stop;
 
+    /**
+     *
+     * @param i is the index of the chosen map
+     * @param numberOfSkulls is the length of the KillSHot Track
+     */
     public Dashboard(int i,int numberOfSkulls) {
         map = new Cell[3][4];
         mapType = i;
@@ -94,18 +121,39 @@ public class Dashboard implements Serializable {
 
     }
 
+    /**
+     * Method to have a Cell
+     * @param i is number of line
+     * @param j is number of oolumn
+     * @return the Cell at line i, column j
+     */
     public Cell getMap(int i, int j) {
         return this.map[i][j];
     }
 
+    /**
+     *
+     * @return the trackIndex, the index of the last added element in the KillShot Track
+     */
     public int getIndex() {
         return this.trackIndex;
     }
 
+    /**
+     *
+     * @return the type of the chosen map
+     */
     public int getMapType() {
         return this.mapType;
     }
 
+    /**
+     * Method to set the elements of the KillShot Track
+     * @param player is the killer, the player that has killed an other player
+     * @param n is the number of damages he has done
+     *          1 means just killshot
+     *          2 means killshot and revenge
+     */
     public void setKillShotTrack(Player player, int n) {
         killShotTrack[0][trackIndex] = player.getColor();
         //n is the int returned by the set_damage
@@ -118,10 +166,22 @@ public class Dashboard implements Serializable {
         if (n == 2) killShotTrack[1][trackIndex] = player.getColor();
         trackIndex = trackIndex + 1;
     }
+
+    /**
+     *
+     * @return a boolean to say if the KillShot Track is full or not
+     */
     public boolean isKillShotTrackFull(){
         return trackIndex > numberOfSkulls;
     }
 
+    /**
+     *
+     * @return the color of the player that has the maximum number of damage tokens
+     *
+     * The check with order is done to manage play-offs. In case two players have the same number of damage tokens,
+     * the maximum score goes to the first one that has the token in the KillShot Track
+     */
     public int getMaxKillShot() {
         int max = Collections.max(killShotPoints);
         int k = killShotPoints.indexOf(Collections.max(killShotPoints));
@@ -145,21 +205,44 @@ public class Dashboard implements Serializable {
         }
         return k;
     }
+
+    /**
+     *
+     * @return the matrix of the KillShot Track
+     */
     public int [][] getKillShotTrack()
     {
         return this.killShotTrack;
     }
+
+    /**
+     *
+     * @return the total number of lines
+     */
     public int getRowDim() {
         return this.map.length;
     }
+
+    /**
+     *
+     * @return the total number of columns
+     */
     public int getColDim(){
         return this.map[0].length;
     }
 
+    /**
+     *
+     * @return the boolean stop
+     */
     public boolean stop() {
         return this.stop;
     }
 
+    /**
+     *
+     * @return all the cells contained in the Dashboard in an ArrayList
+     */
     public List<Coordinate> getCells() {
         List<Coordinate> cells = new ArrayList<>();
         for (int i = 0; i < 3; i++) {

@@ -33,7 +33,10 @@ public class Ammo implements Serializable {
         return color;
     }
 
-
+    /**
+     *
+     * @return the int representing the color as a String
+     */
     public String toString(){
         return String.valueOf(color);
     }
