@@ -169,7 +169,7 @@ public class MatchTest {
         score.add(1); //2
         score.add(0); //3
         score.add(3); //4
-        match.assignScore(score);
+        match.assignScore(score, player2);
 
         //Note that player1, 2... are not in order of color, but in order of index, by the order
         //in which they have registered to the match

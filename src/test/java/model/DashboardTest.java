@@ -16,10 +16,10 @@ public class DashboardTest {
 
     @Test
     public void set(){
-        Dashboard d1 = new Dashboard(1);
-        Dashboard d2 = new Dashboard(2);
-        Dashboard d3 = new Dashboard(3);
-        Dashboard d4 = new Dashboard(4);
+        Dashboard d1 = new Dashboard(1, 8);
+        Dashboard d2 = new Dashboard(2, 8);
+        Dashboard d3 = new Dashboard(3, 8);
+        Dashboard d4 = new Dashboard(4, 8);
         assertEquals(2, d2.getMapType());
         assertEquals(3, d3.getMapType());
         assertEquals(4, d4.getMapType());
