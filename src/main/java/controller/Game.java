@@ -17,14 +17,13 @@ public class Game{
 
     private Match match;
     private ManagingWeapons manageWeapon;
-    private GameRoom gameRoom;      //CAPIRE SE USARE QUESTO O PREFERIRE LAVORARE DIRETTAMENTE CON NotifyClient
+    private GameRoom gameRoom;
     private boolean isMovementBeforeGrab;
     private boolean isMovementBeforeShoot;
-    private OfficialShootVersion shootelaborator;
+    private OfficialShootVersion shootElaborator;
     //Gestione Timer
     private Timer timer;
     private final int queueTimer;
-
 
     public Game(GameRoom gameRoom, int queueTimer){
         this.queueTimer=queueTimer;
@@ -44,7 +43,9 @@ public class Game{
         match.getPlayers().forEach(player-> player.setConnected(true));
         //una volta creati i Player informo tutti i Player (eccetto lo stesso) dei dati degli altri
         match.notifyOfOtherPlayers();
-        askMap((String)userList.values().toArray()[0]);
+        askMap(match.getPlayerByIndex(0).getID());
+
+        //askMap((String)userList.values().toArray()[0]);
     }
 
     private void askMap(String userID){
@@ -81,35 +82,32 @@ public class Game{
         //Da adesso si chiamano tutti i metodi per la gestione della partita del primo giocatore, poi aggiorno e passo al secondo
         //richiamando gli stessi
         //Poi bisogna sviluppare dei cicli sensati di turni
-        askSpawnPoint();
+        askSpawnPoint(match.getActivePlayer().getID());
 
     }
 
-    private void askSpawnPoint() {
-        gameRoom.askToChooseSpawnPoint(match.getActivePlayer().getID());
+    private void askSpawnPoint(String userID) {
+        gameRoom.askToChooseSpawnPoint(userID);
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
 
     //TODO: sistemare la validità della cella inserita dall'utente
     public void setSpawn(String userID, Coordinate coordinate,int powCardIndex){
-        checkUserAction(userID);
         Spawn playerSpawn = new Spawn();
         try {
             playerSpawn.spawn(match, match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
         }catch (InvalidColorException e){
             Message errorMessage=new ActionError("Colore non valido, riprova (Migliorare messaggio)");
             gameRoom.sendErrorMessage(userID,errorMessage);
-            askSpawnPoint();
+            askSpawnPoint(userID);
         }
         //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
         //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
         //che ha terminato il turno
-
-        //TODO:Modifica per controllo turno
-        askAction();
-
+        if(match.getRound()==1) {
+            nextStep();
+        }
     }
-
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
 
     //TODO: verificare utilità metodo
@@ -195,7 +193,7 @@ public class Game{
                 selectGrab(userID);
             }
             if(isMovementBeforeShoot){
-               // this.shoot();   //TODO, HO COMMENTATO PERCHE' IL METODO ORA SI ASPETTA ALTRI PARAMETRI
+               this.askWeaponToShoot();
             }
             run.registerMovementAction(match);
             //In caso di successo dell'azione aumento di 1 la variabile azione del Player
@@ -327,14 +325,10 @@ public class Game{
         nextStep();
     }
 
-    public void shoot()
-    {
-        askWeaponToShoot();
-    }
 
     public void askWeaponToShoot(){
-        this.shootelaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
-        shootelaborator.setstatus(1);
+        this.shootElaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
+        shootElaborator.setstatus(1);
         gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
@@ -342,38 +336,34 @@ public class Game{
     {
         if(match.getActivePlayer().getID().equals(userID))
         {
-            if(shootelaborator.getStatus()==1)
+            if(shootElaborator.getStatus()==1)
             {
-                shootelaborator.chooseweapon(shootelaborator.getguns().get(chosenindex));
+                shootElaborator.chooseweapon(shootElaborator.getguns().get(chosenindex));
                 askserieToShoot();
             }
-            if(shootelaborator.getStatus()==2)
+            if(shootElaborator.getStatus()==2)
             {
                 verifyIndexSerie(chosenindex);
             }
 
-            if(shootelaborator.getStatus()==4)
+            if(shootElaborator.getStatus()==4)
             {
                 checkplayertoattack(chosenindex);
             }
 
-            if(shootelaborator.getStatus()==5)
+            if(shootElaborator.getStatus()==5)
             {
                 checkcelltoattack(chosenindex);
             }
 
-            if(shootelaborator.getStatus()==6)
+            if(shootElaborator.getStatus()==6)
             {
                 checkeffectorchangeattack();
             }
 
-            if(shootelaborator.getStatus()==8)
+            if(shootElaborator.getStatus()==8)
             {
                 answertocontinue(chosenindex);
-            }
-            if(shootelaborator.getStatus()==9)
-            {
-                setDirectionToShoot(chosenindex);
             }
         }
 
@@ -382,30 +372,30 @@ public class Game{
     public void askserieToShoot()
     {
 
-        shootelaborator.setstatus(2);
+        shootElaborator.setstatus(2);
         gameRoom.askIndexSerie(match.getActivePlayer().getID());
     }
 
     public void verifyIndexSerie(int index)
     {
-        List<Integer> possibleTypesOfSeries = shootelaborator.gettypes();
+        List<Integer> possibleTypesOfSeries = shootElaborator.gettypes();
         if(!possibleTypesOfSeries.contains(index))
         {
             askserieToShoot();
         }
         else
         {
-            shootelaborator.settype(index);
-            shootelaborator.generateattacks();
-            shootelaborator.setfirstattack();
+            shootElaborator.settype(index);
+            shootElaborator.generateattacks();
+            shootElaborator.setfirstattack();
             askPaymentbeforeShoot();
         }
     }
 
     public void askPaymentbeforeShoot()
     {
-        shootelaborator.setstatus(3);
-        if(shootelaborator.payextra())
+        shootElaborator.setstatus(3);
+        if(shootElaborator.payextra())
         {
             decideShootingMethod();
         }
@@ -417,7 +407,7 @@ public class Game{
 
     public void decideShootingMethod()
     {
-        int typeattack= shootelaborator.getTypeAttack();
+        int typeattack= shootElaborator.getTypeAttack();
         if(typeattack==1||typeattack==2||typeattack==3||typeattack==4||typeattack==5||typeattack==8||typeattack==9||typeattack==11)
         {
             standardattack();
@@ -426,41 +416,30 @@ public class Game{
         {
             ricorsiveattack();
         }
-        if(typeattack==11)
-        {
-            allroomattack();
-        }
 
-        if(shootelaborator.getFlagfirstattack()==0)
+        if(shootElaborator.getFlagfirstattack()==0)
         {
-            shootelaborator.setFlagfirstattack(1);
+            shootElaborator.setFlagfirstattack(1);
         }
-    }
-
-    public void allroomattack()
-    {
-        shootelaborator.setAttackmethod(3);
-        moveAndList();
-        starteffect();
     }
 
     public void standardattack()
     {
-        shootelaborator.setAttackmethod(1);
+        shootElaborator.setAttackmethod(1);
         moveAndList();
         starteffect();
     }
 
     public void ricorsiveattack()
     {
-        shootelaborator.setAttackmethod(2);
+        shootElaborator.setAttackmethod(2);
         moveAndList();
         starteffect();
     }
 
     public void starteffect()
     {
-        if(shootelaborator.loadeffect())
+        if(shootElaborator.loadeffect())
         {
             askBersaglio();
         }
@@ -468,31 +447,31 @@ public class Game{
 
     public void askBersaglio()
     {
-        int typetarget=shootelaborator.getTypeTarget();
+        int typetarget= shootElaborator.getTypeTarget();
 
         if(typetarget==1)
         {
-            shootelaborator.setstatus(4);
+            shootElaborator.setstatus(4);
             gameRoom.askPlayerIndex(match.getActivePlayer().getID());
         }
         else
         {
-            shootelaborator.setstatus(5);
+            shootElaborator.setstatus(5);
             gameRoom.askCellIndex(match.getActivePlayer().getID());
         }
     }
 
     public void checkplayertoattack(int index)
     {
-        List <Player> attackablePlayers= shootelaborator.getlistattackable(1);
+        List <Player> attackablePlayers= shootElaborator.getlistattackable(1);
         if(!(index>=attackablePlayers.size()||index<0))
         {
-            if(shootelaborator.setvictimplayer(attackablePlayers.get(index)))
+            if(shootElaborator.setvictimplayer(attackablePlayers.get(index)))
             {
-                if(shootelaborator.getMoveyou()!=0)
+                if(shootElaborator.getMoveyou()!=0)
                 {
-                    shootelaborator.setstatus(6);
-                    shootelaborator.run(attackablePlayers.get(index),shootelaborator.getMoveyou());
+                    shootElaborator.setstatus(6);
+                    shootElaborator.run(attackablePlayers.get(index), shootElaborator.getMoveyou());
                 }
                 else
                 {
@@ -513,13 +492,13 @@ public class Game{
 
     public void checkeffectorchangeattack()
     {
-        if(shootelaborator.checkothereffects())
+        if(shootElaborator.checkothereffects())
         {
             starteffect();
         }
         else
         {
-            if(shootelaborator.checkotherattacks())
+            if(shootElaborator.checkotherattacks())
             {
                 continueshootinganswer();
             }
@@ -528,16 +507,16 @@ public class Game{
 
     public void continueshootinganswer()
     {
-        shootelaborator.setstatus(8);
+        shootElaborator.setstatus(8);
         gameRoom.askNextAttack(match.getActivePlayer().getID());
     }
 
     public void checkcelltoattack(int index)
     {
-        List <Coordinate> attackableCells=shootelaborator.getlistattackable(2);
+        List <Coordinate> attackableCells= shootElaborator.getlistattackable(2);
         if(!(index<0||index>=attackableCells.size()))
         {
-            if(shootelaborator.setvictimcell(attackableCells.get(index)))
+            if(shootElaborator.setvictimcell(attackableCells.get(index)))
             {
                 checkeffectorchangeattack();
 
@@ -557,39 +536,19 @@ public class Game{
     {
         if(index==1)
         {
-            shootelaborator.setsuccessiveattack();
+            shootElaborator.setsuccessiveattack();
             askPaymentbeforeShoot();
         }
 
     }
 
-    public void setDirectionToShoot(int index)
-    {
-        shootelaborator.setdirectiontoshoot(index);
-        shootelaborator.generatelistattackable(shootelaborator.getPlayer());
-        List <Coordinate> list = shootelaborator.getlistattackable(2);
-        for(Coordinate c : list)
-        {
-            shootelaborator.setvictimcell(c);
-        }
-    }
-
     private void moveAndList()
     {
-        if(shootelaborator.getmoveme()!=0)
+        if(shootElaborator.getmoveme()!=0)
         {
-            shootelaborator.run(shootelaborator.getPlayer(),shootelaborator.getmoveme());
+            shootElaborator.run(shootElaborator.getPlayer(), shootElaborator.getmoveme());
         }
-        if(shootelaborator.getTypeAttack()==3)
-        {
-            shootelaborator.setstatus(9);
-            gameRoom.askDirectionToShoot(match.getActivePlayer().getID());
-        }
-        else
-        {
-            shootelaborator.generatelistattackable(shootelaborator.getPlayer());
-        }
-
+        shootElaborator.generatelistattackable(shootElaborator.getPlayer());
     }
 
     //-----------------------------------------Fine Metodi necessari alla Shoot--------------------------------------------//
@@ -615,41 +574,58 @@ public class Game{
     private void nextStep() {
         //timer.cancel();
         resetActionBool();
+
         if((match.getActivePlayer().getAction() < 2) && match.getActivePlayer().isConnected()) {
-            printOut("Test");
             match.updateEndAction();
             askAction();
         }
         else if(match.getActivePlayer().getAction()==2||!match.getActivePlayer().isConnected()){
             match.updateEndTurn();
-            printOut("Fine turno falsa");
-            //setTurn();
+            checkDeadPlayers();
         }
         //Se il giocatore successivo è disconnesso passa a quello dopo.
         //Controllo che i giocatori siano più di 3 se no dichiaro vincitore!
 
     }
 
+    private void checkDeadPlayers(){
+        match.getPlayers().forEach(player ->{
+            if(player.isConnected()&&player.isDead()){
+                askSpawnPoint(player.getID());
+            }
+        });
+    }
 
-    public void setTurn(){
-        Player p = match.getActivePlayer();
+
+    private void nextTurn(){
+        Player activePlayer = match.getActivePlayer();
         int index=0;
         for(int i=0; i<match.getPlayersSize(); i++){
-            if(match.getPlayers().get(i).equals(p)){
+            if(match.getPlayers().get(i).equals(activePlayer)){
                 index = i;
                 if(i==match.getPlayersSize()-1){
-                    resetTurn();
+                    nextRound();
                 }
             }
         }
         match.getPlayerByIndex(index).setActive();
         index++;
+        while(!match.getPlayerByIndex(index).isConnected()){
+            index++;
+        }
         match.getPlayerByIndex(index).setActive();
+        askAction();
     }
 
-    private void resetTurn(){
+    private void nextRound(){
+        int index=0;
         for(Player player:match.getPlayers()) player.resetAction();
-        match.getPlayerByIndex(0).setActive();
+        match.setRound();
+        while(!match.getPlayerByIndex(index).isConnected()){
+            index++;
+        }
+        match.getPlayerByIndex(index).setActive();
+        askAction();
     }
     private void resetActionBool(){
         isMovementBeforeShoot=false;

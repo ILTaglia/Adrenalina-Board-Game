@@ -182,6 +182,7 @@ public class Match implements Serializable {
 
     public void spawnPlayer(Player player, int indexPowCard, int x, int y) {
         player.setCel(x, y);
+        player.setDead(false);
         PowCard powCard = player.getPowByIndex(indexPowCard);
         try {
             player.removePow(powCard);
