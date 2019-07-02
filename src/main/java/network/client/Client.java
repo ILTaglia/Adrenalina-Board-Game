@@ -251,6 +251,34 @@ public class Client {
         {
             view.getNextAttack();
         }
+        if(message.getContent().equals("indexPow"))
+        {
+            view.getPowIndex();
+        }
+        if(message.getContent().equals("indexPos"))
+        {
+            view.getPosIndex();
+        }
+        if(message.getContent().equals("indexDir"))
+        {
+            view.getDirectionIndex();
+        }
+        if(message.getContent().equals("indexStep"))
+        {
+            view.getNumberStep();
+        }
+        if(message.getContent().equals("indexPlayer"))
+        {
+            view.getMovePlayerIndex();
+        }
+        if(message.getContent().equals("idScope"))
+        {
+            view.getScopeIndex();
+        }
+        if(message.getContent().equals("idGranade"))
+        {
+            view.getGranadeIndex();
+        }
     }
 
     private void handleConnectionMessage(Message message){

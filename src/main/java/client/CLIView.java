@@ -958,12 +958,21 @@ public class CLIView implements View {
 
     @Override
     public void getScopeIndex() {
+        printOut("Digit the number of the player you want to attack with the scope, digit -1 not to attack them");
+        int gunIndex= getData.getInt(-1,5);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new UseScopeRequest(index,client.getUserID());
+        client.sendMessage(messaage);
 
     }
 
     @Override
     public void getGranadeIndex() {
-
+        printOut("Digit 1 to use granade, 0 if you don't want");
+        int gunIndex= getData.getInt(1,2);
+        String index = Integer.toString(gunIndex);
+        Message messaage = new UseGranadeRequest(index,client.getUserID());
+        client.sendMessage(messaage);
     }
 
 
