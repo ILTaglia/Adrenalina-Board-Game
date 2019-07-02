@@ -4,23 +4,12 @@ public class Newton extends PowCard{
     private int color;
     private int cost;
     private int moveme;
-    private int life;
-    private int marks;
-    public Newton(int color, int cost, int moveme, int life, int marks)
-    {
-        this.color=color;
-        this.cost=cost;
-        this.moveme=moveme;
-        this.life=life;
-        this.marks=marks;
-    }
     public Newton(int color, int cost, int moveme)
     {
         this.color=color;
         this.cost=cost;
         this.moveme=moveme;
-        this.life=0;
-        this.marks=0;
+
     }
     public void setColor(int color)
     {
@@ -50,20 +39,9 @@ public class Newton extends PowCard{
     {
         return this.moveme;
     }
-    public void setLife(int life)
-    {
-        this.life=life;
-    }
-    public int getLife()
-    {
-        return this.life;
-    }
-    public void setMarks(int marks)
-    {
-        this.marks=marks;
-    }
-    public int getMarks()
-    {
-        return this.marks;
+
+    @Override
+    public int getType() {
+        return 0;
     }
 }
