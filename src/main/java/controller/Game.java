@@ -416,6 +416,7 @@ public class Game{
         else
         {
             gameRoom.informPaymentError(match.getActivePlayer().getID());
+            nextStep();
         }
     }
 
@@ -467,6 +468,10 @@ public class Game{
         if(shootElaborator.loadeffect())
         {
             askBersaglio();
+        }
+        else
+        {
+            nextStep();
         }
     }
 
@@ -528,6 +533,10 @@ public class Game{
             {
                 continueshootinganswer();
             }
+            else
+            {
+                nextStep();
+            }
         }
     }
 
@@ -564,6 +573,10 @@ public class Game{
         {
             shootElaborator.setsuccessiveattack();
             askPaymentbeforeShoot();
+        }
+        else
+        {
+            nextStep();
         }
 
     }
