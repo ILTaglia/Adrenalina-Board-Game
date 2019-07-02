@@ -21,11 +21,11 @@ public class GameRMISvr implements Remote {
         ServerImplementation serverImplementation= new ServerImplementation(gameServer);
         try {
             Registry registry = LocateRegistry.createRegistry(port);
-            registry.rebind("Server", serverImplementation );
+            registry.rebind("Server", serverImplementation );               //Metto a disposizione il server RMI al client
         }catch (Exception e){
             printOut("Error, re launch Server.");
         }
-        System.out.println("RMI ON");
+        printOut("RMI ON");
     }
 
 }
