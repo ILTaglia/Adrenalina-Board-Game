@@ -502,6 +502,7 @@ public class Game{
                 else
                 {
                     checkeffectorchangeattack();
+
                 }
             }
             else
