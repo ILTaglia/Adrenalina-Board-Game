@@ -5,7 +5,7 @@ public class Teleporter extends PowCard{
     private int cost;
     private int moveme;
 
-    public Teleporter(int color, int cost)
+    public Teleporter(int color, int cost, int moveme)
     {
         this.color=color;
         this.cost=cost;

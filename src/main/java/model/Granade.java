@@ -5,7 +5,7 @@ public class Granade extends PowCard{
     private int cost;
     private int moveme;
 
-    public Granade(int color, int cost)
+    public Granade(int color, int cost, int moveme)
     {
         this.color=color;
         this.cost=cost;

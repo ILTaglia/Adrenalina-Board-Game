@@ -53,7 +53,7 @@ public class PowDeck extends Deck{
                         break;
                     }
                     case 7: {
-                        O.add( new PowFactory().getInstanceof(tipo,colore,costo,moveme,life,marks));
+                        O.add( new PowFactory().getInstanceof(tipo,colore,costo,moveme));
                         O.get(O.size()-1).used =false;
                         if(nextc=='!') {
                             CS=1;
