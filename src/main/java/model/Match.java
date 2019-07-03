@@ -196,7 +196,6 @@ public class Match implements Serializable {
     public void updateEndTurn() {
         this.fillDashboard();
         // updateClientDashboard chiamato direttamente dalla fill!
-        this.round++;
     }
     //TODO: messaggi per Match!!!!
     /**
