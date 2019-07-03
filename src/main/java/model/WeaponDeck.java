@@ -244,7 +244,6 @@ public class WeaponDeck extends Deck{
                             next=-1;
                     }
                 }
-
             }
             while(next!=-1);
         } catch (FileNotFoundException e) {
