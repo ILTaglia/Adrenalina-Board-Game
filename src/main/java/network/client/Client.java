@@ -66,6 +66,10 @@ public class Client {
         isToUseSocket = socketRequired;
     }
 
+    public void setConnected() {
+        connectionHandler.setConnected();
+    }
+
     public void launchConnection(){
         if(isToUseSocket){
             connectionHandler=new SocketHandler(serverIP, serverPort, this);
@@ -147,6 +151,7 @@ public class Client {
             case "InfoID":
                 view.showInfoMessage(message);
                 this.userID =message.getInfo();
+                setConnected();
                 break;
             case "NewPlayerData":
                 view.showInfoMessage(message);

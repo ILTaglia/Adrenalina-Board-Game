@@ -21,7 +21,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     @Override
     public void registerToQueue(String requestedUsername, ClientInterface clientInterface) throws UsernameAlreadyUsedException {
         if(gameServer.isPlayerDisconnected(requestedUsername)){
-            clientInterface.requestToReconnect();
+            try {
+                clientInterface.requestToReconnect();
+            } catch (RemoteException e) {
+
+            }
         }
         if (gameServer.isAlreadyInQueue(requestedUsername)){
             throw new UsernameAlreadyUsedException();

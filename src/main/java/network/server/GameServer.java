@@ -26,6 +26,7 @@ public class GameServer {
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
     private static final int TIMER = 30000;
+    private static final int TIMER_PING = 3000;
     private static final int SOCKET_SERVER_PORT =7218;
     private static final int RMI_SERVER_PORT =1099;
 
@@ -109,10 +110,27 @@ public class GameServer {
         }catch (RemoteException e) {
             //TODO: disconnect nel caso che il Player non sia ancora connesso praticamente
         }
+        startCheckConnection(usernameToUserID.get(playerUsername));
         //Imposto a connesso il Player, a termine del timer verifico che siano ancora tutti connessi
         waitingRoom.addUserToRoom(playerUsername);
     }
 
+    public void startCheckConnection(String userID){
+        (new Timer()).schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    userIDToClientInterface.get(userID).setClientConnected();
+                    startCheckConnection(userID);
+                } catch (RemoteException e) {
+                    //SIGNIFICA CHE IL PLAYER SI È DISCONNESSO.
+                    printOut("DISCONNESSOMALEDETTO");
+                    handleDisconnect(userIDToClientInterface.get(userID));
+                    cancel();
+                }
+            }
+        },TIMER_PING);
+    }
 
     public synchronized void handleDisconnect(ClientInterface clientInterface){
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
@@ -150,7 +168,9 @@ public class GameServer {
             //TODO
         }
         userIDToClientInterface.replace(userID,clientInterface);
+        startCheckConnection(userID);
         userIDInGameToStatusConnection.replace(userID,true);
+
         updatePlayerStatus(userID,true);
         userIDToGameRoom.get(userID).reConnectPlayer(userID);
         Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");       //TODO: modificare tipo e contenuto messaggio.

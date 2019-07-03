@@ -14,4 +14,6 @@ public interface ConnectionHandler {
     void attemptToReconnect(String userID);
 
     void newConnectionRequest(String username) throws UsernameAlreadyUsedException;
+
+    void setConnected();
 }

@@ -123,5 +123,10 @@ public class ClientHandler implements Runnable, ClientInterface {
         sendMessage(reConnectRequest);
     }
 
+    @Override
+    public void setClientConnected() {
+        //NOTHING TO DO IN SOCKET, NOT USED
+    }
+
 
 }

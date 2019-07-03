@@ -6,10 +6,6 @@ import network.client.Client;
 import network.messages.Message;
 import network.server.ClientInterface;
 
-import java.rmi.RemoteException;
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 public class RMIConnection implements ClientInterface {
 
@@ -49,6 +45,11 @@ public class RMIConnection implements ClientInterface {
     @Override
     public void requestToReconnect() {
 
+    }
+
+    @Override
+    public void setClientConnected() {
+        (new Thread(() -> client.setConnected())).start();
     }
 
 }

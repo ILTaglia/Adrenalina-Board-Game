@@ -16,5 +16,7 @@ public interface ClientInterface extends Remote {
 
     void closeConnection()throws RemoteException;
 
-    void requestToReconnect();
+    void requestToReconnect()throws RemoteException;
+
+    void setClientConnected() throws RemoteException;
 }

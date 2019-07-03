@@ -49,4 +49,9 @@ public class SocketHandler implements ConnectionHandler {
 
     }
 
+    @Override
+    public void setConnected() {
+        connectionEstablished=true;
+    }
+
 }
