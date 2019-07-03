@@ -79,7 +79,7 @@ public class Match implements Serializable {
      */
     public void notifyOfOtherPlayers() {
         for (Player player : players) {
-            notifyAllExceptOneClient(player.getID(), new OtherPlayerData(player.getName(), player.getColor()));
+            notifyAllExceptOneClient(player.getID(), new OtherPlayerData(player.getName(), player.getColorAsString()));
         }
     }
     //________________________________________________________________________________________________________________//

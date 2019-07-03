@@ -136,6 +136,19 @@ public class Player implements Serializable {
     public int getColor(){return this.color;}
     /**
      *
+     * @return the the color of the player
+     */
+    public String getColorAsString(){
+        String s="";
+        if(color==0) return "blue";
+        if(color==1) return "green";
+        if(color==2) return "yellow";
+        if(color==3) return "pink";
+        if(color==4) return "grey";
+        else return s;
+    }
+    /**
+     *
      * @return value of active
      */
     public boolean getActive(){return this.active;}
