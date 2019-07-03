@@ -6,9 +6,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 public class WeaponDeck extends Deck{
+    /**
+     * List of weapons
+     */
     private List<Weapon> W;
 
     //TODO IMPORTANTE: Classe Deck da Usare !
+
+    /**
+     * stack is the ArrayList containing the cards to be collected.
+     * stackDiscarded is the ArrayList containing the cards already used and discarded.
+     *
+     * At the beginning stack is full of all weapons, while stackDiscarded is empty.
+     */
     public WeaponDeck(){
         stack =new ArrayList<>();
         stackDiscarded =new ArrayList<>();
@@ -17,11 +27,20 @@ public class WeaponDeck extends Deck{
 
     }
 
+    /**
+     *
+     * @param filename is to add weapons read by file
+     */
     public void setWeapons(String filename)
     {
         this.stack =(ArrayList)this.readWeaponCards( filename);
     }
 
+    /**
+     *
+     * @param fileName for reading weapons by file
+     * @return the list of card created reading by file
+     */
     public List<Card> readWeaponCards(String fileName)
     {
         List<Weapon> weaponArrayList;

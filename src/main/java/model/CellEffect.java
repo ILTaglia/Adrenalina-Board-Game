@@ -14,8 +14,8 @@ public class CellEffect implements Effect {
 
     /**
      *
-     * @param type indicates the type of damage
-     * @param damage
+     * @param type of damage
+     * @param damage is the number of tokens
      */
     public void adddamage(int type, int damage)
     {
@@ -26,33 +26,53 @@ public class CellEffect implements Effect {
 
     /**
      *
-     * @param i is
-     * @return
+     * @param i is the index of the damage
+     * @return the damage
      */
     @Override
     public Damage getDamage(int i) {
         return this.damages.get( i);
     }
 
+    /**
+     *
+     * @param id is the ID of the damage
+     */
     @Override
     public void setId(int id) {
         this.id=id;
     }
 
+    /**
+     *
+     * @return the number of tokens given by the damage
+     */
     public int getnumberdamage()
     {
         return damages.size();
     }
 
 
+    /**
+     *
+     * @param id of the effect
+     */
     public CellEffect(int id)
     {
         damages = new ArrayList<>();
         this.id=id;
     }
 
+    /**
+     *
+     * @return the type (cell effect)
+     */
     public int getType(){return 1;}
 
+    /**
+     *
+     * @return the ID of the effect
+     */
     @Override
     public int getId() {
         return this.id;

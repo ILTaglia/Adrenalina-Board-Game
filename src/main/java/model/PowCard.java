@@ -51,6 +51,10 @@ public abstract class PowCard extends Card {
     public abstract int getMoveme();
 
 
+    /**
+     *
+     * @return the type of the PowCard
+     */
     public abstract int getType();
 
 

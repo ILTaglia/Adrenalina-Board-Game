@@ -11,6 +11,13 @@ import java.util.*;
 import static utils.NotifyClient.*;
 
 public class Match implements Serializable {
+    /**
+     * round is an int representing the number of round that is being played
+     * players is an ArrayList containing all the players in the game
+     * dashboard is the dashboard associated to the match
+     * ammoDeck, weaponDeck, powDeck are the decks associated to the match
+     * checkDashboard is a boolean value to check whether the dashboard has been correctly created or not
+     */
     private int round;
     private ArrayList<Player> players;
     private Dashboard dashboard;
@@ -29,12 +36,19 @@ public class Match implements Serializable {
         powDeck = new PowDeck("Pow");
     }
 
+    /**
+     * Method to increment the number of round
+     */
     public void setRound() {
         this.round++;
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
 
+    /**
+     *
+     * @return the number of round
+     */
     public int getRound() {
         return this.round;
     }
@@ -44,17 +58,31 @@ public class Match implements Serializable {
     //Alla creazione del Player istanzio la relativa PlayerData che mando al Client
     //Ciascun Client quindi avrà la classe con la classe Player già inizializzata.
     //In seguito la classe va aggiornata con il nome dei Player avversari
+
+    /**
+     * Method to create the player, with the given Strings:
+     * @param name is the name chosen by the player
+     * @param color is the color chosen by the player
+     * @param id is the id for the player
+     */
     public void createPlayer(String name, String color, String id) {
         Player player = new Player(name, color, id);
         addPlayer(player);
     }
 
+    /**
+     * Method to add the player in a match
+     * @param player to be added in the match
+     */
     private void addPlayer(Player player) {
         players.add(player);
         Message message = new NewPlayerData(new PlayerVisibleData(player));
         notifySpecificClient(player.getID(), message);
     }
 
+    /**
+     * Method to notify all the other players
+     */
     public void notifyOfOtherPlayers() {
         for (Player player : players) {
             notifyAllExceptOneClient(player.getID(), new OtherPlayerData(player.getName(), player.getColor()));
@@ -64,12 +92,20 @@ public class Match implements Serializable {
 
     //---------------------------------Metodi gestione connessione ---------------------------------------------------//
 
+    /**
+     * Method to disconnect a player
+     * @param userID is the ID of the player to disconnect
+     */
     public void setPlayerDisconnected(String userID) {
         getPlayerByID(userID).setConnected(false);
         Message infoPlayerDisconnected = new InfoMatch("Player " + getPlayerByID(userID).getName() + " is disconnected from game.");
         notifyAllExceptOneClient(userID, infoPlayerDisconnected);
     }
 
+    /**
+     * Method to re-connect a player
+     * @param userID is the ID of the player to re-connect
+     */
     public void setPlayerReConnected(String userID) {
         getPlayerByID(userID).setConnected(true);
         Message infoPlayerDisconnected = new InfoMatch("Player " + getPlayerByID(userID).getName() + " re joined game.");
@@ -78,12 +114,19 @@ public class Match implements Serializable {
 
     //---------------------------------Metodi inizializzazione Dashboard----------------------------------------------//
 
-    //selectedDashboard is the index of the chosen map
+    /**
+     * Method to create the dashboard. This is not made in the constructor because the first player in the match chooses
+     * the type of dashboard to use
+     * @param selectedDashboard is the index representing the chosen map
+     */
     public void createDashboard(int selectedDashboard) {
         this.dashboard = new Dashboard(selectedDashboard,8 );               //TODO
         checkDashboard = true;
     }
 
+    /**
+     * Method to fill the dashboard with all weapons in the SpawnPoint Cells and AmmoCards in the Normal Cells
+     */
     public void fillDashboard() {
         if (this.checkDashboard) {
             int indexR;
@@ -102,11 +145,18 @@ public class Match implements Serializable {
         updateClientDashboard();
     }
 
+    /**
+     * Method to notify the new map has been created
+     */
     public void notifyNewMap() {
         InfoMatch message = new InfoMatch("Selected map " + dashboard.getMapType() + " . Stampo di seguito:");
         notifyAllClients(this, message);
     }
 
+    /**
+     * Method to fill the SpawnPoint Cell
+     * @param cell to be filled with weapons (as it is a SpawnPoint Cell)
+     */
     private void fillSpawnPoint(SpawnPointCell cell) {
         for (int index = 0; index < 3; index++) {
             try {
@@ -124,7 +174,10 @@ public class Match implements Serializable {
         //This method fill the dashboard for the first time, this Exception is impossible
     }
 
-
+    /**
+     * Method to fill the Normal Cell
+     * @param cell to be filled with AmmoCard (as it is a Normal Cell)
+     */
     private void fillNormal(NormalCell cell) {
         try {
             if (cell.getAmmoCard() == null) {
@@ -138,16 +191,25 @@ public class Match implements Serializable {
         }
     }
 
+    /**
+     * Method to notify all players the dashboard has been updated
+     */
     public void updateClientDashboard() {
         Message infoMap = new DashboardData(this.dashboard);
         notifyAllClients(this, infoMap);
     }
 
+    /**
+     * Method to notify all players the end of the action
+     */
     public void updateEndAction() {
         this.updateClientDashboard();
 
     }
 
+    /**
+     * Method to notify all players the end of the turn
+     */
     public void updateEndTurn() {
         this.fillDashboard();
         // updateClientDashboard chiamato direttamente dalla fill!
@@ -156,6 +218,15 @@ public class Match implements Serializable {
 
 
     //TODO: messaggi per Match!!!!
+
+    /**
+     * Method to assign the score calculated in controller to the players
+     * @param score is the List containg the score to be added to players. Index represents the color so
+     * score.get(0) represents the score to be given to the player with color blue
+     * score.get(1) represents the score to be given to the player with color green
+     * and so on, according to the usual conventions for player colors
+     * @param deadPlayer is the int representing the color of the dead player
+     */
     public void assignScore(List<Integer> score,Player deadPlayer) {
         for (int i = 0; i < score.size(); i++) {
             try {
@@ -168,7 +239,10 @@ public class Match implements Serializable {
 
 
     //________________________________________________________________________________________________________________//
-    //metodo inizializzazione PowCard Player
+
+    /**
+     * Method to initialize in the first turn the PowCards to the players
+     */
     public void firstTurnPow() {
         for (Player player : this.players) {
             try {
@@ -180,6 +254,13 @@ public class Match implements Serializable {
         }
     }
 
+    /**
+     * Method to make a player spawn
+     * @param player is the player that has to spawn
+     * @param indexPowCard is the int representing the index of the PowCard to use to spawn
+     * @param x is the number of line of the SpawnPoint where to spawn
+     * @param y is the number of column of the SpawnPoint where to spawn
+     */
     public void spawnPlayer(Player player, int indexPowCard, int x, int y) {
         player.setCel(x, y);
         player.setDead(false);
@@ -196,6 +277,10 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoSpawnPoint);
     }
 
+    /**
+     * Method to make a dead player spawn
+     * @param player is the dead player
+     */
     public void spawnDeadPlayer(Player player){
         PowCard powCard=player.getPowByIndex(player.getNumberPow()-1);
         int colorPowCard=powCard.getColor();
@@ -217,7 +302,11 @@ public class Match implements Serializable {
         player.setDead(false);
     }
 
-    //Method to assign powCard to player
+    /**
+     * Method to assign a PowCard to a player
+     * @param player is the player to whom assign the PowCard
+     * @throws MaxNumberofCardsException if the player already has three PowCards, the maximum number
+     */
     public void assignPowCard(Player player) throws MaxNumberofCardsException {
         PowCard powcard;
         powcard = (PowCard) powDeck.drawCard();
@@ -231,6 +320,12 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoPowCard);
     }
 
+    /**
+     * Method to assign a Weapon to a player
+     * @param player is the player to whom assign the Weapon
+     * @param indexWeapon is the index of weapon to choose in the SpawnPoint Cell
+     * @throws MaxNumberofCardsException if the player already has three weapons, the maximum number
+     */
     public void assignWeaponCard(Player player, int indexWeapon) throws MaxNumberofCardsException {
         SpawnPointCell cell;
         cell = (SpawnPointCell) player.getCel().inMap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
@@ -240,6 +335,11 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoWeaponCard);
     }
 
+    /**
+     * Method to assign Ammos to a player
+     * @param player is the player to whom assign the Ammos
+     * @throws CardAlreadyCollectedException if the card has already been collected by the player in the same turn at the previous action
+     */
     public void assignAmmo(Player player) throws CardAlreadyCollectedException {
         NormalCell cell;
         cell = (NormalCell) player.getCel().inMap(this.getDashboard(), player.getCel().getX(), player.getCel().getY());
@@ -256,12 +356,27 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoAmmo);
     }
 
+    /**
+     *
+     * @param player is the player to be set
+     * @param x is number of line of the cel
+     * @param y is number of column of the cel
+     */
     public void setPlayerCel(Player player, int x, int y) {
         player.setCel(x, y);
         Message infoSpawnPoint = new NewPosition(x, y);
         notifySpecificClient(player.getID(), infoSpawnPoint);
     }
     //TODO: @Angelica controlla questi tre metodi plis
+
+    /**
+     * Method to set the number of damages to a player
+     * @param playerAttacker is the player that attacks
+     * @param playerAttacked is the attacked player
+     * @param damage is the number of given damages
+     * @return
+     */
+    //TODO @DA Angelica: metodo è ok!
     public int setDamage(Player playerAttacker, Player playerAttacked, int damage) {
         int outcomeOfAttack;
         outcomeOfAttack=playerAttacked.setDamage(damage,playerAttacker.getColor());
@@ -269,13 +384,27 @@ public class Match implements Serializable {
         return outcomeOfAttack;
     }
 
+    /**
+     * Method to set the number of marks to a player
+     * @param playerAttacker is the player that attacks
+     * @param playerAttacked is the attacked player
+     * @param damage is the number of given damages
+     */
+    //TODO @DA Angelica: metodo è ok!
     public void setMarks(Player playerAttacker, Player playerAttacked, int damage) {
         playerAttacked.setMarks(damage,playerAttacker.getColor());
         //TODO: segnalo attacco ricevuto al Player e gli do l'esito dei marchi.
     }
 
+    /**
+     * Method to manage the death of a player
+     * @param playerKiller is the player that kills
+     * @param playerKilled is the killed player
+     * @param withRevenge is a boolean to say if there is the revenge mark or not
+     */
+    //TODO @DA Angelica: metodo è ok!
     public void playerDeath(Player playerKiller,Player playerKilled,boolean withRevenge){
-        //Aggiorno il tracciato mortale
+        //update KillShot Track
         if(withRevenge){
             getDashboard().setKillShotTrack(playerKiller, 2);
             playerKiller.setMarks(1,playerKilled.getColor());
@@ -283,15 +412,19 @@ public class Match implements Serializable {
         else{
             getDashboard().setKillShotTrack(playerKiller, 1);
         }
-        //Segno il Player morto
+        //Sign dead player
         playerKilled.setDead(true);
 
         //TODO Segnalo tutto al Player
 
     }
 
-    //Fine metodi da controllare
-    //returns player by color
+    /**
+     * Method to return player by color
+     * @param color is the int representing the color of the player
+     * @return the player
+     * @throws InvalidColorException if the int passed is not allowed
+     */
     public Player getPlayer(int color) throws InvalidColorException {
         for (Player p : this.players) {
             if (p.getColor() == color) {
@@ -301,7 +434,10 @@ public class Match implements Serializable {
         throw new InvalidColorException();
     }
 
-    //returns the active player
+    /**
+     * Method to return the active player
+     * @return the active player
+     */
     public Player getActivePlayer() {
         for (Player p : this.players) {
             if (p.getActive()) return p;
@@ -309,6 +445,11 @@ public class Match implements Serializable {
         return null;
     }
 
+    /**
+     *
+     * @param userID is the ID of the player requested
+     * @return the player with ID passed as a parameter
+     */
     public Player getPlayerByID(String userID) {
         for (Player player : this.players) {
             if (player.getID().equals(userID)) {
@@ -318,11 +459,18 @@ public class Match implements Serializable {
         return null;
     }
 
-    //Returns all the players on the match
+    /**
+     *
+     * @return all the players in the match
+     */
     public List<Player> getPlayers() {
         return this.players;
     }
 
+    /**
+     *
+     * @return all the players in the match that has no damages
+     */
     public List<Player> getNoDamagedPlayers() {
         List<Player> list = new ArrayList<>();
         for (Player p : this.players) {
@@ -331,25 +479,45 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @return the boolean checkDashboard to verify correct creation of the dashboard
+     */
     public boolean getCheck() {
         return this.checkDashboard;
     }
 
-    //returns player by index to check their ID
+    /**
+     * Method that returns player by index to check their ID
+     * @param index is the index of player
+     * @return player corresponding to the index
+     */
     public Player getPlayerByIndex(int index) {
         return this.players.get(index);
     }
 
+    /**
+     *
+     * @return number of players in the match (the size of the ArrayList containing the players)
+     */
     public int getPlayersSize() {
         return this.players.size();
     }
 
+    /**
+     *
+     * @return the dashboard of the match
+     */
     public Dashboard getDashboard() {
         return this.dashboard;
     }
 
     //TODO:Test
-    //Riaggiunge la carta Ammo dopo che è stata usata
+
+    /**
+     * Method to add again the card after it has been used
+     * @param cell is the normal cell in which to add the card
+     */
     public void addAmmoCard(NormalCell cell) {
         try {
             cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
@@ -359,26 +527,45 @@ public class Match implements Serializable {
 
     }
 
+    /**
+     * Method to add a weapon in the SpawnPoint Cell
+     * @param cell is the SpawnPoint Cell where to add the weapon
+     * @param index is the index in which to add the weapon
+     */
     public void addWeaponCard(SpawnPointCell cell, int index) {
         try {
             Weapon weapon = (Weapon) weaponDeck.drawCard();
             cell.addWeaponCard(weapon, index);              //TODO:controllare
+            //TODO:DA Angelica: è ok!
         } catch (FullCellException e) {
             //TODO
         }
     }
 
+    /**
+     *
+     * @param numberAmmo is the number of Ammos to remove to the active player
+     * @param ammo is the ammo color to remove
+     * @throws NotEnoughAmmosException
+     */
     public void removeAmmo(int numberAmmo, Ammo ammo) throws NotEnoughAmmosException {
         Player player = this.getActivePlayer();
         player.removeAmmo(numberAmmo, ammo);
     }
 
+    /**
+     * Method to set a weapon card
+     * @param cell is the SpawnPoint Cell in which to set the weapon
+     * @param index is the index in which to set the weapon
+     */
     public void setWeaponCard(SpawnPointCell cell, int index) {
         Weapon weapon = (Weapon) weaponDeck.drawCard();
         cell.setWeaponCard(weapon, index);
     }
 
-    //Metodo per controller che mescola i mazzi (per esempio a inizio partita)
+    /**
+     * Method for controller, to shuffle all decks at the start of the game
+     */
     public void shuffleAllDecks() {
         ammoDeck.shuffleStack();
         weaponDeck.shuffleStack();
@@ -386,10 +573,18 @@ public class Match implements Serializable {
     }
 
 
+    /**
+     * Method to discard a PowCard
+     * @param powCard to be discarded
+     */
     public void discardPowCard(PowCard powCard) {
         powDeck.discardCard(powCard);
     }
 
+    /**
+     * Method to discard a weapon
+     * @param weapon to be discarded
+     */
     public void discardWeaponCard(Weapon weapon) {
         weaponDeck.discardCard(weapon);
     }
@@ -398,7 +593,11 @@ public class Match implements Serializable {
 
     //---------------------------------Metodi utili per la Shoot------------------------------------------------------//
 
-    //returns all the players seen by the given player
+    /**
+     *
+     * @param player is the given player
+     * @return all the players seen by the given player
+     */
     public List<Player> getVisiblePlayers(Player player) {
         int x;
         int y;
@@ -478,11 +677,14 @@ public class Match implements Serializable {
         return visible;
     }
 
-    //Method that returns visible players by a port
+    /**
+     *
+     * @param player is the given player
+     * @param direction is the direction in which the player wants to watch
+     * @return visible players by the port in the given direction
+     */
     public List<Player> getVisiblePlayersByPort(Player player, int direction) {
         List<Player> visibleplayers = new ArrayList<>();
-        int x = player.getCel().getX();
-        int y = player.getCel().getY();
         //north
         if (direction == 0) {
             List<Coordinate> upcells = this.getUpCells(player.getCel());
@@ -547,7 +749,11 @@ public class Match implements Serializable {
         return visibleplayers;
     }
 
-    //Method to have players in a room
+    /**
+     *
+     * @param cell is the considered cell
+     * @return all the players that are in the same room of the given cell
+     */
     private List<Player> getRoomPlayers(Coordinate cell) {
         List<Player> roomplayers = new ArrayList<>();
         int x = cell.getX();
@@ -563,7 +769,11 @@ public class Match implements Serializable {
         return roomplayers;
     }
 
-    //returns the list of players in the same line of the given player
+    /**
+     *
+     * @param player is the given player
+     * @return the list of players in the same line of the given player
+     */
     public List<Player> getSameLinePlayers(Player player) {
         List<Player> list = new ArrayList<>();
         int x = player.getCel().getX(); //player line
@@ -576,6 +786,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @return the list of players in the same column of the given player
+     */
     public List<Player> getSameColumnPlayers(Player player) {
         List<Player> list = new ArrayList<>();
         int y = player.getCel().getY(); //player column
@@ -588,6 +803,12 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param player1 is the first considered player
+     * @param player2 is the second considered player
+     * @return the distance between the two players
+     */
     public int getPlayersMD(Player player1, Player player2) {
         int distance = -1;
         int x1;
@@ -606,6 +827,11 @@ public class Match implements Serializable {
         return distance;
     }
 
+    /**
+     *
+     * @param cell is the given cell (given as a coordinate)
+     * @return all the visible cells by the given cell
+     */
     public List<Coordinate> getVisibleCells(Coordinate cell) {
         int x;
         int y;
@@ -697,6 +923,11 @@ public class Match implements Serializable {
         return visible;
     }
 
+    /**
+     *
+     * @param cell is the given cell (as a coordinate)
+     * @return the cells on the same line of the given cell
+     */
     public List<Coordinate> getSameLineCells(Coordinate cell) {
         List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell column
@@ -710,6 +941,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell is the given cell (as a coordinate)
+     * @return the cells on the same column of the given cell
+     */
     public List<Coordinate> getSameColumnCells(Coordinate cell) {
         List<Coordinate> list = new ArrayList<>();
         int y = cell.getY(); //cell column
@@ -723,6 +959,12 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell1 is the first considered cell
+     * @param cell2 is the second considered cell
+     * @return is the distance between the two cells
+     */
     public int getCellsMD(Coordinate cell1, Coordinate cell2) {
         int distance;
         int x1;
@@ -739,6 +981,11 @@ public class Match implements Serializable {
         return distance;
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @return all the players at the right side of the given player
+     */
     public List<Player> getRightPlayers(Player player) {
         List<Player> list = new ArrayList<>();
         int x = player.getCel().getX(); //player line
@@ -751,6 +998,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @return all the players at the left side of the given player
+     */
     public List<Player> getLeftPlayers(Player player) {
         List<Player> list = new ArrayList<>();
         int x = player.getCel().getX(); //player line
@@ -763,6 +1015,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @return all the players over the given player
+     */
     public List<Player> getUpPlayers(Player player) {
         List<Player> list = new ArrayList<>();
         int y = player.getCel().getY(); //player column
@@ -775,6 +1032,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @return all the players under the given player
+     */
     public List<Player> getDownPlayers(Player player) {
         List<Player> list = new ArrayList<>();
         int y = player.getCel().getY(); //player column
@@ -787,6 +1049,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell is the given cell(as a coordinate)
+     * @return all the players in the given cell
+     */
     public List<Player> getSameCellsPlayers(Coordinate cell) {
         List<Player> list = new ArrayList<>();
         int xCell = cell.getX();
@@ -801,6 +1068,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell is the given cell(as a coordinate)
+     * @return all the cells under the given cell, as coordinates
+     */
     public List<Coordinate> getDownCells(Coordinate cell) {
         List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
@@ -815,6 +1087,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell is the given cell(as a coordinate)
+     * @return all the cells over the given cell, as coordinates
+     */
     public List<Coordinate> getUpCells(Coordinate cell) {
         List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
@@ -829,6 +1106,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell is the given cell(as a coordinate)
+     * @return all the cells at the left side of the given cell, as coordinates
+     */
     public List<Coordinate> getLeftCells(Coordinate cell) {
         List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
@@ -843,6 +1125,11 @@ public class Match implements Serializable {
         return list;
     }
 
+    /**
+     *
+     * @param cell is the given cell(as a coordinate)
+     * @return all the cells at the right side of the given cell, as coordinates
+     */
     public List<Coordinate> getRightCells(Coordinate cell) {
         List<Coordinate> list = new ArrayList<>();
         int x = cell.getX(); //cell line
