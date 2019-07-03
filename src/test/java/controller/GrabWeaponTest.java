@@ -129,47 +129,4 @@ public class GrabWeaponTest {
         assertEquals(1, player1.getAction());
 
     }
-
-    @Test
-    public void grab(){
-        grabweapon = new GrabWeapon();
-        player1.setCel(0,2);
-        player1.setActive();
-
-        Ammo redAmmo = new Ammo(0);
-        Ammo bluAmmo = new Ammo(1);
-        Ammo yellowAmmo = new Ammo(2);
-
-        try{
-            player1.addAmmo(redAmmo);
-            player1.addAmmo(redAmmo);
-            player1.addAmmo(bluAmmo);
-            player1.addAmmo(bluAmmo);
-            player1.addAmmo(yellowAmmo);
-            player1.addAmmo(yellowAmmo);
-        }
-        catch(MoreThanTreeAmmosException e){}
-
-        assertTrue(grabweapon.isValid(match, player1.getID()));
-        try{grabweapon.grabWeapon(match, player1, 0);}
-        catch(MaxNumberofCardsException e){}
-        try{
-            player1.addAmmo(redAmmo);
-            player1.addAmmo(redAmmo);
-            player1.addAmmo(bluAmmo);
-            player1.addAmmo(bluAmmo);
-            player1.addAmmo(yellowAmmo);
-            player1.addAmmo(yellowAmmo);
-        }
-        catch(MoreThanTreeAmmosException e){}
-        try{grabweapon.grabWeapon(match, player1, 1);}
-        catch(MaxNumberofCardsException e){}
-        SpawnPointCell cell = (SpawnPointCell)match.getDashboard().getMap(0, 2);
-        List<Weapon> weapons = cell.getSpawnPointCellWeapons();
-        for(int i=0; i<3; i++){
-            System.out.println(weapons.get(i).getName());
-            System.out.println(weapons.get(i).getCostToRecharge());
-            System.out.println(weapons.get(i).getCostToGrab());
-        }
-    }
 }

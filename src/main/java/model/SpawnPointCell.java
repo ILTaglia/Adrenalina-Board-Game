@@ -73,7 +73,7 @@ public class SpawnPointCell extends Cell {
      * @return the list of the weapons in the SpawnPoint Cell to allow the player to choose one of them
      */
     public List<Weapon> getSpawnPointCellWeapons(){
-        return new ArrayList<>(weaponsSpawnPoint);
+        return weaponsSpawnPoint;
     }
 
 }

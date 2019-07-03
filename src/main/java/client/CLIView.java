@@ -650,9 +650,21 @@ public class CLIView implements View {
         AmmoCard ammo = cell.getAmmoCard();
         if(ammo.getType()==1){printOut("With this AmmoCard you can collect a PowCard");}
         printOut("In the Cell at line "+x+" and column "+y+" there is an Ammo Card that contains: ");
-        for(int i=0; i<ammo.toString().length(); i++){
-            printOut("One "+getData.getColorFromInt(ammo.toString().charAt(i))+" ammo");
+        String price = ammo.toString();
+        int redprice=0;
+        int blueprice=0;
+        int yellowprice=0;
+        int k;
+        for(int i=0; i<price.length(); i++){
+            k=Character.getNumericValue(price.charAt(i));
+            if(k==0){redprice++;}
+            if(k==1){blueprice++;}
+            if(k==2){yellowprice++;}
         }
+        printOut(redprice+" red ammos");
+        printOut(blueprice+" blue ammos");
+        printOut(yellowprice+" yellow ammos");
+
     }
 
     /**
