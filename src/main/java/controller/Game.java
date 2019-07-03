@@ -588,16 +588,19 @@ public class Game{
         }
     }
 
-    public void usescope(int index)
+    public void useScope(int index, String userID)
     {
-        if(index<supportPow.getVictims().size()&&index>=0)
+        if(match.getActivePlayer().getID().equals(userID))
         {
-            match.getPlayer(supportPow.getVictims().get(index).getColor()).setDamage(1, supportPow.getAttacker().getColor());
+            if(index<supportPow.getVictims().size()&&index>=0)
+            {
+                match.getPlayer(supportPow.getVictims().get(index).getColor()).setDamage(1, supportPow.getAttacker().getColor());
+                nextStep();
+            }
         }
-        nextStep();
     }
 
-    public void usegranade(int index, String userID)
+    public void useGranade(int index, String userID)
     {
         if(index==1)
         {

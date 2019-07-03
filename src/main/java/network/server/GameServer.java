@@ -287,6 +287,16 @@ public class GameServer {
                 int intero = Integer.parseInt(requestMessage.getInfo());
                 userIDToGameRoom.get(requestMessage.getUserID()).getIndexShoot(requestMessage.getUserID(),intero);
             }
+            case "idScope":
+                {
+                    int intero = Integer.parseInt(requestMessage.getInfo());
+                    userIDToGameRoom.get(requestMessage.getUserID()).getScopeIndex(intero,requestMessage.getUserID());
+                }
+            case "idGranade":
+            {
+                int intero = Integer.parseInt(requestMessage.getInfo());
+                userIDToGameRoom.get(requestMessage.getUserID()).getGranadeIndex(intero,requestMessage.getUserID());
+            }
         }
     }
 

@@ -227,6 +227,16 @@ public class GameRoom {
         gameServer.sendMessageToID(userID,message);
     }
 
+    public void getScopeIndex(int index, String userID)
+    {
+        gameController.useScope(index,userID);
+    }
+
+    public void getGranadeIndex(int index, String userID)
+    {
+        gameController.useGranade(index,userID);
+    }
+
 
 
 
