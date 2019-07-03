@@ -54,4 +54,10 @@ public class SocketHandler implements ConnectionHandler {
         connectionEstablished=true;
     }
 
+    @Override
+    public void reConnectRequest(String userIDToReConnect) {
+        Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
+        client.sendMessage(reConnectRequest);
+    }
+
 }

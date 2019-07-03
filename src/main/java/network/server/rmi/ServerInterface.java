@@ -15,5 +15,7 @@ public interface ServerInterface extends Remote {
 
     void handleMessage(Message message) throws RemoteException;
 
+    void reConnectRequest(String userIDToReConnect, ClientInterface clientInterface)throws RemoteException;
+
     void newRegistrationToQueue(String username, ClientInterface clientInterface) throws UsernameAlreadyUsedException,RemoteException;
 }

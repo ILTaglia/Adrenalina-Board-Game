@@ -65,8 +65,7 @@ public class CLIView implements View {
         if(getData.askYesOrNo()) {
             printOut("Insert the userID you have been assigned at the start of the game:");
             String userIDToReConnect = getData.getName();
-            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
-            client.sendMessage(reConnectRequest);
+            client.reConnectRequest(userIDToReConnect);
         }
         else{
             printOut("Insert again the username you want to use:");

@@ -1,6 +1,5 @@
 package network.server.socket;
 
-import network.client.Client;
 import network.messages.Message;
 import network.server.ClientInterface;
 import network.server.GameServer;
@@ -65,7 +64,7 @@ public class GameSocketSvr extends Thread {
     }
 
     public boolean isPlayerDisconnected(String requestedUsername){
-        return gameServer.isPlayerDisconnected(requestedUsername);
+        return gameServer.hasPlayerDisconnected(requestedUsername);
     }
     public void handleMessage(Message message){
         gameServer.handleMessage(message);

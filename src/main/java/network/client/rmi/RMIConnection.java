@@ -4,7 +4,10 @@ package network.client.rmi;
 
 import network.client.Client;
 import network.messages.Message;
+import network.messages.ReConnectServerRequest;
 import network.server.ClientInterface;
+
+import static utils.Print.printOut;
 
 
 public class RMIConnection implements ClientInterface {
@@ -39,12 +42,13 @@ public class RMIConnection implements ClientInterface {
 
     @Override
     public void closeConnection() {
-
+        //Nothing to do in RMI, only connected flag set to false.
     }
 
     @Override
     public void requestToReconnect() {
-
+        Message reConnectRequest = new ReConnectServerRequest();
+        sendMessage(reConnectRequest);
     }
 
     @Override

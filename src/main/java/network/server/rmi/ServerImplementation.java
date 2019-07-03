@@ -2,6 +2,7 @@ package network.server.rmi;
 
 
 import exceptions.UsernameAlreadyUsedException;
+import network.client.Client;
 import network.messages.Message;
 import network.server.ClientInterface;
 import network.server.GameServer;
@@ -20,19 +21,25 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
     //Il metodo serve al Client a registrarsi al server, chiede lo username e la backend (clientInterface) da registrare sul Server per poter interagire con il Client
     @Override
     public void registerToQueue(String requestedUsername, ClientInterface clientInterface) throws UsernameAlreadyUsedException {
-        if(gameServer.isPlayerDisconnected(requestedUsername)){
+        if(gameServer.hasPlayerDisconnected(requestedUsername)){
             try {
                 clientInterface.requestToReconnect();
             } catch (RemoteException e) {
-
             }
         }
-        if (gameServer.isAlreadyInQueue(requestedUsername)){
+        else if (gameServer.isAlreadyInQueue(requestedUsername)){
             throw new UsernameAlreadyUsedException();
         }
         else{
             gameServer.addClientToWR(requestedUsername,clientInterface);
         }
+    }
+    @Override
+    public void reConnectRequest(String userIDToReConnect, ClientInterface clientInterface){
+        if(gameServer.checkUserID(userIDToReConnect)) {
+            gameServer.handleReConnect(userIDToReConnect, clientInterface);
+        }
+        else throw new RuntimeException();          //TODO
     }
 
     //Questo metodo è utile nel caso in cui un Player non voglia entrare in partita ma voglia iniziarne un'altra seppur con lo stesso username

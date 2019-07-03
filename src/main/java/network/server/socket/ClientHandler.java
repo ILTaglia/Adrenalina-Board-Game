@@ -29,7 +29,8 @@ public class ClientHandler implements Runnable, ClientInterface {
             this.streamOut = new ObjectOutputStream(this.clientSocket.getOutputStream());
             this.streamIn = new ObjectInputStream(this.clientSocket.getInputStream());
         }catch(IOException e){
-            System.out.println(e.getMessage());     //TODO:LOGGER
+            printOut("Problem starting socket, please re launch Server.");
+            printOut(e.getMessage());
         }
         this.connected=true;
     }
@@ -53,12 +54,12 @@ public class ClientHandler implements Runnable, ClientInterface {
                     if(server.isPlayerDisconnected(requestedUsername)) {
                         requestToReconnect();
                     }
-                    //Controllo Username in primis sulla queue, altrimenti restituisce subito errore e si chiede un nuovo username.
                     else if (server.isAlreadyInQueue(requestedUsername)) {
                         ConnectionError errorMessage = new ConnectionError("An other user has already this username in your Match, please change it");
                         sendMessage(errorMessage);
                         //Send error Message "An other user has already this username in your Match, please change it"
                     }
+                    //Controllo Username in primis sulla queue, altrimenti restituisce subito errore e si chiede un nuovo username.
                     else {
                         //Si può evitare di controllare partite già iniziate perchè il connectionHandler è univocamente collegato con ID.
                         server.addClientToWR(this, requestedUsername);
