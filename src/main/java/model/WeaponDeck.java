@@ -106,7 +106,50 @@ public class WeaponDeck extends Deck{
                             weaponArrayList.get(weaponArrayList.size()-1).addAttack(3,0,0,0,0);
                         }
                         else
+                        if(nextc=='c')
+                        {
                             weaponArrayList.get(weaponArrayList.size()-1).addAttack(4,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='n')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(5,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='w')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(6,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='a')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(7,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='k')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(8,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='r')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(9,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='t')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(10,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='l')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(11,0,0,0,0);
+                        }
+                        else
+                        if(nextc=='o')
+                        {
+                            weaponArrayList.get(weaponArrayList.size()-1).addAttack(12,0,0,0,0);
+                        }
 
                         CurrentState=4;
                         break;
