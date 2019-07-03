@@ -23,11 +23,9 @@ public class GrabAmmo extends Grab{
         if(!super.isValid(match,userID)){
             throw new NotYourTurnException();
         }
-        NormalCell cell = (NormalCell)match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY());
-        //int cardType=match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY()).getType();
+        int cardType=match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY()).getType();
         match.assignAmmo(match.getActivePlayer());
-        if(cell.getAmmoCard().toString().length()==2){
-        //if(1==cardType){        //cardType==1 if Card is AmmoPowTile
+        if(1==cardType){        //cardType==1 if Card is AmmoPowTile
             match.assignPowCard(match.getActivePlayer());
         }
         match.getActivePlayer().setAction();
