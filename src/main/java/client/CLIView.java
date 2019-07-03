@@ -732,7 +732,7 @@ public class CLIView implements View {
 
     /**
      * Method to get weapon card to attack
-     * @return teh weapon card to attack
+     * @return the weapon card to attack
      */
     @Override
     public int getWeaponCardtoAttack(){
@@ -749,9 +749,9 @@ public class CLIView implements View {
     public void showDirection(){
     printOut("Write the sequence of movements you want to do:");
         printOut("'N' for north");
-        printOut("'E' for east");
+        printOut("'E' for east (alias right ->)");
         printOut("'S' for south");
-        printOut("'W' for west");
+        printOut("'W' for west (alias left <-");
         printOut("'Stop' to terminate");
     }
 
@@ -818,7 +818,7 @@ public class CLIView implements View {
     @Override
     public void getGunIndex()
     {
-
+        showPlayerWeapons();
         printOut("Insert the index of the gun you would like to use:");
         int gunindex= getData.getInt(0,2);
         String index = Integer.toString(gunindex);
@@ -834,6 +834,7 @@ public class CLIView implements View {
     public void getSerieIndex()
     {
         printOut("Insert the index of the serie you would like to use:");
+        printOut("0 for basic effect of the weapon");
         int gunIndex= getData.getInt(0,1);
         String index = Integer.toString(gunIndex);
         Message message = new ShootIndexRequest(index,client.getUserID());
@@ -841,11 +842,12 @@ public class CLIView implements View {
     }
 
     /**
-     * Method to get player index
+     * Method to get victim player index
      */
     @Override
     public void getPlayerIndex()
     {
+        printMap();
         printOut("Insert the index of the Player you Would like to shoot to");
         int gunIndex= getData.getInt(0,5);
         String index = Integer.toString(gunIndex);
@@ -859,6 +861,7 @@ public class CLIView implements View {
     @Override
     public void getCellIndex()
     {
+        printMap();
         printOut("Insert the index of the Cell you would like to shoot to:");
         int gunIndex= getData.getInt(0,50);
         String index = Integer.toString(gunIndex);
