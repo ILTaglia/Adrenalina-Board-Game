@@ -84,6 +84,7 @@ public class GrabAmmoTest {
         assertEquals(2, player1.getAmmo(0));
         assertEquals(3, player1.getAmmo(1));
         assertEquals(1, player1.getAmmo(2));
+        assertEquals(0, player1.getNumberPow());
 
         destination.set(0, "E");
         try{run.movement(match, player1.getID(), destination, isMovementbeforeGrab, false);}
@@ -94,11 +95,13 @@ public class GrabAmmoTest {
         catch(MaxNumberofCardsException e){}
         catch(CardAlreadyCollectedException e){}
         catch(NotYourTurnException e){}
+        player1.setCel(0, 0);
+        NormalCell cell = (NormalCell)match.getDashboard().getMap(0, 0);
+        System.out.println(cell.getAmmoCard().toString());
         assertEquals(2, player1.getAction());
         assertEquals(3, player1.getAmmo(0));
         assertEquals(3, player1.getAmmo(1));
         assertEquals(1, player1.getAmmo(2));
-        assertEquals(2, player1.getNumberPow());
     }
 
     @Test

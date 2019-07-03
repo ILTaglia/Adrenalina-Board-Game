@@ -223,8 +223,8 @@ public class MatchTest {
         List<Weapon> afterGrabbingWeapons = c.getSpawnPointCellWeapons();
         //verifica che nella spawnpoint non ci sia più l'arma pescata dal player
         assertEquals(beforeGrabbingWeapons.get(0), afterGrabbingWeapons.get(0));
-        assertNotEquals(beforeGrabbingWeapons.get(1), afterGrabbingWeapons.get(1));
-        assertEquals(beforeGrabbingWeapons.get(1), player1.getWeaponByIndex(0));
+        assertNull(afterGrabbingWeapons.get(1));
+        //assertEquals(beforeGrabbingWeapons.get(1), player1.getWeaponByIndex(0));
         assertEquals(beforeGrabbingWeapons.get(2), afterGrabbingWeapons.get(2));
         assertEquals(1, player1.getNumberWeapon());
 
