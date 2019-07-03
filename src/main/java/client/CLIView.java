@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 
 import model.*;
 import network.messages.ReConnectClientRequest;
-import network.messages.SecondConnectionRequest;
 import network.messages.clientRequest.*;
 import network.messages.Message;
 import network.client.Client;
@@ -309,26 +308,7 @@ public class CLIView implements View {
                 map4[i][j]=s;
             }
         }
-        int line;
-        int column;
-        /*
-        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
-        for(int h=0; h<position.size(); h++){
-            line=position.get(h).getX();
-            column=position.get(h).getY();
-            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
-            else {
-                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
-                else{
-                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
-                    else {
-                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
-                        else map4[line][column] = "   "+h+"   ";
-                    }
-                }
-            }
-        }
-        */
+
         printOut(" _________________________________________________                 ");
         printOut("|      Blue      |       Blue     |     Blue      |                ");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");
@@ -372,26 +352,6 @@ public class CLIView implements View {
                 map4[i][j]=s;
             }
         }
-        int line;
-        int column;
-        /*
-        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
-        for(int h=0; h<position.size(); h++){
-            line=position.get(h).getX();
-            column=position.get(h).getY();
-            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
-            else {
-                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
-                else{
-                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
-                    else {
-                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
-                        else map4[line][column] = "   "+h+"   ";
-                    }
-                }
-            }
-        }
-        */
         printOut(" _________________________________________________________________ ");
         printOut("|      Blue      |       Blue     |     Blue      |   Green       |");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
@@ -435,26 +395,6 @@ public class CLIView implements View {
                 map4[i][j]=s;
             }
         }
-        int line;
-        int column;
-        /*
-        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
-        for(int h=0; h<position.size(); h++){
-            line=position.get(h).getX();
-            column=position.get(h).getY();
-            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
-            else {
-                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
-                else{
-                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
-                    else {
-                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
-                        else map4[line][column] = "   "+h+"   ";
-                    }
-                }
-            }
-        }
-        */
         printOut(" _________________________________________________________________ ");
         printOut("|      Red       |       Blue     |     Blue      |   Green       |");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
@@ -499,26 +439,6 @@ public class CLIView implements View {
                 map4[i][j]=s;
             }
         }
-        int line;
-        int column;
-        /*
-        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
-        for(int h=0; h<position.size(); h++){
-            line=position.get(h).getX();
-            column=position.get(h).getY();
-            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
-            else {
-                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
-                else{
-                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
-                    else {
-                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
-                        else map4[line][column] = "   "+h+"   ";
-                    }
-                }
-            }
-        }
-        */
         printOut(" _________________________________________________                 ");
         printOut("|      Red       |       Blue     |     Blue      |                ");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");

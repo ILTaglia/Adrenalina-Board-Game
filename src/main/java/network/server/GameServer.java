@@ -256,15 +256,14 @@ public class GameServer {
     //------------------------Metodi usati per la gestione dei messaggi in ingresso-----------------------------------//
 
     public synchronized void handleMessage(Message message) {
-        switch(message.getType()) {
-            case "clientRequest":
-                ClientRequestMessage requestMessage=(ClientRequestMessage) message;
-                handleRequest(requestMessage);
-                break;
+        if ("clientRequest".equals(message.getType())) {
+            ClientRequestMessage requestMessage = (ClientRequestMessage) message;
+            handleRequest(requestMessage);
         }
     }
 
     private void handleRequest(ClientRequestMessage requestMessage) {
+        int intero;
         switch(requestMessage.getContent()){
             case "ColorRequest":
                 userIDToGameRoom.get(requestMessage.getUserID()).registerPlayerColor(requestMessage.getUserID(),requestMessage.getInfo());
@@ -298,25 +297,24 @@ public class GameServer {
                 userIDToGameRoom.get(requestMessage.getUserID()).discardPowCard(requestMessage.getUserID(),Integer.parseInt(requestMessage.getInfo()));
                 break;
             case "shootingIndexRequest":
-            {
-                int intero = Integer.parseInt(requestMessage.getInfo());
+                intero = Integer.parseInt(requestMessage.getInfo());
                 userIDToGameRoom.get(requestMessage.getUserID()).getIndexShoot(requestMessage.getUserID(),intero);
-            }
+                break;
             case "muxIndex":
-            {
-                int intero = Integer.parseInt(requestMessage.getInfo());
+                intero = Integer.parseInt(requestMessage.getInfo());
                 userIDToGameRoom.get(requestMessage.getUserID()).getIndexShoot(requestMessage.getUserID(),intero);
-            }
+                break;
             case "idScope":
-                {
-                    int intero = Integer.parseInt(requestMessage.getInfo());
-                    userIDToGameRoom.get(requestMessage.getUserID()).getScopeIndex(intero,requestMessage.getUserID());
-                }
+                intero = Integer.parseInt(requestMessage.getInfo());
+                userIDToGameRoom.get(requestMessage.getUserID()).getScopeIndex(intero,requestMessage.getUserID());
+                break;
             case "idGranade":
-            {
-                int intero = Integer.parseInt(requestMessage.getInfo());
+                intero = Integer.parseInt(requestMessage.getInfo());
                 userIDToGameRoom.get(requestMessage.getUserID()).getGranadeIndex(intero,requestMessage.getUserID());
-            }
+                break;
+
+            //TODO @Daniele, non lasciare "intero", scrivi cosa fa.
+
         }
     }
 

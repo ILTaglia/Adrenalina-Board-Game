@@ -12,4 +12,5 @@ public class Print {
     public static void printOut(int intToPrint){
         streamPrint.println(intToPrint);
     }
+    public static void printMapSpace(){printOut("        ");}
 }
