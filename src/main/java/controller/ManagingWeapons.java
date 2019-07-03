@@ -10,18 +10,34 @@ import model.Match;
 import java.util.List;
 
 public class ManagingWeapons {
-
+    /**
+     * Class to manage weapons and pows
+     */
     private Match match;
 
+    /**
+     *
+     * @param match is the match
+     */
     public ManagingWeapons(Match match){
         this.match=match;
     }
 
+    /**
+     *
+     * @param player is the active player
+     * @param indexWeapon is the weapon to recharge
+     * @throws WeaponAlreadyLoadedException
+     */
     public void recharge(Player player, int indexWeapon)throws WeaponAlreadyLoadedException{
         Weapon weapon = player.getWeaponByIndex(indexWeapon);
         weapon.recharge();
     }
-
+    /**
+     *
+     * @param player is the active player
+     * @param indexWeapon is the index of weapon to discard
+     */
     public void discardWeapon(Player player, int indexWeapon){
         Weapon weapon = player.getWeaponByIndex(indexWeapon);
         try {
@@ -29,11 +45,14 @@ public class ManagingWeapons {
             match.discardWeaponCard(weapon);
         }
         catch(ZeroCardsOwnedException | NotOwnedCardException e){
-            //TODO: ragionare su eventuale modifica alle eccezioni!
-            //Potrei rilanciare eccezioni verso l'alto e mandare un messaggio all'utente con un errore.
         }
     }
 
+    /**
+     *
+     * @param player is the active player
+     * @param indexPowCard is the index of PowCard to discard
+     */
     public void discardPowCard(Player player, int indexPowCard){
         PowCard powcard = player.getPowByIndex(indexPowCard);
         try{
@@ -41,12 +60,16 @@ public class ManagingWeapons {
             match.discardPowCard(powcard);
         }
         catch(ZeroCardsOwnedException | NotOwnedCardException e){
-            //TODO: ragionare su eventuale modifica alle eccezioni!
-            //Potrei rilanciare eccezioni verso l'alto e mandare un messaggio all'utente con un errore.
         }
 
     }
 
+    /**
+     *
+     * @param player is the active player
+     * @param weaponToGrabCost is the price of the weapon to grab
+     * @return true if the player has enough ammos to grab, 0 otherwise
+     */
     public boolean areEnoughAmmoToGrabWeapon(Player player, List<Integer> weaponToGrabCost){
         for(int i=0; i<weaponToGrabCost.size(); i++){
             if(weaponToGrabCost.get(i)>player.getAmmo(i)) return false;
@@ -54,6 +77,12 @@ public class ManagingWeapons {
         return true;
     }
 
+    /**
+     *
+     * @param player is the active player
+     * @param extraCost is teh price to unlock extra functions
+     * @return true if the player has enough ammos to unlock extra functions, 0 otherwise
+     */
     public boolean unlockExtraFunction(Player player, List<Integer> extraCost)
     {
         if(!areEnoughAmmoToGrabWeapon(player,extraCost))
@@ -76,6 +105,14 @@ public class ManagingWeapons {
     }
 
     //Method to convert a powcard in case you don't have enough ammos
+
+    /**
+     *
+     * @param player is the active player
+     * @param weaponToGrabCost is the price of the weapon to grab
+     * @param indexPowCard is the index of the PowCard to use to pay
+     * @throws NotEnoughAmmosException if even using the PowCard the player doesn't have enough ammos to buy
+     */
     public void convertPowToGrab(Player player, List<Integer> weaponToGrabCost, int indexPowCard)throws NotEnoughAmmosException {
         int color = player.getPowByIndex(indexPowCard).getColor();      //color of the powcard
         /*The control that using the PowCard the number of Ammos is enough to but the WeaponCard is done before converting
@@ -100,55 +137,4 @@ public class ManagingWeapons {
             throw new NotEnoughAmmosException();           //lancio eccezione così il Controller non procederà ulteriormente
         }
     }
-
-
-
-    /*
-        if(color==0){
-            if(player.getAmmo(0)+1==weaponCost.get(0)){
-                removing.Remove(player, indexPowCard);
-                ammo = new Ammo(0);
-                try{
-                    player.addAmmo(ammo);
-                } catch(MoreThanTreeAmmosException e){return;} //Exception never verified because of the control of validity
-                try{
-                    GrabWeapon grabWeapon = new GrabWeapon();
-                    grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                    return;
-                } catch(MaxNumberofCardsException ex){return;}
-            }
-        }
-        //TODO finire il codice, devi aggiungere un ammo per rendere lecito l'acquisto, altrimenti la grab non ti compra l'arma
-        if(color==1){
-            if(player.getAmmo(1)+1==weaponCost.get(1)){
-                removing.Remove(player, indexPowCard);
-                ammo = new Ammo(1);
-                try{
-                    player.addAmmo(ammo);
-                } catch(MoreThanTreeAmmosException e){return;} //Exception never verified because of the control of validity
-                try{
-
-                    GrabWeapon grabWeapon = new GrabWeapon();
-                    grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                    return;
-                } catch(MaxNumberofCardsException ex){return;}
-            }
-        }
-        if(color==2){
-            if(player.getAmmo(2)+1==weaponCost.get(2)){
-                removing.Remove(player, indexPowCard);
-                ammo = new Ammo(2);
-                try{
-                    player.addAmmo(ammo);
-                } catch(MoreThanTreeAmmosException e){return;} //Exception never verified because of the control of validity
-                try{
-                    GrabWeapon grabWeapon = new GrabWeapon();
-                    grabWeapon.grabWeapon(match, match.getActivePlayer(), weapontograb);
-                    return;
-                } catch(MaxNumberofCardsException ex){return;}
-            }
-        }
-        throw new NotEnoughAmmosException();
-        */
-
 }

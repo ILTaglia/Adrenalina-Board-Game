@@ -6,6 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OfficialShootVersion {
+    /**
+     * match is the match where the attack is performed
+     * player is the attacker
+     * weapon is the gun used to attack
+     * lista is the list of index of all the typeplayer number possibles for all the type-attack of the card chosen
+     * type is the type of attack chosen by the player
+     * attacks is the list of attacks with the same typeplayer index given by the player
+     * flagfirstattack is a flag indicating if I have performed the first attack, it is useful because the first attack is obligate
+     * actualattack is the attack I am going to perform at the moment
+     * firstattacksettedflag is a flag indicating if i have loaded all the info of the first attack on the structure
+     *
+     */
     private ShootManagement shootManagement;
     private CreateListAttackable createListAttackable;
     private Match match;
@@ -20,6 +32,16 @@ public class OfficialShootVersion {
 
     //########  ATTACK INFO #########
 
+    /**
+     * typeTarget is a number that define if the attack is a cell one or a player one (1,2)
+     * typeattack is has to be the same index of variable type, if not there have been errors
+     * extra is the list of extra payment needed for that attack
+     * distance is the distance field of the attack class
+     * moveme is the max number of steps the player who attack can perform
+     * moveyou is the number of steps the attacked can perform after the attack
+     * typeattack is has to be the same index of variable type, if not there have been errors
+     * listofeffect contains the list of all the effects i have with that attack
+     */
     private int typeTarget;
     private List <Integer> extra;
     private int distance;
@@ -30,6 +52,12 @@ public class OfficialShootVersion {
 
     //########  END ATTACK INFO #########
 
+    /**
+     *attackableplayers is a list of attackable players
+     * attackablecells is a list of attackable cells
+     * victimplayer is the victim of the attack
+     * victimcell is the victim of the attack
+     */
     private List<Player> attackableplayers;
     private List<Coordinate> attackablecells;
     private Player victimplayer;
@@ -37,6 +65,11 @@ public class OfficialShootVersion {
 
 
     //########  EFFECT INFO #########
+    /**
+     * currenteffect is the effect I am performing just now
+     * Ideffect is an integer that indicate what effect it is
+     * damages is the list of all the damage for the current effect
+     */
     private Effect currenteffect;
     private int Ideffect;
     private List <Damage> damages;
@@ -61,6 +94,10 @@ public class OfficialShootVersion {
     *
     *
     * */
+    /**
+     * status is the status i have in the game class, is needed to know what i have to do every time the user give us an index
+     * attackmethod is an integer that indicates the type of attack, it is used to kno the exact sequence of attack step i have to do
+     */
     private int status;
 
 
@@ -90,6 +127,11 @@ public class OfficialShootVersion {
     //##        INITIALIZE LIST                #####
     //############################################
 
+    /**
+     *
+     * @param match is the match
+     * @param player is the player
+     */
     public OfficialShootVersion(Match match, Player player)
     {
         this.createListAttackable=new CreateListAttackable();
@@ -130,6 +172,11 @@ public class OfficialShootVersion {
     //############################################
     //##        CHECK PLAYER IN MATCH        #####
     //############################################
+
+    /**
+     * Method to check player in match
+     * @return true or false if the player is in the match or not
+     */
     public boolean checkplayer()
     {
         if(match.getPlayers().contains(this.player))
@@ -147,8 +194,10 @@ public class OfficialShootVersion {
     //##        GENERATE LIST OF GUNS         #####
     //############################################
 
-
-    //genero la lista delle armi e la restituisco. sta poi a chi le riceve verificare la scelta dell'arma
+    /**
+     *
+     * @return the list of weapons to verify the choice of the weapon
+     */
     public List<Weapon> getguns()
     {
         return this.player.getWeapons();
@@ -158,6 +207,11 @@ public class OfficialShootVersion {
     //##        SELECT WEAPON               #####
     //############################################
 
+    /**
+     *
+     * @param weapon is the weapon
+     * @return true is the player owns the weapon, 0 otherwise
+     */
     public boolean chooseweapon(Weapon weapon)
     {
         if(this.player.getWeapons().contains(weapon))  //TODO E VERIFICARE CHE SIA CARICA
@@ -173,6 +227,10 @@ public class OfficialShootVersion {
     //##        SHOW PRESENT TYPES           #####
     //############################################
 
+    /**
+     *
+     * @return a list of the type of the attacks
+     */
     public List<Integer> gettypes()
     {
         List <Integer> lista= new ArrayList<Integer>();
@@ -192,6 +250,11 @@ public class OfficialShootVersion {
     //##        SELECT TYPE SERIE           #####
     //############################################
 
+    /**
+     *
+     * @param type is the type to be set
+     * @return true if lista contains type, 0 otherwise
+     */
     public boolean settype(int type)
     {
         if(this.lista.contains(type))
@@ -207,9 +270,13 @@ public class OfficialShootVersion {
     //##        GENERATE TYPE ATTACK LIST    #####
     //############################################
 
+    /**
+     *
+     * @return a list of the type of attack generated
+     */
     public List <TypeAttack> generateattacks()
     {
-        List <TypeAttack> listaattacchi = new ArrayList<TypeAttack>();
+        List <TypeAttack> listaattacchi = new ArrayList<>();
         for(int i=0;i<this.weapon.getNumberAttack();i++)
         {
             if(this.weapon.getAttack(i).getTypePlayer()==this.type)
@@ -225,6 +292,9 @@ public class OfficialShootVersion {
     //##        AUTOSELECT FIRST ATTACK      #####
     //############################################
 
+    /**
+     * Select first attack
+     */
     public void setfirstattack()
     {
         this.actualattack=this.attacks.get(0);
@@ -239,6 +309,9 @@ public class OfficialShootVersion {
     //##        SELECT OTHERS ATTACKS ATTACK      #####
     //############################################
 
+    /**
+     * Select others attacks
+     */
     public void setsuccessiveattack()
     {
         this.actualattack=this.attacks.get(0);
@@ -250,6 +323,11 @@ public class OfficialShootVersion {
     //############################################
     //##        PAYMENT FOR EXTRAS   #####
     //############################################
+
+    /**
+     *
+     * @return true if extra functions are allowed (player has enough ammos to unlock), 0 otherwise
+     */
     public boolean payextra()
     {
         ManagingWeapons manage=new ManagingWeapons(this.match);
@@ -262,6 +340,9 @@ public class OfficialShootVersion {
     //##        LOAD ATTACK INFO              #####
     //############################################
 
+    /**
+     * Method to load info
+     */
     public void loadinfo()
     {
         this.extra=this.actualattack.getExtras();
@@ -281,9 +362,11 @@ public class OfficialShootVersion {
         //##        ATTACK LAUNCHER              #####
         //############################################
 
-        //This will start the attack defining the type of the attack and calling the correct method for that attack
         //Al termine verifica se era nel primo attacco, nel caso aggiorna i flag
 
+    /**
+     * Method to start the attack defining the type of the attack and calling the correct method for that attack
+     */
     public void attacklauncher()
     {
         if(payextra()) //Caso pagamento riuscito
@@ -322,8 +405,9 @@ public class OfficialShootVersion {
     //Subito dopo elabora la lista di giocatori e celle attaccabili
     //Avvia i metodi di esecuzione effetti finchè ce ne siano   ->No, rinviato a livello superiore perchè l'utente può scegliere quando fermarsi
 
-
-
+    /**
+     * Method for standard attack
+     */
     public void standardattack()
     {
         if(this.moveme!=0)
@@ -338,6 +422,10 @@ public class OfficialShootVersion {
     //##        INFO ABOUT TYPE OF ATTACK     #####
     //############################################
 
+    /**
+     *
+     * @return type of attack
+     */
     public int getTypeAttack()
     {
         return this.typeattack;
@@ -351,6 +439,11 @@ public class OfficialShootVersion {
     //##        RUN MOVEMENT                 #####
     //############################################
 
+    /**
+     *
+     * @param persontomove is the enemy to move
+     * @param maxnumbermovement is the max number of steps the enemy can be moved
+     */
     public void run(Player persontomove, int maxnumbermovement)
     {
         //TODO INTERFACCIARLO CON MOVEMENT
@@ -363,6 +456,10 @@ public class OfficialShootVersion {
     //##        CREATE LIST ATTACKABLE        #####
     //############################################
 
+    /**
+     *
+     * @param viewer is the player
+     */
     public void generatelistattackable(Player viewer)
     {
         createListAttackable.createlist(this.match,this.actualattack,viewer);
@@ -379,6 +476,11 @@ public class OfficialShootVersion {
     //##        RETURNING CHOSEN LIST OF ATTACKABLE PLAYERS/CELLS#####
     //############################################
 
+    /**
+     *
+     * @param type is the required type
+     * @return the list of attackable according to the type
+     */
     public List getlistattackable(int type)
     {
         if(type==1)
@@ -392,6 +494,10 @@ public class OfficialShootVersion {
     //##        LOADING INFO CURRENT EFFECT   #####
     //############################################
 
+    /**
+     *
+     * @return a boolean checking the size of the list effect
+     */
     public boolean loadeffect()
     {
         if(this.listofeffect.size()==0)
@@ -419,6 +525,10 @@ public class OfficialShootVersion {
     // 1 player
     // 2 cella
 
+    /**
+     *
+     * @return the type of target
+     */
     public int getTypeTarget()
     {
         return this.typeTarget;
@@ -433,6 +543,11 @@ public class OfficialShootVersion {
 
     //Setta e attacca il player
 
+    /**
+     *
+     * @param victim is the player victim
+     * @return a boolean according to the victim player
+     */
     public boolean setvictimplayer(Player victim)
     {
         int flag=0;
@@ -466,8 +581,11 @@ public class OfficialShootVersion {
     //##        SETTING CELL TO ATTACK       #####
     //############################################
 
-    //Setta e attacca la cella
-
+    /**
+     *
+     * @param victim is the victim cell
+     * @return a boolean according to the victim cell
+     */
     public boolean setvictimcell(Coordinate victim)
     {
         int flag=0;
@@ -493,6 +611,10 @@ public class OfficialShootVersion {
     //##        METODI DI CONTROLLO       #####
     //############################################
 
+    /**
+     *
+     * @return a boolean after checking
+     */
     public boolean checkotherattacks()
     {
         if(this.attacks.size()!=0)
@@ -505,6 +627,10 @@ public class OfficialShootVersion {
         }
     }
 
+    /**
+     *
+     * @return a boolean after checking
+     */
     public boolean checkothereffects()
     {
         if(this.listofeffect.size()!=0)
@@ -525,46 +651,82 @@ public class OfficialShootVersion {
     //##        METODI DI GET E SET          #####
     //############################################
 
+    /**
+     *
+     * @return moveme
+     */
     public int getmoveme()
     {
         return this.moveme;
     }
 
+    /**
+     *
+     * @return moveyou
+     */
     public int getMoveyou()
     {
         return this.moveyou;
     }
 
+    /**
+     *
+     * @return the player
+     */
     public Player getPlayer()
     {
         return this.player;
     }
 
+    /**
+     *
+     * @return the flag of the first attack
+     */
     public int getFlagfirstattack()
     {
         return this.flagfirstattack;
     }
 
+    /**
+     *
+     * @param i is the flag of the first attack to set
+     */
     public void setFlagfirstattack(int i)
     {
         this.flagfirstattack=i;
     }
 
+    /**
+     *
+     * @return status
+     */
     public int getStatus()
     {
         return this.status;
     }
 
+    /**
+     *
+     * @param status is status to be set
+     */
     public void setstatus(int status)
     {
         this.status=status;
     }
 
+    /**
+     *
+     * @return attackmethod
+     */
     public int getAttackmethod()
     {
         return this.attackmethod;
     }
 
+    /**
+     *
+     * @param method is attackmethod to be set
+     */
     public void setAttackmethod(int method)
     {
         this.attackmethod=method;
@@ -574,6 +736,11 @@ public class OfficialShootVersion {
 
     //----------------------------Metodi utili per gestione attackable----------------------------------------------------------//
 
+    /**
+     *
+     * @param direction is teh direction of shoot to be set
+     * @return true if the direction is valid, false otherwise
+     */
     public boolean setdirectiontoshoot(int direction)
     {
         if(direction>=0&&direction<=3)
@@ -587,6 +754,10 @@ public class OfficialShootVersion {
         }
     }
 
+    /**
+     *
+     * @param viewer is the player
+     */
     public void setviewer(Player viewer)
     {
         this.createListAttackable.setViewer(viewer);

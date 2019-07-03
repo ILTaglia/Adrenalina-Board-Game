@@ -6,12 +6,18 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class CreateListAttackable {
+    /**
+     * attackableplayers is the list of players that I can attack using the tipeattack given
+     * attackablecells is the list of cells that I can attack using the tipeattack given
+     * direction is the direction chosen by the player in case I can attack only in one direction
+     * residualmovement is the number of movement I have, starting from the total number given by the card
+     * viewer is the player ftom who I have to start elaborating the lists of attackables, it indicates where the attacks starts from
+     */
     private List<Player> attackableplayers;
     private List<Coordinate> attackablecells;
     private int direction;
     private int residualmovement;
     private Player viewer;
-
     public CreateListAttackable()
     {
         attackablecells= new ArrayList<Coordinate>();
@@ -20,17 +26,27 @@ public class CreateListAttackable {
         residualmovement=0;
         viewer=null;
     }
-
+    /**
+     *
+     * @param viewer to be set
+     */
     public void setViewer(Player viewer)
     {
         this.viewer=viewer;
     }
-
+    /**
+     *
+     * @param direction to be set
+     */
     public void setDirection(int direction)
     {
         this.direction=direction;
     }
-
+    /**
+     *
+     * @param direction is the required direction
+     * @param movement is the number of movements
+     */
     public CreateListAttackable(int direction, int movement)
     {
         attackablecells= new ArrayList<Coordinate>();
@@ -39,19 +55,29 @@ public class CreateListAttackable {
         this.residualmovement=movement;
         this.viewer=null;
     }
-
-
+    /**
+     *
+     * @return the list of attackable players
+     */
     public List<Player> getAttackableplayers()
     {
         return this.attackableplayers;
     }
 
+    /**
+     *
+     * @return the list of attackable cells
+     */
     public List<Coordinate> getAttackablecells()
     {
         return this.attackablecells;
     }
-
-
+    /**
+     *
+     * @param match is the match
+     * @param attack is the type of attack
+     * @param player1 is the given player
+     */
     public void createlist(Match match, TypeAttack attack, Player player1)
     {
         this.attackableplayers= new ArrayList<Player>();
@@ -366,6 +392,11 @@ public class CreateListAttackable {
     }
 
 
+    /**
+     *
+     * @param effective is the list of players
+     * @param tocancel is the list of players to remove from the effective list
+     */
     private void reciclebeenp (List<Player> effective, List<Player> tocancel)
     {
         for(Player p : tocancel)
@@ -375,6 +406,11 @@ public class CreateListAttackable {
         tocancel= new ArrayList<Player>();
     }
 
+    /**
+     *
+     * @param effective is the list of coordinates
+     * @param tocancel is the list of coordinates to remove from the effective list
+     */
     private void reciclebeenc(List<Coordinate> effective, List<Coordinate> tocancel)
     {
         for(Coordinate c : tocancel)

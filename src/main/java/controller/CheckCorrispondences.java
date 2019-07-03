@@ -8,11 +8,12 @@ import java.util.ArrayList;
 
 public class CheckCorrispondences {
     /**
-     *
+     *check the corrispondence between the id of the effect and the id of the player using the list given
+     * by the SupportManagement
      * @param player is the given player
-     * @param ID
-     * @param lista
-     * @return
+     * @param ID is the ID of the effect
+     * @param lista is a given list
+     * @return a list containing the correspondences
      */
     public List<List> checkID(Player player, int ID, List<Player> lista)
     {
@@ -68,7 +69,14 @@ public class CheckCorrispondences {
                 return risultato;
     }
 
-
+    /**
+     * check the corrispondence between the id of the effect and the id of the cells using the list given
+     * by the SupportManagement
+     * @param cell is the given cell
+     * @param ID is teh ID of the effect
+     * @param lista is a given list
+     * @return a list containing the correspondences
+     */
     public List<List> checkID(Coordinate cell, int ID, List<Coordinate> lista)
     {
         List<List> risultato= new ArrayList<List>();

@@ -7,9 +7,17 @@ import model.Match;
 import java.util.List;
 
 public class FinalFrenzy {
+    /**
+     * playerbeforethefirst an afterthefirst to distinguish the rules of the game
+     */
     private List<Player> playersBeforetheFirst;
     private List<Player> playersAftertheFirst;
 
+    /**
+     *
+     * @param match is the match
+     * @param activatingPlayerColor is the player that activates frienzy
+     */
     public FinalFrenzy(Match match, int activatingPlayerColor){
         List<Player> allPLayers = match.getPlayers();
         Player pl = match.getPlayer(activatingPlayerColor);
@@ -33,6 +41,16 @@ public class FinalFrenzy {
     //TODO prima di questo bisogna incassare. Nel controller bisogna chiamare la calculate score una prima
     //TODO volta, questa poi creerà la frenesia finale se giunti a fine gioco.
 
+    /**
+     *
+     * @param match is the match
+     * @param playerslist is the list of players built after the end of game (turn can be stopped in the middle)
+     * @param player is the player
+     * @param destination is the destination where to go
+     * @throws InvalidDirectionException if the direction is not allowed
+     * @throws ActionNotAllowedException if teh action is not allowed
+     * @throws NotYourTurnException if it is not that player's turn
+     */
     public void runInFrenzy(Match match, List<Player> playerslist, Player player, List<String> destination) throws InvalidDirectionException, ActionNotAllowedException, NotYourTurnException {
         if(playerslist.contains(player) && playerslist.equals(this.playersBeforetheFirst)){
             if(destination.size()<=4){
@@ -42,17 +60,40 @@ public class FinalFrenzy {
         }
     }
 
+    /**
+     *
+     * @param match is the match
+     * @param player is the player
+     * @throws MaxNumberofCardsException if the player already has three cards
+     * @throws CardAlreadyCollectedException if the card has already been collected the previous action in the turn of the same player
+     * @throws NotYourTurnException if it is not that player's turn
+     */
     public void grabAmmoInFrenzy(Match match, Player player) throws MaxNumberofCardsException, CardAlreadyCollectedException, NotYourTurnException {
         GrabAmmo grabAmmo = new GrabAmmo();
         grabAmmo.grabAmmo(match, player.getID());
     }
 
+    /**
+     *
+     * @param match is the match
+     * @param player is teh player
+     * @param indexWeapon is teh index of weapon to grab
+     * @throws MaxNumberofCardsException if the player already has three cards
+     */
     public void grabWeaponInFrenzy(Match match, Player player, int indexWeapon) throws MaxNumberofCardsException{
         GrabWeapon grabWeapon = new GrabWeapon();
         grabWeapon.grabWeapon(match, player, indexWeapon);
     }
 
     //CHECK IS GRABBING AMMO IN FRENzY IS VALID FOR BOTH CATEGORIES
+
+    /**
+     *
+     * @param match is the match
+     * @param player is the player
+     * @param destination is the destination
+     * @return boolean for validity
+     */
     public boolean grabAmmoIsValidInFrenzy(Match match, Player player, List<String> destination){
         if (!(playersBeforetheFirst.contains(player) && destination.size()<=2)) return false;
         if (!(playersAftertheFirst.contains(player) && destination.size()<=3)) return false;
@@ -65,10 +106,20 @@ public class FinalFrenzy {
         }
     }
 
+    /**
+     * Method to shoot in frenzy
+     */
     public void shootInFrenzy(){
         //TODO da completare
     }
 
+    /**
+     *
+     * @param match is match
+     * @param player is player
+     * @param destination is destination
+     * @return boolean for validity
+     */
     public boolean shootIsValidInFrenzy(Match match, Player player, List<String> destination){
         if (!(playersBeforetheFirst.contains(player) && destination.size()<=1)) return false;
         if (!(playersAftertheFirst.contains(player) && destination.size()<=2)) return false;

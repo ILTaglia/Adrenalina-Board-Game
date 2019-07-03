@@ -27,8 +27,8 @@ public abstract class Action {
     }
     /**
      * Method to check validity of actions
-     * @param match is teh match
-     * @param userID is teh ID of the player
+     * @param match is the match
+     * @param userID is the ID of the player
      * @return true is the player with the given ID is active, false otherwise
      */
     public boolean isValid(Match match,String userID) {
