@@ -23,7 +23,7 @@ public class Granade extends PowCard{
     {
         this.color=color;
         this.cost=cost;
-        this.moveme=0;
+        this.moveme=moveme;
 
     }
     /**

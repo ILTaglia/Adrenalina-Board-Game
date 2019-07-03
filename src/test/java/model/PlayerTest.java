@@ -144,7 +144,7 @@ class PlayerTest {
         assertEquals(-1, player1.getMarks(player1.getColor()));
 
         //verify nothing changed
-        player1.setMarks(2, player1.getColor());
+        assertThrows(InvalidColorException.class, () -> player1.setMarks(2, player1.getColor()));
         assertEquals(3, player1.getMarks(player2.getColor()));
         assertEquals(-1, player1.getMarks(player1.getColor()));
     }
@@ -167,7 +167,7 @@ class PlayerTest {
         assertEquals(-1, player1.getMarks(player1.getColor()));
 
         //verify nothing changed
-        player1.setMarks(2, player1.getColor());
+        assertThrows(InvalidColorException.class, () -> player1.setMarks(2, player1.getColor()));
         assertEquals(3, player1.getMarks(player2.getColor()));
         assertEquals(-1, player1.getMarks(player1.getColor()));
 

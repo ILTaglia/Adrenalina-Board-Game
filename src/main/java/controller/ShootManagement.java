@@ -160,6 +160,7 @@ public class ShootManagement {
         if(damage.getType()==0) //Caso in cui ho un danno di tipo vita
         {
             marksOfAttacker=playerAttacked.getMarks(playerAttacker.getColor());
+            playerAttacked.resetMarks(playerAttacker.getColor());
             outcomeOfAttack=match.setDamage(playerAttacker,playerAttacked,damage.getdamage()+marksOfAttacker);
             if(outcomeOfAttack==0){
                 //Nothing to do, the attack was successful but no kill.

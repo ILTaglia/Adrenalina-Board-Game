@@ -241,9 +241,15 @@ public class Player implements Serializable {
     public int getMarks(int colorOfWhoMarked){
         if(colorOfWhoMarked==this.getColor()) return -1; //not self made marks
         /*Attention! You could test that for every player in the position this.color() you have zero for marks and damages*/
-        int numberOfMarks=marks.get(colorOfWhoMarked);
+        return marks.get(colorOfWhoMarked);
+    }
+
+    /**
+     *
+     * @param colorOfWhoMarked is the color of the enemy player to be reset
+     */
+    public void resetMarks(int colorOfWhoMarked){
         marks.set(colorOfWhoMarked,0);
-        return numberOfMarks;
     }
 
     /**
@@ -266,7 +272,7 @@ public class Player implements Serializable {
      * @return number of ammo of color c
      * @throws InvalidColorException if the color passed as parameter is not allowed
      */
-    public int getAmmo(int color) throws InvalidColorException {
+    public int getAmmo(int color) {
         if(color<0 || color>2) throw new InvalidColorException();
         return (int) ammo.stream().filter(x->x.getAmmo()==color).count();
     }

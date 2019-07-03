@@ -34,7 +34,7 @@ public class PowCardTest {
     @Test
     public void Granade(){
         Granade granade1 = new Granade(0, 1, 2);
-        Granade granade2 = new Granade(2, 2, 2);
+        Granade granade2 = new Granade(2, 2, 0);
 
         assertEquals("Granata Venom", granade1.getName());
         assertEquals(0, granade1.getColor());
@@ -59,7 +59,7 @@ public class PowCardTest {
     @Test
     public void TargetingScope(){
         TargetingScope targetingScope1 = new TargetingScope(0, 1, 2);
-        TargetingScope targetingScope2 = new TargetingScope(2, 2, 2);
+        TargetingScope targetingScope2 = new TargetingScope(2, 2, 0);
 
         assertEquals("Mirino", targetingScope1.getName());
         assertEquals(0, targetingScope1.getColor());
