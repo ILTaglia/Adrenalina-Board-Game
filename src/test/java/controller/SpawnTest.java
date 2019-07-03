@@ -17,70 +17,57 @@ public class SpawnTest {
     private Player player2;
     private Player player3;
 
-    private PowDeck W;
+    private PowDeck powDeck;
     private PowCard powcard;
 
     private Spawn spawn;
 
     @Before
     public void setUp() throws Exception {
-        W= new PowDeck("Pow");
-        powcard = (PowCard) W.drawCard();
         spawn=new Spawn();
-
         match = new Match();
         match.createPlayer("Sirius", "Blue", "10583741");
         match.createPlayer("Calypso", "Pink", "14253954");
         match.createPlayer("Hermione", "Green", "18263100");
-
-        match.createDashboard(3);
-
         player1 = match.getPlayerByIndex(0);
         player2 = match.getPlayerByIndex(1);
         player3 = match.getPlayerByIndex(2);
+        match.assignPowCard(player1);
+        match.assignPowCard(player2);
+        match.getPlayer(3).removePow(0);
+        match.assignPowCard(player2);
+        match.assignPowCard(player3);
+        match.getPlayer(1).removePow(0);
+        match.assignPowCard(player3);
+        match.createDashboard(3);
         player1.setActive();
     }
 
     @Test
     public void spawn() {
+        assertEquals(0,player1.getPowByIndex(0).getColor());
         assertEquals(-1, player1.getCel().getX());
         assertEquals(-1, player1.getCel().getY());
-        try{player1.addPow(powcard);}
-        catch(MaxNumberofCardsException e){}
-        assertTrue(spawn.bornValidity(1, 0, 0));
+        assertTrue(spawn.bornValidity(1, 0, player1.getPowByIndex(0).getColor()));
         try{spawn.spawn(match, player1, 1, 0, 0);}
         catch(InvalidColorException e){}
         assertEquals(1, player1.getCel().getX());
         assertEquals(0, player1.getCel().getY());
-        assertEquals(0,powcard.getColor());
-        powcard = (PowCard) W.drawCard();
-        assertEquals(0,powcard.getColor());
-
-        powcard = (PowCard) W.drawCard();
-        assertEquals(1,powcard.getColor());
+        assertEquals(1,player2.getPowByIndex(0).getColor());
         assertEquals(-1, player2.getCel().getX());
         assertEquals(-1, player2.getCel().getY());
-        try{player2.addPow(powcard);}
-        catch(MaxNumberofCardsException e){}
-        assertTrue(spawn.bornValidity(0, 2, 1));
-        try{spawn.spawn(match, player1, 0, 1, 0);}
+        assertTrue(spawn.bornValidity(0, 2, player2.getPowByIndex(0).getColor()));
+        try{spawn.spawn(match, player2, 0, 2, 0);}
         catch(InvalidColorException e){}
-        //assertEquals(1, player1.getCel().getX());
-        //assertEquals(0, player1.getCel().getY());
-
-
-        powcard = (PowCard) W.drawCard();
-        assertEquals(1,powcard.getColor());
-        powcard = (PowCard) W.drawCard();
-        assertEquals(2,powcard.getColor());
+        assertEquals(0, player2.getCel().getX());
+        assertEquals(2, player2.getCel().getY());
+        assertEquals(2,player3.getPowByIndex(0).getColor());
         assertEquals(-1, player3.getCel().getX());
         assertEquals(-1, player3.getCel().getY());
-        try{player3.addPow(powcard);}
-        catch(MaxNumberofCardsException e){}
         assertTrue(spawn.bornValidity(2, 3, 2));
-        try{spawn.spawn(match, player1, 2, 3, 0);}
+        try{spawn.spawn(match, player3, 2, 3, 0);}
         catch(InvalidColorException e){}
-        //assertEquals(1, player1.getCel().getX());
-        //assertEquals(0, player1.getCel().getY());
+        assertEquals(2, player3.getCel().getX());
+        assertEquals(3, player3.getCel().getY());
     }
 }
