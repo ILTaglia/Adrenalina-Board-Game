@@ -633,7 +633,7 @@ public class CLIView implements View {
             } catch (NullPointerException e){
                 printOut(i + ". Arma già raccolta.");
                 i++;
-            } catch(IndexOutOfBoundsException e){
+            } catch(ArrayIndexOutOfBoundsException e){
                 printOut("You have yet to spawn. ");
             }
         }
