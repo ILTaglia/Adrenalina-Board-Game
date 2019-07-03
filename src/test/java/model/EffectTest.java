@@ -40,7 +40,7 @@ public class EffectTest {
         Effect E;
         E=new EffectFactory().getinstanceof(1,2);
         E.adddamage(1,2);
-        assertEquals(E.getDamage(0).getdamage(),2);
+        assertEquals(E.getDamage(0).getDamage(),2);
     }
 
     @Test
@@ -49,8 +49,8 @@ public class EffectTest {
         Effect E;
         E=new EffectFactory().getinstanceof(1,2);
         E.adddamage(1,2);
-        E.getDamage(0).setdamage(6);
-        assertEquals(E.getDamage(0).getdamage(),6);
+        E.getDamage(0).setDamage(6);
+        assertEquals(E.getDamage(0).getDamage(),6);
     }
 
     @Test
@@ -61,9 +61,9 @@ public class EffectTest {
         E.adddamage(1,4);
         E.adddamage(2,8);
         E.adddamage(2,1);
-        assertEquals(E.getDamage(0).getdamage(),4);
-        assertEquals(E.getDamage(1).getdamage(),8);
-        assertEquals(E.getDamage(2).getdamage(),1);
+        assertEquals(E.getDamage(0).getDamage(),4);
+        assertEquals(E.getDamage(1).getDamage(),8);
+        assertEquals(E.getDamage(2).getDamage(),1);
     }
 
     @Test
@@ -95,12 +95,12 @@ public class EffectTest {
         E.adddamage(1,4);
         E.adddamage(2,8);
         E.adddamage(2,1);
-        E.getDamage(0).setdamage(1);
-        E.getDamage(1).setdamage(2);
-        E.getDamage(2).setdamage(3);
-        assertEquals(E.getDamage(0).getdamage(),1);
-        assertEquals(E.getDamage(1).getdamage(),2);
-        assertEquals(E.getDamage(2).getdamage(),3);
+        E.getDamage(0).setDamage(1);
+        E.getDamage(1).setDamage(2);
+        E.getDamage(2).setDamage(3);
+        assertEquals(E.getDamage(0).getDamage(),1);
+        assertEquals(E.getDamage(1).getDamage(),2);
+        assertEquals(E.getDamage(2).getDamage(),3);
     }
 
 
@@ -124,14 +124,14 @@ public class EffectTest {
         E=new EffectFactory().getinstanceof(1,1);
         E.adddamage(1,2);
         E.adddamage(2,4);
-        assertEquals(E.getDamage(0).getdamage(),2);
-        assertEquals(E.getDamage(1).getdamage(),4);
+        assertEquals(E.getDamage(0).getDamage(),2);
+        assertEquals(E.getDamage(1).getDamage(),4);
         assertEquals(E.getnumberdamage(),2);
         E=new EffectFactory().getinstanceof(2,1);
         E.adddamage(1,2);
         E.adddamage(2,4);
-        assertEquals(E.getDamage(0).getdamage(),2);
-        assertEquals(E.getDamage(1).getdamage(),4);
+        assertEquals(E.getDamage(0).getDamage(),2);
+        assertEquals(E.getDamage(1).getDamage(),4);
         assertEquals(E.getnumberdamage(),2);
     }
 

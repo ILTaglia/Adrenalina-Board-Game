@@ -7,7 +7,7 @@ public class DamageFactory {
      * @param damage is number of tokens
      * @return the Damage
      */
-    public Damage getinstaceof(int type, int damage)
+    public Damage getInstanceOf(int type, int damage)
     {
         if(type==1)
         {

@@ -12,18 +12,18 @@ public class DamageTest {
     {
         ArrayList<Damage> D;
         D=new ArrayList<>();
-        D.add(new DamageFactory().getinstaceof(1,5));
-        assertEquals(5,D.get(0).getdamage());
+        D.add(new DamageFactory().getInstanceOf(1,5));
+        assertEquals(5,D.get(0).getDamage());
     }
 
     @Test
     public void LifeTest()
     {
         Damage D;
-        D=new DamageFactory().getinstaceof(1,1);
-        assertEquals(D.getdamage(),1);
-        D.setdamage(5);
-        assertEquals(D.getdamage(),5);
+        D=new DamageFactory().getInstanceOf(1,1);
+        assertEquals(D.getDamage(),1);
+        D.setDamage(5);
+        assertEquals(D.getDamage(),5);
         assertEquals(0, D.getType());
     }
 
@@ -31,10 +31,10 @@ public class DamageTest {
     public void MarkTest()
     {
         Damage D;
-        D=new DamageFactory().getinstaceof(2,1);
-        assertEquals(D.getdamage(),1);
-        D.setdamage(5);
-        assertEquals(D.getdamage(),5);
+        D=new DamageFactory().getInstanceOf(2,1);
+        assertEquals(D.getDamage(),1);
+        D.setDamage(5);
+        assertEquals(D.getDamage(),5);
         assertEquals(1, D.getType());
     }
 
@@ -45,17 +45,17 @@ public class DamageTest {
         ArrayList<Damage> D;
         D=new ArrayList<>();
         Damage y,x;
-        x=new DamageFactory().getinstaceof(1,6);
-        y=new DamageFactory().getinstaceof(2,7);
+        x=new DamageFactory().getInstanceOf(1,6);
+        y=new DamageFactory().getInstanceOf(2,7);
 
-        D.add(new DamageFactory().getinstaceof(1,5));
-        D.add(new DamageFactory().getinstaceof(2,4));
-        D.add(new DamageFactory().getinstaceof(1,6));
-        D.add(new DamageFactory().getinstaceof(2,7));
-        D.add(new DamageFactory().getinstaceof(1,9));
+        D.add(new DamageFactory().getInstanceOf(1,5));
+        D.add(new DamageFactory().getInstanceOf(2,4));
+        D.add(new DamageFactory().getInstanceOf(1,6));
+        D.add(new DamageFactory().getInstanceOf(2,7));
+        D.add(new DamageFactory().getInstanceOf(1,9));
 
-        assertEquals(y.getdamage(),D.get(3).getdamage());
-        assertEquals(x.getdamage(),D.get(2).getdamage());
+        assertEquals(y.getDamage(),D.get(3).getDamage());
+        assertEquals(x.getDamage(),D.get(2).getDamage());
 
     }
 }

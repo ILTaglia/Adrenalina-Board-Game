@@ -28,7 +28,7 @@ public class PlayerEffect implements Effect {
     public void adddamage(int type, int damage)
     {
         Damage X;
-        X=new DamageFactory().getinstaceof(type,damage);
+        X=new DamageFactory().getInstanceOf(type,damage);
         this.damages.add(X);
     }
 

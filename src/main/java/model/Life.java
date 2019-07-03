@@ -11,7 +11,7 @@ public class Life implements Damage {
      * @param damage is the number of tokens
      */
     @Override
-    public void setdamage(int damage) {
+    public void setDamage(int damage) {
         this.damage=damage;
     }
 
@@ -20,7 +20,7 @@ public class Life implements Damage {
      * @return the number of tokens
      */
     @Override
-    public int getdamage() {
+    public int getDamage() {
         return this.damage;
     }
 

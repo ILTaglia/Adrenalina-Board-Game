@@ -60,7 +60,7 @@ public class WeaponDeckTest {
     @Test
     public void testfirstcardfirstcardfirsteffectfirstDamage()
     {
-        assertEquals(weapon.getAttack(0).getEffect(0).getDamage(0).getdamage(),9);
+        assertEquals(weapon.getAttack(0).getEffect(0).getDamage(0).getDamage(),9);
     }
 
     @Test
@@ -79,8 +79,8 @@ public class WeaponDeckTest {
         assertEquals(weapon.getName(),"Distruttore");
         assertEquals(weapon.getAttack(1).getExtras().get(0),1);
         assertEquals(weapon.getAttack(1).getEffect(0).getId(),2);
-        assertEquals(weapon.getAttack(1).getEffect(0).getDamage(0).getdamage(),1);
-        assertEquals(weapon.getAttack(0).getEffect(0).getDamage(1).getdamage(),1);
+        assertEquals(weapon.getAttack(1).getEffect(0).getDamage(0).getDamage(),1);
+        assertEquals(weapon.getAttack(0).getEffect(0).getDamage(1).getDamage(),1);
     }
 
 }

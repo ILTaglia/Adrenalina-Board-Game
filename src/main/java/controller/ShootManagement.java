@@ -217,7 +217,7 @@ public class ShootManagement {
         {
             marksOfAttacker=playerAttacked.getMarks(playerAttacker.getColor());
             playerAttacked.resetMarks(playerAttacker.getColor());
-            outcomeOfAttack=match.setDamage(playerAttacker,playerAttacked,damage.getdamage()+marksOfAttacker);
+            outcomeOfAttack=match.setDamage(playerAttacker,playerAttacked,damage.getDamage()+marksOfAttacker);
             if(outcomeOfAttack==0){
                 //Nothing to do, the attack was successful but no kill.
             }
@@ -229,7 +229,7 @@ public class ShootManagement {
         }
         else //Caso in cui ho un danno di tipo marks
         {
-            match.setMarks(playerAttacker,playerAttacked,damage.getdamage());
+            match.setMarks(playerAttacker,playerAttacked,damage.getDamage());
         }
     }
 

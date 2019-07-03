@@ -92,7 +92,11 @@ public class RMIHandler implements ConnectionHandler {
 
     @Override
     public void attemptToReconnect(String userID) {
-        server.reConnectAttempt(userID,clientInterface);
+        try {
+            server.reConnectAttempt(userID,clientInterface);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 

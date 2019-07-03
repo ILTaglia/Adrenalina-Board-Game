@@ -223,7 +223,7 @@ public class WeaponDeck extends Deck{
                     }
                     case 12:
                     {
-                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setdamage(Character.getNumericValue(nextc));
+                        weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).getDamage(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getEffect(weaponArrayList.get(weaponArrayList.size()-1).getAttack(weaponArrayList.get(weaponArrayList.size()-1).getNumberAttack()-1).getNumberEffect()-1).getnumberdamage()-1).setDamage(Character.getNumericValue(nextc));
                         CurrentState=100;
                         break;
                     }

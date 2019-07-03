@@ -60,10 +60,10 @@ public class ShootManagementTest {
     {
         ShootManagement shoot = new ShootManagement();
         List<Player> visible = match.getVisiblePlayers(player1);
-        Damage d = new DamageFactory().getinstaceof(1,3);
+        Damage d = new DamageFactory().getInstanceOf(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,0);
-        Damage b = new DamageFactory().getinstaceof(1,4);
+        Damage b = new DamageFactory().getInstanceOf(1,4);
         a= shoot.shoot(match, visible,player1,player3,1, b);
         assertEquals(a,0);
         visible= match.getVisiblePlayers(player1);
@@ -77,7 +77,7 @@ public class ShootManagementTest {
     {
         ShootManagement shoot = new ShootManagement();
         List<Player> visible = match.getVisiblePlayers(player1);
-        Damage d = new DamageFactory().getinstaceof(1,3);
+        Damage d = new DamageFactory().getInstanceOf(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,0);
         a= shoot.shoot(match, visible,player1,player2,1, d);
@@ -93,7 +93,7 @@ public class ShootManagementTest {
         player1.setCel(2, 3);
         List<Player> visible = match.getVisiblePlayers(player1);
         ShootManagement shoot = new ShootManagement();
-        Damage d = new DamageFactory().getinstaceof(1,3);
+        Damage d = new DamageFactory().getInstanceOf(1,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,-2);
         ArrayList<Player> all = new ArrayList<>(match.getPlayers());
@@ -108,10 +108,10 @@ public class ShootManagementTest {
     {
         ShootManagement shoot = new ShootManagement();
         List<Player> visible = match.getVisiblePlayers(player1);
-        Damage d = new DamageFactory().getinstaceof(2,3);
+        Damage d = new DamageFactory().getInstanceOf(2,3);
         int a =shoot.shoot(match, visible,player1,player2,0, d);
         assertEquals(a,0);
-        Damage b = new DamageFactory().getinstaceof(2,2);
+        Damage b = new DamageFactory().getInstanceOf(2,2);
         a= shoot.shoot(match, visible,player1,player3,1, b);
         assertEquals(a,0);
         visible= match.getVisiblePlayers(player1);
@@ -127,7 +127,7 @@ public class ShootManagementTest {
         player3.setCel(0, 1);
         ShootManagement shoot = new ShootManagement();
         List<Coordinate> visible = match.getVisibleCells(player1.getCel());
-        Damage d = new DamageFactory().getinstaceof(1,3);
+        Damage d = new DamageFactory().getInstanceOf(1,3);
         int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
         assertEquals(a,0);
         List<Player>visibles = match.getVisiblePlayers(player1);
@@ -144,7 +144,7 @@ public class ShootManagementTest {
         player3.setCel(0, 2);
         ShootManagement shoot = new ShootManagement();
         List<Coordinate> visible = match.getVisibleCells(player1.getCel());
-        Damage d = new DamageFactory().getinstaceof(1,3);
+        Damage d = new DamageFactory().getInstanceOf(1,3);
         int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
         assertEquals(a,0);
         List<Player>visibles = match.getVisiblePlayers(player1);
@@ -167,7 +167,7 @@ public class ShootManagementTest {
         player3.setCel(1, 0);
         ShootManagement shoot = new ShootManagement();
         List<Coordinate> visible = match.getVisibleCells(player1.getCel());
-        Damage d = new DamageFactory().getinstaceof(1,3);
+        Damage d = new DamageFactory().getInstanceOf(1,3);
         int a =shoot.shoot(match,visible,player1,player2.getCel(),0,d);
         assertEquals(a,-2);
         List<Player>visibles = match.getVisiblePlayers(player1);

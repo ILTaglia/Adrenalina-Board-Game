@@ -7,12 +7,12 @@ public interface Damage extends Serializable {
      *
      * @param damage is the number of toknes
      */
-    void setdamage(int damage);
+    void setDamage(int damage);
     /**
      *
      * @return the number of tokens
      */
-    int getdamage();
+    int getDamage();
     /**
      *
      * @return the type (mark or life damage)
