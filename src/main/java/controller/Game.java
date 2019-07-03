@@ -340,8 +340,22 @@ public class Game{
         {
             if(shootElaborator.getStatus()==1)
             {
-                shootElaborator.chooseweapon(shootElaborator.getguns().get(chosenindex));
-                askserieToShoot();
+                if(shootElaborator.getguns().size()<=chosenindex)
+                {
+                    askWeaponToShoot();
+                }
+                else
+                {
+                    if(chosenindex<0)
+                    {
+                        nextStep();
+                    }
+                    else
+                    {
+                        shootElaborator.chooseweapon(shootElaborator.getguns().get(chosenindex));
+                        askserieToShoot();
+                    }
+                }
             }
             if(shootElaborator.getStatus()==2)
             {
@@ -419,7 +433,8 @@ public class Game{
         else
         {
             gameRoom.informPaymentError(match.getActivePlayer().getID());
-            nextStep();
+            //nextStep();
+            particoularpowers();
         }
     }
 
@@ -474,7 +489,8 @@ public class Game{
         }
         else
         {
-            nextStep();
+            //nextStep();
+            particoularpowers();
         }
     }
 
@@ -640,12 +656,20 @@ public class Game{
     {
         if(index==1)
         {
-            shootElaborator.setsuccessiveattack();
-            askPaymentbeforeShoot();
+            if(shootElaborator.checkotherattacks())
+            {
+                shootElaborator.setsuccessiveattack();
+                askPaymentbeforeShoot();
+            }
+            else
+            {
+                particoularpowers();
+            }
         }
         else
         {
-            nextStep();
+            //nextStep();
+            particoularpowers();
         }
 
     }
