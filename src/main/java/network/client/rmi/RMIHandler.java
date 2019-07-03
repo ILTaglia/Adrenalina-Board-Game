@@ -21,11 +21,13 @@ import static utils.Print.printOut;
 
 public class RMIHandler implements ConnectionHandler {
 
+    private Client client;
     private ServerInterface server;
     private ClientInterface clientInterface;     //Da condividere con il server
     private boolean connectionEstablished;
 
     public RMIHandler(Client client) throws RemoteException, NotBoundException {
+        this.client=client;
         Registry registry = LocateRegistry.getRegistry();
         server=(ServerInterface) registry.lookup("Server");
         RMIConnection rmiConnection =new RMIConnection(client);
@@ -57,7 +59,7 @@ public class RMIHandler implements ConnectionHandler {
                 if(connectionEstablished){
                     connectionEstablished=false;        //In teoria dovrei ricevere "a breve" un altro set a true
                 }else{
-                    printOut("DISCONNESSO");
+                    askToTryToReconnect();
                     cancel();
                 }
             }
@@ -82,15 +84,15 @@ public class RMIHandler implements ConnectionHandler {
         }
     }
 
-    //TODO
     @Override
     public void askToTryToReconnect() {
-
+        connectionEstablished=false;
+        client.askToTryToReconnect();
     }
 
     @Override
     public void attemptToReconnect(String userID) {
-
+        server.reConnectAttempt(userID,clientInterface);
     }
 
 

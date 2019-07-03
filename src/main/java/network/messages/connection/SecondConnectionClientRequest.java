@@ -1,4 +1,4 @@
-package network.messages;
+package network.messages.connection;
 
 public class SecondConnectionClientRequest extends ConnectionMessage{
     public SecondConnectionClientRequest(String infoToConnect){

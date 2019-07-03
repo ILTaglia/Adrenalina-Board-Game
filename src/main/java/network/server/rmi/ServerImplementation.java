@@ -56,6 +56,15 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         }
     }
 
+    public void reConnectAttempt(String userID, ClientInterface clientInterface){
+        if (gameServer.checkUserID(userID)) {
+            gameServer.handleReConnect(userID, clientInterface);
+        } else {
+            gameServer.reAddClientToWR(userID, clientInterface);
+        }
+    }
+
+
     //Metodo che serve al Client per mandare messaggi al Server che verranno gestiti e porteranno avanti il gioco.
     @Override
     public void handleMessage(Message message) {

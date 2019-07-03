@@ -2,7 +2,7 @@ package network.server.socket;
 
 import network.messages.error.ConnectionError;
 import network.messages.Message;
-import network.messages.ReConnectServerRequest;
+import network.messages.connection.ReConnectServerRequest;
 import network.messages.error.SecondConnectionError;
 import network.server.ClientInterface;
 
@@ -68,7 +68,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                     } else if (message.getContent().equals("ReConnectRequest")) {
                         if (server.checkUserID(message.getInfo())) {
                             setPlayerID(message.getInfo());
-                            server.handleReconnect(message.getInfo(), this);
+                            server.handleReConnect(message.getInfo(), this);
                         } else {
                             Message errorMessage = new SecondConnectionError("userID not valid. Connect as new Player.");
                             sendMessage(errorMessage);
@@ -76,7 +76,7 @@ public class ClientHandler implements Runnable, ClientInterface {
                     } else if (message.getContent().equals("ReConnectAttempt")) {
                         if (server.checkUserID(message.getInfo())) {
                             setPlayerID(message.getInfo());
-                            server.handleReconnect(message.getInfo(), this);
+                            server.handleReConnect(message.getInfo(), this);
                         } else {
                             setPlayerID(message.getInfo());
                             server.reAddClientToWR(message.getInfo(), this);

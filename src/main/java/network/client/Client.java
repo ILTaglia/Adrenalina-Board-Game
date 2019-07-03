@@ -129,7 +129,7 @@ public class Client {
                 try {
                     connectionHandler=new RMIHandler(this);
                 } catch (RemoteException | NotBoundException e) {
-
+                    askToTryToReconnect();
                 }
             }
         }else{

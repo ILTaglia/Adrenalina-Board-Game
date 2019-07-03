@@ -77,7 +77,7 @@ public class GameSocketSvr extends Thread {
         return gameServer.checkUserID(userIDToReconnect);
     }
 
-    public void handleReconnect(String userID,ClientInterface clientInterface){
+    public void handleReConnect(String userID, ClientInterface clientInterface){
         gameServer.handleReConnect(userID,clientInterface);
     }
 

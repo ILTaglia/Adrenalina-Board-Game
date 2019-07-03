@@ -2,9 +2,11 @@ package network.client.socket;
 
 import network.client.Client;
 import network.client.ConnectionHandler;
-import network.messages.ReConnectClientRequest;
-import network.messages.ConnectionClientRequest;
+import network.messages.connection.ReConnectClientAttempt;
+import network.messages.connection.ReConnectClientRequest;
+import network.messages.connection.ConnectionClientRequest;
 import network.messages.Message;
+import network.messages.connection.SecondConnectionClientRequest;
 
 public class SocketHandler implements ConnectionHandler {
 
@@ -41,12 +43,12 @@ public class SocketHandler implements ConnectionHandler {
 
     @Override
     public void attemptToReconnect(String userID) {
-        sendMessage(new ReConnectClientRequest(userID));
+        sendMessage(new ReConnectClientAttempt(userID));
     }
 
     @Override
     public void newConnectionRequest(String username) {
-
+        sendMessage(new SecondConnectionClientRequest(username));
     }
 
     @Override
@@ -56,8 +58,7 @@ public class SocketHandler implements ConnectionHandler {
 
     @Override
     public void reConnectRequest(String userIDToReConnect) {
-        Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
-        client.sendMessage(reConnectRequest);
+        sendMessage(new ReConnectClientRequest(userIDToReConnect));      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
     }
 
 }

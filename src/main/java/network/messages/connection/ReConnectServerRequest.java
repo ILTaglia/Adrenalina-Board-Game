@@ -1,6 +1,4 @@
-package network.messages;
-
-import network.messages.gameRequest.GameRequestMessage;
+package network.messages.connection;
 
 public class ReConnectServerRequest extends ConnectionMessage {
     public ReConnectServerRequest(){
