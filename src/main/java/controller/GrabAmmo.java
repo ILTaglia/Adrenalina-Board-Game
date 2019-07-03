@@ -4,6 +4,7 @@ import exceptions.NotYourTurnException;
 import model.Match;
 import exceptions.CardAlreadyCollectedException;
 import exceptions.MaxNumberofCardsException;
+import model.NormalCell;
 
 public class GrabAmmo extends Grab{
     public GrabAmmo(){
@@ -12,19 +13,21 @@ public class GrabAmmo extends Grab{
 
     /**
      *
-     * @param match is teh match
-     * @param userID is teh ID of the player
+     * @param match is the match
+     * @param userID is the ID of the player
      * @throws MaxNumberofCardsException if the player already has three PowCards
      * @throws CardAlreadyCollectedException if the card has already been collected in the previous action by the same player in the same turn
-     * @throws NotYourTurnException if th eplayer is not active
+     * @throws NotYourTurnException if the player is not active
      */
     public void grabAmmo(Match match, String userID) throws MaxNumberofCardsException, CardAlreadyCollectedException, NotYourTurnException {
         if(!super.isValid(match,userID)){
             throw new NotYourTurnException();
         }
-        int cardType=match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY()).getType();
+        NormalCell cell = (NormalCell)match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY());
+        //int cardType=match.getActivePlayer().getCel().inMap(match.getDashboard(),match.getActivePlayer().getCel().getX(),match.getActivePlayer().getCel().getY()).getType();
         match.assignAmmo(match.getActivePlayer());
-        if(1==cardType){        //cardType==1 if Card is AmmoPowTile
+        if(cell.getAmmoCard().toString().length()==2){
+        //if(1==cardType){        //cardType==1 if Card is AmmoPowTile
             match.assignPowCard(match.getActivePlayer());
         }
         match.getActivePlayer().setAction();
