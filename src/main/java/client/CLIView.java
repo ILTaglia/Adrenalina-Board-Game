@@ -78,7 +78,8 @@ public class CLIView implements View {
         if(getData.askYesOrNo()) {
             printOut("Insert the userID you have been assigned at the start of the game:");
             String userIDToReConnect = getData.getName();
-            client.reConnectRequest(userIDToReConnect);
+            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
+            client.sendMessage(reConnectRequest);
         }
         else{
             printOut("Insert again the username you want to use:");
@@ -316,7 +317,8 @@ public class CLIView implements View {
             printOut("Not a valid SpawnPoint\n");
             coordinate=getData.getCoordinate(0,2,0,3);
         }
-        powIndex = getData.getInt(1, 2);
+        int numberofPows=client.getPlayerVisibleData().getPlayer().getNumberPow();
+        powIndex = getData.getInt(1, numberofPows);
         powIndex--;
         Message message=new SpawnPointClientRequest(coordinate.get(0),coordinate.get(1),powIndex,client.getUserID());
         client.sendMessage(message);
