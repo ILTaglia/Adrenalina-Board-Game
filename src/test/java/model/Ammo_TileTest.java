@@ -55,6 +55,13 @@ class Ammo_TileTest {
     public void Collect_CardAlreadyCollectedExceptionTest(){
         ammo_tile.setUsed();
         assertThrows(CardAlreadyCollectedException.class, ()->ammo_tile.collectCard(player));
+
+        int a=Character.getNumericValue(ammo_tile.toString().charAt(0));
+        int b=Character.getNumericValue(ammo_tile.toString().charAt(1));
+        int c=Character.getNumericValue(ammo_tile.toString().charAt(2));
+        assertEquals(0, a);
+        assertEquals(1, b);
+        assertEquals(2, c);
     }
 
 
