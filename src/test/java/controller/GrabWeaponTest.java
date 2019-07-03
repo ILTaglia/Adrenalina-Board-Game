@@ -170,8 +170,6 @@ public class GrabWeaponTest {
             System.out.println(weapons.get(i).getName());
             System.out.println(weapons.get(i).getCostToRecharge());
             System.out.println(weapons.get(i).getCostToGrab());
-
-
         }
     }
 }
