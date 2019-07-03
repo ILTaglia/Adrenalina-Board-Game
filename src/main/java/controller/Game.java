@@ -393,7 +393,7 @@ public class Game{
         int xCoordinate=match.getActivePlayer().getCel().getX();
         int yCoordinate=match.getActivePlayer().getCel().getY();
         SpawnPointCell cell = (SpawnPointCell) match.getActivePlayer().getCel().inMap(match.getDashboard(),xCoordinate,yCoordinate);
-        return cell.getSpawnPointCellWeapons().get(indexWeapon).getCostToRecharge();
+        return cell.getSpawnPointCellWeapons().get(indexWeapon).getCostToGrab();
     }
 
     /**
@@ -1187,7 +1187,7 @@ public class Game{
         int counter=0;
         List<Player> deadConnectedPlayers=new ArrayList<>();
         for (Player player : match.getPlayers()) {
-            if(match.getRound()==1&&player.getAction()==0) break;       //In the first turn players with 0 actions has not yet spawned
+            if(match.getRound()==1&&player.getAction()==0) continue;       //In the first turn players with 0 actions has not yet spawned
             else if (player.isDead()) {
                 try {
                     match.assignPowCard(player);
@@ -1256,12 +1256,15 @@ public class Game{
                 }
             }
         }
+        match.getPlayers().forEach(player -> printOut(player.getName()));
+        printOut(match.getRound());
         match.getPlayerByIndex(index).setActive();
         index++;
         while(!match.getPlayerByIndex(index).isConnected()){
             index++;
         }
         match.getPlayerByIndex(index).setActive();
+        printOut(match.getActivePlayer().getName());
         if(match.getRound()!=1) {
             askAction();
         }
