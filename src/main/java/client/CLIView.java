@@ -78,8 +78,7 @@ public class CLIView implements View {
         if(getData.askYesOrNo()) {
             printOut("Insert the userID you have been assigned at the start of the game:");
             String userIDToReConnect = getData.getName();
-            Message reConnectRequest = new ReConnectClientRequest(userIDToReConnect);      // lo USERNAME VIENE RIASSEGNATO AUTOMATICAMENTE!
-            client.sendMessage(reConnectRequest);
+            client.reConnectRequest(userIDToReConnect);
         }
         else{
             printOut("Insert again the username you want to use:");
@@ -304,8 +303,8 @@ public class CLIView implements View {
     public void chooseStartingCell(){
         List<Integer> coordinate;
         int powIndex;
-        printOut("\nSelect the SpawnPoint cell where you want to start. Write number of line, then column.");
-        printOut("There are three SpawnPoint cells in the game:");
+        printOut("\nSelect the SpawnPoint cell where you want to spawn. Write number of line, then column.");
+        printOut("There are three SpawnPoint cells in the map:");
         printOut("Line 0, column 2 - Blue cell");
         printOut("Line 1, column 0 - Red cell");
         printOut("Line 2, column 3 - Yellow cell");
@@ -317,8 +316,7 @@ public class CLIView implements View {
             printOut("Not a valid SpawnPoint\n");
             coordinate=getData.getCoordinate(0,2,0,3);
         }
-        int numberofPows=client.getPlayerVisibleData().getPlayer().getNumberPow();
-        powIndex = getData.getInt(1, numberofPows);
+        powIndex = getData.getInt(1, client.getPlayerVisibleData().getPlayer().getNumberPow());
         powIndex--;
         Message message=new SpawnPointClientRequest(coordinate.get(0),coordinate.get(1),powIndex,client.getUserID());
         client.sendMessage(message);

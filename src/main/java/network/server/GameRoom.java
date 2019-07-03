@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import static utils.NotifyClient.registerNewGame;
+import static utils.Print.printOut;
 
 public class GameRoom {
 
@@ -49,8 +50,8 @@ public class GameRoom {
             gameServer.sendMessageToID(userID,colorError);
         }
         if(userIDtoColor.size()==userList.size()){
-            System.out.println("Sono stati assegnati i seguenti colori ai rispettivi PlayerID");
-            userIDtoColor.forEach((key, value) -> System.out.println(key + ":" + value));
+            printOut("Sono stati assegnati i seguenti colori ai rispettivi PlayerID");
+            userIDtoColor.forEach((key, value) -> printOut(key + ":" + value));
             gameController.addPlayers(userList,userIDtoColor);
         }
     }

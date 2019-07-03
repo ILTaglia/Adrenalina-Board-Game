@@ -144,16 +144,16 @@ public class Game{
         Spawn playerSpawn = new Spawn();
         try {
             playerSpawn.spawn(match, match.getActivePlayer(), coordinate.getX(), coordinate.getY(), powCardIndex);
+            //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
+            //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
+            //che ha terminato il turno
+            if(match.getRound()==1&&match.getActivePlayer().getID().equals(userID)) {
+                nextStep();
+            }
         }catch (InvalidColorException e){
-            Message errorMessage=new ActionError("Colore non valido, riprova (Migliorare messaggio)");
+            Message errorMessage=new ActionError("Colore non valido, riprova");
             gameRoom.sendErrorMessage(userID,errorMessage);
             askSpawnPoint(userID);
-        }
-        //Se si è a inizio partita una volta generato il player effettivamente ha inizio il suo normale turno di gioco
-        //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
-        //che ha terminato il turno
-        if(match.getRound()==1&&match.getActivePlayer().getID().equals(userID)) {
-            nextStep();
         }
     }
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
