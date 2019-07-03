@@ -1,7 +1,9 @@
 package exceptions;
 
-//TODO: Runtime?
 
 public class InvalidColorException extends RuntimeException{
+    /**
+     * is exception for invalid color action
+     */
     public InvalidColorException(){super();}
 }

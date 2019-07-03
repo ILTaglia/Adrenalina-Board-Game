@@ -140,7 +140,7 @@ public interface View {
 
     void getNextAttack();
 
-    void getDirection();
+    //void getDirection();
 
     void getPowIndex();
 

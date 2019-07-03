@@ -255,11 +255,6 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
-    public void getDirection() {
-
-    }
-
-    @Override
     public void getPowIndex() {
 
     }

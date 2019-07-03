@@ -13,12 +13,14 @@ import java.util.logging.Logger;
 
 public class GUIView {
     private JFrame f;
+    private ColorClickToItem clickManager;
     private CardsPanel cardsPanel;
     private MapPanel mapPanel;
-    private JButton musicButton;
-    //private MP3 mp3;
+
+
     private Waiter waiter;
-    private Match match;
+
+    private int myId;
 
     private int idClient;
 
@@ -57,13 +59,7 @@ public class GUIView {
     }
 
     private MouseInputAdapter mapMouseManager = new MouseInputAdapter() {
-        public void mouseClicked(MouseEvent e) {
-            if (SwingUtilities.isLeftMouseButton(e)) {
-                if (e.getSource() == GUIView.this.musicButton) {
-                    //TODO cambiare stato musica
-                }
-            }
-        }
+
     };
 
     public void welcomeMessage(int idClient) {
@@ -74,7 +70,7 @@ public class GUIView {
     /*To make the player select which card does it wants to buy*/
     public void getCardToBuy() {
         cardToBuy=true;
-        mapPanel.showCardToBuy(match, idClient);
+        //mapPanel.showCardToBuy(match, idClient);
     }
 
 

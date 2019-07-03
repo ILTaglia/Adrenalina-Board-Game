@@ -34,12 +34,19 @@ public class CLIView implements View {
      * Metodi per Avvio Client                                *
      **********************************************************
      */
+
+    /**
+     * Method to start
+     */
     @Override
     public void start(){
         setConnection();
         login();
     }
 
+    /**
+     * Method to setConnection
+     */
     @Override
     public void setConnection(){
         printOut("Choose the type of connection you want to use:\t\n" +
@@ -52,6 +59,9 @@ public class CLIView implements View {
         client.launchConnection();
     }
 
+    /**
+     * Method to login
+     */
     @Override
     public void login(){
         printOut("Digit your username:");
@@ -59,6 +69,9 @@ public class CLIView implements View {
         client.requestToWR(user);
     }
 
+    /**
+     * Method to ask to reconnect
+     */
     @Override
     public void askToReConnect() {
         printOut("Have you been disconnected?\n");
@@ -75,6 +88,10 @@ public class CLIView implements View {
         }
     }
 
+    /**
+     *
+     * @return the response to the request to reconnect
+     */
     public boolean askToTryToReConnect(){
         printOut("You have been disconnected");
         printOut("Do you want to try to re connect?\n");
@@ -95,12 +112,17 @@ public class CLIView implements View {
      **********************************************************
      */
 
+    /**
+     * Method to show exception
+     */
     @Override
     public void showException(String message) {
         printOut(message);
     }
 
-
+    /**
+     * Method to ashow info message
+     */
     @Override
     public void showInfoMessage(Message message){
         printOut("Message received:" + message.getInfo());
@@ -113,6 +135,9 @@ public class CLIView implements View {
      **********************************************************
      */
 
+    /**
+     * Method to create player
+     */
     @Override
     public void createPlayer(){
         printOut("Digit you color:"+ "players available colors are Blue - Green - Yellow - Pink - Grey");
@@ -122,6 +147,9 @@ public class CLIView implements View {
         client.sendMessage(colorRequest);
     }
 
+    /**
+     * Method to ask to use PowCard to grab weapon
+     */
     @Override
     public void chooseMap() {
         printOut("Map 1");
@@ -139,6 +167,9 @@ public class CLIView implements View {
         client.sendMessage(mapRequest);
     }
 
+    /**
+     * Method to choose Action
+     */
     public void chooseAction(){
         printPlayerData();
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
@@ -158,6 +189,9 @@ public class CLIView implements View {
         client.sendMessage(actionRequest);
     }
 
+    /**
+     * Method to ask to choose run direction
+     */
     @Override
     public void chooseRunDirection() {
         List<String> direction;
@@ -171,6 +205,9 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    /**
+     * Method to choose to discard a weapon
+     */
     @Override
     public void chooseDiscardWeapon() {
         int indexWeaponToDiscard;
@@ -187,8 +224,9 @@ public class CLIView implements View {
         }
     }
 
-
-
+    /**
+     * Method to achoose a weapon to grab
+     */
     @Override
     public  void chooseWeaponToGrab(){
         showSpawnPointWeapons();
@@ -200,6 +238,9 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    /**
+     * Method to ask to use PowCard to grab weapon
+     */
     @Override
     public void askUsePowToGrabWeapon() {
         int indexPowCard;
@@ -218,6 +259,9 @@ public class CLIView implements View {
 
     }
 
+    /**
+     * Method to choose discard PowCard
+     */
     @Override
     public void chooseDiscardPowCard() {
         int indexPowCard;
@@ -235,17 +279,27 @@ public class CLIView implements View {
     }
 
 
+    /**
+     * Method to getNumberPow
+     */
     @Override
     public int getNumberOfPow(){
         return client.getPlayerVisibleData().getPlayer().getPows().size();
     }
 
+    /**
+     *
+     * @return 0
+     */
     @Override
     public int getPowCard() {
         return 0;
     }
 
 
+    /**
+     * Method to choose starting cell
+     */
     @Override
     public void chooseStartingCell(){
         List<Integer> coordinate;
@@ -275,12 +329,21 @@ public class CLIView implements View {
      * Metodi per Avvio Client   FINE                         *
      **********************************************************
      */
+    /**
+     * Method to print welcome message
+     */
     @Override
     public void welcomeMessage(int idClient) { printOut("START."); }
 
+    /**
+     * Method to print end message
+     */
     @Override
     public void endMessage() { printOut("GAME OVER."); }
 
+    /**
+     * Method to print map, supported by private methods
+     */
     @Override
     public void printMap() {
         int indexMap = client.getPlayerVisibleData().getDashboard().getMapType();
@@ -291,6 +354,9 @@ public class CLIView implements View {
     }
 
     //Supporting methods to be used only internally the print map method
+    /**
+     * Method to print map1
+     */
     private void printmap1(){
         String[][] map = new String[3][4];
         String[][] map1 = new String[3][4];
@@ -335,6 +401,9 @@ public class CLIView implements View {
         printOut("                 |                |               |   SpawnPoint  |");
         printOut("                 |________________|_______________|_______________|");
     }
+    /**
+     * Method to print map2
+     */
     private void printmap2(){
         String[][] map = new String[3][4];
         String[][] map1 = new String[3][4];
@@ -378,6 +447,9 @@ public class CLIView implements View {
         printOut("                 |                |               |   SpawnPoint  |");
         printOut("                 |________________|_______________|_______________|");
     }
+    /**
+     * Method to print map3
+     */
     private void printmap3(){
         String[][] map = new String[3][4];
         String[][] map1 = new String[3][4];
@@ -422,6 +494,9 @@ public class CLIView implements View {
         printOut("|________________|________________|_______________|_______________|");
     }
 
+    /**
+     * Method to print map4
+     */
     private void printmap4(){
         String[][] map = new String[3][4];
         String[][] map1 = new String[3][4];
@@ -467,7 +542,9 @@ public class CLIView implements View {
     }
 
 
-    //Method to show player its weapon cards
+    /**
+     * Method to show player its weapon cards
+     */
     @Override
     public void showPlayerWeapons() {
         List<Weapon> weaponcards = client.getPlayerVisibleData().getPlayer().getWeapons();
@@ -480,8 +557,9 @@ public class CLIView implements View {
             i++;
         }
     }
-
-    //Method to show the active player its PowCards
+    /**
+     * Method to show the active player its PowCards
+     */
     @Override
     public void showPlayerPows() {
         List<PowCard> powcards = client.getPlayerVisibleData().getPlayer().getPows();
@@ -494,7 +572,9 @@ public class CLIView implements View {
         }
     }
 
-    //Method to show a player its PowCards, and colors to choose the spawn point cell and to convert Pows in Ammos
+    /**
+     * Method to show a player its PowCards, and colors to choose the spawn point cell and to convert Pows in Ammos
+     */
     @Override
     public void showPlayerPowWithColors() {
         List<PowCard> powCards = client.getPlayerVisibleData().getPlayer().getPows();
@@ -507,7 +587,9 @@ public class CLIView implements View {
         }
     }
 
-    //Method to show a player its PowCards, used in response to an attack
+    /**
+     * Method to show a player its PowCards, used in response to an attack
+     */
     @Override
     public void showPlayerPowsForAttack(){
         List<PowCard> powcards = client.getPlayerVisibleData().getPlayer().getPows();
@@ -520,7 +602,9 @@ public class CLIView implements View {
         }
     }
 
-    //Method to show the active player how many ammos he has
+    /**
+     * Method to show the active player how many ammos he has
+     */
     @Override
     public void showPlayerAmmos(){
         printOut("You have:");
@@ -529,32 +613,9 @@ public class CLIView implements View {
         printOut(client.getPlayerVisibleData().getPlayer().getAmmo(2)+" yellow Ammos");
     }
 
-    /*
-    //Method to notify the player he has been attacked, useful for players that use a Pow in response to an attack //TODO
-    @Override
-    //TODO da rivedere serve notificare a chi è attaccato
-    public void notifyAttackedPlayer(Player attackedplayer){
-        printOut("Player "+attackedplayer.getName()+"you have being attacked. Do you want to use any Pow?");
-        printOut("0. Yes");
-        printOut("1. No");
-        int choice=this.getData.getInt(-1, 1);
-        if(choice!=-1){
-            printOut("Player "+attackedplayer.getName()+"which Pow do you want to use?");
-            showPlayerPows();
-            int numberOfPow=this.getData.getInt(-1, 2);
-            if(numberOfPow!=-1){
-                client.getPlayerVisibleData().getPlayer().getPowByIndex(numberOfPow).getLife();
-                //TODO quale metodo per l'effetto del potenziamento
-                //TODO verifica che il potenziamento sia uno di quelli che si possono usare anche non durante il proprio turno
-            }else{
-                printOut("You don't own this pow!");
-            }
-        }
-    }
-    */
-
-
-    //Method to show Weapon Cards in SpawnPoint Cell
+    /**
+     * Method to show Weapon Cards in SpawnPoint Cell
+     */
     @Override
     public void showSpawnPointWeapons(){
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
@@ -577,7 +638,9 @@ public class CLIView implements View {
         }
     }
 
-    //Method to show AmmoCard in Normal Cell
+    /**
+     * Method to show AmmoCard in Normal Cell
+     */
     @Override
     public void showAmmoCard(){
         int x = client.getPlayerVisibleData().getPlayer().getCel().getX();
@@ -591,13 +654,18 @@ public class CLIView implements View {
         }
     }
 
+    /**
+     * Method to notify attacked player
+     */
     @Override
     public void notifyAttackedPlayer(Player attackedplayer) {
 
     }
 
-
-    //Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
+    /**
+     * Method to ask the player which cards he wants to buy if in a SpawnPoint Cell
+     * @return the index of teh chosen weapon
+     */
     @Override
     public int getWeaponCard(){
         printOut("Which WeaponCard do you want to buy?");
@@ -648,21 +716,11 @@ public class CLIView implements View {
         }
         return CardToBuy;
     }
-    /*
-    @Override
-    public int getPowCard(){
-        printOut("Which PowCard do you want to use?");
-        showPlayerPows();
-        int numberOfPow=this.getData.getInt(-1, 2);
-        if(numberOfPow!=-1){
-            client.getPlayerVisibleData().getPlayer().getPowByIndex(numberOfPow).getLife();
-            //TODO quale metodo per l'effetto del potenziamento
-        }else{
-            printOut("You don't own this pow!");
-        }
-        return numberOfPow;
-    }
-    */
+
+    /**
+     * Method to get weapon card to attack
+     * @return teh weapon card to attack
+     */
     @Override
     public int getWeaponCardtoAttack(){
         printOut("Which WeaponCard do you want to use?");
@@ -671,6 +729,9 @@ public class CLIView implements View {
         return numberOfWeapon;
     }
 
+    /**
+     * Method to show the player direction
+     */
     @Override
     public void showDirection(){
     printOut("Write the sequence of movements you want to do:");
@@ -681,9 +742,15 @@ public class CLIView implements View {
         printOut("'Stop' to terminate");
     }
 
+    /**
+     * Method to print the player move
+     */
     @Override
     public void printPlayerMove(){printOut("You have moved.");}
 
+    /**
+     * Method to print the player data
+     */
     @Override
     public void printPlayerData() {
         printOut("Total damages: "+client.getPlayerVisibleData().getPlayer().getTotalDamage());
@@ -695,60 +762,34 @@ public class CLIView implements View {
         printOut("Total pows: "+client.getPlayerVisibleData().getPlayer().getNumberPow());
         showPlayerPows();
     }
-    /*
-    //Method to tell the player its state
-    @Override
-    public void printPlayerData(){
-        printMap();
-        PrintOut("Total damages: "+client.getPlayerVisibleData().getPlayer().getTotalDamage());
-        for(int i=0; i<5; i++){
-            if(i!=client.getPlayerVisibleData().getPlayer().getColor()){
-                printStream.println("Damages for player with color "+i);
-                printStream.println(client.getPlayerVisibleData().getPlayerDamages(i).get(0)+" damages by player (0) Blue");
-                printStream.println(client.getPlayerVisibleData().getPlayerDamages(i).get(1)+" damages by player (1) Green");
-                printStream.println(client.getPlayerVisibleData().getPlayerDamages(i).get(2)+" damages by player (2) Yellow");
-                printStream.println(client.getPlayerVisibleData().getPlayerDamages(i).get(3)+" damages by player (3) Pink");
-                printStream.println(client.getPlayerVisibleData().getPlayerDamages(i).get(4)+" damages by player (4) Grey");
-            }
-        }
-        for(int i=0; i<5; i++){
-            if(i!=client.getPlayerVisibleData().getPlayer().getColor()){
-                printStream.println("Marks for player with color "+i);
-                printStream.println(client.getPlayerVisibleData().getPlayerMarks(i).get(0)+" damages by player (0) Blue");
-                printStream.println(client.getPlayerVisibleData().getPlayerMarks(i).get(1)+" damages by player (1) Green");
-                printStream.println(client.getPlayerVisibleData().getPlayerMarks(i).get(2)+" damages by player (2) Yellow");
-                printStream.println(client.getPlayerVisibleData().getPlayerMarks(i).get(3)+" damages by player (3) Pink");
-                printStream.println(client.getPlayerVisibleData().getPlayerMarks(i).get(4)+" damages by player (4) Grey");
-            }
-        }
-
-        //TODO
-        printStream.println("Actual score: "+client.getPlayerVisibleData().getPlayer().getScore());
-
-    }
-    */
-    //Method to advise the player he has been damaged
-
+    /**
+     * Method to advise the player he has been damaged
+     */
     @Override
     //TODO
     public void printDamagedPlayer(int numberdamages, String attackerplayername){
         printOut("You have received "+numberdamages+" damages by Player "+attackerplayername);
     }
-
-    //Method to advise the player he has been given marks
+    /**
+     * Method to advise the player he has been given marks
+     */
     @Override
     //TODO
     public void printMarkedPlayer(int numbermarks, String attackerplayername){
         printOut("You have received "+numbermarks+" marks by Player "+attackerplayername);
     }
-
-    //Method to advise the player of the consequences of his attack
+    /**
+     * Method to advise the player of the consequences of his attack
+     */
     @Override
     //TODO
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername){
         printOut("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
     }
 
+    /**
+     * Method to show weapon info
+     */
     @Override
     public void showWeaponInfo(Weapon weapon){
         printOut(weapon.getName());
@@ -758,6 +799,9 @@ public class CLIView implements View {
         }
     }
 
+    /**
+     * Method to get gun index
+     */
     @Override
     public void getGunIndex()
     {
@@ -770,6 +814,9 @@ public class CLIView implements View {
 
     }
 
+    /**
+     * Method to get serie index
+     */
     @Override
     public void getSerieIndex()
     {
@@ -780,6 +827,9 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    /**
+     * Method to get player index
+     */
     @Override
     public void getPlayerIndex()
     {
@@ -790,6 +840,9 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    /**
+     * Method to get cell index
+     */
     @Override
     public void getCellIndex()
     {
@@ -800,6 +853,9 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    /**
+     * Method to have next attack
+     */
     @Override
     public void getNextAttack()
     {
@@ -812,22 +868,18 @@ public class CLIView implements View {
         client.sendMessage(message);
     }
 
+    /**
+     * Method to show Payment error
+     */
     @Override
     public void showPaymentError()
     {
         printOut("You don't have enougth ammo!");
     }
 
-    @Override
-    public void getDirection()
-    {
-        printOut("Insert the index of the direction?");
-        int gunIndex= getData.getInt(0,3);
-        String index = Integer.toString(gunIndex);
-        Message message = new ShootIndexRequest(index,client.getUserID());
-        client.sendMessage(message);
-    }
-
+    /**
+     * Method to get the Pow index
+     */
     @Override
     public void getPowIndex() {
         printOut("Digit 1 to use Teleporter, 2 to use Newton, 3 to cancel");
@@ -837,6 +889,9 @@ public class CLIView implements View {
         client.sendMessage(messaage);
     }
 
+    /**
+     * Method to get the position index
+     */
     @Override
     public void getPosIndex() {
         printOut("the number of the cell (from 1 to 12)");
@@ -847,6 +902,9 @@ public class CLIView implements View {
 
     }
 
+    /**
+     * Method to get the direction index
+     */
     @Override
     public void getDirectionIndex() {
         printOut("Digit the direction");
@@ -857,6 +915,9 @@ public class CLIView implements View {
 
     }
 
+    /**
+     * Method to get number steps
+     */
     @Override
     public void getNumberStep() {
         printOut("Digit the number of steps (max 3)");
@@ -867,6 +928,9 @@ public class CLIView implements View {
 
     }
 
+    /**
+     * Method to get move player index
+     */
     @Override
     public void getMovePlayerIndex() {
         printOut("Digit the number of the player");
@@ -876,6 +940,9 @@ public class CLIView implements View {
         client.sendMessage(messaage);
     }
 
+    /**
+     * Method to get scope index
+     */
     @Override
     public void getScopeIndex() {
         printOut("Digit the number of the player you want to attack with the scope, digit -1 not to attack them");
@@ -886,6 +953,9 @@ public class CLIView implements View {
 
     }
 
+    /**
+     * Method to get granade index
+     */
     @Override
     public void getGranadeIndex() {
         printOut("Digit 1 to use granade, 0 if you don't want");
