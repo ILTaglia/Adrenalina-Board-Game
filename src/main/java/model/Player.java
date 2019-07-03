@@ -53,8 +53,6 @@ public class Player implements Serializable {
 
     private boolean connected;
     private boolean dead;
-
-
     /**
      *
      * @param name chosen by the player
@@ -73,7 +71,6 @@ public class Player implements Serializable {
         this.damages.add(0);
         this.damages.add(0);
         this.damages.add(0);
-
         //you can receive marks by just four players, but you have an array of 5 elements, because
         //every index represent the color of the player that gave the mark
         this.marks=new ArrayList<>();
@@ -115,7 +112,6 @@ public class Player implements Serializable {
 
         this.gun= new ArrayList<>();
         this.pow = new ArrayList<>();
-
         this.cel = new Coordinate(-1, -1); //index of the position of the player (default position is (-1, -1)
         this.numberOfDeath =0;
         this.firstBlood = -1;
@@ -129,30 +125,24 @@ public class Player implements Serializable {
      * @return name of the player
      */
     public String getName() {return this.name;}
-
     /**
-     *
      * @return ID of the player
      */
     public String getID() {return this.id;}
-
     /**
      *
      * @return color (int) of the player
      */
     public int getColor(){return this.color;}
-
     /**
      *
      * @return value of active
      */
     public boolean getActive(){return this.active;}
-
     /**
      * Method to set active to false at the end
      */
     public void resetActive(){this.active = false;}
-
     /**
      * Method to set active managing turns
      */
@@ -162,7 +152,6 @@ public class Player implements Serializable {
         //the player has ended its turn
         else if(this.action==2) this.active = false;
     }
-
     /**
      *
      * @param c is the color of the player
@@ -172,7 +161,6 @@ public class Player implements Serializable {
         if(c==this.getColor()) return -1; //not self made damages
         return damages.get(c);
     }
-
     /**
      *
      * @return the total amount of damages of the player
@@ -182,9 +170,7 @@ public class Player implements Serializable {
         for(int h=0; h<this.damages.size(); h++){
             if(h!=this.getColor()) j=j+ getNumberDamage(h);
         }
-        return j;
-    }
-
+        return j; }
     /**
      *
      * @return the color of the player that has made the maximum number of damages
@@ -203,7 +189,6 @@ public class Player implements Serializable {
         }
         return k;
     }
-
     /**
      * Method to set damages
      * @param damage is the number of damages to add
@@ -216,14 +201,12 @@ public class Player implements Serializable {
         //command of reset
         if(damage==0){
             damages.set(colorAttacker, damage);
-            return 2;
-        }
+            return 2; }
         int j= getTotalDamage();
         if(j==0) this.firstBlood =colorAttacker;
         if(j+damage==11){
             damages.set(colorAttacker, (damages.get(colorAttacker)+damage));
-            return 1; //killshot point to player with index colorAttacker
-        }
+            return 1; }//killshot point to player with index colorAttacker
         if(j+damage>=12) {
             int h=12-j; //possible damages to fill the board of the player
             damages.set(colorAttacker, (damages.get(colorAttacker)+h)); //extra damages are lost, a player cannot have more than 12 damages
@@ -232,7 +215,6 @@ public class Player implements Serializable {
         damages.set(colorAttacker, (damages.get(colorAttacker)+damage));
         return 0;
     }
-
     /**
      *
      * @param colorOfWhoMarked is the color of the enemy player
@@ -243,7 +225,6 @@ public class Player implements Serializable {
         /*Attention! You could test that for every player in the position this.color() you have zero for marks and damages*/
         return marks.get(colorOfWhoMarked);
     }
-
     /**
      *
      * @param colorOfWhoMarked is the color of the enemy player to be reset
@@ -251,7 +232,6 @@ public class Player implements Serializable {
     public void resetMarks(int colorOfWhoMarked){
         marks.set(colorOfWhoMarked,0);
     }
-
     /**
      * Method to set the number of marks
      * @param numberOfMarksToAdd is the number of marks to add
@@ -265,7 +245,6 @@ public class Player implements Serializable {
             else marks.set(colorOfWhoMarks, (previousvalue+numberOfMarksToAdd));
         }
     }
-
     /**
      *
      * @param color of the ammo I want to know the number
@@ -276,7 +255,6 @@ public class Player implements Serializable {
         if(color<0 || color>2) throw new InvalidColorException();
         return (int) ammo.stream().filter(x->x.getAmmo()==color).count();
     }
-
     /**
      *
      * @param ammo to be added to the player
@@ -287,7 +265,6 @@ public class Player implements Serializable {
             throw new MoreThanTreeAmmosException();
         } else this.ammo.add(ammo);
     }
-
     /**
      *
      * @param n is the number of ammos to discard
@@ -300,12 +277,10 @@ public class Player implements Serializable {
         for(int i = 0; i< this.ammo.size(); i++) {
             if(ammo.getAmmo()== this.ammo.get(i).getAmmo()){
                 this.ammo.remove(i);
-                n--;
-            }
+                n--; }
             if(n==0) return;
         }
     }
-
     /**
      *
      * @param weapon to be checked
@@ -317,23 +292,19 @@ public class Player implements Serializable {
         }
         return false;
     }
-
     /**
      *
      * @return all the weapons of the player in a List
      */
     public List<Weapon> getWeapons(){
-        List<Weapon> list = (List)this.gun.clone();
-        return list;
+        return this.gun;
     }
-
     /**
      *
      * @param index of the required weapon
      * @return the weapon in position of index
      */
     public Weapon getWeaponByIndex (int index){return this.gun.get(index);}
-
     /**
      *
      * @param weapon is the weapon to be added to the player's weapons
@@ -343,13 +314,11 @@ public class Player implements Serializable {
         if(gun.size()==3) throw new MaxNumberofCardsException(); //you have to discardWeapon a weapon, cannot have more than three
         gun.add(weapon);
     }
-
     /**
      *
      * @return the number of owned weapons
      */
     public int getNumberWeapon(){return this.gun.size();}
-
     /**
      *
      * @param p to be checked
@@ -361,7 +330,6 @@ public class Player implements Serializable {
         }
         return false;
     }
-
     /**
      *
      * @param powCard is the PowCard to be added to the player's weapons
@@ -371,7 +339,6 @@ public class Player implements Serializable {
         if(pow.size()==3&&!dead) throw new MaxNumberofCardsException(); //discardWeapon one pow
         pow.add(powCard);
     }
-
     /**
      *
      * @param p is the PowCard to be removed
@@ -383,7 +350,6 @@ public class Player implements Serializable {
         if(!isPowPresent(p)) throw new NotOwnedCardException(); //you don't have it
         pow.remove(p);
     }
-
     /**
      *
      * @param weapon is the weapon to be removed
@@ -397,7 +363,6 @@ public class Player implements Serializable {
     }
     //----------------------------------Metodi utili sul Client ------------------------------------------------------//
     //------------------------------remove in base all'indice---------------------------------------------------------//
-
     /**
      *
      * @param indexPowCard to be removed
@@ -405,7 +370,6 @@ public class Player implements Serializable {
     public void removePow(int indexPowCard){        //TODO: controllare e completare con eccezioni
         pow.remove(indexPowCard);
     }
-
     /**
      *
      * @param indexWeaponCard to be removed
@@ -413,98 +377,81 @@ public class Player implements Serializable {
     public void removeWeapon(int indexWeaponCard){      //TODO: controllare e completare con eccezioni
         gun.remove(indexWeaponCard);
     }
-
     /**
      *
      * @return al the PowCards owned by the player
      */
     public List<PowCard> getPows(){
-        List list = (List)this.pow.clone();     //TODO: perchè usi clone?
-        return list;
+        return this.pow;
     }
-
     /**
      *
      * @param index of the required PowCard
      * @return teh PowCard corresponding to the index
      */
     public PowCard getPowByIndex(int index){return this.pow.get(index);}
-
     /**
      *
      * @return the number of PowCards
      */
     public int getNumberPow(){return this.pow.size();}
-
     /**
      *
      * @return the Coordinate of the player (position)
      */
     public Coordinate getCel(){return this.cel;}
-
     /**
      *
      * @param x is the line of the coordinate
      * @param y is the column of the coordinate
      */
     public void setCel(int x, int y){cel.set(x, y);}
-
     /**
      *
      * @return numberOfDeath
      */
     public int getNumberOfDeath(){return this.numberOfDeath;}
-
     /**
      * Method to increase numberOfDeath
      */
     public void setDeath(){this.numberOfDeath +=1;}
-
     /**
      *
      * @param n is the value in which to set numberOfDeath to activate Friensy
      */
     public void setDeathFrienzy(int n){this.numberOfDeath =n;}
-
     /**
      *
      * @return number of actions taken by the player till the present moment
      */
     public int getAction(){return this.action;}
-
     /**
      * Method to increase the number of actions
      */
     public void setAction(){this.action+=1;}
-
     /**
      * Method to reset the number of actions
      */
     public void resetAction(){this.action=0;}
-
     /**
      *
      * @return the firstblood
      */
     public int getFirstBlood(){return this.firstBlood;}
-
     /**
      * Method to reset the firstblood
      */
     public void resetFirstBlood(){this.firstBlood = -1;}
-
     /**
      *
      * @return the score of the player
      */
     public int getScore(){return this.score;}
-
     /**
      * Method to add the points of a single turn to the global score
      * @param s is the score to be added
      */
     public void setScore(int s){this.score=this.score+s;}
-
     /**
      *
      * @param connected is true or false whether the player is connected or not
@@ -512,7 +459,6 @@ public class Player implements Serializable {
     public void setConnected(boolean connected) {
         this.connected = connected;
     }
-
     /**
      *
      * @return the boolean value for checking connection
@@ -520,7 +466,6 @@ public class Player implements Serializable {
     public boolean isConnected() {
         return connected;
     }
-
     /**
      *
      * @param dead is true or false whether the player is dead or not
@@ -528,7 +473,6 @@ public class Player implements Serializable {
     public void setDead(boolean dead) {
         this.dead = dead;
     }
-
     /**
      *
      * @return the boolean value for checking death
@@ -536,7 +480,4 @@ public class Player implements Serializable {
     public boolean isDead() {
         return dead;
     }
-
-
-
 }

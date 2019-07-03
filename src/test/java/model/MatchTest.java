@@ -239,6 +239,7 @@ public class MatchTest {
 
         NormalCell normalCell = (NormalCell)d.getMap(2, 2);
         match.addAmmoCard(normalCell);
+        match.addAmmoCard(normalCell);
     }
 
     @Test
@@ -607,5 +608,37 @@ public class MatchTest {
         Coordinate cell1 = new Coordinate(2, 3);
         Coordinate cell2 = new Coordinate(0, 1);
         assertEquals(4, match.getCellsMD(cell1, cell2));
+    }
+
+    @Test
+    public void noDamagedPlayers(){
+        player1.setDamage(2, player2.getColor());
+        assertEquals(2, player1.getNumberDamage(player2.getColor()));
+        player2.setDamage(1, player3.getColor());
+        assertEquals(1, player2.getNumberDamage(player3.getColor()));
+        assertFalse(match.getNoDamagedPlayers().contains(player1));
+        assertFalse(match.getNoDamagedPlayers().contains(player2));
+        assertTrue(match.getNoDamagedPlayers().contains(player3));
+        assertTrue(match.getNoDamagedPlayers().contains(player4));
+
+        assertEquals(player1, match.getPlayer(0));
+        assertThrows(InvalidColorException.class, () -> match.getPlayer(7));
+    }
+
+    @Test
+    public void setDead(){
+        match.createDashboard(3);
+        int[][] killShotTrack = match.getDashboard().getKillShotTrack();
+        //player1 kills player2
+        match.playerDeath(player1, player2, false);
+        assertEquals(0, player1.getMarks(player2.getColor()));
+        assertEquals(player1.getColor(), killShotTrack[0][0]);
+        assertEquals(-1, killShotTrack[1][0]);
+
+        //player3 kills player4
+        match.playerDeath(player3, player4, true);
+        assertEquals(1, player3.getMarks(player4.getColor()));
+        assertEquals(player3.getColor(), killShotTrack[0][1]);
+        assertEquals(player3.getColor(), killShotTrack[1][1]);
     }
 }

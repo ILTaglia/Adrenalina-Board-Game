@@ -22,7 +22,7 @@ public class AttackTest {
     public void MultipleAttack()
     {
         ArrayList<TypeAttack> A;
-        A=new ArrayList<TypeAttack>();
+        A=new ArrayList<>();
         A.add(new AttackFactory().getinstanceof(1,2,3,4,5));
         A.add(new AttackFactory().getinstanceof(6,7,8,9,10));
         A.add(new AttackFactory().getinstanceof(7,6,5,4,3));
@@ -186,6 +186,7 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(1,1,1,1,1);
+        assertEquals(1, A.getType());
         assertEquals(A.getTypePlayer(),1);
         A.setTypePlayer(2);
         assertEquals(A.getTypePlayer(),2);
@@ -196,6 +197,7 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(2,1,1,1,1);
+        assertEquals(2, A.getType());
         assertEquals(A.getTypePlayer(),1);
         A.setTypePlayer(2);
         assertEquals(A.getTypePlayer(),2);
@@ -206,6 +208,7 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(3,1,1,1,1);
+        assertEquals(3, A.getType());
         assertEquals(A.getTypePlayer(),1);
         A.setTypePlayer(2);
         assertEquals(A.getTypePlayer(),2);
@@ -216,6 +219,7 @@ public class AttackTest {
     {
         TypeAttack A;
         A=new AttackFactory().getinstanceof(4,1,1,1,1);
+        assertEquals(4, A.getType());
         assertEquals(A.getTypePlayer(),1);
         A.setTypePlayer(2);
         assertEquals(A.getTypePlayer(),2);
@@ -399,6 +403,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(5, A.getType());
 
     }
 
@@ -458,6 +463,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(6, A.getType());
 
     }
 
@@ -469,6 +475,7 @@ public class AttackTest {
         A.addExtra(2);
         assertEquals(2, A.getNumberExtra());
         assertEquals(2, A.getExtras().get(1));
+        assertEquals(2, A.getExtras().size());
     }
 
     @Test
@@ -517,6 +524,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(7, A.getType());
 
     }
 
@@ -576,6 +584,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(8, A.getType());
 
     }
 
@@ -635,6 +644,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(9, A.getType());
 
     }
 
@@ -694,6 +704,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(10, A.getType());
 
     }
 
@@ -753,6 +764,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(11, A.getType());
 
     }
 
@@ -812,6 +824,7 @@ public class AttackTest {
         A.addEffect(new EffectFactory().getinstanceof(2,2));
         assertEquals(2, A.getNumberEffect());
         assertEquals(2, A.getEffect(1).getId());
+        assertEquals(12, A.getType());
 
     }
 
@@ -822,6 +835,7 @@ public class AttackTest {
         A.addExtra(1);
         A.addExtra(2);
         assertEquals(2, A.getNumberExtra());
+        assertEquals(1, A.getExtras().get(0));
         assertEquals(2, A.getExtras().get(1));
     }
 

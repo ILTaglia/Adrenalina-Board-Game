@@ -5,7 +5,6 @@ import exceptions.*;
 import java.io.Serializable;
 
 public class Ammo implements Serializable {
-
     /**
      * color is the int corresponding to the color of the Ammo
      * Conventions used:
@@ -14,7 +13,6 @@ public class Ammo implements Serializable {
      * 2 = yellow
      */
     private int color;
-
     /**
      *
      * @param color is the int corresponding to the color of the Ammo
@@ -24,7 +22,6 @@ public class Ammo implements Serializable {
         if(color<0 || color>2) throw new InvalidColorException();
         this.color=color;
     }
-
     /**
      *
      * @return the color as an int of the object Ammo
@@ -32,7 +29,6 @@ public class Ammo implements Serializable {
     public int getAmmo(){
         return color;
     }
-
     /**
      *
      * @return the int representing the color as a String
@@ -40,6 +36,4 @@ public class Ammo implements Serializable {
     public String toString(){
         return String.valueOf(color);
     }
-
-
 }

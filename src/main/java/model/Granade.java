@@ -12,7 +12,6 @@ public class Granade extends PowCard{
     private int color;
     private int cost;
     private int moveme;
-
     /**
      *
      * @param color is the int representing the color
@@ -24,7 +23,6 @@ public class Granade extends PowCard{
         this.color=color;
         this.cost=cost;
         this.moveme=moveme;
-
     }
     /**
      *
@@ -34,7 +32,6 @@ public class Granade extends PowCard{
     {
         this.color=color;
     }
-
     /**
      *
      * @return the int representing the color
@@ -43,7 +40,6 @@ public class Granade extends PowCard{
     {
         return this.color;
     }
-
     /**
      *
      * @param cost is the price of the PowCard
@@ -52,7 +48,6 @@ public class Granade extends PowCard{
     {
         this.cost=cost;
     }
-
     /**
      *
      * @return the int representing the price of the PowCard
@@ -61,7 +56,6 @@ public class Granade extends PowCard{
     {
         return this.cost;
     }
-
     /**
      *
      * @return the name of the PowCard
@@ -70,7 +64,6 @@ public class Granade extends PowCard{
     {
         return "Granata Venom";
     }
-
     /**
      *
      * @param moveme is the int that indicates of how many steps the attacking player can move
@@ -79,7 +72,6 @@ public class Granade extends PowCard{
     {
         this.moveme=moveme;
     }
-
     /**
      *
      * @return the int that indicates of how many steps the attacking player can move
@@ -88,7 +80,6 @@ public class Granade extends PowCard{
     {
         return this.moveme;
     }
-
     /**
      *
      * @return the type of the PowCard
@@ -97,5 +88,4 @@ public class Granade extends PowCard{
     public int getType() {
         return 3;
     }
-
 }

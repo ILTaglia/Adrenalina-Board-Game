@@ -8,8 +8,6 @@ public class AmmoPowTile extends AmmoCard {
      * 1 = AmmoPowTile
      * There are just two Ammos, as the third element to be collected is the PowCard.
      */
-
-
     public AmmoPowTile(int color1, int color2){
         refillAmmo =new ArrayList<>();
         refillAmmo.add(new Ammo(color1));
@@ -17,7 +15,6 @@ public class AmmoPowTile extends AmmoCard {
         type=1;
         used =false;
     }
-
     /**
      *
      * @return the Ammos contained in the refill as a String
@@ -26,5 +23,4 @@ public class AmmoPowTile extends AmmoCard {
     public String toString(){
         return super.toString()+"Pow";
     }
-
 }

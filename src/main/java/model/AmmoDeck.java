@@ -12,8 +12,6 @@ public class AmmoDeck extends Deck {
      * 2 = Yellow
      * The cards are created in order. In controller there is a shuffle method to change the order.
      */
-
-
     private int[][] matrixAmmoDeck = {
             {0,1,1},
             {0,1,1},
@@ -56,7 +54,6 @@ public class AmmoDeck extends Deck {
     };
     
     public AmmoDeck() throws InvalidColorException {
-
         /**
          * stack is the ArrayList containing the cards to be collected.
          * stackDiscarded is the ArrayList containing the cards already used and discarded.
@@ -68,9 +65,5 @@ public class AmmoDeck extends Deck {
         int i;
         for(i=0;i<18;i++) this.stack.add(new AmmoTile(matrixAmmoDeck[i][0], matrixAmmoDeck[i][1], matrixAmmoDeck[i][2]));
         for(i=0;i<18;i++) this.stack.add(new AmmoPowTile(matrixAmmoPowDeck[i][0], matrixAmmoPowDeck[i][1]));
-
-
-
-
     }
 }

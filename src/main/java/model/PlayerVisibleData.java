@@ -7,11 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerVisibleData implements Serializable {
-
-    /*convenzioni, negli arraylist di interi hai per ogni indice il valore della variabile (esempio primosangue giocatore blu
-    all'indice zero dell'arraylist delle firstblood. */
-    //INDICE PER TUTTI è IL COLORE DEL PLAYER. VALORE IN CORRISPONDENZA QUELLO DEL PLAYER SELEZIONATO
-
+    /**
+     * Class that contains all the information that must be known globally.
+     *
+     * Conventions on the Hash Map of int: every player has to know alla the information about the others. For example, player blue
+     * (with color 0) will have the information of all damages (five elements) thta are the damages for player green, 1, the same for
+     * yellow (2), and so on.
+     *
+     * Index is the color of the selected player
+     */
     private Player player;
     private Dashboard dashboard;
 
@@ -30,7 +34,10 @@ public class PlayerVisibleData implements Serializable {
 
     private Map<String,Integer> marksOfPlayer;
     private Map<String,Map> marksOfAll;
-
+    /**
+     *
+     * @param player is the player that is the client
+     */
     public PlayerVisibleData(Player player){
         this.player=player;
         this.enemiesNameColor=new HashMap<>();
@@ -47,10 +54,18 @@ public class PlayerVisibleData implements Serializable {
             playerAmmo.add(i,1);
         }
     }
+    /**
+     *
+     * @param dashboard is the dashboard of the match
+     */
     public void setDashboard(Dashboard dashboard){
         this.dashboard=dashboard;
     }
-
+    /**
+     *
+     * @param playerName is the name of the player enemy
+     * @param playerColor is the color (int) of the player enemy
+     */
     public void setEnemy(String playerName,int playerColor){
         this.enemiesNameColor.put(playerName,playerColor);
         this.activePlayer.put(playerName,false);
@@ -61,17 +76,31 @@ public class PlayerVisibleData implements Serializable {
         //TODO serve la posizione dei player this.playersPosition(playerName, );
 
     }
+    /**
+     *
+     * @return the player corresponding to the client
+     */
     public Player getPlayer(){
         return this.player;
     }
-
+    /**
+     *
+     * @return the dashboard of the match
+     */
     public Dashboard getDashboard(){
         return this.dashboard;
     }
-
+    /**
+     *
+     * @return all the enemy players, with their names and color
+     */
     public Map<String,Integer> getAllPlayersColorName(){
         return this.enemiesNameColor;
     }
+    /**
+     *
+     * @return the active player
+     */
     public String getActivePlayer(){
         for (Map.Entry<String,Boolean> entry : activePlayer.entrySet()) {
             if (entry.getValue()) {
@@ -80,7 +109,11 @@ public class PlayerVisibleData implements Serializable {
         }
         return null;
     }
-
+    /**
+     *
+     * @param color is the color of the ammo
+     * @param numberOfAmmo is the number of ammo to be added
+     */
     public void setNumberOfAmmo(int color,int numberOfAmmo){
         playerAmmo.set(color,numberOfAmmo);
     }

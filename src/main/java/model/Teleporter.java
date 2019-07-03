@@ -12,7 +12,6 @@ public class Teleporter extends PowCard{
     private int color;
     private int cost;
     private int moveme;
-
     /**
      *
      * @param color is the int representing the color
@@ -24,9 +23,7 @@ public class Teleporter extends PowCard{
         this.color=color;
         this.cost=cost;
         this.moveme=moveme;
-
     }
-
     /**
      *
      * @param color is the int corresponding color associated to the PowCard
@@ -35,7 +32,6 @@ public class Teleporter extends PowCard{
     {
         this.color=color;
     }
-
     /**
      *
      * @return the int representing the color
@@ -44,7 +40,6 @@ public class Teleporter extends PowCard{
     {
         return this.color;
     }
-
     /**
      *
      * @param cost is the price of the PowCard
@@ -53,7 +48,6 @@ public class Teleporter extends PowCard{
     {
         this.cost=cost;
     }
-
     /**
      *
      * @return the int representing the price of the PowCard
@@ -62,7 +56,6 @@ public class Teleporter extends PowCard{
     {
         return this.cost;
     }
-
     /**
      *
      * @return the name of the PowCard
@@ -71,7 +64,6 @@ public class Teleporter extends PowCard{
     {
         return "Teletrasporto";
     }
-
     /**
      *
      * @param moveme is the int that indicates of how many steps the attacking player can move
@@ -80,7 +72,6 @@ public class Teleporter extends PowCard{
     {
         this.moveme=moveme;
     }
-
     /**
      *
      * @return the int that indicates of how many steps the attacking player can move
@@ -89,7 +80,6 @@ public class Teleporter extends PowCard{
     {
         return this.moveme;
     }
-
     /**
      *
      * @return the type of the PowCard

@@ -11,7 +11,7 @@ public class DamageTest {
     public void creationtest()
     {
         ArrayList<Damage> D;
-        D=new ArrayList<Damage>();
+        D=new ArrayList<>();
         D.add(new DamageFactory().getinstaceof(1,5));
         assertEquals(5,D.get(0).getdamage());
     }
@@ -24,6 +24,7 @@ public class DamageTest {
         assertEquals(D.getdamage(),1);
         D.setdamage(5);
         assertEquals(D.getdamage(),5);
+        assertEquals(0, D.getType());
     }
 
     @Test
@@ -34,6 +35,7 @@ public class DamageTest {
         assertEquals(D.getdamage(),1);
         D.setdamage(5);
         assertEquals(D.getdamage(),5);
+        assertEquals(1, D.getType());
     }
 
 
@@ -41,7 +43,7 @@ public class DamageTest {
     public void multipledamages()
     {
         ArrayList<Damage> D;
-        D=new ArrayList<Damage>();
+        D=new ArrayList<>();
         Damage y,x;
         x=new DamageFactory().getinstaceof(1,6);
         y=new DamageFactory().getinstaceof(2,7);

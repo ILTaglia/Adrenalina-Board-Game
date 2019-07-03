@@ -26,7 +26,6 @@ public class Match implements Serializable {
     private PowDeck powDeck;
     private boolean checkDashboard = false;
 
-
     public Match() {
         this.round = 1;
         this.players = new ArrayList<>();
@@ -35,7 +34,6 @@ public class Match implements Serializable {
         weaponDeck.setWeapons("Armi");
         powDeck = new PowDeck("Pow");
     }
-
     /**
      * Method to increment the number of round
      */
@@ -44,7 +42,6 @@ public class Match implements Serializable {
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }
-
     /**
      *
      * @return the number of round
@@ -58,7 +55,6 @@ public class Match implements Serializable {
     //Alla creazione del Player istanzio la relativa PlayerData che mando al Client
     //Ciascun Client quindi avrà la classe con la classe Player già inizializzata.
     //In seguito la classe va aggiornata con il nome dei Player avversari
-
     /**
      * Method to create the player, with the given Strings:
      * @param name is the name chosen by the player
@@ -69,7 +65,6 @@ public class Match implements Serializable {
         Player player = new Player(name, color, id);
         addPlayer(player);
     }
-
     /**
      * Method to add the player in a match
      * @param player to be added in the match
@@ -79,7 +74,6 @@ public class Match implements Serializable {
         Message message = new NewPlayerData(new PlayerVisibleData(player));
         notifySpecificClient(player.getID(), message);
     }
-
     /**
      * Method to notify all the other players
      */
@@ -91,7 +85,6 @@ public class Match implements Serializable {
     //________________________________________________________________________________________________________________//
 
     //---------------------------------Metodi gestione connessione ---------------------------------------------------//
-
     /**
      * Method to disconnect a player
      * @param userID is the ID of the player to disconnect
@@ -101,7 +94,6 @@ public class Match implements Serializable {
         Message infoPlayerDisconnected = new InfoMatch("Player " + getPlayerByID(userID).getName() + " is disconnected from game.");
         notifyAllExceptOneClient(userID, infoPlayerDisconnected);
     }
-
     /**
      * Method to re-connect a player
      * @param userID is the ID of the player to re-connect
@@ -113,7 +105,6 @@ public class Match implements Serializable {
     }
 
     //---------------------------------Metodi inizializzazione Dashboard----------------------------------------------//
-
     /**
      * Method to create the dashboard. This is not made in the constructor because the first player in the match chooses
      * the type of dashboard to use
@@ -123,7 +114,6 @@ public class Match implements Serializable {
         this.dashboard = new Dashboard(selectedDashboard,8 );               //TODO
         checkDashboard = true;
     }
-
     /**
      * Method to fill the dashboard with all weapons in the SpawnPoint Cells and AmmoCards in the Normal Cells
      */
@@ -144,7 +134,6 @@ public class Match implements Serializable {
         }
         updateClientDashboard();
     }
-
     /**
      * Method to notify the new map has been created
      */
@@ -152,7 +141,6 @@ public class Match implements Serializable {
         InfoMatch message = new InfoMatch("Selected map " + dashboard.getMapType() + " . Stampo di seguito:");
         notifyAllClients(this, message);
     }
-
     /**
      * Method to fill the SpawnPoint Cell
      * @param cell to be filled with weapons (as it is a SpawnPoint Cell)
@@ -173,7 +161,6 @@ public class Match implements Serializable {
         }
         //This method fill the dashboard for the first time, this Exception is impossible
     }
-
     /**
      * Method to fill the Normal Cell
      * @param cell to be filled with AmmoCard (as it is a Normal Cell)
@@ -190,7 +177,6 @@ public class Match implements Serializable {
             //This method fill the dashboard for the first time, this Exception is impossible
         }
     }
-
     /**
      * Method to notify all players the dashboard has been updated
      */
@@ -198,15 +184,12 @@ public class Match implements Serializable {
         Message infoMap = new DashboardData(this.dashboard);
         notifyAllClients(this, infoMap);
     }
-
     /**
      * Method to notify all players the end of the action
      */
     public void updateEndAction() {
         this.updateClientDashboard();
-
     }
-
     /**
      * Method to notify all players the end of the turn
      */
@@ -215,10 +198,7 @@ public class Match implements Serializable {
         // updateClientDashboard chiamato direttamente dalla fill!
         this.round++;
     }
-
-
     //TODO: messaggi per Match!!!!
-
     /**
      * Method to assign the score calculated in controller to the players
      * @param score is the List containg the score to be added to players. Index represents the color so
@@ -236,10 +216,7 @@ public class Match implements Serializable {
         }
         //TODO: messaggi per Player che ricevono punti. ExceptOne (player Dead)
     }
-
-
     //________________________________________________________________________________________________________________//
-
     /**
      * Method to initialize in the first turn the PowCards to the players
      */
@@ -253,7 +230,6 @@ public class Match implements Serializable {
             }
         }
     }
-
     /**
      * Method to make a player spawn
      * @param player is the player that has to spawn
@@ -276,7 +252,6 @@ public class Match implements Serializable {
         Message infoSpawnPoint = new NewPosition(x, y);
         notifySpecificClient(player.getID(), infoSpawnPoint);
     }
-
     /**
      * Method to make a dead player spawn
      * @param player is the dead player
@@ -301,7 +276,6 @@ public class Match implements Serializable {
         }
         player.setDead(false);
     }
-
     /**
      * Method to assign a PowCard to a player
      * @param player is the player to whom assign the PowCard
@@ -319,7 +293,6 @@ public class Match implements Serializable {
         Message infoPowCard = new NewPowCard(powcard);
         notifySpecificClient(player.getID(), infoPowCard);
     }
-
     /**
      * Method to assign a Weapon to a player
      * @param player is the player to whom assign the Weapon
@@ -334,7 +307,6 @@ public class Match implements Serializable {
         Message infoWeaponCard = new NewWeaponCard(weaponCard);
         notifySpecificClient(player.getID(), infoWeaponCard);
     }
-
     /**
      * Method to assign Ammos to a player
      * @param player is the player to whom assign the Ammos
@@ -355,7 +327,6 @@ public class Match implements Serializable {
         Message infoAmmo = new NewAmmo(ammo);
         notifySpecificClient(player.getID(), infoAmmo);
     }
-
     /**
      *
      * @param player is the player to be set
@@ -368,7 +339,6 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoSpawnPoint);
     }
     //TODO: @Angelica controlla questi tre metodi plis
-
     /**
      * Method to set the number of damages to a player
      * @param playerAttacker is the player that attacks
@@ -395,7 +365,6 @@ public class Match implements Serializable {
         playerAttacked.setMarks(damage,playerAttacker.getColor());
         //TODO: segnalo attacco ricevuto al Player e gli do l'esito dei marchi.
     }
-
     /**
      * Method to manage the death of a player
      * @param playerKiller is the player that kills
@@ -418,7 +387,6 @@ public class Match implements Serializable {
         //TODO Segnalo tutto al Player
 
     }
-
     /**
      * Method to return player by color
      * @param color is the int representing the color of the player
@@ -433,7 +401,6 @@ public class Match implements Serializable {
         }
         throw new InvalidColorException();
     }
-
     /**
      * Method to return the active player
      * @return the active player
@@ -444,7 +411,6 @@ public class Match implements Serializable {
         }
         return null;
     }
-
     /**
      *
      * @param userID is the ID of the player requested
@@ -458,7 +424,6 @@ public class Match implements Serializable {
         }
         return null;
     }
-
     /**
      *
      * @return all the players in the match
@@ -466,7 +431,6 @@ public class Match implements Serializable {
     public List<Player> getPlayers() {
         return this.players;
     }
-
     /**
      *
      * @return all the players in the match that has no damages
@@ -478,7 +442,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @return the boolean checkDashboard to verify correct creation of the dashboard
@@ -486,7 +449,6 @@ public class Match implements Serializable {
     public boolean getCheck() {
         return this.checkDashboard;
     }
-
     /**
      * Method that returns player by index to check their ID
      * @param index is the index of player
@@ -495,7 +457,6 @@ public class Match implements Serializable {
     public Player getPlayerByIndex(int index) {
         return this.players.get(index);
     }
-
     /**
      *
      * @return number of players in the match (the size of the ArrayList containing the players)
@@ -503,17 +464,12 @@ public class Match implements Serializable {
     public int getPlayersSize() {
         return this.players.size();
     }
-
     /**
-     *
      * @return the dashboard of the match
      */
     public Dashboard getDashboard() {
         return this.dashboard;
     }
-
-    //TODO:Test
-
     /**
      * Method to add again the card after it has been used
      * @param cell is the normal cell in which to add the card
@@ -524,9 +480,7 @@ public class Match implements Serializable {
         } catch (FullCellException e) {
             //TODO
         }
-
     }
-
     /**
      * Method to add a weapon in the SpawnPoint Cell
      * @param cell is the SpawnPoint Cell where to add the weapon
@@ -541,7 +495,6 @@ public class Match implements Serializable {
             //TODO
         }
     }
-
     /**
      *
      * @param numberAmmo is the number of Ammos to remove to the active player
@@ -552,7 +505,6 @@ public class Match implements Serializable {
         Player player = this.getActivePlayer();
         player.removeAmmo(numberAmmo, ammo);
     }
-
     /**
      * Method to set a weapon card
      * @param cell is the SpawnPoint Cell in which to set the weapon
@@ -562,7 +514,6 @@ public class Match implements Serializable {
         Weapon weapon = (Weapon) weaponDeck.drawCard();
         cell.setWeaponCard(weapon, index);
     }
-
     /**
      * Method for controller, to shuffle all decks at the start of the game
      */
@@ -571,8 +522,6 @@ public class Match implements Serializable {
         weaponDeck.shuffleStack();
         powDeck.shuffleStack();
     }
-
-
     /**
      * Method to discard a PowCard
      * @param powCard to be discarded
@@ -580,7 +529,6 @@ public class Match implements Serializable {
     public void discardPowCard(PowCard powCard) {
         powDeck.discardCard(powCard);
     }
-
     /**
      * Method to discard a weapon
      * @param weapon to be discarded
@@ -592,7 +540,6 @@ public class Match implements Serializable {
     //________________________________________________________________________________________________________________//
 
     //---------------------------------Metodi utili per la Shoot------------------------------------------------------//
-
     /**
      *
      * @param player is the given player
@@ -676,7 +623,6 @@ public class Match implements Serializable {
         }
         return visible;
     }
-
     /**
      *
      * @param player is the given player
@@ -748,7 +694,6 @@ public class Match implements Serializable {
 
         return visibleplayers;
     }
-
     /**
      *
      * @param cell is the considered cell
@@ -768,7 +713,6 @@ public class Match implements Serializable {
         }
         return roomplayers;
     }
-
     /**
      *
      * @param player is the given player
@@ -785,7 +729,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param player is the given player
@@ -802,7 +745,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param player1 is the first considered player
@@ -822,11 +764,9 @@ public class Match implements Serializable {
         if (x1 == x2) {
             distance = Math.abs(y2 - y1);
         } else if (y1 == y2) {
-            distance = Math.abs(x2 - x1);
-        }
+            distance = Math.abs(x2 - x1); }
         return distance;
     }
-
     /**
      *
      * @param cell is the given cell (given as a coordinate)
@@ -850,10 +790,7 @@ public class Match implements Serializable {
                 othercellcolor = this.getDashboard().getMap(i, j).getColor();
                 if (othercellcolor == cellcolor) {
                     Coordinate c = new Coordinate(i, j);
-                    visible.add(c);
-                }
-            }
-        }
+                    visible.add(c); } } }
 
         //adds cells if there is a port
         for (int i = 0; i < 4; i++) {
@@ -922,7 +859,6 @@ public class Match implements Serializable {
         }
         return visible;
     }
-
     /**
      *
      * @param cell is the given cell (as a coordinate)
@@ -940,7 +876,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param cell is the given cell (as a coordinate)
@@ -958,7 +893,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param cell1 is the first considered cell
@@ -980,7 +914,6 @@ public class Match implements Serializable {
 
         return distance;
     }
-
     /**
      *
      * @param player is the given player
@@ -997,7 +930,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param player is the given player
@@ -1014,7 +946,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param player is the given player
@@ -1031,7 +962,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param player is the given player
@@ -1048,7 +978,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param cell is the given cell(as a coordinate)
@@ -1067,7 +996,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param cell is the given cell(as a coordinate)
@@ -1086,7 +1014,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param cell is the given cell(as a coordinate)
@@ -1105,7 +1032,6 @@ public class Match implements Serializable {
         }
         return list;
     }
-
     /**
      *
      * @param cell is the given cell(as a coordinate)

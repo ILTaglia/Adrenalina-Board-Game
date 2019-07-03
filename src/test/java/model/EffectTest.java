@@ -13,9 +13,9 @@ public class EffectTest {
     {
         Effect E;
         E=new EffectFactory().getinstanceof(1,5);
-        assertEquals(E.getId(),5);
+        assertEquals(5, E.getId());
         E=new EffectFactory().getinstanceof(2,2);
-        assertEquals(E.getId(),2);
+        assertEquals(2, E.getId());
     }
 
     @Test

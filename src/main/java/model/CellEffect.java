@@ -11,7 +11,6 @@ public class CellEffect implements Effect {
      */
     private int id;
     private ArrayList<Damage> damages;
-
     /**
      *
      * @param type of damage
@@ -23,7 +22,6 @@ public class CellEffect implements Effect {
         damage1=new DamageFactory().getinstaceof(type,damage);
         this.damages.add(damage1);
     }
-
     /**
      *
      * @param i is the index of the damage
@@ -42,7 +40,6 @@ public class CellEffect implements Effect {
     public void setId(int id) {
         this.id=id;
     }
-
     /**
      *
      * @return the number of tokens given by the damage
@@ -51,8 +48,6 @@ public class CellEffect implements Effect {
     {
         return damages.size();
     }
-
-
     /**
      *
      * @param id of the effect
@@ -62,13 +57,11 @@ public class CellEffect implements Effect {
         damages = new ArrayList<>();
         this.id=id;
     }
-
     /**
      *
      * @return the type (cell effect)
      */
     public int getType(){return 1;}
-
     /**
      *
      * @return the ID of the effect

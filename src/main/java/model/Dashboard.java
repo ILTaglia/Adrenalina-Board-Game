@@ -36,7 +36,6 @@ public class Dashboard implements Serializable {
     private ArrayList<Integer> killShotPoints;
     private ArrayList<Integer> ord;
     private boolean stop;
-
     /**
      *
      * @param i is the index of the chosen map
@@ -92,7 +91,6 @@ public class Dashboard implements Serializable {
             map[2][2] = new NormalCell(2, 0, 0, 0, 1); //yellow
             map[2][3] = new SpawnPointCell(2, 0, 0, 0, 0); //yellow
         }
-
         //index 4 for 4° map
         if (i == 4) {
             map[0][0] = new NormalCell(5, 0, 1, 0, 0); //red
@@ -118,9 +116,7 @@ public class Dashboard implements Serializable {
         killShotPoints.add(0);
         killShotPoints.add(0);
         ord = new ArrayList<>();
-
     }
-
     /**
      * Method to have a Cell
      * @param i is number of line
@@ -130,7 +126,6 @@ public class Dashboard implements Serializable {
     public Cell getMap(int i, int j) {
         return this.map[i][j];
     }
-
     /**
      *
      * @return the trackIndex, the index of the last added element in the KillShot Track
@@ -138,7 +133,6 @@ public class Dashboard implements Serializable {
     public int getIndex() {
         return this.trackIndex;
     }
-
     /**
      *
      * @return the type of the chosen map
@@ -146,7 +140,6 @@ public class Dashboard implements Serializable {
     public int getMapType() {
         return this.mapType;
     }
-
     /**
      * Method to set the elements of the KillShot Track
      * @param player is the killer, the player that has killed an other player
@@ -166,7 +159,6 @@ public class Dashboard implements Serializable {
         if (n == 2) killShotTrack[1][trackIndex] = player.getColor();
         trackIndex = trackIndex + 1;
     }
-
     /**
      *
      * @return a boolean to say if the KillShot Track is full or not
@@ -174,7 +166,6 @@ public class Dashboard implements Serializable {
     public boolean isKillShotTrackFull(){
         return trackIndex > numberOfSkulls;
     }
-
     /**
      *
      * @return the color of the player that has the maximum number of damage tokens
@@ -205,7 +196,6 @@ public class Dashboard implements Serializable {
         }
         return k;
     }
-
     /**
      *
      * @return the matrix of the KillShot Track
@@ -214,7 +204,6 @@ public class Dashboard implements Serializable {
     {
         return this.killShotTrack;
     }
-
     /**
      *
      * @return the total number of lines
@@ -222,7 +211,6 @@ public class Dashboard implements Serializable {
     public int getRowDim() {
         return this.map.length;
     }
-
     /**
      *
      * @return the total number of columns
@@ -230,7 +218,6 @@ public class Dashboard implements Serializable {
     public int getColDim(){
         return this.map[0].length;
     }
-
     /**
      *
      * @return the boolean stop
@@ -238,7 +225,6 @@ public class Dashboard implements Serializable {
     public boolean stop() {
         return this.stop;
     }
-
     /**
      *
      * @return all the cells contained in the Dashboard in an ArrayList
@@ -255,5 +241,4 @@ public class Dashboard implements Serializable {
         }
         return cells;
     }
-
 }

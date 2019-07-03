@@ -11,7 +11,6 @@ public class AmmoTile extends AmmoCard {
      * 0 = AmmoTile
      * There are three Ammos.
      */
-
     public AmmoTile(int color1, int color2, int color3) throws InvalidColorException {
         refillAmmo =new ArrayList<>();
         refillAmmo.add(new Ammo(color1));

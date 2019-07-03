@@ -12,7 +12,6 @@ public class NormalCell extends Cell {
      * ammoNormalCell is the AmmoCard associated to the Normal Cell
      */
     private AmmoCard ammoNormalCell;
-
     /**
      * Normal Cell has the type 1
      *
@@ -30,7 +29,6 @@ public class NormalCell extends Cell {
         this.port[2] = sPort;
         this.port[3] = wPort;
     }
-
     /**
      *
      * @param ammoCard is the ammoCard to be added in the cell
@@ -40,7 +38,6 @@ public class NormalCell extends Cell {
         if(this.ammoNormalCell !=null) throw new FullCellException();
         this.ammoNormalCell = ammoCard;
     }
-
     /**
      *
      * @param player is the player that collects the ammocard
@@ -52,7 +49,6 @@ public class NormalCell extends Cell {
     public void collectCard(Player player) throws CardAlreadyCollectedException, MoreThanTreeAmmosException {
         ammoNormalCell.collectCard(player);
     }
-
     /**
      *
      * @return the type of card (1 for normal cell)
@@ -60,7 +56,6 @@ public class NormalCell extends Cell {
     public int getCardType(){
         return ammoNormalCell.getType();
     }
-
     /**
      *
      * @return the AmmoCard contained in the cell

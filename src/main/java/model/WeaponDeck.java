@@ -12,7 +12,6 @@ public class WeaponDeck extends Deck{
     private List<Weapon> W;
 
     //TODO IMPORTANTE: Classe Deck da Usare !
-
     /**
      * stack is the ArrayList containing the cards to be collected.
      * stackDiscarded is the ArrayList containing the cards already used and discarded.

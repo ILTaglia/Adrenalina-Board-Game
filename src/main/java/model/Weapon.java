@@ -20,7 +20,6 @@ public class Weapon extends Card {
     private String name;
     private ArrayList <Integer> cost;
     private ArrayList <TypeAttack> attack;
-
     /**
      *
      * @param id of the attack
@@ -32,7 +31,6 @@ public class Weapon extends Card {
     public void addAttack(int id, int typePlayer, int distance, int moveMe, int moveYou){
         this.attack.add(new AttackFactory().getinstanceof(id, typePlayer,distance,moveMe,moveYou));
     }
-
     /**
      *
      * @param i is the index of the required attack
@@ -49,7 +47,6 @@ public class Weapon extends Card {
     public int getNumberAttack(){
         return this.attack.size();
     }
-
     /**
      *
      * @param name of the weapon
@@ -61,7 +58,6 @@ public class Weapon extends Card {
         this.cost=cost;
         this.used=false;
     }
-
     /**
      *
      * @return the name od the weapon
@@ -69,7 +65,6 @@ public class Weapon extends Card {
     public String getName(){
         return this.name;
     }
-
     /**
      *
      * @return the price of the weapon
@@ -77,7 +72,6 @@ public class Weapon extends Card {
     public ArrayList <Integer> getCost(){
         return this.cost;
     }
-
     /**
      * Method to recharge the weapon
      * @throws WeaponAlreadyLoadedException if the weapon doesn't have to be recharged
@@ -90,7 +84,6 @@ public class Weapon extends Card {
             throw new WeaponAlreadyLoadedException();
         }
     }
-
     //TODO DANIELE: questo metodo serve? non è mai usato
     public void shooted() throws WeaponAlreadyUsedException{
         if(!used){
@@ -100,7 +93,6 @@ public class Weapon extends Card {
             throw new WeaponAlreadyUsedException();
         }
     }
-
     /**
      *
      * @param cost is the cost to be added for the weapon
@@ -108,7 +100,6 @@ public class Weapon extends Card {
     public void addCost(int cost){
         this.cost.add(cost);
     }
-
     /**
      *
      * @return the number of ammos for payment. In this version the number is fixed to three, but with future developments the
@@ -117,7 +108,6 @@ public class Weapon extends Card {
     public int getNumberCost(){
         return this.cost.size();
     }
-
     /**
      *
      * @param i is the type of ammo (0 - red, 1 - blue, 2 - yellow)
@@ -126,7 +116,6 @@ public class Weapon extends Card {
     public int getCost(int i){
         return this.cost.get(i);
     }
-
     /**
      *
      * @param name is the name of teh weapon
@@ -137,7 +126,6 @@ public class Weapon extends Card {
         this.attack =new ArrayList<>();
         this.used=false;
     }
-
     /**
      *
      * @return teh cost to recharge a weapon
@@ -157,7 +145,6 @@ public class Weapon extends Card {
         weaponcost.add(numberYellowAmmos);
         return weaponcost;
     }
-
     /**
      *
      * @return the cost to grab a weapon

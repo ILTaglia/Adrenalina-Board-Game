@@ -5,7 +5,6 @@ import exceptions.*;
 import java.util.ArrayList;
 
 public abstract class AmmoCard extends Card {
-
     /**
      * type is an int that identifies the type of card. Conventions:
      * 0 = AmmoTile
@@ -31,13 +30,10 @@ public abstract class AmmoCard extends Card {
             //Exception will be handled by controller
         }
         for (Ammo ammo: refillAmmo) {
-
             player.addAmmo(ammo);
-
         }
         used =true;
     }
-
     /**
      *
      * @return the type of the card, the can be
@@ -47,7 +43,6 @@ public abstract class AmmoCard extends Card {
     public int getType(){
         return this.type;
     }
-
     /**
      *
      * @return the Ammos contained in the refill as a String

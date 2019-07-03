@@ -10,14 +10,11 @@ public class PowDeck extends Deck{
      * List of PowCards
      */
     private ArrayList <PowCard> PowCards;
-
     /**
      * stack is the ArrayList containing the cards to be collected.
      * stackDiscarded is the ArrayList containing the cards already used and discarded.
      *
      * At the beginning stack is full of all PowCards, while stackDiscarded is empty.
-     */
-    /**
      *
      * @param fileName to read the PowCards
      */
@@ -89,7 +86,6 @@ public class PowDeck extends Deck{
             e.printStackTrace();
         }
     }
-
     /**
      *
      * @param i index of required PowCard

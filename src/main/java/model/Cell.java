@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 
 public abstract class Cell implements Serializable {
-
     /**
      * color is an int representing the color of the Cell. Conventions:
      * 0 - Blue
@@ -33,7 +32,6 @@ public abstract class Cell implements Serializable {
     public Cell(){
         port = new int[4];
     }
-
     /**
      *
      * @return the type of the cell
@@ -41,7 +39,6 @@ public abstract class Cell implements Serializable {
      * 1 - Normal Cell
      */
     public int getType(){return this.type;}
-
     /**
      *
      * @return a String of length four, containing 1 or 0 if the port in the corresponding direction is present or not
@@ -50,13 +47,11 @@ public abstract class Cell implements Serializable {
     public String toString(){
         return Arrays.toString(this.port);
     }
-
     /**
      *
      * @return an int that is the color of the cell
      */
     public int getColor(){return this.color;}
-
     /**
      *
      * @param d is the direction in which you want to check if the port is present or not
@@ -74,5 +69,4 @@ public abstract class Cell implements Serializable {
      * @return 1 or 0 according to the conventions used and previously explained.
      */
     public int portIsPresent(int d){return this.port[d];}
-
 }

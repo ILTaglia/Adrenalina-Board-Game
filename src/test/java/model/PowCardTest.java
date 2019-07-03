@@ -11,6 +11,7 @@ public class PowCardTest {
         Teleporter teleporter1 = new Teleporter(0, 1, 2);
         Teleporter teleporter2 = new Teleporter(2, 2,0);
 
+        assertEquals(2, teleporter1.getType());
         assertEquals("Teletrasporto", teleporter1.getName());
         assertEquals(0, teleporter1.getColor());
         assertEquals(1, teleporter1.getCost());
@@ -36,6 +37,7 @@ public class PowCardTest {
         Granade granade1 = new Granade(0, 1, 2);
         Granade granade2 = new Granade(2, 2, 0);
 
+        assertEquals(3, granade1.getType());
         assertEquals("Granata Venom", granade1.getName());
         assertEquals(0, granade1.getColor());
         assertEquals(1, granade1.getCost());
@@ -61,6 +63,7 @@ public class PowCardTest {
         TargetingScope targetingScope1 = new TargetingScope(0, 1, 2);
         TargetingScope targetingScope2 = new TargetingScope(2, 2, 0);
 
+        assertEquals(1, targetingScope1.getType());
         assertEquals("Mirino", targetingScope1.getName());
         assertEquals(0, targetingScope1.getColor());
         assertEquals(1, targetingScope1.getCost());
@@ -86,7 +89,9 @@ public class PowCardTest {
         Newton newton1 = new Newton(0, 1, 2);
         Newton newton2 = new Newton(2, 2, 2);
 
+        assertEquals(0, newton1.getType());
         assertEquals("Raggio Cinetico", newton1.getName());
+        assertEquals("Raggio Cinetico", newton2.getName());
         assertEquals(0, newton1.getColor());
         assertEquals(1, newton1.getCost());
         assertEquals(2, newton1.getMoveme());

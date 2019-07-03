@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.CardAlreadyCollectedException;
+import exceptions.MoreThanTreeAmmosException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,5 +35,25 @@ public class NormalCellTest {
         normalCell = (NormalCell)d.getMap(0, 1);
         if(normalCell.getAmmoCard().toString().length()==3) assertEquals(0, normalCell.getCardType());
         if(normalCell.getAmmoCard().toString().length()==2) assertEquals(1, normalCell.getCardType());
+    }
+
+    @Test
+    public void collectCard(){
+        match.createDashboard(1);
+        Dashboard d = match.getDashboard();
+        NormalCell normalCell1 = (NormalCell)d.getMap(1, 1);
+        match.fillDashboard();
+        player1.setActive();
+        player1.setCel(1, 1);
+        assertEquals(1, player1.getAmmo(0));
+        assertEquals(1, player1.getAmmo(1));
+        assertEquals(1, player1.getAmmo(2));
+        AmmoCard ammoCard = normalCell1.getAmmoCard();
+        try{
+            normalCell1.collectCard(player1);
+        } catch(CardAlreadyCollectedException| MoreThanTreeAmmosException e){}
+        int totalAmmos = player1.getAmmo(0)+player1.getAmmo(1)+player1.getAmmo(2);
+        if(ammoCard.type==0){assertEquals(6, totalAmmos);}
+        else{assertEquals(5, totalAmmos);}
     }
 }

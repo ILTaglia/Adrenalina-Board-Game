@@ -4,6 +4,8 @@ import exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -174,6 +176,9 @@ class PlayerTest {
         player1.setMarks(1, player2.getColor());
         assertEquals(3, player1.getMarks(player2.getColor()));
         assertEquals(-1, player1.getMarks(player1.getColor()));
+        player1.resetMarks(player2.getColor());
+        assertEquals(0, player1.getMarks(player2.getColor()));
+        assertEquals(-1, player1.getMarks(player1.getColor()));
     }
 
     @Test
@@ -251,6 +256,21 @@ class PlayerTest {
         catch (NotOwnedCardException e1){ System.out.println("You don't have this Weapon Card."); }
         catch (ZeroCardsOwnedException e2){ System.out.println("You have zero Weapon Cards."); }
         assertFalse(player1.weaponIspresent(weapon1));
+        Weapon weapon5 = (Weapon)weaponDeck.drawCard();
+        try{
+            player1.addWeapon(weapon5);
+        }
+        catch (MaxNumberofCardsException e){
+            System.out.println("You have too many Weapons, please discardWeapon one.");
+        }
+        assertTrue(player1.weaponIspresent(weapon5));
+        assertEquals(weapon2, player1.getWeaponByIndex(0));
+        assertEquals(weapon3, player1.getWeaponByIndex(1));
+        assertEquals(weapon5, player1.getWeaponByIndex(2));
+        assertEquals(3, player1.getWeapons().size());
+        player1.removeWeapon(2);
+        assertFalse(player1.weaponIspresent(weapon5));
+        assertEquals(2, player1.getWeapons().size());
     }
 
     @Test
@@ -281,7 +301,31 @@ class PlayerTest {
         }
         assertTrue(!player1.isPowPresent(powcard1));
         assertThrows(ZeroCardsOwnedException.class, () -> player1.removePow(powcard2));
+        PowCard powcard3 = (PowCard) deck.drawCard();
+        try{
+            player1.addPow(powcard3);
+        }
+        catch (MaxNumberofCardsException e){
+            System.out.println("You have too many Pow Cards, please discardWeapon one.");
+        }
+        assertTrue(player1.isPowPresent(powcard3));
+        assertEquals(powcard3, player1.getPowByIndex(0));
+        player1.removePow(0);
+        assertFalse(player1.isPowPresent(powcard3));
 
+        List<PowCard> powList = player1.getPows();
+        assertEquals(0, powList.size());
+        PowCard powcard4 = (PowCard) deck.drawCard();
+        PowCard powcard5 = (PowCard) deck.drawCard();
+        try{
+            player1.addPow(powcard4);
+            player1.addPow(powcard5);
+        }
+        catch (MaxNumberofCardsException e){
+            System.out.println("You have too many Pow Cards, please discardWeapon one.");
+        }
+        powList = player1.getPows();
+        assertEquals(2, powList.size());
     }
 
 
@@ -333,5 +377,21 @@ class PlayerTest {
     void setScore() {
         player1.setScore(5);
         assertEquals(5, player1.getScore());
+    }
+
+    @Test
+    void booleanConnection(){
+        player1.setConnected(false);
+        assertFalse(player1.isConnected());
+        player1.setConnected(true);
+        assertTrue(player1.isConnected());
+    }
+
+    @Test
+    void booleanDeath(){
+        player1.setDead(false);
+        assertFalse(player1.isDead());
+        player1.setDead(true);
+        assertTrue(player1.isDead());
     }
 }

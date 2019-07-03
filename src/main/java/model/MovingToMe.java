@@ -25,7 +25,6 @@ public class MovingToMe implements TypeAttack {
     private int moveme;
     private int moveyou;
     private List<Effect> E;
-
     /**
      *
      * @return the distance between the attacking player and the attacked
@@ -34,7 +33,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.distance;
     }
-
     /**
      *
      * @return the type of the player, that is the identifier that allows to define in what type of series an attack of a weapon will be performed
@@ -43,7 +41,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.typeplayer;
     }
-
     /**
      *
      * @return the list containing the money required to unlock extra functions when a player shoots
@@ -52,7 +49,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.extra;
     }
-
     /**
      * Method to set the distance of a type of attack
      * @param distance is the distance between the attacking player and the attacked
@@ -61,7 +57,6 @@ public class MovingToMe implements TypeAttack {
     {
         this.distance=distance;
     }
-
     /**
      * Method to set the value of typeplayer
      * @param typePlayer is the identifier that allows to define in what type of series an attack of a weapon will be performed
@@ -70,7 +65,6 @@ public class MovingToMe implements TypeAttack {
     {
         this.typeplayer= typePlayer;
     }
-
     /**
      * Method to add the money for an extra
      * @param extra is an int representing the price of an extra function
@@ -79,7 +73,6 @@ public class MovingToMe implements TypeAttack {
     {
         this.extra.add(extra);
     }
-
     /**
      * Method to set the value of moveme
      * @param moveMe is an int that indicates of how many steps the attacking player can move
@@ -88,7 +81,6 @@ public class MovingToMe implements TypeAttack {
     {
         this.moveme= moveMe;
     }
-
     /**
      * Method to set the value of moveyou
      * @param moveYou is an int that indicates of how many steps the attacked player can move
@@ -97,7 +89,6 @@ public class MovingToMe implements TypeAttack {
     {
         this.moveyou= moveYou;
     }
-
     /**
      * Method to add an effect to the list of owned effects of the weapon
      * @param E is the effect to be added to the owned effects of the type attack
@@ -106,7 +97,6 @@ public class MovingToMe implements TypeAttack {
     {
         this.E.add(E);
     }
-
     /**
      *
      * @param i is the number of the effect
@@ -116,7 +106,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.E.get(i);
     }
-
     /**
      *
      * @return the number of effects of the type attack
@@ -125,7 +114,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.E.size();
     }
-
     /**
      *
      * @return the number of different types of ammo in the game
@@ -138,7 +126,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.extra.size();
     }
-
     /**
      *
      * @return moveme, the int that indicates of how many steps the attacking player can move
@@ -147,7 +134,6 @@ public class MovingToMe implements TypeAttack {
     {
         return this.moveme;
     }
-
     /**
      *
      * @return moveyou, the int that indicates of how many steps the attacked player can move
@@ -156,14 +142,11 @@ public class MovingToMe implements TypeAttack {
     {
         return this.moveyou;
     }
-
     /**
      *
      * @return an int corresponding to the type of type attack
      */
     public int getType(){return 12;}
-
-
     /**
      *
      * @param typeplayer is an identifier that allows to define in what type of series an attack of a weapon will be performed
