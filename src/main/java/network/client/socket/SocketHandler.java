@@ -3,7 +3,7 @@ package network.client.socket;
 import network.client.Client;
 import network.client.ConnectionHandler;
 import network.messages.ReConnectClientRequest;
-import network.messages.clientRequest.ConnectionClientRequest;
+import network.messages.ConnectionClientRequest;
 import network.messages.Message;
 
 public class SocketHandler implements ConnectionHandler {

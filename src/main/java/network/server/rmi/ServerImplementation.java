@@ -1,6 +1,8 @@
 package network.server.rmi;
 
 
+import exceptions.InvalidColorException;
+import exceptions.InvalidUserIDException;
 import exceptions.UsernameAlreadyUsedException;
 import network.client.Client;
 import network.messages.Message;
@@ -24,7 +26,8 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         if(gameServer.hasPlayerDisconnected(requestedUsername)){
             try {
                 clientInterface.requestToReconnect();
-            } catch (RemoteException e) {
+            }
+            catch (RemoteException e) {
             }
         }
         else if (gameServer.isAlreadyInQueue(requestedUsername)){
@@ -35,11 +38,11 @@ public class ServerImplementation extends UnicastRemoteObject implements ServerI
         }
     }
     @Override
-    public void reConnectRequest(String userIDToReConnect, ClientInterface clientInterface){
+    public void reConnectRequest(String userIDToReConnect, ClientInterface clientInterface) throws InvalidUserIDException{
         if(gameServer.checkUserID(userIDToReConnect)) {
             gameServer.handleReConnect(userIDToReConnect, clientInterface);
         }
-        else throw new RuntimeException();          //TODO
+        else throw new InvalidUserIDException();
     }
 
     //Questo metodo è utile nel caso in cui un Player non voglia entrare in partita ma voglia iniziarne un'altra seppur con lo stesso username

@@ -1,5 +1,6 @@
 package network.server.rmi;
 
+import exceptions.InvalidUserIDException;
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.Message;
 import network.server.ClientInterface;
@@ -15,7 +16,7 @@ public interface ServerInterface extends Remote {
 
     void handleMessage(Message message) throws RemoteException;
 
-    void reConnectRequest(String userIDToReConnect, ClientInterface clientInterface)throws RemoteException;
+    void reConnectRequest(String userIDToReConnect, ClientInterface clientInterface)throws InvalidUserIDException,RemoteException;
 
     void newRegistrationToQueue(String username, ClientInterface clientInterface) throws UsernameAlreadyUsedException,RemoteException;
 }

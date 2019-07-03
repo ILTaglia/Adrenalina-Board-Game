@@ -23,6 +23,8 @@ public interface View {
 
     boolean askToTryToReConnect();
 
+    void askNewConnection();
+
     /*
      **********************************************************
      * Metodi per Eventi/Eccezioni                              *
@@ -165,7 +167,6 @@ public interface View {
     void getScopeIndex();
 
     void getGranadeIndex();
-
 
 
 

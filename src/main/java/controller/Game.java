@@ -132,8 +132,6 @@ public class Game{
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
 
-    //TODO: sistemare la validità della cella inserita dall'utente
-
     /**
      *
      * @param userID is the ID of the player that has to spawn
@@ -279,7 +277,7 @@ public class Game{
         } catch (ActionNotAllowedException e) {
             Message message=new ActionError(e.getMessage());
             gameRoom.sendErrorMessage(userID,message);
-            askRun();           //TODO: Modificare a livello CLI View
+            askRun();
         }
     }
 

@@ -1,6 +1,7 @@
 package network.client.rmi;
 
 
+import exceptions.InvalidUserIDException;
 import exceptions.UsernameAlreadyUsedException;
 import network.client.Client;
 import network.client.ConnectionHandler;
@@ -64,7 +65,7 @@ public class RMIHandler implements ConnectionHandler {
     }
 
     @Override
-    public void reConnectRequest(String userIDToReConnect) {
+    public void reConnectRequest(String userIDToReConnect) throws InvalidUserIDException{
         try {
             server.reConnectRequest(userIDToReConnect,clientInterface);
         } catch (RemoteException e) {

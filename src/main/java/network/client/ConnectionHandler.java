@@ -1,5 +1,6 @@
 package network.client;
 
+import exceptions.InvalidUserIDException;
 import exceptions.UsernameAlreadyUsedException;
 import network.messages.Message;
 
@@ -17,5 +18,5 @@ public interface ConnectionHandler {
 
     void setConnected();
 
-    void reConnectRequest(String userIDToReConnect);
+    void reConnectRequest(String userIDToReConnect) throws InvalidUserIDException;
 }

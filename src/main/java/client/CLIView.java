@@ -81,10 +81,14 @@ public class CLIView implements View {
             client.reConnectRequest(userIDToReConnect);
         }
         else{
-            printOut("Insert again the username you want to use:");
-            String username = getData.getName();
-            client.newConnectionRequest(username);
+            askNewConnection();
         }
+    }
+    @Override
+    public void askNewConnection(){
+        printOut("Insert again the username you want to use:");
+        String username = getData.getName();
+        client.newConnectionRequest(username);
     }
 
     /**
@@ -99,7 +103,7 @@ public class CLIView implements View {
             return true;
         }
         else{
-            printOut("If you want to reconnect re open Game. Bye Bye.");
+            printOut("If you want to reconnect re open Game.");
             return false;
         }
     }
@@ -124,8 +128,10 @@ public class CLIView implements View {
      */
     @Override
     public void showInfoMessage(Message message){
-        printOut("Message received:" + message.getInfo());
-
+        if(message.getContent().equals("InfoID")){
+            printOut("This is your ID for the game. Memorize it in case you want to rejoin after disconnection: "+message.getInfo());
+        }
+        printOut(message.getInfo());
     }
 
     /*
@@ -254,8 +260,6 @@ public class CLIView implements View {
             printOut("If you don't want to grab this Weapon you can choose an other action");
             chooseAction();
         }
-
-
     }
 
     /**
@@ -633,8 +637,6 @@ public class CLIView implements View {
             } catch (NullPointerException e){
                 printOut(i + ". Arma già raccolta.");
                 i++;
-            } catch(ArrayIndexOutOfBoundsException e){
-                printOut("You have yet to spawn. ");
             }
         }
     }

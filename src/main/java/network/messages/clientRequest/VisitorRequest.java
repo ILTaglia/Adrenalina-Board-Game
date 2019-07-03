@@ -1,5 +1,7 @@
 package network.messages.clientRequest;
 
+import network.messages.ConnectionClientRequest;
+
 public interface VisitorRequest {
     void visit(ColorClientRequest messageRequest);
 
