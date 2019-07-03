@@ -168,8 +168,6 @@ public class RunTest {
 
     @Test
     public void validity(){
-        int x=player1.getCel().getX();
-        int y=player1.getCel().getY();
         ArrayList<String> destination = new ArrayList<>();
         destination.add("S");
         destination.add("E");
@@ -184,8 +182,6 @@ public class RunTest {
         assertEquals(0, player1.getCel().getX());
         assertEquals(3, player1.getCel().getY());
 
-        x=player4.getCel().getX();
-        y=player4.getCel().getY();
         destination.set(0, "N");
         destination.set(1, "E");
         destination.set(2, "E");
@@ -243,5 +239,19 @@ public class RunTest {
         catch(ActionNotAllowedException e){}
         assertEquals(2, player2.getCel().getX());
         assertEquals(0, player2.getCel().getY());
+    }
+
+    @Test
+    public void movement3(){
+        assertEquals(0, player1.getCel().getX());
+        assertEquals(2, player1.getCel().getY());
+        ArrayList<String> destination = new ArrayList<>();
+        destination.add("W");
+        try{r.movement(match, player1.getID(), destination, false, false);}
+        catch(InvalidDirectionException e){}
+        catch(NotYourTurnException e){}
+        catch(ActionNotAllowedException e){}
+        assertEquals(0, player1.getCel().getX());
+        assertEquals(1, player1.getCel().getY());
     }
 }

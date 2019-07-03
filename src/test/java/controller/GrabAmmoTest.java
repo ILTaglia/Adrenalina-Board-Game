@@ -101,4 +101,13 @@ public class GrabAmmoTest {
         assertEquals(2, player1.getNumberPow());
     }
 
+    @Test
+    public void validityOFActive(){
+        assertTrue(run.isValid(match, player1.getID()));
+        assertFalse(run.isValid(match, player2.getID()));
+        player1.setAction();
+        player1.setAction();
+        player1.setAction();
+        assertFalse(run.isValid(match, player1.getID()));
+    }
 }

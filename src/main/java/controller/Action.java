@@ -5,16 +5,17 @@ import model.Match;
 import exceptions.InvalidDirectionException;
 
 public abstract class Action {
-    private String[] cardinalPoints = {"N", "E", "S" ,"W"};
-    /* Conventions are:
-    * 0 = North
-    * 1 = East
-    * 2 = South
-    * 3 = West
-    * -1 is zero if the player wants to shoot or grab with less than the number of movements it has; for example in shooting
-    * you can move of two passes if you have more than five damages, but the player can choose to move of just one (north for example),
-    * then it will call the method of the class with (..., "N", "Zero")*/
-
+    /**
+     *
+     * @param direction is the direction in which to go
+     * @return the corresponding int
+     * Conventions are:
+     * 0 = North
+     * 1 = East (Right)
+     * 2 = South
+     * 3 = West (Left)
+     * @throws InvalidDirectionException is the direction is not allowed (for example moving in diagonal way
+     */
     public int getDirection(String direction) throws InvalidDirectionException{
         int d;
         if(direction.equals("N")) d=0;
@@ -24,8 +25,12 @@ public abstract class Action {
         else throw new InvalidDirectionException();
         return d;
     }
-
-
+    /**
+     * Method to check validity of actions
+     * @param match is teh match
+     * @param userID is teh ID of the player
+     * @return true is the player with the given ID is active, false otherwise
+     */
     public boolean isValid(Match match,String userID) {
         if(!match.getActivePlayer().getID().equals(userID)) {
             return false;

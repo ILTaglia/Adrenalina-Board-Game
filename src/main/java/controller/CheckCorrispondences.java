@@ -7,6 +7,13 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class CheckCorrispondences {
+    /**
+     *
+     * @param player is the given player
+     * @param ID
+     * @param lista
+     * @return
+     */
     public List<List> checkID(Player player, int ID, List<Player> lista)
     {
         List<List> risultato= new ArrayList<List>();

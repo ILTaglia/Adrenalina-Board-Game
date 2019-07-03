@@ -6,6 +6,9 @@ import model.Match;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class DeathAndRespawnTest {
@@ -37,7 +40,7 @@ public class DeathAndRespawnTest {
         player5.setConnected(true);
     }
 
-    /*@Test
+    @Test
     public void calculatescore(){
         assertEquals(0, player1.getTotalDamage());
         assertEquals(0, player1.getNumberOfDeath());
@@ -54,6 +57,7 @@ public class DeathAndRespawnTest {
 
         player1.setDamage(2,3); //from player2
         player1.setDamage(2,1); //from player3
+        assertEquals(3, player1.getFirstBlood()); //firstblood is player3
         assertEquals(12, player1.getTotalDamage());
         assertEquals(5, player1.getNumberDamage(3)); //from player2
         assertEquals(3, player1.getNumberDamage(4)); //from player5
@@ -61,9 +65,7 @@ public class DeathAndRespawnTest {
         assertEquals(2, player1.getNumberDamage(2)); //from player4
         DeathAndRespawn c = new DeathAndRespawn();
         assertTrue(match.getCheck());
-        try{
-            c.calculateScore(match, player1, player3, 2);
-        } catch (NotExistingDashboardException e){}
+        c.calculateScore(match, player3, player1, true);
 
         assertEquals(3, player1.getFirstBlood());
         assertEquals(9, player2.getScore()); //first is player2
@@ -87,7 +89,7 @@ public class DeathAndRespawnTest {
         for(int k=0; k<5; k++){
             if(k!=player1.getColor()) assertEquals(0, player1.getNumberDamage(k));
         }
-    }*/
+    }
 
     @Test
     public void end_game(){
