@@ -97,6 +97,14 @@ public class Client {
             view.login();
         }
     }
+    public void reConnectRequest(String userIDToReConnect) {
+        try {
+            connectionHandler.reConnectRequest(userIDToReConnect);
+        }catch (Exception e){
+            //TODO
+        }
+    }
+
     public void newConnectionRequest(String username){
         try{
             connectionHandler.newConnectionRequest(username);
@@ -108,13 +116,19 @@ public class Client {
 
     }
 
-
     public void askToTryToReconnect() {
         //Chiedo all'utente se voglia riconnettersi
         if(view.askToTryToReConnect()){
             if(isToUseSocket){
                 connectionHandler=new SocketHandler(serverIP, serverPort, this);
                 connectionHandler.attemptToReconnect(userID);
+            }
+            else{
+                try {
+                    connectionHandler=new RMIHandler(this);
+                } catch (RemoteException | NotBoundException e) {
+
+                }
             }
         }else{
             //Chiudo il client

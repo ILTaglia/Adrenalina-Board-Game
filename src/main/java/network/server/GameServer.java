@@ -1,5 +1,6 @@
 package network.server;
 
+import network.client.Client;
 import network.messages.*;
 import network.messages.clientRequest.*;
 import network.messages.clientRequest.CardToWeaponGrabClientRequest;
@@ -72,8 +73,6 @@ public class GameServer {
             printOut(e.getMessage());
         }
         registerServer(this);
-
-
     }
     //TODO: synchronized? A che livello?
     //------------------------Metodi usati dalle ClientInterface------------------------------------//
@@ -81,23 +80,13 @@ public class GameServer {
     public boolean isAlreadyInQueue(String requestedUsername) {
         return waitingRoom.isAlreadyInQueue(requestedUsername);
     }
-    public boolean isPlayerDisconnected(String username){
-        if(usernameToUserID.containsKey(username)&& !userIDInGameToStatusConnection.get(usernameToUserID.get(username))){
-            return true;
-        }
-        else{
-            return false;
-        }
 
+    public boolean hasPlayerDisconnected(String username){
+        return usernameToUserID.containsKey(username) && !userIDInGameToStatusConnection.get(usernameToUserID.get(username));
     }
 
     public boolean checkUserID(String userIDToReconnect) {
-        if(usernameToUserID.containsValue(userIDToReconnect)&& !userIDInGameToStatusConnection.get(userIDToReconnect)){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return usernameToUserID.containsValue(userIDToReconnect) && !userIDInGameToStatusConnection.get(userIDToReconnect);
 
     }
 
@@ -112,10 +101,11 @@ public class GameServer {
         }
         startCheckConnection(usernameToUserID.get(playerUsername));
         //Imposto a connesso il Player, a termine del timer verifico che siano ancora tutti connessi
+        userIDInGameToStatusConnection.put(usernameToUserID.get(playerUsername),true);
         waitingRoom.addUserToRoom(playerUsername);
     }
 
-    public void startCheckConnection(String userID){
+    private void startCheckConnection(String userID){
         (new Timer()).schedule(new TimerTask() {
             @Override
             public void run() {
@@ -138,9 +128,17 @@ public class GameServer {
         try {
             userID=clientInterface.getPlayerID();
             clientInterface.setConnection(false);
+            printOut("Disconnecting SocketInterface");
         } catch (RemoteException e) {
-            userID=null;
-            //TODO
+            userID = null;
+            for (Map.Entry<String, ClientInterface> entry : userIDToClientInterface.entrySet()) {
+                String id = entry.getKey();
+                ClientInterface interfaceClient = entry.getValue();
+                if (clientInterface.equals(interfaceClient)) {
+                    userID = id;
+                }
+            }
+            printOut("Disconnecting RMIInterface");
         }
         userIDInGameToStatusConnection.replace(userID,false);
         updatePlayerStatus(userID,false);
@@ -197,7 +195,7 @@ public class GameServer {
         try {
             userIDToClientInterface.get(userID).closeConnection();
         } catch (RemoteException e) {
-            //TODO
+            //Nothing to do.
         }
     }
 
@@ -212,7 +210,7 @@ public class GameServer {
         try {
             clientHandler.setPlayerID(playerID);
         } catch (RemoteException e) {
-            //TODO
+            printOut("Problem, closing connection");
         }
     }
     //Metodo in cui viene lanciato effettivamente il gioco, si crea una stanza per i giocatori che hanno effettuato il login e
@@ -221,7 +219,7 @@ public class GameServer {
         HashMap<String, String> userList=new HashMap<>();
         for(String username:usernameList){
             userList.put(username,usernameToUserID.get(username));
-            userIDInGameToStatusConnection.put(usernameToUserID.get(username),true);
+
         }
         GameRoom gameRoom=new GameRoom(userList,this);
         for(String playerUsername:usernameList){

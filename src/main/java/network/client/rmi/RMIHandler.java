@@ -64,15 +64,22 @@ public class RMIHandler implements ConnectionHandler {
     }
 
     @Override
+    public void reConnectRequest(String userIDToReConnect) {
+        try {
+            server.reConnectRequest(userIDToReConnect,clientInterface);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void sendMessage(Message message){
         try {
             server.handleMessage(message);
         } catch (RemoteException e) {
-            System.out.println(e.getMessage());
+            printOut(e.getMessage());
         }
     }
-
-
 
     //TODO
     @Override
