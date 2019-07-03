@@ -168,6 +168,21 @@ public class GUIViewAdapter implements View {
     }
 
     @Override
+    public void printDeadPlayer(String deadplayername){
+    }
+    /**
+     * Method to advise the player he died
+     */
+    @Override
+    public void printdeath(){
+    }
+    /**
+     * Method to express datas of the killshoot track
+     */
+    @Override
+    public void printKillShotData(){}
+
+    @Override
     public void printMarkedPlayer(int numbermarks, String attackerplayername) {
 
     }

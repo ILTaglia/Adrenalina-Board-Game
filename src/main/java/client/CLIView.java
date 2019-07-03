@@ -672,7 +672,7 @@ public class CLIView implements View {
      */
     @Override
     public void notifyAttackedPlayer(Player attackedplayer) {
-
+//TODO SAMUELE, questa di fatto è concettualmente uguale alla printdamaged
     }
 
     /**
@@ -751,7 +751,7 @@ public class CLIView implements View {
         printOut("'N' for north");
         printOut("'E' for east (alias right ->)");
         printOut("'S' for south");
-        printOut("'W' for west (alias left <-");
+        printOut("'W' for west (alias left <-)");
         printOut("'Stop' to terminate");
     }
 
@@ -779,7 +779,7 @@ public class CLIView implements View {
      * Method to advise the player he has been damaged
      */
     @Override
-    //TODO
+    //TODO SAMUELE, è da chiamare quando un player subisce danno
     public void printDamagedPlayer(int numberdamages, String attackerplayername){
         printOut("You have received "+numberdamages+" damages by Player "+attackerplayername);
     }
@@ -787,15 +787,43 @@ public class CLIView implements View {
      * Method to advise the player he has been given marks
      */
     @Override
-    //TODO
+    //TODO SAMUELE/DANIELE, è da chiamare quando muore un player viene ferito
     public void printMarkedPlayer(int numbermarks, String attackerplayername){
         printOut("You have received "+numbermarks+" marks by Player "+attackerplayername);
+    }
+    /**
+     * Method to advise the player someone has died
+     */
+    @Override
+    //TODO SAMUELE, è da chiamare quando muore un player
+    public void printDeadPlayer(String deadplayername){
+        printOut("Player "+deadplayername+" has died");
+    }
+    /**
+     * Method to advise the player he died
+     */
+    @Override
+    //TODO SAMUELE, è da chiamare quando muore il player stesso (client)
+    public void printdeath(){
+        printOut("You died");
+    }
+    /**
+     * Method to express datas of the killshoot track
+     */
+    @Override
+    //TODO SAMUELE/DANIELE, è da chiamare quando muore un player, mostra il killshot aggiornato
+    public void printKillShotData(){
+        printOut("Player with color blue has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(0)+" in the KillShoot Track");
+        printOut("Player with color green has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(1)+" in the KillShoot Track");
+        printOut("Player with color yellow has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(2)+" in the KillShoot Track");
+        printOut("Player with color pink has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(3)+" in the KillShoot Track");
+        printOut("Player with color grey has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(4)+" in the KillShoot Track");
     }
     /**
      * Method to advise the player of the consequences of his attack
      */
     @Override
-    //TODO
+    //TODO SAMUELE, è da chiamare quando un player viene ferito o fatto danno
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername){
         printOut("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
     }
@@ -856,7 +884,7 @@ public class CLIView implements View {
     }
 
     /**
-     * Method to get cell index
+     * Method to get cell index you want to shoot to
      */
     @Override
     public void getCellIndex()

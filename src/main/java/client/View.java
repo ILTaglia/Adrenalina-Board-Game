@@ -121,6 +121,16 @@ public interface View {
     //Method to advise the player he has been given marks
     void printMarkedPlayer(int numbermarks, String attackerplayername);
 
+    void printDeadPlayer(String deadplayername);
+    /**
+     * Method to advise the player he died
+     */
+    void printdeath();
+    /**
+     * Method to express datas of the killshoot track
+     */
+    void printKillShotData();
+
     //Method to advise the player of the consequences of his attack
     void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername);
 

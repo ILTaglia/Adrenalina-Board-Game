@@ -241,4 +241,6 @@ public class Dashboard implements Serializable {
         }
         return cells;
     }
+
+    public List<Integer> getKillShotPoints(){return this.killShotPoints;}
 }
