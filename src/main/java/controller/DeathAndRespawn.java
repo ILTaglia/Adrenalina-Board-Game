@@ -21,7 +21,7 @@ public class DeathAndRespawn {
 
     /**
      * Method to calculate the points to give to players that made damages to the killed player (called when a player dies
-     * @param match is teh match
+     * @param match is the match
      * @param playerKiller is the player that kills
      * @param playerKilled is the killed player
      * @param withRevenge if just KillShot the boolean is false, if KillShoot and Revenge boolean is true

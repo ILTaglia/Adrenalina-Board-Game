@@ -12,27 +12,45 @@ import exceptions.InvalidDirectionException;
 import java.util.List;
 
 public class Run extends Action {
+    /**
+     * Scheme of dashboard for coordinateds
+     *          *    0   1   2   3
+     *          * 0
+     *          * 1
+     *          * 2
+     * lines go from 0 to 2, columns are from 0 to 3. Pay attention that to go north, the coordinate of line is decreased,
+     * while to go down the coordinate of line is increased.
+     *
+     * Conventions for directions:
+     * 0 = N (North)
+     * 1 = E (East - Right)
+     * 2 = S (South)
+     * 3 = W (West - Left)
+     */
     public Run() {
-        //parameter is just the player, because the action of running is atomic, just one step
 
-        /*ci si sposterà a seconda dei vincoli della mappa e a seconda dei vincoli della plancia, non ho ancora messo le pareti*/
-        /* Schema dashboard per le coordinate
-         *    0   1   2   3
-         * 0
-         * 1
-         * 2
-         * le righe vanno da 0 a 2, le colonne da 0 a 3, ATTENZIONE all'unica convenzione non intuitiva. Se si va a nord la coordinata viene decrementata
-         * mentre se si va a sud la coordinata aumenta (x vanno da 0 a 3, y vanno da 0 a 2)
-         */
     }
-    //Method to increase the number of action of the active player. It must be done because grabbing and shooting actions have in their mainly
-    //methods the increase of variable Action of the active player. If setAction was in movement method, as shooting and grabbing can call the
-    //method for players with a certain number of damages, action would be increased twice.
+    /**
+     * Method to increase the number of action of the active player. It must be done because grabbing and shooting actions
+     * have in their mainly methods the increase of variable Action of the active player. If setAction was in movement method,
+     * as shooting and grabbing can call the method for players with a certain number of damages, action would be increased twice.
+     * @param match is the match
+     */
     public void registerMovementAction(Match match){
         match.getActivePlayer().setAction();
     }
 
-    //method for complete atomicMovement, to be decomposed in atomic movements
+    /**
+     * method for complete atomicMovement, to be decomposed in atomic movements
+     * @param match is the match
+     * @param userID is the ID of the active player
+     * @param destination is the ArrayList containing the atomic directions the player wants to go to
+     * @param isMovementBeforeGrab is a boolean to say if the action of running is performed before grabbing
+     * @param isMovementBeforeShoot is a boolean to say if the action of running is performed before shooting
+     * @throws InvalidDirectionException if the direction is invalid
+     * @throws NotYourTurnException if the player is inactive
+     * @throws ActionNotAllowedException if the player has not the required data to perform the action
+     */
     public void movement(Match match, String userID, List<String> destination,boolean isMovementBeforeGrab,boolean isMovementBeforeShoot) throws InvalidDirectionException, NotYourTurnException, ActionNotAllowedException {
         if(!super.isValid(match,userID)){
             throw new NotYourTurnException();
@@ -57,8 +75,12 @@ public class Run extends Action {
             throw new InvalidDirectionException();
         }
     }
-
-    //method to check the global validity of the action of atomicMovement
+    /**
+     *
+     * @param match is the match
+     * @param destination is the ArrayList containing the atomic directions the player wants to go to
+     * @return true if the movement is valid, 0 otherwise
+     */
     public boolean isValid(Match match, List<String> destination) {
         if(destination.size() > 3) return false;
         Dashboard map = match.getDashboard();
@@ -90,8 +112,15 @@ public class Run extends Action {
         }
         return true;
     }
-
-    //method to check the atomic validity of each atomicMovement
+    /**
+     *
+     * @param map is the dashboard
+     * @param player is the active player
+     * @param x is the line of the coordinate of the player
+     * @param y is the column of the coordinate of the player
+     * @param direction is the atomic character that express the direction the player wants to go to
+     * @return true if the movement is valid, 0 otherwise
+     */
     private boolean atomicValidity(Dashboard map, Player player, int x, int y, int direction) {
 
         //player wants to go to the north
@@ -135,8 +164,12 @@ public class Run extends Action {
             } else return false;
         } else return false;
     }
-
-    //method for atomic movements
+    /**
+     * Method for atomic movements
+     * @param match is teh match
+     * @param direction is the atomic character that express the direction the player wants to go to
+     * @throws InvalidDirectionException if direction is invalid
+     */
     private void atomicMovement(Match match, String direction) throws InvalidDirectionException {
         int d = this.getDirection(direction);
         int x;
@@ -167,6 +200,11 @@ public class Run extends Action {
         }
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @param cell is the given cell to reset position
+     */
     public void resetPosition(Player player, Coordinate cell){
         player.setCel(cell.getX(), cell.getY());
     }

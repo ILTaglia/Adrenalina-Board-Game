@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShootManagement {
+    /**
+     * playersID: contains the association between players and the iD of the effect, just to know when we are able to shoot them
+     * coordinatesID: playersID: contains the association between cellsand the iD of the effect, just to know when we are able to shoot them
+     * It is the class who concretely perform the attack using the lists of attackable players and indexes
+     */
     private List<Player> playersID;
     private List<Coordinate> coordinatesID;
 
@@ -15,6 +20,16 @@ public class ShootManagement {
         coordinatesID= new ArrayList<>();
     }
 
+    /**
+     *
+     * @param match is the match
+     * @param visiblePlayers are the visible players
+     * @param playerAttacker is the active player, the one that attacks
+     * @param playerAttacked is the attacked player
+     * @param id is the ID
+     * @param damage is the Damage
+     * @return 0, -1, -2 according to the specific case
+     */
     public int shoot (Match match, List<Player> visiblePlayers, Player playerAttacker, Player playerAttacked, int id, Damage damage) //0 means correct
     {
         int flag= checkID(playerAttacked,id);
@@ -32,6 +47,16 @@ public class ShootManagement {
         return 0;
     }
 
+    /**
+     *
+     * @param match is the match
+     * @param visiblePlayers are the visible players
+     * @param playerAttacker is the active player, the one that attacks
+     * @param cellAttacked is the attacked player
+     * @param id is the ID
+     * @param damage is the Damage
+     * @return 0, -1, -2 according to the specific case
+     */
     public int shoot(Match match, List<Coordinate> visiblePlayers, Player playerAttacker, Coordinate cellAttacked, int id, Damage damage)
     {
         int flag= checkID(cellAttacked,id);
@@ -49,7 +74,12 @@ public class ShootManagement {
         return 0;
     }
 
-
+    /**
+     *
+     * @param player is the given player
+     * @param id is the ID to be checked
+     * @return different int to distinguish different cases
+     */
     private int checkID(Player player, int id)
     {
         if(this.playersID.isEmpty())
@@ -89,6 +119,13 @@ public class ShootManagement {
         }
     }
 
+
+    /**
+     *
+     * @param coordinate is the given cell
+     * @param ID is the ID to be checked
+     * @return different int to distinguish different cases
+     */
     private int checkID(Coordinate coordinate, int ID)
     {
         if(this.coordinatesID.isEmpty())
@@ -128,6 +165,12 @@ public class ShootManagement {
         }
     }
 
+    /**
+     *
+     * @param player is the given player
+     * @param listofplayer is the given list of players
+     * @return true if the list contains the player, false otherwise
+     */
     private boolean check(Player player, List<Player> listofplayer)
     {
         if(listofplayer.contains(player))
@@ -137,6 +180,13 @@ public class ShootManagement {
         else
             return false;
     }
+
+    /**
+     *
+     * @param coordinate is the given cell (as a coordinate)
+     * @param listofcell is the given list of cells
+     * @return true if the list contains the cell, false otherwise
+     */
     private boolean check (Coordinate coordinate, List<Coordinate> listofcell)
     {
         //if(listofcell.contains(coordinate))
@@ -152,9 +202,15 @@ public class ShootManagement {
         return false;
     }
 
+    /**
+     *
+     * @param match is the match
+     * @param playerAttacker is the attacker player
+     * @param playerAttacked is teh attacked player
+     * @param damage is the Damage (mark or life damage)
+     */
     private void assignDamages(Match match, Player playerAttacker, Player playerAttacked, Damage damage) //Assegno i danni ad un player
     {
-        //TODO: @Angelica controlla questo metodo plis
         int outcomeOfAttack;
         int marksOfAttacker;
         if(damage.getType()==0) //Caso in cui ho un danno di tipo vita
@@ -170,16 +226,20 @@ public class ShootManagement {
                 deathAndRespawn.calculateScore(match,playerAttacker,playerAttacked,(outcomeOfAttack==2));
                 deathAndRespawn.respawn(playerAttacked);
             }
-
-            //match.getPlayer(playerAttacked.getColor()).setDamage(damage.getdamage(),playerAttacker.getColor());
         }
         else //Caso in cui ho un danno di tipo marks
         {
             match.setMarks(playerAttacker,playerAttacked,damage.getdamage());
-            //match.getPlayer(playerAttacked.getColor()).setMarks(damage.getdamage(),playerAttacker.getColor());
         }
     }
 
+    /**
+     *
+     * @param match is the match
+     * @param playerAttacker is the attacker player
+     * @param cellAttacked is the attacked player
+     * @param damage is the Damage
+     */
     private void assignDamages(Match match, Player playerAttacker, Coordinate cellAttacked, Damage damage) //assegna i danni a tutti i player di una cella
     {
         List<Player> playersToBeAttacked = match.getSameCellsPlayers(cellAttacked);

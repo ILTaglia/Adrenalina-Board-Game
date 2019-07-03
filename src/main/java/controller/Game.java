@@ -12,6 +12,18 @@ import static utils.Print.printOut;
 
 public class Game{
 
+    /**
+     * match is the match (model)
+     * managing weapon is a class to help managing particular cases with weapons and PowCards
+     * gameRoom is the room to manage the communication with the network
+     * isMovementBeforeGrab is a boolean to say if the grabbing has also required a running action
+     * isMovementBeforeShoot is a boolean to say if the shooting has also required a running action
+     * shootElaborator is the shooting Action
+     * counterTurn is ant int to count the turn
+     * timer is the timer to manage turns
+     * queueTimer is the timer to manage turns
+     * supportPow is the support Pow Class
+     */
     private Match match;
     private ManagingWeapons manageWeapon;
     private GameRoom gameRoom;
@@ -24,6 +36,11 @@ public class Game{
     private final int queueTimer;
     private SupportPow supportPow;
 
+    /**
+     *
+     * @param gameRoom is the GameRoom of the Game
+     * @param queueTimer is the timer for the queue
+     */
     public Game(GameRoom gameRoom, int queueTimer){
         this.queueTimer=queueTimer;
         this.gameRoom=gameRoom;
@@ -37,6 +54,11 @@ public class Game{
 
     //------------------------Metodi per il SetUp della partita-----------------------------------------------------------//
     //Vado a creare i singoli Player e quindi ad aggiungerli al Model (li istanzio singolarmente)
+    /**
+     *
+     * @param userList is the name to create the player
+     * @param userIDtoColor is the color chosen by the player
+     */
     public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor) {
 
         userList.keySet().forEach(username -> match.createPlayer(username, userIDtoColor.get(userList.get(username)), userList.get(username)));
@@ -48,10 +70,18 @@ public class Game{
         //askMap((String)userList.values().toArray()[0]);
     }
 
+    /**
+     *
+     * @param userID is the first player in the game to whom asking which map to use
+     */
     private void askMap(String userID){
         gameRoom.askToChooseMap(userID);
     }
 
+    /**
+     *
+     * @param mapRequired is the int representing the chosen map
+     */
     public void setMap(int mapRequired) {
         printOut("Selected Map: " + mapRequired);
         match.createDashboard(mapRequired);
@@ -63,6 +93,10 @@ public class Game{
     //Questo metodo si pone l'obiettivo di iniziare la partita, poi chiamera il metodo per il primo turno (forse)
     //Nel Model sono già stati istanziati i mazzi e i Player, questo metodo gestisce la prima fase di gioco in cui
     //si distribuiscono carte ecc.
+
+    /**
+     * Method to start the game, it then calls the method for the first turn
+     */
     private void setGameReady(){
         match.shuffleAllDecks();            //shuffle all the decks
         match.fillDashboard();              //this method assign 3 Weapons for each SpawnPoint Cell and an AmmoCard for each NormalCell
@@ -70,6 +104,9 @@ public class Game{
         setPlayerReady();
     }
 
+    /**
+     * Method to make the player ready, giving him its PowCards
+     */
     private void setPlayerReady(){
 
         //Assign to each player two pows card.
@@ -86,12 +123,23 @@ public class Game{
 
     }
 
+    /**
+     *
+     * @param userID is the ID of the player that has to spawn
+     */
     private void askSpawnPoint(String userID) {
         gameRoom.askToChooseSpawnPoint(userID);
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
 
     //TODO: sistemare la validità della cella inserita dall'utente
+
+    /**
+     *
+     * @param userID is the ID of the player that has to spawn
+     * @param coordinate is the coordinate where to spawn
+     * @param powCardIndex is the index of the PowCard to use to spawn
+     */
     public void setSpawn(String userID, Coordinate coordinate,int powCardIndex){
         Spawn playerSpawn = new Spawn();
         try {
@@ -111,6 +159,11 @@ public class Game{
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
 
     //TODO: verificare utilità metodo
+
+    /**
+     *
+     * @param userID is the ID of the player
+     */
     private void checkUserAction(String userID){
         if(!match.getActivePlayer().getID().equals(userID)){
             Message message=new ActionError("Not your turn");
@@ -119,12 +172,19 @@ public class Game{
     }
 
 
+    /**
+     * Method to ask Action
+     */
     private void askAction(){
         //timer= new Timer();
         //printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
         //startTimer();
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
+
+    /**
+     * Method to start timer
+     */
     private void startTimer() {
         timer.schedule(new TimerTask() {
             @Override
@@ -135,15 +195,19 @@ public class Game{
             }
         }, queueTimer);
     }
-    /*
-    Le possibili azioni sono:
-    0. Run
-    1. Grab in this Cell
-    2. Shoot
-    3. Run & Grab
-    4. Run & Shoot
-    5. recharge
-    */
+
+    /**
+     * Method to perform Action. Possible actions are:
+     *     0. Run
+     *     1. Grab in this Cell
+     *     2. Shoot
+     *     3. Run & Grab
+     *     4. Run & Shoot
+     *     5. recharge
+     *
+     * @param userID is the ID of the player
+     * @param chosenAction is the index of the chosen action
+     */
     public void performAction(String userID, int chosenAction) {
         //per sicurezza li rimetto a false (inizializzo)
         resetActionBool();
@@ -176,12 +240,18 @@ public class Game{
         //Da aumentare di una l'azione già sfruttata
     }
 
-
-
+    /**
+     * Method to ask Run
+     */
     private void askRun(){
         gameRoom.askDestinationRun(match.getActivePlayer().getID());
     }
 
+    /**
+     * Method to perform Run
+     * @param userID is the ID of the player
+     * @param destination is the ArrayList representing the direction
+     */
     public void performRun(String userID,List<String> destination){
         /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
          * the player can take an other action*/
@@ -213,6 +283,10 @@ public class Game{
         }
     }
 
+    /**
+     * Method to distinguish grabWeapon from grabAmmoCard
+     * @param userID is the ID of the player
+     */
     private void selectGrab(String userID){
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
@@ -229,10 +303,18 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask which weapon to grab
+     */
     private void askWeaponGrab(){
         gameRoom.askWeaponGrab(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param userID is the ID of the player
+     * @param indexWeapon is the index of weapon to grab in the SpawnPoint Cell
+     */
     public void performWeaponGrab(String userID,int indexWeapon){
         checkUserAction(userID);
         GrabWeapon grabWeapon = new GrabWeapon();
@@ -254,20 +336,38 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask to discard a weapon card
+     */
     private void askToDiscardWeaponCard() {
         Message errorMessage=new MaxWeaponCardError("You have already three Weapon Card, you can discard one to Grab a new one");
         gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
     }
 
+    /**
+     *
+     * @param userID is the ID of the player
+     * @param indexWeaponToGrab is the weapon to grab
+     * @param indexWeaponToDiscard is teh weapon to discard to allow grabbing
+     */
     public void discardWeaponCardToGrab(String userID, int indexWeaponToGrab,int indexWeaponToDiscard) {
         manageWeapon.discardWeapon(match.getActivePlayer(),indexWeaponToDiscard);
         performWeaponGrab(userID,indexWeaponToGrab);
     }
 
+    /**
+     * Method to ask to graba weapon paying with a PowCard
+     */
     private void askWeaponGrabWithPowCard(){
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param userID is the ID of the player
+     * @param indexWeapon is the index of the weapon to grab in the SpawnPoint Cell
+     * @param indexPowCard is the index of the PowCard to use to buy
+     */
     public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard) {
         checkUserAction(userID);
         try {
@@ -284,6 +384,11 @@ public class Game{
         }
     }
 
+    /**
+     *
+     * @param indexWeapon is the index of weapon
+     * @return the price to grab
+     */
     private List<Integer> getWeaponToGrabCost(int indexWeapon){
         int xCoordinate=match.getActivePlayer().getCel().getX();
         int yCoordinate=match.getActivePlayer().getCel().getY();
@@ -291,6 +396,10 @@ public class Game{
         return cell.getSpawnPointCellWeapons().get(indexWeapon).getCostToRecharge();
     }
 
+    /**
+     *
+     * @param userID is the ID of the player
+     */
     private void grabAmmoTile(String userID){
         GrabAmmo grabAmmo = new GrabAmmo();
         try{
@@ -308,11 +417,19 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask to discard a PowCard
+     */
     private void askToDiscardPowCard(){
         Message errorMessage=new MaxPowCardError("You have already three PowCard, you can discard one");
         gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
     }
 
+    /**
+     *
+     * @param userID is the ID of the player
+     * @param indexPowCard is the index of the PowCard to discard
+     */
     public void discardPowCard(String userID, int indexPowCard) {
         checkUserAction(userID);
         manageWeapon.discardPowCard(match.getActivePlayer(),indexPowCard);
@@ -325,7 +442,9 @@ public class Game{
         nextStep();
     }
 
-
+    /**
+     * Method to ask with which weapon the player wants to shoot
+     */
     public void askWeaponToShoot(){
         this.shootElaborator = new OfficialShootVersion(this.match,this.match.getActivePlayer());
         shootElaborator.setstatus(1);
@@ -334,6 +453,11 @@ public class Game{
         gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param chosenindex is the index of the chosen weapon between the player's weapons
+     * @param userID is the ID of the player
+     */
     public void wakeupshoot(int chosenindex, String userID)
     {
         if(match.getActivePlayer().getID().equals(userID))
@@ -389,6 +513,10 @@ public class Game{
 
     }
 
+    /**
+     *
+     * @param index is the direction in which to shoot
+     */
     public void setDirectionToShoot(int index)
     {
         shootElaborator.setdirectiontoshoot(index);
@@ -400,6 +528,9 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask a serie to shoot
+     */
     public void askserieToShoot()
     {
 
@@ -407,6 +538,10 @@ public class Game{
         gameRoom.askIndexSerie(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param index is the index of serie to be verified
+     */
     public void verifyIndexSerie(int index)
     {
         List<Integer> possibleTypesOfSeries = shootElaborator.gettypes();
@@ -423,6 +558,9 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask payments before shooting
+     */
     public void askPaymentbeforeShoot()
     {
         shootElaborator.setstatus(3);
@@ -438,6 +576,9 @@ public class Game{
         }
     }
 
+    /**
+     * Method to decide the shooting method
+     */
     public void decideShootingMethod()
     {
         int typeattack= shootElaborator.getTypeAttack();
@@ -460,6 +601,9 @@ public class Game{
         }
     }
 
+    /**
+     * Method for attacking a whole room
+     */
     public void allroomattack()
     {
         shootElaborator.setAttackmethod(3);
@@ -467,6 +611,9 @@ public class Game{
         starteffect();
     }
 
+    /**
+     * Method for standard attack
+     */
     public void standardattack()
     {
         shootElaborator.setAttackmethod(1);
@@ -474,6 +621,9 @@ public class Game{
         starteffect();
     }
 
+    /**
+     * Method for ricorsive attack
+     */
     public void ricorsiveattack()
     {
         shootElaborator.setAttackmethod(2);
@@ -481,6 +631,9 @@ public class Game{
         starteffect();
     }
 
+    /**
+     * Method to start effect
+     */
     public void starteffect()
     {
         if(shootElaborator.loadeffect())
@@ -494,6 +647,9 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask the victim
+     */
     public void askBersaglio()
     {
         int typetarget= shootElaborator.getTypeTarget();
@@ -510,6 +666,10 @@ public class Game{
         }
     }
 
+    /**
+     *
+     * @param index is the index to be checked for the attack
+     */
     public void checkplayertoattack(int index)
     {
         List <Player> attackablePlayers= shootElaborator.getlistattackable(1);
@@ -544,6 +704,9 @@ public class Game{
 
     }
 
+    /**
+     * Method to check effect
+     */
     public void checkeffectorchangeattack()
     {
         if(shootElaborator.checkothereffects())
@@ -565,7 +728,9 @@ public class Game{
     }
 
 
-
+    /**
+     * Method for particular powers
+     */
     public void particoularpowers()
     {
         //Controllo se l'attacker ha un potenziamento di tipo mirino
@@ -604,6 +769,11 @@ public class Game{
         }
     }
 
+    /**
+     *
+     * @param index is the index  of victim
+     * @param userID is the ID of the player
+     */
     public void useScope(int index, String userID)
     {
         if(match.getActivePlayer().getID().equals(userID))
@@ -616,6 +786,11 @@ public class Game{
         }
     }
 
+    /**
+     *
+     * @param index is the index
+     * @param userID is the ID of the player
+     */
     public void useGranade(int index, String userID)
     {
         if(index==1)
@@ -625,12 +800,19 @@ public class Game{
     }
 
 
+    /**
+     * Method to ask for a new shoot
+     */
     public void continueshootinganswer()
     {
         shootElaborator.setstatus(8);
         gameRoom.askNextAttack(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param index is the index to be checked
+     */
     public void checkcelltoattack(int index)
     {
         List <Coordinate> attackableCells= shootElaborator.getlistattackable(2);
@@ -652,6 +834,10 @@ public class Game{
         }
     }
 
+    /**
+     *
+     * @param index is the index to continue or not
+     */
     public void answertocontinue(int index)
     {
         if(index==1)
@@ -674,6 +860,9 @@ public class Game{
 
     }
 
+    /**
+     * Method to move and managing lists
+     */
     private void moveAndList()
     {
         if(shootElaborator.getmoveme()!=0)
@@ -697,6 +886,11 @@ public class Game{
 
 
     //TODO: Quando è lecita la recharge?
+    //TODO DA ANGELICA:  fare recharge a fine dell'azione di sparo
+
+    /**
+     * Method to recharge a weapon
+     */
     private void recharge(){
         /*recharge a weapon checking if the weapon is already loaded*/
         System.out.println("Which weapon do you want to recharge?");
@@ -711,18 +905,29 @@ public class Game{
 
     //-----------------------------Metodi per potenziamenti------------------------------------------------------------//
 
+    /**
+     * Method to use Pow
+     */
     public void usePow()
     {
         supportPow= new SupportPow();
         askIndexPow();
     }
 
+    /**
+     * Method to ask the index of the Pow
+     */
     public void askIndexPow()
     {
         supportPow.setStatus(1);
         gameRoom.askIndexPow(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param index is the identifier of the PowCard
+     * @param userID is the ID of the player
+     */
     public void muxPow(int index, String userID)
     {
         if(match.getActivePlayer().getID().equals(userID))
@@ -761,6 +966,9 @@ public class Game{
 
     }
 
+    /**
+     * Method to check teleporter
+     */
     public void checkTeleporter()
     {
         int flag=0;
@@ -781,12 +989,18 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask for position
+     */
     public void askPosition()
     {
         supportPow.setStatus(2);
         gameRoom.askPos(match.getActivePlayer().getID());
     }
 
+    /**
+     * Method to check newton
+     */
     public void checkNewton()
     {
         int flag=0;
@@ -807,18 +1021,28 @@ public class Game{
         }
     }
 
+    /**
+     * Method to ask direction
+     */
     public void askDirection()
     {
         supportPow.setStatus(3);
         gameRoom.askDirection(match.getActivePlayer().getID());
     }
 
+    /**
+     * Method to ask number of steps
+     */
     public void askNumberSteps()
     {
         supportPow.setStatus(4);
         gameRoom.askStep(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param index is the identifier of the cell
+     */
     public void useTeleport(int index)
     {
         //TODO CONTROLLO SUL FATTO CHE LA MAPPA LO CONSENTA
@@ -876,12 +1100,19 @@ public class Game{
         nextStep();
     }
 
+    /**
+     * Method to ask the player index
+     */
     public void askPlayerIndex()
     {
         supportPow.setStatus(5);
         gameRoom.askPlayer(match.getActivePlayer().getID());
     }
 
+    /**
+     *
+     * @param index is the index of the player
+     */
     public void executeSteps(int index)
     {
         match.getPlayers().get(index);
@@ -897,6 +1128,9 @@ public class Game{
 
     //----------------------------Metodi utili per set turno----------------------------------------------------------//
 
+    /**
+     * Method to call for the next step
+     */
     private void nextStep() {
         //timer.cancel();
         resetActionBool();
@@ -918,6 +1152,10 @@ public class Game{
         //Controllo che i giocatori siano più di 3 se no dichiaro vincitore!
 
     }
+
+    /**
+     * Method to check for game validity
+     */
     private void checkGameValidity(){
         if(!isGameValid()){
             if(counterTurn>2){
@@ -930,6 +1168,10 @@ public class Game{
         }
     }
 
+    /**
+     *
+     * @return true if number of connected players is bigger or equal than 3, false otherwise
+     */
     private boolean isGameValid() {
         int connectedPlayers=0;
         for (Player player : match.getPlayers()) {
@@ -938,6 +1180,9 @@ public class Game{
         return connectedPlayers >= 3;
     }
 
+    /**
+     * Method to check dead players
+     */
     private void checkDeadPlayers(){
         int counter=0;
         List<Player> deadConnectedPlayers=new ArrayList<>();
@@ -964,12 +1209,19 @@ public class Game{
 
     }
 
+    /**
+     * Method to end game after death and respawn
+     */
     private void endGame(){
         DeathAndRespawn deathAndRespawn=new DeathAndRespawn();
         String winnerID=deathAndRespawn.winner(match);
         //TODO: messaggi vincitore ecc
     }
 
+    /**
+     *
+     * @param deadConnectedPlayers is alist with disconnected players
+     */
     private void spawnConnectedPlayers(List<Player> deadConnectedPlayers){
         for (Player player : deadConnectedPlayers) {
             askSpawnPoint(player.getID());
@@ -977,6 +1229,10 @@ public class Game{
         timer=new Timer();
         startSpawnTimer();
     }
+
+    /**
+     * Method to make disconnected players spawn again
+     */
     private void spawnDisconnectedPlayers(){
         match.getPlayers().forEach(player ->{
             if(player.isDead()&&!player.isConnected()){
@@ -986,6 +1242,9 @@ public class Game{
         nextTurn();
     }
 
+    /**
+     * Method to switch next turn
+     */
     private void nextTurn(){
         Player activePlayer = match.getActivePlayer();
         int index=0;
@@ -1010,6 +1269,10 @@ public class Game{
             askSpawnPoint(match.getActivePlayer().getID());
         }
     }
+
+    /**
+     * Method to switch next round
+     */
     private void nextRound(){
         int index=0;
         for(Player player:match.getPlayers()) player.resetAction();
@@ -1020,6 +1283,10 @@ public class Game{
         match.getPlayerByIndex(index).setActive();
         askAction();
     }
+
+    /**
+     * Method to reset the boolean for running before other actions
+     */
     private void resetActionBool(){
         isMovementBeforeShoot=false;
         isMovementBeforeGrab=false;
@@ -1027,21 +1294,35 @@ public class Game{
 
     //TODO: completare metodi per Player Disconnesso
 
+    /**
+     *
+     * @param userID is the ID of the disconnected player
+     */
     public void disconnectPlayer(String userID) {
         gameRoom.closeConnection(userID);
         //La chiamata sulla match viene fatta in seguito
     }
 
+    /**
+     *
+     * @param userID is the ID of the player that wants to reconnect
+     */
     public void reConnectPlayer(String userID) {
         match.setPlayerReConnected(userID);
     }
 
-
+    /**
+     *  Method to disconnect a player
+     * @param userID is the ID of the player to be disconnected
+     */
     public void setPlayerDisconnected(String userID) {
         match.setPlayerDisconnected(userID);
     }
     //----------------------------startTimer() per le ≠ richieste al Client-------------------------------------------//
 
+    /**
+     * Method to start the spawn timer
+     */
     public void startSpawnTimer(){
         timer.schedule(new TimerTask() {
             @Override
