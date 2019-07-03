@@ -113,6 +113,7 @@ public class GameServer {
         waitingRoom.addUserToRoom(playerUsername);
     }
 
+
     public synchronized void handleDisconnect(ClientInterface clientInterface){
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
         String userID;

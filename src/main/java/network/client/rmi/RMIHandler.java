@@ -16,8 +16,9 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIHandler implements ConnectionHandler {
 
-    public ServerInterface server;
-    public ClientInterface clientInterface;     //Da condividere con il server
+    private ServerInterface server;
+    private ClientInterface clientInterface;     //Da condividere con il server
+
 
     public RMIHandler(Client client) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry();
