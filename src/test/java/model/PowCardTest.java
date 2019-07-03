@@ -14,6 +14,7 @@ public class PowCardTest {
         assertEquals(2, teleporter1.getType());
         assertEquals("Teletrasporto", teleporter1.getName());
         assertEquals(0, teleporter1.getColor());
+        assertEquals("red", teleporter1.getColorAsString());
         assertEquals(1, teleporter1.getCost());
         assertEquals(2, teleporter1.getMoveme());
 
@@ -44,6 +45,7 @@ public class PowCardTest {
         assertEquals(2, granade1.getMoveme());
 
         assertEquals(2, granade2.getColor());
+        assertEquals("yellow", granade2.getColorAsString());
         assertEquals(2, granade2.getCost());
         assertEquals(0, granade2.getMoveme());
 
@@ -106,6 +108,7 @@ public class PowCardTest {
         newton1.setMoveme(1);
 
         assertEquals(1, newton1.getColor());
+        assertEquals("blue", newton1.getColorAsString());
         assertEquals(2, newton1.getCost());
         assertEquals(1, newton1.getMoveme());
 

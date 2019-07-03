@@ -42,6 +42,17 @@ public class Granade extends PowCard{
     }
     /**
      *
+     * @return the the color of the PowCard
+     */
+    public String getColorAsString(){
+        String s="";
+        if(color==0) return "red";
+        if(color==1) return "blue";
+        if(color==2) return "yellow";
+        else return s;
+    }
+    /**
+     *
      * @param cost is the price of the PowCard
      */
     public void setCost(int cost)

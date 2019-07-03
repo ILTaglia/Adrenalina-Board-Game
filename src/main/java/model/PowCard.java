@@ -22,6 +22,12 @@ public abstract class PowCard extends Card {
 
     /**
      *
+     * @return the the color of the PowCard
+     */
+    public abstract String getColorAsString();
+
+    /**
+     *
      * @param cost is the price of the PowCard
      */
     public abstract void setCost(int cost);
