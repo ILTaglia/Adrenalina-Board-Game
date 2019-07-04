@@ -39,9 +39,9 @@ public class Match implements Serializable {
      * Method to increment the number of round
      */
     public void setRound() {
+        this.round++;
         Message infoRound=new InfoMatch("New Round started. This is round: "+round);
         notifyAllClients(this,infoRound);
-        this.round++;
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
     }

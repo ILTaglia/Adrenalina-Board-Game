@@ -305,7 +305,6 @@ public class Game{
      */
     public void performWeaponGrab(String userID,int indexWeapon){
         handleTimer(false);
-        checkUserAction(userID);
         GrabWeapon grabWeapon = new GrabWeapon();
         if(!grabWeapon.isValid(match,userID)){
             askToDiscardWeaponCard();
@@ -362,7 +361,6 @@ public class Game{
      */
     public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard) {
         handleTimer(false);
-        checkUserAction(userID);
         try {
             manageWeapon.convertPowToGrab(match.getActivePlayer(), getWeaponToGrabCost(indexWeapon), indexPowCard);
             GrabWeapon grabWeapon=new GrabWeapon();
