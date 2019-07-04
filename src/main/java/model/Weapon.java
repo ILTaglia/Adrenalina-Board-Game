@@ -84,7 +84,7 @@ public class Weapon extends Card {
             throw new WeaponAlreadyLoadedException();
         }
     }
-    //TODO DANIELE: questo metodo serve? non è mai usato
+
     public void shooted() throws WeaponAlreadyUsedException{
         if(!used){
             setUsed();
