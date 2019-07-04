@@ -248,14 +248,16 @@ public class Game{
             if(isMovementBeforeGrab){
                 selectGrab(userID);
             }
-            if(isMovementBeforeShoot){
+            else if(isMovementBeforeShoot){
                this.askWeaponToShoot();
             }
-            run.registerMovementAction(match);
-            //In caso di successo dell'azione aumento di 1 la variabile azione del Player
-            //match.getActivePlayer().setAction(); già fatto nel metodo
-            //Chiamo metodo per la gestione della successiva azione
-            nextStep();
+            else {
+                run.registerMovementAction(match);
+                //In caso di successo dell'azione aumento di 1 la variabile azione del Player
+                //match.getActivePlayer().setAction(); già fatto nel metodo
+                //Chiamo metodo per la gestione della successiva azione
+                nextStep();
+            }
         } catch(InvalidDirectionException e){           //migliorare eccezione con motivo dell'errore
             Message errorMessage=new RunError("Invalid Direction. Choose an other direction");
             gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
