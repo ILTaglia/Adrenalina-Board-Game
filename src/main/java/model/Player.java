@@ -52,6 +52,7 @@ public class Player implements Serializable {
 
     private boolean connected;
     private boolean dead;
+    private boolean frenzy;
     /**
      *
      * @param name chosen by the player
@@ -116,6 +117,7 @@ public class Player implements Serializable {
         this.action=0;
         this.score=0;
         this.order= new ArrayList<>();
+        this.frenzy=false;
     }
 
     /**
@@ -491,4 +493,15 @@ public class Player implements Serializable {
     public boolean isDead() {
         return dead;
     }
+
+    /**
+     * Method to start for frenzy
+     */
+    public void setFrenzy(){this.frenzy=true;}
+
+    /**
+     * Method to have back frenzy value
+     * @return boolean to say if the player has activated frenzy
+     */
+    public boolean getFrenzy(){return this.frenzy;}
 }

@@ -375,7 +375,24 @@ public class CLIView implements View {
                 map4[i][j]=s;
             }
         }
-
+        int line;
+        int column;
+        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
+            else {
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
+                else{
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
+                    else {
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
+                    }
+                }
+            }
+        }
         printOut(" _________________________________________________                 ");
         printOut("|      Blue      |       Blue     |     Blue      |                ");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");
@@ -420,6 +437,24 @@ public class CLIView implements View {
                 map2[i][j]=s;
                 map3[i][j]=s;
                 map4[i][j]=s;
+            }
+        }
+        int line;
+        int column;
+        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
+            else {
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
+                else{
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
+                    else {
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
+                    }
+                }
             }
         }
         printOut(" _________________________________________________________________ ");
@@ -468,6 +503,24 @@ public class CLIView implements View {
                 map4[i][j]=s;
             }
         }
+        int line;
+        int column;
+        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
+            else {
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
+                else{
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
+                    else {
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
+                    }
+                }
+            }
+        }
         printOut(" _________________________________________________________________ ");
         printOut("|      Red       |       Blue     |     Blue      |   Green       |");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
@@ -513,6 +566,24 @@ public class CLIView implements View {
                 map2[i][j]=s;
                 map3[i][j]=s;
                 map4[i][j]=s;
+            }
+        }
+        int line;
+        int column;
+        List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
+        for(int h=0; h<position.size(); h++){
+            line=position.get(h).getX();
+            column=position.get(h).getY();
+            if(map[line][column].equals(s)) map[line][column] = "   "+h+"   ";
+            else {
+                if(map1[line][column].equals(s)) map1[line][column] = "   "+h+"   ";
+                else{
+                    if(map2[line][column].equals(s)) map2[line][column] = "   "+h+"   ";
+                    else {
+                        if(map3[line][column].equals(s)) map3[line][column] = "   "+h+"   ";
+                        else map4[line][column] = "   "+h+"   ";
+                    }
+                }
             }
         }
         printOut(" _________________________________________________                 ");
@@ -672,7 +743,6 @@ public class CLIView implements View {
      */
     @Override
     public void notifyAttackedPlayer(Player attackedplayer) {
-//TODO SAMUELE, questa di fatto è concettualmente uguale alla printdamaged
     }
 
     /**
@@ -779,7 +849,6 @@ public class CLIView implements View {
      * Method to advise the player he has been damaged
      */
     @Override
-    //TODO SAMUELE, è da chiamare quando un player subisce danno
     public void printDamagedPlayer(int numberdamages, String attackerplayername){
         printOut("You have received "+numberdamages+" damages by Player "+attackerplayername);
     }
@@ -787,7 +856,6 @@ public class CLIView implements View {
      * Method to advise the player he has been given marks
      */
     @Override
-    //TODO SAMUELE/DANIELE, è da chiamare quando muore un player viene ferito
     public void printMarkedPlayer(int numbermarks, String attackerplayername){
         printOut("You have received "+numbermarks+" marks by Player "+attackerplayername);
     }
@@ -795,7 +863,6 @@ public class CLIView implements View {
      * Method to advise the player someone has died
      */
     @Override
-    //TODO SAMUELE, è da chiamare quando muore un player
     public void printDeadPlayer(String deadplayername){
         printOut("Player "+deadplayername+" has died");
     }
@@ -803,7 +870,6 @@ public class CLIView implements View {
      * Method to advise the player he died
      */
     @Override
-    //TODO SAMUELE, è da chiamare quando muore il player stesso (client)
     public void printdeath(){
         printOut("You died");
     }
@@ -811,7 +877,6 @@ public class CLIView implements View {
      * Method to express datas of the killshoot track
      */
     @Override
-    //TODO SAMUELE/DANIELE, è da chiamare quando muore un player, mostra il killshot aggiornato
     public void printKillShotData(){
         printOut("Player with color blue has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(0)+" in the KillShoot Track");
         printOut("Player with color green has "+client.getPlayerVisibleData().getDashboard().getKillShotPoints().get(1)+" in the KillShoot Track");
@@ -823,7 +888,6 @@ public class CLIView implements View {
      * Method to advise the player of the consequences of his attack
      */
     @Override
-    //TODO SAMUELE, è da chiamare quando un player viene ferito o fatto danno
     public void printDamagerAndMarkerPlayer(int numberdamages, int numbermarks, String attackedplayername){
         printOut("You have made "+numberdamages+" damages and "+numbermarks+" marks to Player "+attackedplayername);
     }
@@ -1008,6 +1072,20 @@ public class CLIView implements View {
         Message messaage = new UseGranadeRequest(index,client.getUserID());
         client.sendMessage(messaage);
     }
+
+     @Override
+    public void finalFrenzy(){
+        printOut("FinalFrenzy has started!");
+        printOut("First group of players include the one activating frenzy till the last one in the turn");
+        printOut("Second group of players include the first of the match till the one before the player that activated frenzy");
+        printOut("In the first group of players you can: ");
+        printOut("0. Move of maximum 1 step, recharge if you want, then shoot");
+        printOut("1. Run of maximum 4 steps");
+        printOut("2. Move of maximum 2 steps, and grabbing");
+        printOut("In the second group of players you can:");
+        printOut("0. Move of maximum 2 step, recharge if you want, then shoot");
+        printOut("1. Run of maximum 3 steps, and grabbing");
+     }
 
 
 }

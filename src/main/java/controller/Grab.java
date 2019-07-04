@@ -8,5 +8,7 @@ import exceptions.InvalidDirectionException;
 
 
 public abstract class Grab extends Action {
-
+/**
+ * Action of grabbing is specialized in GrabWeapon and GrabAmmo
+ */
 }

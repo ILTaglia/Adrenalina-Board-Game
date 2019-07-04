@@ -168,6 +168,6 @@ public interface View {
 
     void getGranadeIndex();
 
-
+    void finalFrenzy();
 
 }

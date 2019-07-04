@@ -6,7 +6,7 @@ public class OtherPlayerData extends InfoMessage {
     private int playerColor;
 
     public OtherPlayerData(String playerName, String playerColor){
-        super("Other player in your match are: "+ playerName + "with color: " + playerColor);
+        super("Other player in your match are: "+ playerName + " with color: " + playerColor);
         this.playerName=playerName;
         if(playerColor.equals("blue")) this.playerColor=0;
         if(playerColor.equals("green")) this.playerColor=1;

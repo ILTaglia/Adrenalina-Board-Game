@@ -54,8 +54,6 @@ public class Game{
         registerNewMatch(gameRoom,match);
     }
 
-    //TODO IMPORTANTE metodi isValid
-
     //------------------------Metodi per il SetUp della partita-----------------------------------------------------------//
     //Vado a creare i singoli Player e quindi ad aggiungerli al Model (li istanzio singolarmente)
     /**
@@ -157,7 +155,6 @@ public class Game{
     }
     //-----------------------------------Metodi veri e propri del turno-----------------------------------------------//
 
-    //TODO: verificare utilità metodo
 
     /**
      *
@@ -1415,7 +1412,28 @@ public class Game{
         }, queueTimer);
     }
 
+    public void startFrenzy(String userID){
+        FinalFrenzy frenzy = new FinalFrenzy(match, match.getPlayerByID(userID).getColor());
+        askAction();
+    }
 
-
+    public void performActionFrenzy(String userID, int chosenAction) {
+        //per sicurezza li rimetto a false (inizializzo)
+        handleTimer(false);
+        resetActionBool();
+        checkUserAction(userID);
+        switch (chosenAction) {
+            case (0):
+                this.askRun();
+                break;
+            case (1):
+                this.selectGrab(userID);
+                break;
+            case (2):
+                this.askWeaponToShoot();
+                //Richiesta al giocatore con arma con cui vuole attaccare
+                break;
+        }
+    }
 }
 
