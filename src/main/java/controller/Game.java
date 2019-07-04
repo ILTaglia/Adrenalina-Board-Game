@@ -1387,6 +1387,7 @@ public class Game{
      */
     public void setPlayerDisconnected(String userID) {
         match.setPlayerDisconnected(userID);
+        printOut("Player disconnected: "+userID);
         if(userID.equals(match.getActivePlayer().getID())){
             nextStep();
         }

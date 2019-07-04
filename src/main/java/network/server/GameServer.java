@@ -112,7 +112,7 @@ public class GameServer {
         }
         //Imposto a connesso il Player, a termine del timer verifico che siano ancora tutti connessi
         userIDInGameToStatusConnection.put(usernameToUserID.get(playerUsername),true);
-        //startCheckConnection(usernameToUserID.get(playerUsername));
+        startCheckConnection(usernameToUserID.get(playerUsername));
         waitingRoom.addUserToRoom(playerUsername);
     }
 
@@ -182,7 +182,7 @@ public class GameServer {
             //TODO
         }
         userIDToClientInterface.replace(userID,clientInterface);
-        //startCheckConnection(userID);
+        startCheckConnection(userID);
         userIDInGameToStatusConnection.replace(userID,true);
 
         updatePlayerStatus(userID,true);
