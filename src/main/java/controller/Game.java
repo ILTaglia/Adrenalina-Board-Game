@@ -173,7 +173,7 @@ public class Game{
      * Method to ask Action
      */
     private void askAction(){
-        printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
+        printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player"+match.getActivePlayer().getName());
         handleTimer(true);
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
@@ -1337,7 +1337,6 @@ public class Game{
         while(!match.getPlayerByIndex(index).isConnected()){
             index++;
         }
-
         match.startOfTurnOfPlayer(match.getPlayerByIndex(0));
         askAction();
     }
@@ -1374,6 +1373,9 @@ public class Game{
      */
     public void setPlayerDisconnected(String userID) {
         match.setPlayerDisconnected(userID);
+        if(userID.equals(match.getActivePlayer().getID())){
+            nextStep();
+        }
     }
     //----------------------------startTimer() per le ≠ richieste al Client-------------------------------------------//
 
@@ -1397,7 +1399,6 @@ public class Game{
             }
         }
     }
-
 
     /**
      * Method to start the spawn timer

@@ -54,7 +54,7 @@ public class Match implements Serializable {
     }
 
     public void endOfTurnOfPlayer(Player player) {
-        player.setActive();
+        player.resetActive();
         Message infoTurn=new InfoMatch("End of turn of player "+ player.getName());
         notifyAllExceptOneClient(player.getID(),infoTurn);
         infoTurn=new InfoMatch("End of your turn.");
