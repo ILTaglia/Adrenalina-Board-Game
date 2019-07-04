@@ -7,6 +7,7 @@ import network.server.GameRoom;
 import utils.NotifyClient;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static utils.NotifyClient.*;
 import static utils.Print.printOut;
@@ -1190,7 +1191,6 @@ public class Game{
         handleTimer(false);
         resetActionBool();
         //Controllo validità partita
-        checkGameValidity();
         //Controllo eventuale Frenesia Finale
         if(match.getDashboard().isKillShotTrackFull()){
             //ULTIMO TURNO!
@@ -1301,17 +1301,31 @@ public class Game{
      * Method to switch next turn
      */
     private void nextTurn(){
+        checkGameValidity();
         Player activePlayer = match.getActivePlayer();
         int index=0;
-        for(int i=0; i<match.getPlayersSize(); i++){
-            if(match.getPlayers().get(i).equals(activePlayer)){
-                index = i;
-                if(i==match.getPlayersSize()-1){
+        List<Player> connectedPlayers=new ArrayList<>();
+        //Ciclo per estrarre solo player connessi
+        for(int i=0;i<match.getPlayersSize();i++){
+            if(match.getPlayerByIndex(i).isConnected()){
+                connectedPlayers.add(match.getPlayerByIndex(i));
+            }
+        }
+        //Ciclo per capire se il player attivo è l'ultimo tra i connessi
+        for(int i=0; i<connectedPlayers.size(); i++){
+            if(connectedPlayers.get(i).equals(activePlayer)){
+                if(i==connectedPlayers.size()-1){
                     nextRound();
                 }
             }
         }
-        match.endOfTurnOfPlayer(match.getPlayerByIndex(index));
+        //Ciclo per trovare l'indice del player attivo tra tutti
+        for(int i=0; i<match.getPlayersSize(); i++){
+            if(match.getPlayerByIndex(i).equals(activePlayer)){
+                index = i;
+            }
+        }
+        match.endOfTurnOfPlayer(match.getActivePlayer());
         index++;
         while(!match.getPlayerByIndex(index).isConnected()){
             index++;
@@ -1330,7 +1344,7 @@ public class Game{
      */
     private void nextRound(){
         int index=0;
-        match.endOfTurnOfPlayer(match.getPlayerByIndex(index));
+        match.endOfTurnOfPlayer(match.getActivePlayer());
         for(int i=1; i<match.getPlayersSize(); i++) match.getPlayerByIndex(i).resetActive();
         for(Player player:match.getPlayers()) player.resetAction();
         match.setRound();
