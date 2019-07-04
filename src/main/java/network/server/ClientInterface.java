@@ -30,7 +30,7 @@ public interface ClientInterface extends Remote {
 
     /**
      *
-     * @param connected is the boolean to connet the client
+     * @param connected is the boolean to connect the client
      * @throws RemoteException if operation fails
      */
     void setConnection(boolean connected) throws RemoteException;

@@ -20,6 +20,9 @@ public class ClientHandler implements Runnable, ClientInterface {
     private boolean connected;
 
     //Stream per serializzazione|de-serializzazione
+    /**
+     * Stream for serialization and deserialization
+     */
     private ObjectInputStream streamIn;
     private ObjectOutputStream streamOut;
 
@@ -35,15 +38,27 @@ public class ClientHandler implements Runnable, ClientInterface {
         }
         this.connected=true;
     }
+
+    /**
+     *
+     * @param playerID is the ID to be set
+     */
     public void setPlayerID(String playerID){
         this.playerID=playerID;
     }
 
+    /**
+     *
+     * @return the string of the playerID
+     */
     @Override
     public String getPlayerID() {
         return this.playerID;
     }
 
+    /**
+     * Method for running clientHandler
+     */
     @Override
     public void run(){
         try{
@@ -103,6 +118,11 @@ public class ClientHandler implements Runnable, ClientInterface {
             server.handleDisconnect(this);
         }
     }
+
+    /**
+     *
+     * @param message is the message to be sent
+     */
     @Override
     public void sendMessage(Message message){
         try {
@@ -114,11 +134,18 @@ public class ClientHandler implements Runnable, ClientInterface {
         }
     }
 
+    /**
+     *
+     * @param connected is the boolean to connect the client
+     */
     @Override
     public void setConnection(boolean connected) {
         this.connected=connected;
     }
 
+    /**
+     * Method to close connection
+     */
     @Override
     public void closeConnection() {
         try {
@@ -128,12 +155,18 @@ public class ClientHandler implements Runnable, ClientInterface {
         }
     }
 
+    /**
+     * Method to request for reconnection
+     */
     @Override
     public void requestToReconnect() {
         Message reConnectRequest = new ReConnectServerRequest();
         sendMessage(reConnectRequest);
     }
 
+    /**
+     * Method to set client connected, but not useful for socket
+     */
     @Override
     public void setClientConnected() {
         //NOTHING TO DO IN SOCKET, NOT USED

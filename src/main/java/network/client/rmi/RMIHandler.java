@@ -20,12 +20,24 @@ import java.util.TimerTask;
 import static utils.Print.printOut;
 
 public class RMIHandler implements ConnectionHandler {
-
+    /**
+     * Class that receives messages from RMIConnection.
+     * server is the ServerInterface
+     * clientInterface is the Client, it is ClientInterface to be shared with server
+     * connectionEstablished is a boolean to check wheteìher the connection is established or not
+     */
     private Client client;
     private ServerInterface server;
     private ClientInterface clientInterface;     //Da condividere con il server
     private boolean connectionEstablished;
     private Timer timer;
+
+    /**
+     *
+     * @param client is the client
+     * @throws RemoteException is a possible exception thrown with RMIConnection
+     * @throws NotBoundException is a possible exception thrown with RMIConnection
+     */
 
     public RMIHandler(Client client) throws RemoteException, NotBoundException {
         this.client=client;
@@ -35,6 +47,12 @@ public class RMIHandler implements ConnectionHandler {
         RMIConnection rmiConnection =new RMIConnection(client);
         clientInterface = (ClientInterface) UnicastRemoteObject.exportObject(rmiConnection, 0);
     }
+    /**
+     *
+     * @param username is the username of the host to be registered
+     * @throws UsernameAlreadyUsedException if the same username has already been used by an other host
+     */
+
     @Override
     public void registerToWR(String username) throws UsernameAlreadyUsedException {
         try {
@@ -43,6 +61,12 @@ public class RMIHandler implements ConnectionHandler {
             System.out.println(e.getMessage());
         }
     }
+    /**
+     *
+     * @param username is the username of the host to be reconnected
+     * @throws UsernameAlreadyUsedException if the same username has already been used by an other host
+     */
+
     @Override
     public void newConnectionRequest(String username) throws UsernameAlreadyUsedException{
         try{
@@ -51,7 +75,9 @@ public class RMIHandler implements ConnectionHandler {
             printOut(e.getMessage());
         }
     }
-
+    /**
+     * Method to establish connection
+     */
     @Override
     public void setConnected() {
         connectionEstablished=true;
@@ -67,10 +93,18 @@ public class RMIHandler implements ConnectionHandler {
         },10000);
     }
 
+    /**
+     * Method to disconnect
+     */
     private void disconnected(){
         connectionEstablished=false;
         client.close();
     }
+
+    /**
+     * Method to request fo reconnection
+     * @param userIDToReConnect is the ID of the user to be reconnected
+     */
 
     @Override
     public void reConnectRequest(String userIDToReConnect) throws InvalidUserIDException{
@@ -80,7 +114,10 @@ public class RMIHandler implements ConnectionHandler {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Method to send messages
+     * @param message is the message to be sent
+     */
     @Override
     public void sendMessage(Message message){
         try {
@@ -89,11 +126,19 @@ public class RMIHandler implements ConnectionHandler {
             printOut(e.getMessage());
         }
     }
+    /**
+     * Method to ask to try to reconnect
+     */
 
     @Override
     public void askToTryToReconnect() {
         //Not used in RMI
     }
+
+    /**
+     * Method to reconnect
+     * @param userID is the ID of the user to be reconnected
+     */
 
     @Override
     public void attemptToReconnect(String userID) {

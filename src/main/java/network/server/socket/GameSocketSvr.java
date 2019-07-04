@@ -24,6 +24,11 @@ public class GameSocketSvr extends Thread {
     }
 
     //Metodo che crea il SocketServer e crea il pool
+
+    /**
+     * Method that creates SocketServer and pool
+     * @param port is the port for connection
+     */
     public void start(int port){
         try {
             serverSocket = new ServerSocket(port);
@@ -35,6 +40,10 @@ public class GameSocketSvr extends Thread {
     }
 
     //Metodo che runna il SocketServer, accetta le connessioni e per ciascun connectionHandler collegato istanzia un ClientHandler
+
+    /**
+     * Method that runs socket server, accept connections and for every connectionHandler linked instantiate a ClientHandler
+     */
     @Override
     public void run(){
         while(!isStopped){
@@ -55,38 +64,82 @@ public class GameSocketSvr extends Thread {
 
     //------------------------Metodi usati dal ClientHandler----------------------------------------------------------//
 
+    /**
+     *
+     * @param clientHandler is the backend
+     * @param username is the username of the client
+     */
     public void addClientToWR(ClientHandler clientHandler,String username){
         gameServer.addClientToWR(username,clientHandler);
     }
 
+    /**
+     *
+     * @param requestedUsername is the requested username
+     * @return true if it is already in the queue, false otherwise
+     */
     public boolean isAlreadyInQueue(String requestedUsername) {
         return gameServer.isAlreadyInQueue(requestedUsername);
     }
 
+    /**
+     *
+     * @param requestedUsername is the requested username
+     * @return true if the player is disconnected, false otherwise
+     */
     public boolean isPlayerDisconnected(String requestedUsername){
         return gameServer.hasPlayerDisconnected(requestedUsername);
     }
+
+    /**
+     *
+     * @param message is the message to be handled
+     */
     public void handleMessage(Message message){
         gameServer.handleMessage(message);
     }
+
+    /**
+     *
+     * @param clientInterface is the backend
+     */
     public void handleDisconnect(ClientInterface clientInterface) {
         gameServer.handleDisconnect(clientInterface);
     }
 
+    /**
+     *
+     * @param userIDToReconnect the userID to be checked
+     * @return true or false according to the result of connection
+     */
     public boolean checkUserID(String userIDToReconnect) {
         return gameServer.checkUserID(userIDToReconnect);
     }
 
+    /**
+     *
+     * @param userID is the userID to handle for connection
+     * @param clientInterface is the backend
+     */
     public void handleReConnect(String userID, ClientInterface clientInterface){
         gameServer.handleReConnect(userID,clientInterface);
     }
 
+    /**
+     *
+     * @param userID is the userID to add the client
+     * @param clientInterface is the backend
+     */
     public void reAddClientToWR(String userID, ClientInterface clientInterface) {
         gameServer.reAddClientToWR(userID,clientInterface);
     }
 
 
     //Metodo che chiude il server, capire quando chiamarlo //TODO
+
+    /**
+     * Method that closes server
+     */
     public void close(){
         this.isStopped=true;
         try {
