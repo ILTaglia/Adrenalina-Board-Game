@@ -75,6 +75,59 @@ public class Run extends Action {
             throw new InvalidDirectionException();
         }
     }
+
+    /**
+     * Method to be moved by an other player, when this player is attacked
+     * @param match is the match
+     * @param userID is the userID
+     * @param destination is the ArrayList containing the atomic movements
+     */
+    public void movementNotInMyTurn(Match match, String userID, List<String> destination) throws InvalidDirectionException{
+        if(isValidNotInMyTurn(match, destination)){
+            for (String direction : destination) {
+                this.atomicMovementNotInMyTurn(match, direction, userID);
+            }
+        }
+        else{
+            throw new InvalidDirectionException();
+        }
+    }
+    /**
+     * Method to check validity of a movement when player is attacked
+     * @param match is the match
+     * @param destination is the ArrayList containing the atomic directions the player wants to go to
+     * @return true if the movement is valid, 0 otherwise
+     */
+    public boolean isValidNotInMyTurn(Match match, List<String> destination) {
+        Dashboard map = match.getDashboard();
+        int actualXCoordinate = match.getActivePlayer().getCel().getX();
+        int actualYCoordinate = match.getActivePlayer().getCel().getY();
+        int atomicDirection;
+        for (String direction : destination) {
+            try {
+                atomicDirection = this.getDirection(direction);
+            } catch (InvalidDirectionException e) {
+                return false;
+            }
+            if (!this.atomicValidity(map, match.getActivePlayer(), actualXCoordinate, actualYCoordinate, atomicDirection)) {
+                return false;
+            }
+            //Aggiorno la posizione attuale per verificare le direzioni successive
+            if (atomicDirection == 0) {
+                actualXCoordinate--;
+            }
+            if (atomicDirection == 1) {
+                actualYCoordinate++;
+            }
+            if (atomicDirection == 2) {
+                actualXCoordinate++;
+            }
+            if (atomicDirection == 3) {
+                actualYCoordinate--;
+            }
+        }
+        return true;
+    }
     /**
      *
      * @param match is the match
@@ -200,6 +253,42 @@ public class Run extends Action {
         }
     }
 
+    /**
+     * Method for atomic movements of a player victim of an attack
+     * @param match is the match
+     * @param direction is the atomic character that express the direction the player wants to go to
+     * @throws InvalidDirectionException if direction is invalid
+     */
+    private void atomicMovementNotInMyTurn(Match match, String direction, String userID) throws InvalidDirectionException {
+        int d = this.getDirection(direction);
+        int x;
+        int y;
+        Player playervictim = match.getPlayerByID(userID);
+        x = playervictim.getCel().getX();
+        y = playervictim.getCel().getY();
+
+        //player wants to go to the north
+        if (d == 0) {
+            x--;
+            match.setPlayerCel(playervictim,x,y);
+
+        }
+        //player wants to go the the east
+        else if (d == 1) {
+            y++;
+            match.setPlayerCel(playervictim,x,y);
+        }
+        //player wants to go the south
+        else if (d == 2) {
+            x++;
+            match.setPlayerCel(playervictim,x,y);
+        }
+        //player wants to go to the west
+        else if (d == 3) {
+            y--;
+            match.setPlayerCel(playervictim,x,y);
+        }
+    }
     /**
      *
      * @param player is the given player

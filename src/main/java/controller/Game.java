@@ -4,6 +4,7 @@ import model.*;
 import network.messages.*;
 import network.messages.error.*;
 import network.server.GameRoom;
+import utils.NotifyClient;
 
 import java.util.*;
 
@@ -31,7 +32,9 @@ public class Game{
     private boolean isMovementBeforeShoot;
     private OfficialShootVersion shootElaborator;
     private int counterTurn;                        //Conto numero di turni con meno di tre giocatori in partita
+
     //Gestione Timer
+
     private Timer timer;
     private final int queueTimer;
     private SupportPow supportPow;
@@ -112,7 +115,7 @@ public class Game{
 
         //first Player is the first in Players List in Model. It would be the first logged on Server.
         //Set active the first player, set not-active the rest of players
-        match.getPlayerByIndex(0).setActive();
+        match.startOfTurnOfPlayer(match.getPlayerByIndex(0));
         for(int i=1; i<match.getPlayersSize(); i++) match.getPlayerByIndex(i).resetActive();
         //Da adesso si chiamano tutti i metodi per la gestione della partita del primo giocatore, poi aggiorno e passo al secondo
         //richiamando gli stessi
@@ -1238,7 +1241,7 @@ public class Game{
     private void endGame(){
         DeathAndRespawn deathAndRespawn=new DeathAndRespawn();
         String winnerID=deathAndRespawn.winner(match);
-        //TODO: messaggi vincitore ecc
+        gameRoom.declareWinner(match.getPlayerByID(winnerID).getName());
     }
 
     /**
@@ -1279,15 +1282,12 @@ public class Game{
                 }
             }
         }
-        match.getPlayers().forEach(player -> printOut(player.getName()));
-        printOut(match.getRound());
-        match.getPlayerByIndex(index).setActive();
+        match.endOfTurnOfPlayer(match.getPlayerByIndex(index));
         index++;
         while(!match.getPlayerByIndex(index).isConnected()){
             index++;
         }
-        match.getPlayerByIndex(index).setActive();
-        printOut(match.getActivePlayer().getName());
+        match.startOfTurnOfPlayer(match.getPlayerByIndex(index));
         if(match.getRound()!=1) {
             askAction();
         }
@@ -1301,12 +1301,15 @@ public class Game{
      */
     private void nextRound(){
         int index=0;
+        match.endOfTurnOfPlayer(match.getPlayerByIndex(index));
+        for(int i=1; i<match.getPlayersSize(); i++) match.getPlayerByIndex(i).resetActive();
         for(Player player:match.getPlayers()) player.resetAction();
         match.setRound();
         while(!match.getPlayerByIndex(index).isConnected()){
             index++;
         }
-        match.getPlayerByIndex(index).setActive();
+
+        match.startOfTurnOfPlayer(match.getPlayerByIndex(0));
         askAction();
     }
 
@@ -1317,8 +1320,6 @@ public class Game{
         isMovementBeforeShoot=false;
         isMovementBeforeGrab=false;
     }
-
-    //TODO: completare metodi per Player Disconnesso
 
     /**
      *
@@ -1347,9 +1348,7 @@ public class Game{
     }
     //----------------------------startTimer() per le ≠ richieste al Client-------------------------------------------//
 
-    /**
-     * Method to start the spawn timer
-     */
+
     private void handleTimer(boolean timerStatus){      //true to start, false to stop
         if (timerStatus) {
             timer = new Timer();
@@ -1367,7 +1366,11 @@ public class Game{
         }
     }
 
-    public void startSpawnTimer(){
+
+    /**
+     * Method to start the spawn timer
+     */
+    private void startSpawnTimer(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -1377,30 +1380,9 @@ public class Game{
                         spawnDisconnectedPlayers();
                     }
                 });
-
             }
         }, queueTimer);
     }
-
-    /**
-     * Method to start timer
-     */
-    /*
-    private void startTimer() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //TODO: InfoMessage al Player in cui lo si informa che salterà il turno e cade connessione
-                disconnectPlayer(match.getActivePlayer().getID());
-                nextStep();
-            }
-        }, queueTimer);
-    }*/
-
-
-
-
-
 
 
 

@@ -22,7 +22,6 @@ public class PlayerVisibleData implements Serializable {
     private ArrayList<Integer> playerAmmo;
 
     private Map<String,Integer> enemiesNameColor;
-    private Map<String,Boolean> activePlayer;
     private Map<String,Integer> numberOfDeath;
 
     private Map<String,Coordinate> playersPosition;
@@ -41,7 +40,6 @@ public class PlayerVisibleData implements Serializable {
     public PlayerVisibleData(Player player){
         this.player=player;
         this.enemiesNameColor=new HashMap<>();
-        activePlayer=new HashMap<>();
         numberOfDeath=new HashMap<>();
         playersPosition =new HashMap<>();
         playersFirstBlood =new HashMap<>();
@@ -68,13 +66,11 @@ public class PlayerVisibleData implements Serializable {
      */
     public void setEnemy(String playerName,int playerColor){
         this.enemiesNameColor.put(playerName,playerColor);
-        this.activePlayer.put(playerName,false);
         this.numberOfDeath.put(playerName,0);
         this.playersFirstBlood.put(playerName,null);
         this.damagesOfAll.put(playerName,new HashMap<>());
         this.marksOfAll.put(playerName,new HashMap<>());
         //TODO serve la posizione dei player this.playersPosition(playerName, );
-
     }
     /**
      *
@@ -97,18 +93,7 @@ public class PlayerVisibleData implements Serializable {
     public Map<String,Integer> getAllPlayersColorName(){
         return this.enemiesNameColor;
     }
-    /**
-     *
-     * @return the active player
-     */
-    public String getActivePlayer(){
-        for (Map.Entry<String,Boolean> entry : activePlayer.entrySet()) {
-            if (entry.getValue()) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
+
     /**
      *
      * @param color is the color of the ammo

@@ -229,11 +229,11 @@ public class OfficialShootVersion {
 
     /**
      *
-     * @return a list of the type of the attacks
+     * @return a list of the type of all the typleplayer containtained in the effects of the weapon
      */
     public List<Integer> gettypes()
     {
-        List <Integer> lista= new ArrayList<Integer>();
+        List <Integer> lista= new ArrayList<>();
         for(int i=0;i<this.weapon.getNumberAttack();i++)
         {
             int index = weapon.getAttack(i).getTypePlayer();
