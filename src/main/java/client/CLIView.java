@@ -229,7 +229,7 @@ public class CLIView implements View {
     }
 
     /**
-     * Method to achoose a weapon to grab
+     * Method to choose a weapon to grab
      */
     @Override
     public  void chooseWeaponToGrab(){
@@ -919,7 +919,7 @@ public class CLIView implements View {
     @Override
     public void showPaymentError()
     {
-        printOut("You don't have enougth ammo!");
+        printOut("You don't have enough ammo!");
     }
 
     /**
