@@ -3,13 +3,13 @@ package network.client;
 import client.CLIView;
 import client.View;
 import client.gui.GUIViewAdapter;
+import exceptions.InvalidUserIDException;
 import exceptions.MaxNumberofCardsException;
 import exceptions.UsernameAlreadyUsedException;
 import model.PlayerVisibleData;
 import network.client.rmi.RMIHandler;
 import network.client.socket.SocketHandler;
 import network.messages.Message;
-import network.messages.SecondConnectionRequest;
 import network.messages.playerDataMessage.*;
 
 import java.rmi.NotBoundException;
@@ -149,9 +149,11 @@ public class Client {
     public void reConnectRequest(String userIDToReConnect) {
         try {
             connectionHandler.reConnectRequest(userIDToReConnect);
-        }catch (Exception e){
-            //TODO
+        }catch (InvalidUserIDException e) {
+            view.showException(e.getMessage());
+            view.askNewConnection();
         }
+
     }
 
     /**
@@ -164,7 +166,7 @@ public class Client {
         }catch (UsernameAlreadyUsedException e){
             //Stampare sulla view la presenza dell'errore
             view.showException(e.getMessage());
-            view.login();
+            view.askNewConnection();
         }
 
     }
@@ -183,7 +185,7 @@ public class Client {
                 try {
                     connectionHandler=new RMIHandler(this);
                 } catch (RemoteException | NotBoundException e) {
-
+                    askToTryToReconnect();
                 }
             }
         }else{
@@ -386,6 +388,9 @@ public class Client {
         if(message.getContent().equals("ReConnectRequest")){
             view.askToReConnect();
         }
+        if(message.getContent().equals("NewConnectionRequest")){
+            view.askNewConnection();
+        }
     }
 
 
@@ -404,7 +409,7 @@ public class Client {
             //Nothing to do, just info.
         }
         if(message.getContent().equals("RunError")){
-            view.chooseAction();
+            view.chooseRunDirection();
         }
         if(message.getContent().equals("GrabError")){
             view.chooseAction();

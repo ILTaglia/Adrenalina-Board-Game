@@ -99,9 +99,9 @@ public class GameServer {
         }catch (RemoteException e) {
             //TODO: disconnect nel caso che il Player non sia ancora connesso praticamente
         }
-        startCheckConnection(usernameToUserID.get(playerUsername));
         //Imposto a connesso il Player, a termine del timer verifico che siano ancora tutti connessi
         userIDInGameToStatusConnection.put(usernameToUserID.get(playerUsername),true);
+        startCheckConnection(usernameToUserID.get(playerUsername));
         waitingRoom.addUserToRoom(playerUsername);
     }
 
@@ -110,11 +110,16 @@ public class GameServer {
             @Override
             public void run() {
                 try {
-                    userIDToClientInterface.get(userID).setClientConnected();
-                    startCheckConnection(userID);
+                    if((userIDInGameToStatusConnection.get(userID))) {
+                        userIDToClientInterface.get(userID).setClientConnected();
+                        startCheckConnection(userID);
+                    }else{
+                        printOut("Close Connection of Player on RMI. ID: "+ userID);
+                        handleDisconnect(userIDToClientInterface.get(userID));
+                    }
                 } catch (RemoteException e) {
                     //SIGNIFICA CHE IL PLAYER SI È DISCONNESSO.
-                    printOut("DISCONNESSOMALEDETTO");
+                    printOut("Disconnected Player on RMI. ID: "+ userID);
                     handleDisconnect(userIDToClientInterface.get(userID));
                     cancel();
                 }
@@ -140,7 +145,6 @@ public class GameServer {
             }
             printOut("Disconnecting RMIInterface");
         }
-        userIDInGameToStatusConnection.replace(userID,false);
         updatePlayerStatus(userID,false);
         if(userIDToGameRoom.containsKey(userID)) {
             userIDToGameRoom.get(userID).disconnectPlayer(userID);
@@ -193,6 +197,7 @@ public class GameServer {
     //Sui socket chiude forzatamente la connessione.
     public synchronized void closeConnection(String userID){
         try {
+            userIDInGameToStatusConnection.replace(userID,false);
             userIDToClientInterface.get(userID).closeConnection();
         } catch (RemoteException e) {
             //Nothing to do.

@@ -1,4 +1,4 @@
-package network.messages;
+package network.messages.connection;
 
 public class ReConnectClientAttempt extends ConnectionMessage {
     public ReConnectClientAttempt(String userID){

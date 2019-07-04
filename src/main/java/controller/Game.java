@@ -46,6 +46,7 @@ public class Game{
         this.gameRoom=gameRoom;
         this.match = new Match();
         this.counterTurn=0;
+        this.timer= new Timer();
         manageWeapon=new ManagingWeapons(match);
         registerNewMatch(gameRoom,match);
     }
@@ -60,14 +61,11 @@ public class Game{
      * @param userIDtoColor is the color chosen by the player
      */
     public void addPlayers(Map<String,String> userList, Map<String,String> userIDtoColor) {
-
         userList.keySet().forEach(username -> match.createPlayer(username, userIDtoColor.get(userList.get(username)), userList.get(username)));
         match.getPlayers().forEach(player-> player.setConnected(true));
         //una volta creati i Player informo tutti i Player (eccetto lo stesso) dei dati degli altri
         match.notifyOfOtherPlayers();
         askMap(match.getPlayerByIndex(0).getID());
-
-        //askMap((String)userList.values().toArray()[0]);
     }
 
     /**
@@ -132,8 +130,6 @@ public class Game{
     }
     //Metodo che viene chiamato quando si riceve la risposta dal Client sul Pow da Usare
 
-    //TODO: sistemare la validità della cella inserita dall'utente
-
     /**
      *
      * @param userID is the ID of the player that has to spawn
@@ -176,24 +172,9 @@ public class Game{
      * Method to ask Action
      */
     private void askAction(){
-        //timer= new Timer();
-        //printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
-        //startTimer();
+        printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
+        startTimer();
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
-    }
-
-    /**
-     * Method to start timer
-     */
-    private void startTimer() {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //TODO: InfoMessage al Player in cui lo si informa che salterà il turno e cade connessione
-                disconnectPlayer(match.getActivePlayer().getID());
-                nextStep();
-            }
-        }, queueTimer);
     }
 
     /**
@@ -210,6 +191,7 @@ public class Game{
      */
     public void performAction(String userID, int chosenAction) {
         //per sicurezza li rimetto a false (inizializzo)
+        timer.cancel();
         resetActionBool();
         checkUserAction(userID);
         switch(chosenAction) {
@@ -244,6 +226,7 @@ public class Game{
      * Method to ask Run
      */
     private void askRun(){
+        startTimer();
         gameRoom.askDestinationRun(match.getActivePlayer().getID());
     }
 
@@ -256,6 +239,7 @@ public class Game{
         /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
          * the player can take an other action*/
         //Sequenza ricevuta dall'utente via Evento di rete
+        timer.cancel();
         Run run = new Run();
         try{
             run.movement(match,userID,destination,isMovementBeforeGrab,isMovementBeforeShoot);   //Controllo all'interno del metodo se la movement sia valida o meno, se non lo è lancio eccezione
@@ -279,7 +263,7 @@ public class Game{
         } catch (ActionNotAllowedException e) {
             Message message=new ActionError(e.getMessage());
             gameRoom.sendErrorMessage(userID,message);
-            askRun();           //TODO: Modificare a livello CLI View
+            askRun();
         }
     }
 
@@ -288,6 +272,7 @@ public class Game{
      * @param userID is the ID of the player
      */
     private void selectGrab(String userID){
+        timer.cancel();
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
         if(match.getActivePlayer().getCel().inMap(match.getDashboard(), x, y).getType()==0){
@@ -307,6 +292,7 @@ public class Game{
      * Method to ask which weapon to grab
      */
     private void askWeaponGrab(){
+        startTimer();
         gameRoom.askWeaponGrab(match.getActivePlayer().getID());
     }
 
@@ -316,6 +302,7 @@ public class Game{
      * @param indexWeapon is the index of weapon to grab in the SpawnPoint Cell
      */
     public void performWeaponGrab(String userID,int indexWeapon){
+        timer.cancel();
         checkUserAction(userID);
         GrabWeapon grabWeapon = new GrabWeapon();
         if(!grabWeapon.isValid(match,userID)){
@@ -340,6 +327,7 @@ public class Game{
      * Method to ask to discard a weapon card
      */
     private void askToDiscardWeaponCard() {
+        startTimer();
         Message errorMessage=new MaxWeaponCardError("You have already three Weapon Card, you can discard one to Grab a new one");
         gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
     }
@@ -351,6 +339,7 @@ public class Game{
      * @param indexWeaponToDiscard is teh weapon to discard to allow grabbing
      */
     public void discardWeaponCardToGrab(String userID, int indexWeaponToGrab,int indexWeaponToDiscard) {
+        timer.cancel();
         manageWeapon.discardWeapon(match.getActivePlayer(),indexWeaponToDiscard);
         performWeaponGrab(userID,indexWeaponToGrab);
     }
@@ -359,6 +348,7 @@ public class Game{
      * Method to ask to graba weapon paying with a PowCard
      */
     private void askWeaponGrabWithPowCard(){
+        startTimer();
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
     }
 
@@ -369,6 +359,7 @@ public class Game{
      * @param indexPowCard is the index of the PowCard to use to buy
      */
     public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard) {
+        timer.cancel();
         checkUserAction(userID);
         try {
             manageWeapon.convertPowToGrab(match.getActivePlayer(), getWeaponToGrabCost(indexWeapon), indexPowCard);
@@ -421,6 +412,7 @@ public class Game{
      * Method to ask to discard a PowCard
      */
     private void askToDiscardPowCard(){
+        startTimer();
         Message errorMessage=new MaxPowCardError("You have already three PowCard, you can discard one");
         gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
     }
@@ -431,6 +423,7 @@ public class Game{
      * @param indexPowCard is the index of the PowCard to discard
      */
     public void discardPowCard(String userID, int indexPowCard) {
+        timer.cancel();
         checkUserAction(userID);
         manageWeapon.discardPowCard(match.getActivePlayer(),indexPowCard);
         try {
@@ -450,6 +443,7 @@ public class Game{
         shootElaborator.setstatus(1);
         supportPow= new SupportPow();
         supportPow.setAttacker(this.match.getActivePlayer());
+        startTimer();
         gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
@@ -460,6 +454,7 @@ public class Game{
      */
     public void wakeupshoot(int chosenindex, String userID)
     {
+        timer.cancel();
         if(match.getActivePlayer().getID().equals(userID))
         {
             if(shootElaborator.getStatus()==1)
@@ -510,7 +505,6 @@ public class Game{
                 setDirectionToShoot(chosenindex);
             }
         }
-
     }
 
     /**
@@ -535,6 +529,7 @@ public class Game{
     {
 
         shootElaborator.setstatus(2);
+        startTimer();
         gameRoom.askIndexSerie(match.getActivePlayer().getID());
     }
 
@@ -551,7 +546,6 @@ public class Game{
         }
         else
         {
-            shootElaborator.settype(index);
             shootElaborator.generateattacks();
             shootElaborator.setfirstattack();
             askPaymentbeforeShoot();
@@ -570,9 +564,10 @@ public class Game{
         }
         else
         {
+            startTimer();
             gameRoom.informPaymentError(match.getActivePlayer().getID());
-            //nextStep();
-            particoularpowers();
+            nextStep();
+            //particoularpowers();
         }
     }
 
@@ -642,8 +637,8 @@ public class Game{
         }
         else
         {
-            //nextStep();
-            particoularpowers();
+            nextStep();
+            //particoularpowers();
         }
     }
 
@@ -653,8 +648,9 @@ public class Game{
     public void askBersaglio()
     {
         int typetarget= shootElaborator.getTypeTarget();
+        startTimer();
 
-        if(typetarget==1)
+        if(typetarget==0)
         {
             shootElaborator.setstatus(4);
             gameRoom.askPlayerIndex(match.getActivePlayer().getID());
@@ -701,7 +697,6 @@ public class Game{
         {
             askBersaglio();
         }
-
     }
 
     /**
@@ -721,8 +716,8 @@ public class Game{
             }
             else
             {
-                //nextStep();
-                particoularpowers();
+                nextStep();
+                //particoularpowers();
             }
         }
     }
@@ -744,6 +739,7 @@ public class Game{
         }
         if(flag==1)
         {
+            startTimer();
             gameRoom.askScopePow(match.getActivePlayer().getID());
         }
 
@@ -759,6 +755,7 @@ public class Game{
             }
             if(flag2==1)
             {
+                startTimer();
                 gameRoom.askGranadePow(p.getID());
             }
         }
@@ -806,6 +803,7 @@ public class Game{
     public void continueshootinganswer()
     {
         shootElaborator.setstatus(8);
+        startTimer();
         gameRoom.askNextAttack(match.getActivePlayer().getID());
     }
 
@@ -1132,7 +1130,7 @@ public class Game{
      * Method to call for the next step
      */
     private void nextStep() {
-        //timer.cancel();
+        timer.cancel();
         resetActionBool();
         //Controllo validità partita
         checkGameValidity();
@@ -1341,7 +1339,19 @@ public class Game{
         }, queueTimer);
     }
 
-
+    /**
+     * Method to start timer
+     */
+    private void startTimer() {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //TODO: InfoMessage al Player in cui lo si informa che salterà il turno e cade connessione
+                disconnectPlayer(match.getActivePlayer().getID());
+                nextStep();
+            }
+        }, queueTimer);
+    }
 
 
 

@@ -6,8 +6,8 @@ import model.Match;
 import model.Player;
 import model.PowCard;
 import model.PowDeck;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
 
@@ -22,7 +22,7 @@ public class SpawnTest {
 
     private Spawn spawn;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         spawn=new Spawn();
         match = new Match();

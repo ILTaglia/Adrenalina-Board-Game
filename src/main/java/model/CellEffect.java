@@ -19,7 +19,7 @@ public class CellEffect implements Effect {
     public void adddamage(int type, int damage)
     {
         Damage damage1;
-        damage1=new DamageFactory().getinstaceof(type,damage);
+        damage1=new DamageFactory().getInstanceOf(type,damage);
         this.damages.add(damage1);
     }
     /**

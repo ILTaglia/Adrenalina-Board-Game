@@ -238,6 +238,11 @@ public class GUIViewAdapter implements View {
         return false;
     }
 
+    @Override
+    public void askNewConnection() {
+
+    }
+
 
     @Override
     public void getGunIndex() {

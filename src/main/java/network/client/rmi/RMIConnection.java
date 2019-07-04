@@ -4,7 +4,7 @@ package network.client.rmi;
 
 import network.client.Client;
 import network.messages.Message;
-import network.messages.ReConnectServerRequest;
+import network.messages.connection.ReConnectServerRequest;
 import network.server.ClientInterface;
 
 import static utils.Print.printOut;
