@@ -6,6 +6,10 @@ import utils.GetData;
 
 public class GameLauncher{
 
+    /**
+     * Main launcher for the whole game
+     * @param args from command line
+     */
     public static void main(String[] args) {
         GetData getData = new GetData();
         //Main temporaneo, scelta tra connectionHandler e server a primo avvio

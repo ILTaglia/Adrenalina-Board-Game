@@ -65,6 +65,9 @@ public class GameServer {
         gameServer.launchServer();
     }
 
+    /**
+     * Method for the gameserver
+     */
     private GameServer(){
         this.gameSocketSvr=new GameSocketSvr(this);
         this.gameRMISvr=new GameRMISvr(this);
@@ -75,6 +78,9 @@ public class GameServer {
         this.userIDInGameToStatusConnection =new HashMap<>();
     }
 
+    /**
+     * Method to launch server
+     */
     private void launchServer(){
         gameSocketSvr.start(SOCKET_SERVER_PORT);
         gameSocketSvr.start();
@@ -88,19 +94,39 @@ public class GameServer {
 
     //------------------------Metodi usati dalle ClientInterface------------------------------------//
 
+    /**
+     *
+     * @param requestedUsername is the username to be checked in the queue
+     * @return true if the client is already in the queue, false otherwise
+     */
     public boolean isAlreadyInQueue(String requestedUsername) {
         return waitingRoom.isAlreadyInQueue(requestedUsername);
     }
 
+    /**
+     *
+     * @param username is the username to check for disconnection
+     * @return true if the player has disconnected, false otherwise
+     */
     public boolean hasPlayerDisconnected(String username){
         return usernameToUserID.containsKey(username) && !userIDInGameToStatusConnection.get(usernameToUserID.get(username));
     }
 
+    /**
+     *
+     * @param userIDToReconnect is the username to reconnect
+     * @return a boolean that says if the client has reconnected or not
+     */
     public boolean checkUserID(String userIDToReconnect) {
         return usernameToUserID.containsValue(userIDToReconnect) && !userIDInGameToStatusConnection.get(userIDToReconnect);
 
     }
 
+    /**
+     *
+     * @param playerUsername is the player user
+     * @param clientInterface is the client interface for communication
+     */
     public synchronized void addClientToWR(String playerUsername, ClientInterface clientInterface){
         assignIDToUsername(playerUsername);
         assignClientHandlerToID(playerUsername,clientInterface);
@@ -116,6 +142,10 @@ public class GameServer {
         waitingRoom.addUserToRoom(playerUsername);
     }
 
+    /**
+     *
+     * @param userID is the user to check if the connection has started
+     */
     private void startCheckConnection(String userID){
         (new Timer()).schedule(new TimerTask() {
             @Override
@@ -139,6 +169,10 @@ public class GameServer {
         },TIMER_PING);
     }
 
+    /**
+     *
+     * @param clientInterface to manage disconnection
+     */
     public synchronized void handleDisconnect(ClientInterface clientInterface){
         //Imposto il ClientHandler come Disconnesso, comunico inoltre alla singola GameRoom o WR che il singolo giocatore è disconnesso
         String userID;
@@ -175,6 +209,11 @@ public class GameServer {
         }
     }
 
+    /**
+     *
+     * @param userID is the userID to connect
+     * @param clientInterface to manage re connection
+     */
     public synchronized void handleReConnect(String userID,ClientInterface clientInterface){
         try {
             clientInterface.setConnection(false);
@@ -207,6 +246,11 @@ public class GameServer {
 
     //Metodo probabilmente utile solo per i Client connessi con Socket, nel caso di RMI diventa "inutile", serve solo a marchiare il client disconnesso
     //Sui socket chiude forzatamente la connessione.
+
+    /**
+     * Method just for socket clients
+     * @param userID is teh client to be marked disconnected
+     */
     public synchronized void closeConnection(String userID){
         try {
             userIDInGameToStatusConnection.replace(userID,false);
@@ -216,11 +260,21 @@ public class GameServer {
         }
     }
 
+    /**
+     *
+     * @param playerUsername is the username to be assigned
+     */
     private void  assignIDToUsername(String playerUsername) {
         UUID uid=UUID.randomUUID();
         String playerID=uid.toString();
         usernameToUserID.put(playerUsername,playerID);
     }
+
+    /**
+     *
+     * @param playerUsername is the username to be assigned
+     * @param clientHandler to manage connection
+     */
     private void assignClientHandlerToID(String playerUsername, ClientInterface clientHandler){
         String playerID=usernameToUserID.get(playerUsername);
         userIDToClientInterface.put(playerID,clientHandler);
@@ -232,6 +286,11 @@ public class GameServer {
     }
     //Metodo in cui viene lanciato effettivamente il gioco, si crea una stanza per i giocatori che hanno effettuato il login e
     //si chiama il metodo per runnare la partita.
+
+    /**
+     * Method to effectively launch the game
+     * @param usernameList is the list of players that has done login
+     */
     public void newGameRoom(List<String> usernameList) {
         HashMap<String, String> userList=new HashMap<>();
         for(String username:usernameList){
@@ -248,6 +307,12 @@ public class GameServer {
 
     //------------------------Metodi usati per la gestione dei messaggi di rete------------------------------------//
     //Metodo per inviare un messaggio a tutti i giocatori di una partita (si richiede in ingresso una collection di userID)
+
+    /**
+     * Method to send message to all players in a match
+     * @param userID  is the collection of userID in the match
+     * @param message is the message to be sent to the all the users
+     */
     public synchronized void sendMessageToAll(Collection<String> userID, Message message){
         userIDToClientInterface.forEach((id,clientInterface)-> {
             if(userID.contains(id)) {
@@ -260,6 +325,12 @@ public class GameServer {
         });
     }
     //Metodo per inviare un messaggio a un giocatore specifico.
+
+    /**
+     *
+     * @param userID is the specific ID to whom send the message
+     * @param message is the message to be sent
+     */
     public synchronized void sendMessageToID(String userID, Message message) {
         try {
             userIDToClientInterface.get(userID).sendMessage(message);
@@ -270,6 +341,10 @@ public class GameServer {
 
     //------------------------Metodi usati per la gestione dei messaggi in ingresso-----------------------------------//
 
+    /**
+     *
+     * @param message is the message to be handled
+     */
     public synchronized void handleMessage(Message message) {
         if ("clientRequest".equals(message.getType())) {
             ClientRequestMessage requestMessage = (ClientRequestMessage) message;
@@ -277,6 +352,10 @@ public class GameServer {
         }
     }
 
+    /**
+     *
+     * @param requestMessage is the request message to be handled
+     */
     private void handleRequest(ClientRequestMessage requestMessage) {
         int intero;
         switch(requestMessage.getContent()){
@@ -336,6 +415,9 @@ public class GameServer {
 
     //-------------------------------Metodi da completare----------------------------//
 
+    /**
+     * Method to close connection
+     */
     private void closeServer(){         //TODO: le connessioni vanno chiuse (capire dove)
         gameSocketSvr.close();
     }

@@ -6,6 +6,13 @@ import static utils.Print.printOut;
 
 public class WaitingRoom {
 
+    /**
+     * waitingClients for client waiting to act
+     * gameServer is the gameServer
+     * minNumberPlayer is the minimum number of players, maxNumberPLayer is the maximum number of players
+     * timer to manage time
+     * queue timer to manage the queue
+     */
     private Queue<String> waitingClients;
     private GameServer gameServer;
     private final int minNumberPlayer;
@@ -21,6 +28,11 @@ public class WaitingRoom {
         this.maxNumberPlayer=max;
         this.queueTimer=queueTimer;
     }
+
+    /**
+     *
+     * @param username is the username of the client to be added in the room
+     */
     public void addUserToRoom(String username){
         waitingClients.add(username);
         printOut("New Client Added! Queue: "+waitingClients);
@@ -34,6 +46,9 @@ public class WaitingRoom {
         }
     }
 
+    /**
+     * Method to start timer
+     */
     private void startTimer(){
         timer.schedule(new TimerTask() {
             @Override
@@ -50,16 +65,29 @@ public class WaitingRoom {
         },30000);
     }
 
+    /**
+     *
+     * @param playerUsername is the username of the player to be removed from the queue
+     */
     public void removePlayerInQueue(String playerUsername){
         waitingClients.remove(playerUsername);
         printOut(playerUsername+" è stato rimosso.");
     }
 
+    /**
+     *
+     * @param requestedUsername is the username to be checked
+     * @return a boolean, true if the player is in the queue
+     */
     public boolean isAlreadyInQueue(String requestedUsername) {
         return waitingClients.contains(requestedUsername);
     }
 
     //A scadenza di timer si lancia una nuova GameRoom e lì vengono aggiunti i giocatori.
+
+    /**
+     * Method to create a new game room
+     */
     public void newGameRoom(){
         printOut("Now New Game Room");
         timer.cancel();
