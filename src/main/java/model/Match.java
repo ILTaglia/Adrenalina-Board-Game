@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import static utils.NotifyClient.*;
+import static utils.NotifyClient.notifyAllExceptOneClient;
 
 public class Match implements Serializable {
     /**
@@ -38,6 +39,8 @@ public class Match implements Serializable {
      * Method to increment the number of round
      */
     public void setRound() {
+        Message infoRound=new InfoMatch("New Round started. This is round: "+round);
+        notifyAllClients(this,infoRound);
         this.round++;
         //increase the number of the round just if the last player in the turn (that is the last of the array)
         //has done its second action, finished its turn
@@ -48,6 +51,21 @@ public class Match implements Serializable {
      */
     public int getRound() {
         return this.round;
+    }
+
+    public void endOfTurnOfPlayer(Player player) {
+        player.setActive();
+        Message infoTurn=new InfoMatch("End of turn of player "+ player.getName());
+        notifyAllExceptOneClient(player.getID(),infoTurn);
+        infoTurn=new InfoMatch("End of your turn.");
+        notifySpecificClient(player.getID(),infoTurn);
+    }
+    public void startOfTurnOfPlayer(Player player) {
+        player.setActive();
+        Message infoTurn=new InfoMatch("Start of turn of player "+ player.getName());
+        notifyAllExceptOneClient(player.getID(),infoTurn);
+        infoTurn=new InfoMatch("Now is your turn.");
+        notifySpecificClient(player.getID(),infoTurn);
     }
 
     //---------------------------------Metodi inizializzazione Player-------------------------------------------------//
@@ -180,7 +198,7 @@ public class Match implements Serializable {
     /**
      * Method to notify all players the dashboard has been updated
      */
-    public void updateClientDashboard() {
+    private void updateClientDashboard() {
         Message infoMap = new DashboardData(this.dashboard);
         notifyAllClients(this, infoMap);
     }
@@ -334,10 +352,10 @@ public class Match implements Serializable {
      */
     public void setPlayerCel(Player player, int x, int y) {
         player.setCel(x, y);
-        Message infoSpawnPoint = new NewPosition(x, y);
-        notifySpecificClient(player.getID(), infoSpawnPoint);
+        Message infoNewPosition = new NewPosition(x, y);
+        notifySpecificClient(player.getID(), infoNewPosition);
     }
-    //TODO: @Angelica controlla questi tre metodi plis
+
     /**
      * Method to set the number of damages to a player
      * @param playerAttacker is the player that attacks
@@ -345,7 +363,7 @@ public class Match implements Serializable {
      * @param damage is the number of given damages
      * @return
      */
-    //TODO @DA Angelica: metodo è ok!
+
     public int setDamage(Player playerAttacker, Player playerAttacked, int damage) {
         int outcomeOfAttack;
         outcomeOfAttack=playerAttacked.setDamage(damage,playerAttacker.getColor());
@@ -359,7 +377,7 @@ public class Match implements Serializable {
      * @param playerAttacked is the attacked player
      * @param damage is the number of given damages
      */
-    //TODO @DA Angelica: metodo è ok!
+
     public void setMarks(Player playerAttacker, Player playerAttacked, int damage) {
         playerAttacked.setMarks(damage,playerAttacker.getColor());
         //TODO: segnalo attacco ricevuto al Player e gli do l'esito dei marchi.
@@ -370,7 +388,7 @@ public class Match implements Serializable {
      * @param playerKilled is the killed player
      * @param withRevenge is a boolean to say if there is the revenge mark or not
      */
-    //TODO @DA Angelica: metodo è ok!
+
     public void playerDeath(Player playerKiller,Player playerKilled,boolean withRevenge){
         //update KillShot Track
         if(withRevenge){
@@ -1067,6 +1085,9 @@ public class Match implements Serializable {
         }
         return list;
     }
+
+
+
 }
 
 

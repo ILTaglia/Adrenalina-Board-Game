@@ -296,7 +296,10 @@ public class Client {
             case "InfoMatch":
                 view.showInfoMessage(message);
                 break;
-
+            case "WinnerMessage":
+                view.showInfoMessage(message);
+                System.exit(0);
+                break;
         }
     }
 
@@ -414,7 +417,6 @@ public class Client {
         if(message.getContent().equals("GrabError")){
             view.chooseAction();
         }
-        //TODO: questi due messaggi sono da spostare come RequestMessage
         if(message.getContent().equals("MaxWeaponCardError")){
             view.chooseDiscardWeapon();
         }

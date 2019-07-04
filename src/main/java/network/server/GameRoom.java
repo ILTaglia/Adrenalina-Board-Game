@@ -2,10 +2,12 @@ package network.server;
 
 import controller.Game;
 import model.Coordinate;
+import model.Player;
 import network.messages.*;
 import network.messages.error.ColorError;
 import network.messages.error.PaymentError;
 import network.messages.gameRequest.*;
+import network.messages.playerDataMessage.Winner;
 
 import java.util.HashMap;
 import java.util.List;
@@ -239,8 +241,9 @@ public class GameRoom {
     }
 
 
-
-
-
+    public void declareWinner(String winnerPlayerName) {
+        Message winner= new Winner(winnerPlayerName);
+        gameServer.sendMessageToAll(userList.values(),winner);
+    }
 }
 
