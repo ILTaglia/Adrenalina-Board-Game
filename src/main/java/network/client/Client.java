@@ -19,6 +19,18 @@ import java.util.Scanner;
 import static utils.Print.printOut;
 
 public class Client {
+    /**
+     * Client is the client for communication Client-Server.
+     *
+     * PlayerVisibleData is a class that contains all the information that a single Client has to know regarding the match. A client
+     * must know its own data and some (but not all) data about other players.
+     *
+     * isToUseSocket is a boolean to identify Socket Request for connection
+     * userID is the String for userID
+     * serverIP is the server IP address
+     * serverPort is the serverPort
+     * connectionHandler is the Handler for connection
+     */
     private PlayerVisibleData playerVisibleData;
     private boolean isToUseSocket;
     private View view;
@@ -29,10 +41,17 @@ public class Client {
     private ConnectionHandler connectionHandler;
 
 
+    /**
+     * Client is automatically set on RMI
+     */
     public Client(){
         isToUseSocket=false;            //Default RMI
     }
 
+    /**
+     * Main with no parameters a part for args
+     * @param args are the supplied command-line arguments
+     */
     public static void main(String[] args){
 
         Scanner userChoice;
@@ -56,20 +75,38 @@ public class Client {
 
     }
 
+    /**
+     * Method to have all the information for a Client to player the match
+     * @return the class PlaterVisibleData that contains only visible information for every player
+     */
     public PlayerVisibleData getPlayerVisibleData(){return this.playerVisibleData;}
 
+    /**
+     * Method to add view
+     * @param view is the chosen view type to be added
+     */
     private void addView(View view){
         this.view=view;
     }
 
+    /**
+     * Method to set connection if socket is required
+     * @param socketRequired is teh boolean true if socket is required
+     */
     public void setConnection(boolean socketRequired){
         isToUseSocket = socketRequired;
     }
 
+    /**
+     * Method to set connection with connectionHandler
+     */
     public void setConnected() {
         connectionHandler.setConnected();
     }
 
+    /**
+     * Method to launch connection (socket or RMI according to the user choice)
+     */
     public void launchConnection(){
         if(isToUseSocket){
             connectionHandler=new SocketHandler(serverIP, serverPort, this);
@@ -88,6 +125,13 @@ public class Client {
     *  nel caso di Socket si manda il messaggio con la richiesta di login e in caso di insuccesso si gestirà tramite altri messaggi
     *  diverso il caso dell'RMI in cui gestisco con un try/catch, utile SOLO ALL'RMI (va bene così?)
     */
+
+    /**
+     * This is the only method for login. In case of Socket a message with Login request is sent and in case of failure, the connection
+     * is managed with other messages. In case of RMI the situation is different, we choose to manage with a try/catch useful only
+     * for RMI.
+     * @param username is the username of the client to connect
+     */
     public void requestToWR(String username){
         try {
             connectionHandler.registerToWR(username);
@@ -97,6 +141,11 @@ public class Client {
             view.login();
         }
     }
+
+    /**
+     * Method to ask for reconnection
+     * @param userIDToReConnect is the userID to reconnect
+     */
     public void reConnectRequest(String userIDToReConnect) {
         try {
             connectionHandler.reConnectRequest(userIDToReConnect);
@@ -105,6 +154,10 @@ public class Client {
         }
     }
 
+    /**
+     * Method for a new connection request
+     * @param username is the username of the client
+     */
     public void newConnectionRequest(String username){
         try{
             connectionHandler.newConnectionRequest(username);
@@ -116,6 +169,9 @@ public class Client {
 
     }
 
+    /**
+     * Method to ask to try for reconnection. The user is asked if it wants to reconnect or not.
+     */
     public void askToTryToReconnect() {
         //Chiedo all'utente se voglia riconnettersi
         if(view.askToTryToReConnect()){
@@ -137,10 +193,23 @@ public class Client {
     }
 
 
+    /**
+     * Method to send messages
+     * @param message is the message to be sent
+     */
     public void sendMessage(Message message){
         connectionHandler.sendMessage(message);
     }
 
+    /**
+     * Method to handle different types of generic message. Different methods are called in base of the type of message received.
+     * Four default types of messages:
+     * 1. error Messages
+     * 2. gameRequest Messages
+     * 3. infoGame Messages
+     * 4. connection Messages
+     * @param message is the received message
+     */
     public void handleMessage(Message message){
         switch(message.getType()) {
             case "error":
@@ -160,6 +229,11 @@ public class Client {
         }
     }
 
+    /**
+     * Method to manage all the messages regarding information about the game (third type of message - infoGame - in the
+     * previous method)
+     * @param message is the infoGame message to be handled
+     */
     private void handleInfoMessage(Message message) {
         switch (message.getContent()){
             case "InfoID":
@@ -224,6 +298,10 @@ public class Client {
         }
     }
 
+    /**
+     * Method to manage all the messages regarding request messages, so data from the client (type - RequestMessage)
+     * @param message is the request message to be handled
+     */
     private void handleRequestMessage(Message message) {
         if(message.getContent().equals("ColorRequest")){
             view.createPlayer();
@@ -300,6 +378,10 @@ public class Client {
         }
     }
 
+    /**
+     * Method to manage all the messages regarding connection messages (type - ConnectionMessage)
+     * @param message is the connection message to be handled
+     */
     private void handleConnectionMessage(Message message){
         if(message.getContent().equals("ReConnectRequest")){
             view.askToReConnect();
@@ -307,6 +389,10 @@ public class Client {
     }
 
 
+    /**
+     * Method to manage all the messages regarding error messages, useful for managing errors (type - ErrorMessage)
+     * @param message is the error message to be handled
+     */
     private void handleErrorMessage(Message message){
         if(message.getContent().equals("ConnectionError")){
             view.login();
@@ -336,6 +422,10 @@ public class Client {
         }
     }
 
+    /**
+     * Method to have userID
+     * @return the userID (String)
+     */
     public String getUserID(){
         return this.userID;
     }

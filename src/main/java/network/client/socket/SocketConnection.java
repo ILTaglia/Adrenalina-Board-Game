@@ -10,17 +10,31 @@ import java.net.Socket;
 import static utils.Print.printOut;
 
 public class SocketConnection extends Thread {
-
+    /**
+     * Class for Socket connection. It sends messages to the Socket Handler (connectionHandler)
+     * host is the host ID
+     * port is the port for connection
+     * clientSocket is the Socket
+     * connectionEstablished is a boolean to check wheteìher the connection is established or not
+     */
     private SocketHandler connectionHandler;
     private String host;
     private int port;
     private Socket clientSocket;
     private boolean connectionEstablished;
 
-    //Stream per serializzazione|de-serializzazione
+    /**
+     * Stream for serialization and de-serialization
+     */
     private ObjectInputStream streamIn;
     private ObjectOutputStream streamOut;
 
+    /**
+     *
+     * @param host is the host ID
+     * @param port is the port to set connection
+     * @param connectionHandler is the handler for messages sent by the SocketConnection
+     */
     public SocketConnection(String host, int port, SocketHandler connectionHandler){
         this.connectionHandler = connectionHandler;
         this.host=host;
@@ -39,6 +53,9 @@ public class SocketConnection extends Thread {
         }
     }
 
+    /**
+     * Method for running
+     */
     @Override
     public void run(){
         try{
@@ -52,7 +69,10 @@ public class SocketConnection extends Thread {
         }
     }
 
-    //Metodo per inviare messaggi
+    /**
+     * Method for sending messages
+     * @param message is teh message to be sent
+     */
     public synchronized void sendMessage(Message message){
         try {
             streamOut.reset();
@@ -64,6 +84,9 @@ public class SocketConnection extends Thread {
         }
     }
 
+    /**
+     * Method to close socket
+     */
     public void closeSocket() {
         try {
             clientSocket.close();
