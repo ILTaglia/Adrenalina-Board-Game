@@ -474,7 +474,7 @@ public class Game{
                     }
                     else
                     {
-                        shootElaborator.chooseweapon(shootElaborator.getguns().get(chosenindex));
+                        shootElaborator.chooseweapon(match.getActivePlayer().getWeaponByIndex(chosenindex));
                         askserieToShoot();
                     }
                 }
@@ -486,7 +486,14 @@ public class Game{
 
             if(shootElaborator.getStatus()==4)
             {
-                checkplayertoattack(chosenindex);
+                if(chosenindex>=0)
+                {
+                    checkplayertoattack(chosenindex);
+                }
+                else
+                {
+                    nextStep();
+                }
             }
 
             if(shootElaborator.getStatus()==5)
@@ -549,6 +556,7 @@ public class Game{
         }
         else
         {
+            //shootElaborator.settype(index);
             shootElaborator.generateattacks();
             shootElaborator.setfirstattack();
             askPaymentbeforeShoot();
@@ -672,23 +680,34 @@ public class Game{
     public void checkplayertoattack(int index)
     {
         List <Player> attackablePlayers= shootElaborator.getlistattackable(1);
-        if(!(index>=attackablePlayers.size()||index<0))
+        if(attackablePlayers.size()==0)
         {
-            if(shootElaborator.setvictimplayer(attackablePlayers.get(index)))
+            nextStep();
+        }
+        else
+        {
+            if(!(index>=attackablePlayers.size()||index<0))
             {
-                if(!supportPow.getVictims().contains(attackablePlayers.get(index)))
+                if(shootElaborator.setvictimplayer(attackablePlayers.get(index)))
                 {
-                    supportPow.addVictim(attackablePlayers.get(index));
-                }
-                if(shootElaborator.getMoveyou()!=0)
-                {
-                    shootElaborator.setstatus(6);
-                    shootElaborator.run(attackablePlayers.get(index), shootElaborator.getMoveyou());
+                    if(!supportPow.getVictims().contains(attackablePlayers.get(index)))
+                    {
+                        supportPow.addVictim(attackablePlayers.get(index));
+                    }
+                    if(shootElaborator.getMoveyou()!=0)
+                    {
+                        shootElaborator.setstatus(6);
+                        shootElaborator.run(attackablePlayers.get(index), shootElaborator.getMoveyou());
+                    }
+                    else
+                    {
+                        checkeffectorchangeattack();
+
+                    }
                 }
                 else
                 {
-                    checkeffectorchangeattack();
-
+                    askBersaglio();
                 }
             }
             else
@@ -696,10 +715,7 @@ public class Game{
                 askBersaglio();
             }
         }
-        else
-        {
-            askBersaglio();
-        }
+
     }
 
     /**
@@ -817,22 +833,30 @@ public class Game{
     public void checkcelltoattack(int index)
     {
         List <Coordinate> attackableCells= shootElaborator.getlistattackable(2);
-        if(!(index<0||index>=attackableCells.size()))
+        if(attackableCells.size()==0)
         {
-            if(shootElaborator.setvictimcell(attackableCells.get(index)))
+            nextStep();
+        }
+        else
+        {
+            if(!(index<0||index>=attackableCells.size()))
             {
-                checkeffectorchangeattack();
+                if(shootElaborator.setvictimcell(attackableCells.get(index)))
+                {
+                    checkeffectorchangeattack();
 
+                }
+                else
+                {
+                    askBersaglio();
+                }
             }
             else
             {
                 askBersaglio();
             }
         }
-        else
-        {
-            askBersaglio();
-        }
+
     }
 
     /**
@@ -850,13 +874,14 @@ public class Game{
             }
             else
             {
-                particoularpowers();
+                nextStep();
+                //particoularpowers();
             }
         }
         else
         {
-            //nextStep();
-            particoularpowers();
+            nextStep();
+            //particoularpowers();
         }
 
     }
