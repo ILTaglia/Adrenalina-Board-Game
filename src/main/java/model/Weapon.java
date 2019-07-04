@@ -85,6 +85,10 @@ public class Weapon extends Card {
         }
     }
 
+    /**
+     * Method to set shooted
+     * @throws WeaponAlreadyUsedException is the weapon has already been used without recharging
+     */
     public void shooted() throws WeaponAlreadyUsedException{
         if(!used){
             setUsed();
