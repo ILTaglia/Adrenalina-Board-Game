@@ -47,9 +47,7 @@ public class CLIView implements View {
      */
     @Override
     public void setConnection(){
-        printOut("Choose the type of connection you want to use:\t\n" +
-                "1. RMI" +
-                "2. Socket");
+        printOut("Choose the type of connection you want to use:\n" + "1. RMI\n" + "2. Socket\n");
         int connectionChoice=getData.getInt(1, 2);
 
         client.setConnection(connectionChoice==2);

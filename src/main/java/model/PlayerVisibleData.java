@@ -28,11 +28,12 @@ public class PlayerVisibleData implements Serializable {
     //Il firstBlood sarebbe evitabile, l'informazione può essere presa dalle HashMap dei danni.
     private Map<String,String> playersFirstBlood;  //number of the player that gave the damage 1 for other players
 
-    private  Map<String,Integer> damagesOfPlayer;
-    private Map<String,Map> damagesOfAll;
+    private Map<String,Map> damagesOfAll;               //In questa variabile salvo NomePlayer e relativa mappa dei danni
+    private  Map<String,Integer> damagesOfPlayer;       //Nella mappa dei danni del SINGOLO PLAYER salvo nome di chi ha inflitto i danni e l'entità del danno inflitto
 
-    private Map<String,Integer> marksOfPlayer;
     private Map<String,Map> marksOfAll;
+    private Map<String,Integer> marksOfPlayer;
+
     /**
      *
      * @param player is the player that is the client
@@ -67,10 +68,10 @@ public class PlayerVisibleData implements Serializable {
     public void setEnemy(String playerName,int playerColor){
         this.enemiesNameColor.put(playerName,playerColor);
         this.numberOfDeath.put(playerName,0);
+        this.playersPosition.put(playerName,null);
         this.playersFirstBlood.put(playerName,null);
-        this.damagesOfAll.put(playerName,new HashMap<>());
-        this.marksOfAll.put(playerName,new HashMap<>());
-        //TODO serve la posizione dei player this.playersPosition(playerName, );
+        this.damagesOfAll.put(playerName,null);
+        this.marksOfAll.put(playerName,null);
     }
     /**
      *
