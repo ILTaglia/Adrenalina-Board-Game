@@ -160,6 +160,9 @@ public class ShootManagementTest {
         }
     }
 
+
+
+
     @Test
     public void unreackblecells()
     {
@@ -175,6 +178,12 @@ public class ShootManagementTest {
         {
             assertEquals(p.getTotalDamage(),0);
         }
+    }
+
+    @Test
+    public void checknumbereffects()
+    {
+        System.out.println(player1.getWeapons().get(0).getNumberAttack());
     }
 
 

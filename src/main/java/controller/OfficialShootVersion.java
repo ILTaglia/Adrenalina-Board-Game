@@ -237,10 +237,10 @@ public class OfficialShootVersion {
         for(int i=0;i<this.weapon.getNumberAttack();i++)
         {
             int index = weapon.getAttack(i).getTypePlayer();
-            if(!lista.contains(index))
-            {
+            //if(!lista.contains(index))
+            //{
                 lista.add(index);
-            }
+           //}
         }
         this.lista=lista;
         return lista;
@@ -730,6 +730,11 @@ public class OfficialShootVersion {
     public void setAttackmethod(int method)
     {
         this.attackmethod=method;
+    }
+
+    public Weapon getWeapon()
+    {
+        return this.weapon;
     }
 
 

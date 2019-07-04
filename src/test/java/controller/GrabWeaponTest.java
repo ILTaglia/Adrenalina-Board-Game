@@ -128,5 +128,9 @@ public class GrabWeaponTest {
         assertEquals(3, player1.getNumberWeapon());
         assertEquals(1, player1.getAction());
 
+        OfficialShootVersion shootElaborator = new OfficialShootVersion(match,player1);
+        shootElaborator.chooseweapon(player1.getWeaponByIndex(0));
+        assertEquals(shootElaborator.gettypes().size(),2);
+
     }
 }
