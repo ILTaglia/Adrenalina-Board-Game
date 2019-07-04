@@ -24,8 +24,10 @@ public class GameRoom {
     private Game gameController;
     private HashMap<String,String> userList;
     private HashMap<String,String> userIDtoColor;
+    private final int inGameTimer;
 
-    public GameRoom(Map<String,String> userList, GameServer gameServer){
+    public GameRoom(Map<String,String> userList, GameServer gameServer, int inGameTimer){
+        this.inGameTimer=inGameTimer;
         this.gameServer=gameServer;
         this.userList=(HashMap<String, String>) userList;
         this.userIDtoColor=new HashMap<>();
@@ -37,7 +39,7 @@ public class GameRoom {
     //Metodo chiamato direttamente dal GameServer che da l'avvio della GameRoom
     //Nel metodo viene richiesto il colore al Player tramite un messaggio di richiesta
     public void setUpGame(){
-        this.gameController=new Game(this,30000);                    //TODO: IMPORTANTE, lettura da args durata timer
+        this.gameController=new Game(this,inGameTimer);
         Message registrationRequest= new ColorGameRequest("This message is to require a color to Client");
         gameServer.sendMessageToAll(userList.values(),registrationRequest);
     }

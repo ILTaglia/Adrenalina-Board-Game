@@ -35,7 +35,8 @@ public class Client {
     private boolean isToUseSocket;
     private View view;
     private String userID;
-    private String serverIP = "127.0.0.1";
+    private static String serverIP;
+    private static boolean isToUseCLI;
     private int serverPort = 7218;
 
     private ConnectionHandler connectionHandler;
@@ -53,27 +54,39 @@ public class Client {
      * @param args are the supplied command-line arguments
      */
     public static void main(String[] args){
-
-        Scanner userChoice;
-        userChoice=new Scanner(System.in);
-        printOut("Inserire 0 per usare GUIView, 1 per CLI:\t");             //MODIFICARE INSERIMENTO DATI
-        //Ad ogni View si associa un Client e viceversa
-        if(userChoice.nextInt()==1){
-            Client client=new Client();
-            View cliView =new CLIView(client);
-            client.addView(cliView);
-            cliView.start();
+        if(args.length > 0){
+            serverIP=args[0];
         }
         else{
-            Client client=new Client();
-            View guiview =new GUIViewAdapter(client);
-            client.addView(guiview);
-            guiview.start();
-            //Avvia GUIView
+            serverIP= "127.0.0.1";
         }
+        if(args.length>1){
+            isToUseCLI=args[1].equals("cli");
+        }
+        else {
+            Scanner userChoice;
+            userChoice = new Scanner(System.in);
+            printOut("Inserire 0 per usare GUIView, 1 per CLI:\t");             //MODIFICARE INSERIMENTO DATI
+            //Ad ogni View si associa un Client e viceversa
+            isToUseCLI=(userChoice.nextInt()==1);
+        }
+
+            if (isToUseCLI) {
+                Client client = new Client();
+                View cliView = new CLIView(client);
+                client.addView(cliView);
+                cliView.start();
+            } else {
+                Client client = new Client();
+                View guiview = new GUIViewAdapter(client);
+                client.addView(guiview);
+                guiview.start();
+                //Avvia GUIView
+            }
+    }
         //Una volta avviata la View si devono fare le richieste che servono alla View e avviare le connessioni.
 
-    }
+
 
     /**
      * Method to have all the information for a Client to player the match

@@ -26,10 +26,12 @@ public class GameServer {
 
     private static final int MIN_PLAYER_NUMBER = 3;
     private static final int MAX_PLAYER_NUMBER = 5;
-    private static final int TIMER = 30000;
     private static final int TIMER_PING = 3000;
     private static final int SOCKET_SERVER_PORT =7218;
     private static final int RMI_SERVER_PORT =1099;
+
+    private static int queueTimer;
+    private static int inGameTimer;
 
     //----------------HashMap per Username e Client/ID----------------------//
     private HashMap<String,String> usernameToUserID;                            //Collega Username e IdPlayer
@@ -49,15 +51,25 @@ public class GameServer {
 
 
     public static void main(String[] args) {
+        if(args.length==2){
+            //leggo queue Timer
+            queueTimer=Integer.parseInt(args[0]);
+            //leggo inGame Timer
+            inGameTimer=Integer.parseInt(args[1]);
+        }
+        else{
+            queueTimer=30000;
+            inGameTimer=45000;
+        }
         GameServer gameServer = new GameServer();
         gameServer.launchServer();
-        //TODO: parametri, lettura da riga di comando dei parametri (TIMER PRINCIPALMENTE)
+
     }
 
     private GameServer(){
         this.gameSocketSvr=new GameSocketSvr(this);
         this.gameRMISvr=new GameRMISvr(this);
-        this.waitingRoom= new WaitingRoom(this,TIMER,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
+        this.waitingRoom= new WaitingRoom(this,queueTimer,MIN_PLAYER_NUMBER,MAX_PLAYER_NUMBER);
         this.usernameToUserID =new HashMap<>();
         this.userIDToClientInterface =new HashMap<>();
         this.userIDToGameRoom =new HashMap<>();
@@ -74,7 +86,7 @@ public class GameServer {
         }
         registerServer(this);
     }
-    //TODO: synchronized? A che livello?
+
     //------------------------Metodi usati dalle ClientInterface------------------------------------//
 
     public boolean isAlreadyInQueue(String requestedUsername) {
@@ -226,7 +238,7 @@ public class GameServer {
             userList.put(username,usernameToUserID.get(username));
 
         }
-        GameRoom gameRoom=new GameRoom(userList,this);
+        GameRoom gameRoom=new GameRoom(userList,this,inGameTimer);
         for(String playerUsername:usernameList){
             String playerID=usernameToUserID.get(playerUsername);
             userIDToGameRoom.put(playerID,gameRoom);
