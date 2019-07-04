@@ -306,6 +306,11 @@ public class Client {
                     playerVisibleData.setNumberOfAmmo(i,ammoMessage.getListAmmo().get(i));
                 }
                 break;
+            case "OtherPlayerPosition":
+                view.showInfoMessage(message);
+                OtherPlayerPosition positionMessage=(OtherPlayerPosition) message;
+                playerVisibleData.setPlayerPosition(positionMessage.getUsername(),positionMessage.getCoordinate());
+                break;
             case "InfoMatch":
                 view.showInfoMessage(message);
                 break;

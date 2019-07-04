@@ -185,7 +185,7 @@ public class Match implements Serializable {
      */
     private void fillNormal(NormalCell cell) {
         try {
-            if (cell.getAmmoCard() == null) {
+            if (cell.getAmmoCard()==null) {
                 cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
             } else if (cell.getAmmoCard().getStatus()) {
                 ammoDeck.discardCard(cell.getAmmoCard());
@@ -268,6 +268,8 @@ public class Match implements Serializable {
         notifySpecificClient(player.getID(), infoUsedCard);
         Message infoSpawnPoint = new NewPosition(x, y);
         notifySpecificClient(player.getID(), infoSpawnPoint);
+        Message otherPlayerPosition= new OtherPlayerPosition(player.getName(),player.getCel());
+        notifyAllExceptOneClient(player.getID(),otherPlayerPosition);
     }
     /**
      * Method to make a dead player spawn
@@ -292,6 +294,8 @@ public class Match implements Serializable {
             }
         }
         player.setDead(false);
+        Message otherPlayerPosition= new OtherPlayerPosition(player.getName(),player.getCel());
+        notifyAllExceptOneClient(player.getID(),otherPlayerPosition);
     }
     /**
      * Method to assign a PowCard to a player
@@ -354,6 +358,8 @@ public class Match implements Serializable {
         player.setCel(x, y);
         Message infoNewPosition = new NewPosition(x, y);
         notifySpecificClient(player.getID(), infoNewPosition);
+        Message otherPlayerPosition= new OtherPlayerPosition(player.getName(),player.getCel());
+        notifyAllExceptOneClient(player.getID(),otherPlayerPosition);
     }
 
     /**

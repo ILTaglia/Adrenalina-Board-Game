@@ -24,7 +24,7 @@ public class PlayerVisibleData implements Serializable {
     private Map<String,Integer> enemiesNameColor;
     private Map<String,Integer> numberOfDeath;
 
-    private Map<String,Coordinate> playersPosition;
+    private Map<Integer,Coordinate> playersPosition;
     //Il firstBlood sarebbe evitabile, l'informazione può essere presa dalle HashMap dei danni.
     private Map<String,String> playersFirstBlood;  //number of the player that gave the damage 1 for other players
 
@@ -54,9 +54,7 @@ public class PlayerVisibleData implements Serializable {
         }
     }
 
-    public List<Coordinate> getPlayerPosition(){
-        return (List<Coordinate>) playersPosition.values();
-    }
+
     /**
      *
      * @param dashboard is the dashboard of the match
@@ -72,7 +70,6 @@ public class PlayerVisibleData implements Serializable {
     public void setEnemy(String playerName,int playerColor){
         this.enemiesNameColor.put(playerName,playerColor);
         this.numberOfDeath.put(playerName,0);
-        this.playersPosition.put(playerName,null);
         this.playersFirstBlood.put(playerName,null);
         this.damagesOfAll.put(playerName,null);
         this.marksOfAll.put(playerName,null);
@@ -108,39 +105,20 @@ public class PlayerVisibleData implements Serializable {
         playerAmmo.set(color,numberOfAmmo);
     }
 
-
-
-    /*Metodi get*/
-    //public List<Coordinate> getPlayerPosition(){return this.positionOtherPlayers;}
-
-    //TODO: Get in base alle necessità:
-    /*
-    public List<Integer> getPlayerDeath(){return this.deathOtherPlayers;}
-
-
-
-    public List<Integer> getPlayerFirstblood(){return this.firstbloodOherPlayers;}
-
-    public List<Integer> getPlayerscore(){return this.scoreOherPlayers;}
-
-    public List<Integer> getPlayerMarks(int color){
-        List<Integer> bin = new ArrayList<>();
-        if(color==0){ return this.marksforPlayer1;}
-        else if(color==1){ return this.marksforPlayer2;}
-        else if(color==2){ return this.marksforPlayer3;}
-        else if(color==3){ return this.marksforPlayer4;}
-        else if(color==4){ return this.marksforPlayer5;}
-        return bin;
+    public void setPlayerPosition(String username, Coordinate coordinate) {
+        playersPosition.put(enemiesNameColor.get(username),coordinate);
     }
-    //TODO qui serve il colore del player o l'indice per scegliete di quale stampare i valori
-    public List<Integer> getPlayerDamages(int color){
-        List<Integer> bin = new ArrayList<>();
-        if(color==0){ return this.damagesforPlayer1;}
-        else if(color==1){ return this.damagesforPlayer2;}
-        else if(color==2){ return this.damagesforPlayer3;}
-        else if(color==3){ return this.damagesforPlayer4;}
-        else if(color==4){ return this.damagesforPlayer5;}
-        return bin;
+
+    public boolean isPositionPresent(int userColor){
+        return playersPosition.containsKey(userColor);
     }
-    */
+
+    public Coordinate getPlayerPosition(int userColor){
+        return playersPosition.get(userColor);
+    }
+
+
+
+    //TODO:Rimangono da fare i metodi per i danni, non utilizzabili in assenza della Shoot
+
 }
