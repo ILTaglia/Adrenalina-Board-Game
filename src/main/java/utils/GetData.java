@@ -20,7 +20,7 @@ public class GetData {
 
 
     /**
-     * Nel costruttore setto il livello di default del LOGGER           //TODO CORREGGERE
+     * GetData is for taking data from the user
      */
     public GetData(){
 
@@ -39,8 +39,9 @@ public class GetData {
         //Cardinal points for player North, East, South, West
 
     }
-    /* Takes a string from the board
-     * @return gives the string in input, exception gives "Color"
+
+    /** Takes a string from the board
+     * @return the string in input, exception gives "Color"
      */
     public String getValidColorForPlayer() {
         String color;
@@ -49,7 +50,12 @@ public class GetData {
         }while(!colors.contains(color));
         return color;
     }
-    //TODO: serve classe utils per la View, qua o da qualche altra parte?
+
+    /**
+     * Takes an int and returns the corresponding color
+     * @param color is the int representing the color
+     * @return the corresponding String
+     */
     public String getColorFromInt(int color){
         if(color==0) return "Red";
         else if(color==1) return  "Blue";
@@ -57,7 +63,10 @@ public class GetData {
         else return null;
     }
 
-
+    /**
+     * Takes a list of characters from the board (cardinal points for direction of movements)
+     * @return the List in input
+     */
     public List<String> getValidListDirectionForPlayer(){
         List<String> runListDirection = new ArrayList<>();
         String direction;
@@ -69,6 +78,11 @@ public class GetData {
 
         return runListDirection;
     }
+
+    /**
+     * Takes characters from the board
+     * @return the character in input, exception gives "direction"
+     */
     public String getValidDirectionForPlayer() {
         String direction;
         do{
@@ -83,6 +97,10 @@ public class GetData {
 
     }
 
+    /**
+     * Takes a String from the board
+     * @return the String in input
+     */
     public String getName() {
         String name;
         do{
@@ -90,6 +108,15 @@ public class GetData {
         }while(name.equals(""));
         return name;
     }
+
+    /**
+     * Takes a 4 int of coordinates from the board
+     * @param xMin is the minimum number of line
+     * @param xMax is the maximum number of line
+     * @param yMin is the minimum number of column
+     * @param yMax is the maximum number of column
+     * @return a list containing all the coordinates in the map
+     */
     public List<Integer> getCoordinate(int xMin,int xMax, int yMin, int yMax){
         List<Integer> coordinate=new ArrayList<>();
         int xCoordinate;
@@ -109,6 +136,12 @@ public class GetData {
         return coordinate;
     }
 
+    /**
+     * Takes an int from the board, chosen between min and max
+     * @param min is the minimum value accepted
+     * @param max is the maximum value accepted
+     * @return the int inserted
+     */
     public int getInt(int min,int max){
         int k = max+1;
         boolean isValid;
@@ -131,7 +164,11 @@ public class GetData {
         }while(!isValid || (k<min || k>max));
         return k;
     }
-    //This method return true if the answer is Yes, false otherwise
+
+    /**
+     *
+     * @return This method return true if the answer is Yes, false otherwise
+     */
     public boolean askYesOrNo(){
         printOut("Answer 'Yes' or 'No'");
         String answer;
