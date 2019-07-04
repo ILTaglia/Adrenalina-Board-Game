@@ -71,7 +71,7 @@ public class SocketConnection extends Thread {
 
     /**
      * Method for sending messages
-     * @param message is teh message to be sent
+     * @param message is the message to be sent
      */
     public synchronized void sendMessage(Message message){
         try {
