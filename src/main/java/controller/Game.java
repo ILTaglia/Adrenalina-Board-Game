@@ -997,13 +997,15 @@ public class Game{
      */
     public void checkTeleporter()
     {
-        int flag=0;
+        int flag=0,i=0;
         for(PowCard p : match.getActivePlayer().getPows())
         {
             if(p.getType()==2)
             {
+                supportPow.setIndexpow(i);
                 flag=1;
             }
+            i++;
         }
         if(flag==0)
         {
@@ -1029,13 +1031,15 @@ public class Game{
      */
     public void checkNewton()
     {
-        int flag=0;
+        int flag=0,i=0;
         for(PowCard p : match.getActivePlayer().getPows())
         {
             if(p.getType()==0)
             {
+                supportPow.setIndexpow(i);
                 flag=1;
             }
+            i++;
         }
         if(flag==0)
         {
@@ -1141,9 +1145,36 @@ public class Game{
      */
     public void executeSteps(int index)
     {
-        match.getPlayers().get(index);
+        Player playerToMove = match.getPlayers().get(index);
         Run run = new Run();
-        //TODO CONTROLLO CHE IL MOVIMENTO SIA VALIDO E NEL CASO LO SPOSTO
+        ArrayList<String> destinations = new ArrayList<String>();
+        for(int i=0;i<supportPow.getSteps();i++)
+        {
+            if(supportPow.getDirection()==0)
+            {
+                destinations.add("N");
+            }
+            if(supportPow.getDirection()==1)
+            {
+                destinations.add("E");
+            }
+            if(supportPow.getDirection()==2)
+            {
+                destinations.add("S");
+            }
+            if(supportPow.getDirection()==3)
+            {
+                destinations.add("W");
+            }
+        }
+        try{
+            run.movementNotInMyTurn(match,playerToMove.getID(),destinations);
+        }
+        catch (InvalidDirectionException e){
+            nextStep();
+        }
+
+        discardPowCard(match.getActivePlayer().getID(),supportPow.getindexpow());
         nextStep();
     }
 

@@ -307,7 +307,7 @@ public class CreateListAttackable {
         if(attack.getType()==8) //Caso in cui ho un after moving
         {
 
-            //TODO METODO CHE MI PERMETTE DI STABILIRE DOVE MI TROVERO' PER POI TROVARE I GIOCATORI VISIBILI
+            this.attackableplayers=match.getVisiblePlayers(player1);
         }
         if(attack.getType()==9) //Caso in cui ho un all room
         {
@@ -316,7 +316,6 @@ public class CreateListAttackable {
             {
                 this.attackablecells.add(p.getCel());
             }
-            //TODO ASPETTARE METODO PER GIOCATORI IN STANZE SE PRESENZA DI PORTA
         }
         if(attack.getType()==10) //Caso in cui ho un ricorsive
         {
