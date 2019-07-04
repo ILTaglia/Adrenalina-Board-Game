@@ -48,7 +48,7 @@ public class RMIHandler implements ConnectionHandler {
         try{
             server.newRegistrationToQueue(username,clientInterface);
         }catch (RemoteException e){
-            System.out.println(e.getMessage());
+            printOut(e.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class RMIHandler implements ConnectionHandler {
                     disconnected();
                 }
             }
-        },100000000);
+        },10000);
     }
 
     private void disconnected(){

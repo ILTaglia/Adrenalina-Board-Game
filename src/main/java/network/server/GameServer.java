@@ -175,7 +175,7 @@ public class GameServer {
 
         updatePlayerStatus(userID,true);
         userIDToGameRoom.get(userID).reConnectPlayer(userID);
-        Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");       //TODO: modificare tipo e contenuto messaggio.
+        Message confirmationMessage=new InfoMatch("Bentornato nella partita!\n");
         sendMessageToID(userID,confirmationMessage);
     }
     public void reAddClientToWR(String userID, ClientInterface clientInterface) {
@@ -189,7 +189,7 @@ public class GameServer {
             }
         }
         waitingRoom.addUserToRoom(name);
-        Message confirmationMessage=new InfoMatch("Sei stato riaggiunto nella WR!\n");       //TODO: modificare tipo e contenuto messaggio.
+        Message confirmationMessage=new InfoMatch("Sei stato riaggiunto nella WR!\n");
         sendMessageToID(userID,confirmationMessage);
     }
 
