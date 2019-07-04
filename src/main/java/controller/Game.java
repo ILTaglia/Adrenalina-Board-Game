@@ -443,6 +443,7 @@ public class Game{
         shootElaborator.setstatus(1);
         supportPow= new SupportPow();
         supportPow.setAttacker(this.match.getActivePlayer());
+        startTimer();
         gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
@@ -453,6 +454,7 @@ public class Game{
      */
     public void wakeupshoot(int chosenindex, String userID)
     {
+        timer.cancel();
         if(match.getActivePlayer().getID().equals(userID))
         {
             if(shootElaborator.getStatus()==1)
@@ -503,7 +505,6 @@ public class Game{
                 setDirectionToShoot(chosenindex);
             }
         }
-
     }
 
     /**
@@ -528,6 +529,7 @@ public class Game{
     {
 
         shootElaborator.setstatus(2);
+        startTimer();
         gameRoom.askIndexSerie(match.getActivePlayer().getID());
     }
 
@@ -544,7 +546,6 @@ public class Game{
         }
         else
         {
-            shootElaborator.settype(index);
             shootElaborator.generateattacks();
             shootElaborator.setfirstattack();
             askPaymentbeforeShoot();
@@ -563,9 +564,10 @@ public class Game{
         }
         else
         {
+            startTimer();
             gameRoom.informPaymentError(match.getActivePlayer().getID());
-            //nextStep();
-            particoularpowers();
+            nextStep();
+            //particoularpowers();
         }
     }
 
@@ -635,8 +637,8 @@ public class Game{
         }
         else
         {
-            //nextStep();
-            particoularpowers();
+            nextStep();
+            //particoularpowers();
         }
     }
 
@@ -646,8 +648,9 @@ public class Game{
     public void askBersaglio()
     {
         int typetarget= shootElaborator.getTypeTarget();
+        startTimer();
 
-        if(typetarget==1)
+        if(typetarget==0)
         {
             shootElaborator.setstatus(4);
             gameRoom.askPlayerIndex(match.getActivePlayer().getID());
@@ -694,7 +697,6 @@ public class Game{
         {
             askBersaglio();
         }
-
     }
 
     /**
@@ -714,8 +716,8 @@ public class Game{
             }
             else
             {
-                //nextStep();
-                particoularpowers();
+                nextStep();
+                //particoularpowers();
             }
         }
     }
@@ -737,6 +739,7 @@ public class Game{
         }
         if(flag==1)
         {
+            startTimer();
             gameRoom.askScopePow(match.getActivePlayer().getID());
         }
 
@@ -752,6 +755,7 @@ public class Game{
             }
             if(flag2==1)
             {
+                startTimer();
                 gameRoom.askGranadePow(p.getID());
             }
         }
@@ -799,6 +803,7 @@ public class Game{
     public void continueshootinganswer()
     {
         shootElaborator.setstatus(8);
+        startTimer();
         gameRoom.askNextAttack(match.getActivePlayer().getID());
     }
 

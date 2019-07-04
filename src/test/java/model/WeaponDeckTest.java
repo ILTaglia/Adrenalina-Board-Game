@@ -83,4 +83,12 @@ public class WeaponDeckTest {
         assertEquals(weapon.getAttack(0).getEffect(0).getDamage(1).getDamage(),1);
     }
 
+    @Test
+    public void testnumbereffect()
+    {
+        weapon = (Weapon) W.drawCard();
+        weapon = (Weapon) W.drawCard();
+        assertEquals(weapon.getNumberAttack(),2);
+    }
+
 }
