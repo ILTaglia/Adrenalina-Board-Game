@@ -21,7 +21,6 @@ public class CLIView implements View {
 
     //Indici provvisori, verificare se possibile lasciarli. Servono per memorizzare delle scelte da parte dell'utente.
     private int indexSelectedWeapon;
-    private int requestedAction;
 
 
     public CLIView(Client client){
@@ -130,7 +129,9 @@ public class CLIView implements View {
         if(message.getContent().equals("InfoID")){
             printOut("This is your ID for the game. Memorize it in case you want to rejoin after disconnection: "+message.getInfo());
         }
-        printOut(message.getInfo());
+        else {
+            printOut(message.getInfo());
+        }
     }
 
     /*
@@ -186,7 +187,7 @@ public class CLIView implements View {
         printOut("3. Run & Grab");
         printOut("4. Run & Shoot");
         printOut("5. recharge");
-        requestedAction = getData.getInt(0, 5);
+        int requestedAction = getData.getInt(0, 5);
         //Salvo l'azione selezionata, in modo da agire diversamente nel caso si tratti di una Grab o una Grab with *
         String indexAction = Integer.toString(requestedAction);
         Message actionRequest=new ActionClientRequest(indexAction,client.getUserID());

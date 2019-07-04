@@ -488,8 +488,7 @@ public class Match implements Serializable {
     public void addWeaponCard(SpawnPointCell cell, int index) {
         try {
             Weapon weapon = (Weapon) weaponDeck.drawCard();
-            cell.addWeaponCard(weapon, index);              //TODO:controllare
-            //TODO:DA Angelica: è ok!
+            cell.addWeaponCard(weapon, index);
         } catch (FullCellException e) {
             //TODO
         }

@@ -144,7 +144,7 @@ public class Game{
             //Se invece il Player ha spawnato dopo il turno di un altro player si procede con il giocatore successivo a quello
             //che ha terminato il turno
             if(match.getRound()==1&&match.getActivePlayer().getID().equals(userID)) {
-                nextStep();
+                askAction();
             }
         }catch (InvalidColorException e){
             Message errorMessage=new ActionError("Colore non valido, riprova");
@@ -173,7 +173,7 @@ public class Game{
      */
     private void askAction(){
         printOut("Waiting " + (queueTimer/1000) + " seconds for an Answer, then disconnect Player");
-        startTimer();
+        handleTimer(true);
         gameRoom.askToChooseNextAction(match.getActivePlayer().getID());
     }
 
@@ -191,7 +191,7 @@ public class Game{
      */
     public void performAction(String userID, int chosenAction) {
         //per sicurezza li rimetto a false (inizializzo)
-        timer.cancel();
+        handleTimer(false);
         resetActionBool();
         checkUserAction(userID);
         switch(chosenAction) {
@@ -226,7 +226,7 @@ public class Game{
      * Method to ask Run
      */
     private void askRun(){
-        startTimer();
+        handleTimer(true);
         gameRoom.askDestinationRun(match.getActivePlayer().getID());
     }
 
@@ -239,7 +239,7 @@ public class Game{
         /*Control if running is valid, in case counter is decremented to neutralize the counter++ after break, as
          * the player can take an other action*/
         //Sequenza ricevuta dall'utente via Evento di rete
-        timer.cancel();
+        handleTimer(false);
         Run run = new Run();
         try{
             run.movement(match,userID,destination,isMovementBeforeGrab,isMovementBeforeShoot);   //Controllo all'interno del metodo se la movement sia valida o meno, se non lo è lancio eccezione
@@ -272,7 +272,7 @@ public class Game{
      * @param userID is the ID of the player
      */
     private void selectGrab(String userID){
-        timer.cancel();
+        handleTimer(false);
         int x = match.getActivePlayer().getCel().getX();
         int y = match.getActivePlayer().getCel().getY();
         if(match.getActivePlayer().getCel().inMap(match.getDashboard(), x, y).getType()==0){
@@ -292,7 +292,7 @@ public class Game{
      * Method to ask which weapon to grab
      */
     private void askWeaponGrab(){
-        startTimer();
+        handleTimer(true);
         gameRoom.askWeaponGrab(match.getActivePlayer().getID());
     }
 
@@ -302,7 +302,7 @@ public class Game{
      * @param indexWeapon is the index of weapon to grab in the SpawnPoint Cell
      */
     public void performWeaponGrab(String userID,int indexWeapon){
-        timer.cancel();
+        handleTimer(false);
         checkUserAction(userID);
         GrabWeapon grabWeapon = new GrabWeapon();
         if(!grabWeapon.isValid(match,userID)){
@@ -327,7 +327,7 @@ public class Game{
      * Method to ask to discard a weapon card
      */
     private void askToDiscardWeaponCard() {
-        startTimer();
+        handleTimer(true);
         Message errorMessage=new MaxWeaponCardError("You have already three Weapon Card, you can discard one to Grab a new one");
         gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
     }
@@ -339,7 +339,7 @@ public class Game{
      * @param indexWeaponToDiscard is teh weapon to discard to allow grabbing
      */
     public void discardWeaponCardToGrab(String userID, int indexWeaponToGrab,int indexWeaponToDiscard) {
-        timer.cancel();
+        handleTimer(false);
         manageWeapon.discardWeapon(match.getActivePlayer(),indexWeaponToDiscard);
         performWeaponGrab(userID,indexWeaponToGrab);
     }
@@ -348,7 +348,7 @@ public class Game{
      * Method to ask to graba weapon paying with a PowCard
      */
     private void askWeaponGrabWithPowCard(){
-        startTimer();
+        handleTimer(true);
         gameRoom.askWeaponGrabWithPowCard(match.getActivePlayer().getID());
     }
 
@@ -359,7 +359,7 @@ public class Game{
      * @param indexPowCard is the index of the PowCard to use to buy
      */
     public void performWeaponGrabWithPowCard(String userID,int indexWeapon,int indexPowCard) {
-        timer.cancel();
+        handleTimer(false);
         checkUserAction(userID);
         try {
             manageWeapon.convertPowToGrab(match.getActivePlayer(), getWeaponToGrabCost(indexWeapon), indexPowCard);
@@ -412,7 +412,7 @@ public class Game{
      * Method to ask to discard a PowCard
      */
     private void askToDiscardPowCard(){
-        startTimer();
+        handleTimer(true);
         Message errorMessage=new MaxPowCardError("You have already three PowCard, you can discard one");
         gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
     }
@@ -423,7 +423,7 @@ public class Game{
      * @param indexPowCard is the index of the PowCard to discard
      */
     public void discardPowCard(String userID, int indexPowCard) {
-        timer.cancel();
+        handleTimer(false);
         checkUserAction(userID);
         manageWeapon.discardPowCard(match.getActivePlayer(),indexPowCard);
         try {
@@ -443,7 +443,7 @@ public class Game{
         shootElaborator.setstatus(1);
         supportPow= new SupportPow();
         supportPow.setAttacker(this.match.getActivePlayer());
-        startTimer();
+        //startTimer();
         gameRoom.askWeapon(match.getActivePlayer().getID());
     }
 
@@ -529,7 +529,7 @@ public class Game{
     {
 
         shootElaborator.setstatus(2);
-        startTimer();
+        //startTimer();
         gameRoom.askIndexSerie(match.getActivePlayer().getID());
     }
 
@@ -564,7 +564,7 @@ public class Game{
         }
         else
         {
-            startTimer();
+            //startTimer();
             gameRoom.informPaymentError(match.getActivePlayer().getID());
             nextStep();
             //particoularpowers();
@@ -648,7 +648,7 @@ public class Game{
     public void askBersaglio()
     {
         int typetarget= shootElaborator.getTypeTarget();
-        startTimer();
+        //startTimer();
 
         if(typetarget==0)
         {
@@ -739,7 +739,7 @@ public class Game{
         }
         if(flag==1)
         {
-            startTimer();
+            //startTimer();
             gameRoom.askScopePow(match.getActivePlayer().getID());
         }
 
@@ -755,7 +755,7 @@ public class Game{
             }
             if(flag2==1)
             {
-                startTimer();
+                //startTimer();
                 gameRoom.askGranadePow(p.getID());
             }
         }
@@ -803,7 +803,7 @@ public class Game{
     public void continueshootinganswer()
     {
         shootElaborator.setstatus(8);
-        startTimer();
+        //startTimer();
         gameRoom.askNextAttack(match.getActivePlayer().getID());
     }
 
@@ -1130,7 +1130,7 @@ public class Game{
      * Method to call for the next step
      */
     private void nextStep() {
-        timer.cancel();
+        handleTimer(false);
         resetActionBool();
         //Controllo validità partita
         checkGameValidity();
@@ -1300,6 +1300,7 @@ public class Game{
      * @param userID is the ID of the disconnected player
      */
     public void disconnectPlayer(String userID) {
+        handleTimer(false);
         gameRoom.closeConnection(userID);
         //La chiamata sulla match viene fatta in seguito
     }
@@ -1324,6 +1325,23 @@ public class Game{
     /**
      * Method to start the spawn timer
      */
+    private void handleTimer(boolean timerStatus){      //true to start, false to stop
+        if (timerStatus) {
+            timer = new Timer();
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    cancel();
+                    disconnectPlayer(match.getActivePlayer().getID());
+                    nextStep();
+                }
+            };
+            timer.schedule(timerTask, queueTimer);
+        }else {
+            timer.cancel();
+        }
+    }
+
     public void startSpawnTimer(){
         timer.schedule(new TimerTask() {
             @Override
@@ -1342,6 +1360,7 @@ public class Game{
     /**
      * Method to start timer
      */
+    /*
     private void startTimer() {
         timer.schedule(new TimerTask() {
             @Override
@@ -1351,7 +1370,7 @@ public class Game{
                 nextStep();
             }
         }, queueTimer);
-    }
+    }*/
 
 
 

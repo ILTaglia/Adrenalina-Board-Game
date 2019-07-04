@@ -436,5 +436,8 @@ public class Client {
     }
 
 
-
+    public void close() {
+        printOut("Sei stato disconnesso. Il gioco verrà chiuso, se vuoi riconnetterti dovrai inserire il tuo username seguito dal tuo ID.\nIl tuo ID è: "+userID);
+        System.exit(0);
+    }
 }

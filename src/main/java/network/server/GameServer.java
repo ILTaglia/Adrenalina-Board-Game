@@ -133,7 +133,6 @@ public class GameServer {
         try {
             userID=clientInterface.getPlayerID();
             clientInterface.setConnection(false);
-            printOut("Disconnecting SocketInterface");
         } catch (RemoteException e) {
             userID = null;
             for (Map.Entry<String, ClientInterface> entry : userIDToClientInterface.entrySet()) {
@@ -143,7 +142,6 @@ public class GameServer {
                     userID = id;
                 }
             }
-            printOut("Disconnecting RMIInterface");
         }
         updatePlayerStatus(userID,false);
         if(userIDToGameRoom.containsKey(userID)) {
@@ -160,7 +158,9 @@ public class GameServer {
                 }
             }
         }
-        closeConnection(userID);
+        if(userIDInGameToStatusConnection.get(userID)) {
+            closeConnection(userID);
+        }
     }
 
     public synchronized void handleReConnect(String userID,ClientInterface clientInterface){

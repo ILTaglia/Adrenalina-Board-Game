@@ -1,5 +1,8 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,19 +12,17 @@ import java.util.logging.Logger;
 import static utils.Print.printOut;
 
 public class GetData {
-    //private InputStreamReader reader= new InputStreamReader(System.in);
-    //private BufferedReader input = new BufferedReader(reader);
+
     private Scanner input = new Scanner(System.in);
-    private static final Logger LOGGER= Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
     private List<String> colors=new ArrayList<>();
     private List<String> directions=new ArrayList<>();
 
 
     /**
-     * Nel costruttore setto il livello di default del LOGGER
+     * Nel costruttore setto il livello di default del LOGGER           //TODO CORREGGERE
      */
     public GetData(){
-        LOGGER.setLevel(Level.INFO);
 
         colors.add("Blue");
         colors.add("Green");
@@ -71,7 +72,12 @@ public class GetData {
     public String getValidDirectionForPlayer() {
         String direction;
         do{
-            direction=input.nextLine();
+            try {
+                direction = input.nextLine();
+            }catch(IndexOutOfBoundsException e){
+                direction=null;
+                break;
+            }
         }while(!directions.contains(direction));
         return direction;
 
@@ -104,23 +110,23 @@ public class GetData {
     }
 
     public int getInt(int min,int max){
-        int k = 0;
+        int k = max+1;
         boolean isValid;
         if(min>max){
             k=max;
             max=min;
             min=k;
         }
-
         do{
             try {
                 k=input.nextInt();
                 isValid=true;
             } catch (NumberFormatException e) {
                 isValid=false;
-                LOGGER.log(Level.FINEST,e.getMessage(),e);
                 System.out.println("Not a valid number\n");
-
+            }
+            catch(IndexOutOfBoundsException e){
+                break;
             }
         }while(!isValid || (k<min || k>max));
         return k;
@@ -130,7 +136,13 @@ public class GetData {
         printOut("Answer 'Yes' or 'No'");
         String answer;
         do{
-            answer = input.nextLine();
+            try {
+                answer = input.nextLine();
+            }
+            catch(IndexOutOfBoundsException e){
+                answer="No";
+                break;
+            }
         }while(!(answer.equals("Yes")||answer.equals("No")));
         return answer.equals("Yes");
     }
