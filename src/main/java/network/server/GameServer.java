@@ -63,7 +63,6 @@ public class GameServer {
         }
         GameServer gameServer = new GameServer();
         gameServer.launchServer();
-
     }
 
     private GameServer(){
@@ -109,11 +108,11 @@ public class GameServer {
         try {
             clientInterface.sendMessage(infoIDMessage);
         }catch (RemoteException e) {
-            //TODO: disconnect nel caso che il Player non sia ancora connesso praticamente
+
         }
         //Imposto a connesso il Player, a termine del timer verifico che siano ancora tutti connessi
         userIDInGameToStatusConnection.put(usernameToUserID.get(playerUsername),true);
-        startCheckConnection(usernameToUserID.get(playerUsername));
+        //startCheckConnection(usernameToUserID.get(playerUsername));
         waitingRoom.addUserToRoom(playerUsername);
     }
 
@@ -126,12 +125,13 @@ public class GameServer {
                         userIDToClientInterface.get(userID).setClientConnected();
                         startCheckConnection(userID);
                     }else{
-                        printOut("Close Connection of Player on RMI. ID: "+ userID);
+                        printOut("Close Connection of Player. ID: "+ userID);
                         handleDisconnect(userIDToClientInterface.get(userID));
+                        cancel();
                     }
                 } catch (RemoteException e) {
                     //SIGNIFICA CHE IL PLAYER SI È DISCONNESSO.
-                    printOut("Disconnected Player on RMI. ID: "+ userID);
+                    printOut("Disconnected Player. ID: "+ userID);
                     handleDisconnect(userIDToClientInterface.get(userID));
                     cancel();
                 }
@@ -182,7 +182,7 @@ public class GameServer {
             //TODO
         }
         userIDToClientInterface.replace(userID,clientInterface);
-        startCheckConnection(userID);
+        //startCheckConnection(userID);
         userIDInGameToStatusConnection.replace(userID,true);
 
         updatePlayerStatus(userID,true);

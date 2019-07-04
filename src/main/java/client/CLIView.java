@@ -377,6 +377,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -392,7 +393,7 @@ public class CLIView implements View {
                     }
                 }
             }
-        }
+        }*/
         printOut(" _________________________________________________                 ");
         printOut("|      Blue      |       Blue     |     Blue      |                ");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");
@@ -441,6 +442,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -456,7 +458,7 @@ public class CLIView implements View {
                     }
                 }
             }
-        }
+        }*/
         printOut(" _________________________________________________________________ ");
         printOut("|      Blue      |       Blue     |     Blue      |   Green       |");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
@@ -505,6 +507,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -520,7 +523,7 @@ public class CLIView implements View {
                     }
                 }
             }
-        }
+        }*/
         printOut(" _________________________________________________________________ ");
         printOut("|      Red       |       Blue     |     Blue      |   Green       |");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"   |");
@@ -570,6 +573,7 @@ public class CLIView implements View {
         }
         int line;
         int column;
+        /*
         List<Coordinate> position = client.getPlayerVisibleData().getPlayerPosition();
         for(int h=0; h<position.size(); h++){
             line=position.get(h).getX();
@@ -585,7 +589,7 @@ public class CLIView implements View {
                     }
                 }
             }
-        }
+        }*/
         printOut(" _________________________________________________                 ");
         printOut("|      Red       |       Blue     |     Blue      |                ");
         printOut("|    "+map[0][0]+"    |    "+map[0][1]+"    |    "+map[0][2]+"   |    "+map[0][3]+"    ");

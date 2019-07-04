@@ -129,7 +129,7 @@ public class Match implements Serializable {
      * @param selectedDashboard is the index representing the chosen map
      */
     public void createDashboard(int selectedDashboard) {
-        this.dashboard = new Dashboard(selectedDashboard,8 );               //TODO
+        this.dashboard = new Dashboard(selectedDashboard,8 );
         checkDashboard = true;
     }
     /**

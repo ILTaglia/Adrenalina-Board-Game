@@ -36,6 +36,7 @@ public class Game{
     //Gestione Timer
 
     private Timer timer;
+    private boolean isTimerOn;
     private final int queueTimer;
     private SupportPow supportPow;
 
@@ -1378,19 +1379,22 @@ public class Game{
 
 
     private void handleTimer(boolean timerStatus){      //true to start, false to stop
-        if (timerStatus) {
+        if (timerStatus&&!isTimerOn) {
             timer = new Timer();
             TimerTask timerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    cancel();
                     disconnectPlayer(match.getActivePlayer().getID());
                     nextStep();
                 }
             };
             timer.schedule(timerTask, queueTimer);
+            isTimerOn=true;
         }else {
-            timer.cancel();
+            if(isTimerOn){
+                timer.cancel();
+                isTimerOn = false;
+            }
         }
     }
 

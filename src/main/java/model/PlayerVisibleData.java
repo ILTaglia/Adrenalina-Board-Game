@@ -53,6 +53,10 @@ public class PlayerVisibleData implements Serializable {
             playerAmmo.add(i,1);
         }
     }
+
+    public List<Coordinate> getPlayerPosition(){
+        return (List<Coordinate>) playersPosition.values();
+    }
     /**
      *
      * @param dashboard is the dashboard of the match
