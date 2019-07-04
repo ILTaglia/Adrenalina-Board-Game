@@ -48,7 +48,6 @@ public class Player implements Serializable {
     private int action;
     private int firstBlood;
     private int score;
-    private int round;
     private ArrayList<Integer> order;
 
     private boolean connected;
@@ -64,7 +63,6 @@ public class Player implements Serializable {
         this.id=id;
         //this.active=true; //if the player is just born, it is active
         //active will return 0 when two actions are made
-        this.round=1; //first turn identified with 1
         this.damages=new ArrayList<>();
         this.damages.add(0);
         this.damages.add(0);
