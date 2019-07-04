@@ -24,7 +24,7 @@ public class WaitingRoom {
     public void addUserToRoom(String username){
         waitingClients.add(username);
         printOut("New Client Added! Queue: "+waitingClients);
-        if(waitingClients.size()==1){
+        if(waitingClients.size()==minNumberPlayer){
             timer= new Timer();
             printOut("Waiting " + (queueTimer/1000) + " seconds for new Players, then start match");
             startTimer();
@@ -34,11 +34,11 @@ public class WaitingRoom {
         }
     }
 
-    public void startTimer(){
+    private void startTimer(){
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(waitingClients.size()>minNumberPlayer){
+                if(waitingClients.size()<minNumberPlayer){
                     printOut("Timer scaduto, meno giocatori del necessario");
                     timer.cancel();
                 }
@@ -47,7 +47,7 @@ public class WaitingRoom {
                     newGameRoom();
                 }
             }
-        },3000);
+        },30000);
     }
 
     public void removePlayerInQueue(String playerUsername){
