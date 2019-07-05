@@ -9,6 +9,8 @@ import model.Match;
 
 import java.util.List;
 
+import static utils.Print.printOut;
+
 public class ManagingWeapons {
     /**
      * Class to manage weapons and pows
@@ -45,6 +47,7 @@ public class ManagingWeapons {
             match.discardWeaponCard(weapon);
         }
         catch(ZeroCardsOwnedException | NotOwnedCardException e){
+            printOut("ZeroCardsOwnedException or NotOwnedCardException");
         }
     }
 
