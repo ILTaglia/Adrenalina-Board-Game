@@ -2,6 +2,9 @@ package network.messages;
 
 import java.io.Serializable;
 
+/**
+ * General class for messages
+ */
 public abstract class Message implements Serializable {
 
     //TODO: enum ??

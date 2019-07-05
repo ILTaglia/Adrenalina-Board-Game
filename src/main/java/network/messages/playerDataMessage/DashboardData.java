@@ -2,6 +2,9 @@ package network.messages.playerDataMessage;
 
 import model.Dashboard;
 
+/**
+ * Info message for dashboard data
+ */
 public class DashboardData extends InfoMessage {
 
     private Dashboard dashboard;

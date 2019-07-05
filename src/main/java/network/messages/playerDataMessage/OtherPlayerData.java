@@ -5,6 +5,11 @@ public class OtherPlayerData extends InfoMessage {
     private String playerName;
     private int playerColor;
 
+    /**
+     *
+     * @param playerName is the player name
+     * @param playerColor is the player color
+     */
     public OtherPlayerData(String playerName, String playerColor){
         super("Other player in your match are: "+ playerName + " with color: " + playerColor);
         this.playerName=playerName;
@@ -16,9 +21,18 @@ public class OtherPlayerData extends InfoMessage {
         this.content="OtherPlayerData";
     }
 
+    /**
+     *
+     * @return the player name as a String
+     */
     public String getPlayerName(){
         return playerName;
     }
+
+    /**
+     *
+     * @return the player color as an int
+     */
     public int getPlayerColor() {
         return playerColor;
     }

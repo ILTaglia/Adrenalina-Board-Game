@@ -105,14 +105,29 @@ public class PlayerVisibleData implements Serializable {
         playerAmmo.set(color,numberOfAmmo);
     }
 
+    /**
+     *
+     * @param username is the username of the player
+     * @param coordinate is the coordinate of the player
+     */
     public void setPlayerPosition(String username, Coordinate coordinate) {
         playersPosition.put(enemiesNameColor.get(username),coordinate);
     }
 
+    /**
+     *
+     * @param userColor is the color of the player
+     * @return true is the player already has a position, false otherwise
+     */
     public boolean isPositionPresent(int userColor){
         return playersPosition.containsKey(userColor);
     }
 
+    /**
+     *
+     * @param userColor is the color of the player
+     * @return the coordinate of the player
+     */
     public Coordinate getPlayerPosition(int userColor){
         return playersPosition.get(userColor);
     }

@@ -6,7 +6,9 @@ public class MyPowCards {
 
     public void mostra()
     {
-
+/**
+ * Class for powcards
+ */
         JFrame schermata = new JFrame("MY POWERUP");
         schermata.setResizable(false);
         schermata.setBounds(0,0,1300,600);

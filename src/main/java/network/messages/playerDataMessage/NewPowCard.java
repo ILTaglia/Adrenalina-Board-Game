@@ -2,6 +2,9 @@ package network.messages.playerDataMessage;
 
 import model.PowCard;
 
+/**
+ * Message for a new PowCard to the player
+ */
 public class NewPowCard extends InfoMessage {
 
     private PowCard powCard;
@@ -12,6 +15,10 @@ public class NewPowCard extends InfoMessage {
         this.content="NewPowCard";
     }
 
+    /**
+     *
+     * @return the PowCard
+     */
     public PowCard getPowCard() {
         return powCard;
     }

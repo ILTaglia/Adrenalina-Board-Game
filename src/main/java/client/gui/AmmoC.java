@@ -5,6 +5,12 @@ public class AmmoC extends JLabel {
     private JLabel cost;
     private int id;
 
+    /**
+     *
+     * @param ammoCard is the ammoCard on the match
+     * @param x is the number of line of the normal cell in which it is
+     * @param y is the number of column of the normal cell in which it is
+     */
     AmmoC(model.AmmoCard ammoCard, int x, int y){
         //type convention: AmmoTile 0 AmmoPowTile 1
         ImageIcon image;

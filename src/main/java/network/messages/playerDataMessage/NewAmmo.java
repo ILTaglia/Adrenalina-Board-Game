@@ -2,6 +2,9 @@ package network.messages.playerDataMessage;
 
 import java.util.List;
 
+/**
+ * Message for new ammo for the player
+ */
 public class NewAmmo extends InfoMessage {
 
     private List<Integer> listAmmo;
