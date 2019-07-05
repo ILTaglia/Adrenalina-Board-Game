@@ -217,7 +217,7 @@ public class CLIView implements View {
         if(getData.askYesOrNo()){
             showPlayerWeapons();
             printOut("Which Weapon do you want to discard?");
-            indexWeaponToDiscard=getData.getInt(0,client.getPlayerVisibleData().getPlayer().getNumberWeapon())-1;
+            indexWeaponToDiscard=getData.getInt(1,client.getPlayerVisibleData().getPlayer().getNumberWeapon())-1;
             Message message=new CardToWeaponGrabClientRequest(Integer.toString(indexSelectedWeapon),Integer.toString(indexWeaponToDiscard),client.getUserID());
             client.sendMessage(message);
         }
