@@ -188,7 +188,7 @@ public class Match implements Serializable {
             if (cell.getAmmoCard()==null) {
                 cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
             } else if (cell.getAmmoCard().getStatus()) {
-                ammoDeck.discardCard(cell.getAmmoCard());
+                ammoDeck.discardCard(cell.removeAmmoCard());
                 cell.addAmmoCard((AmmoCard) ammoDeck.drawCard());
             }
         } catch (FullCellException e) {
@@ -339,7 +339,7 @@ public class Match implements Serializable {
         try {
             cell.collectCard(player);
         } catch (MoreThanTreeAmmosException e) {
-            //TODO: avviso il player
+            //avviso il player
         }
         List<Integer> ammo = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
