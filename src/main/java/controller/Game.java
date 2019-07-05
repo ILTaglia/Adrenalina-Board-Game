@@ -1316,6 +1316,7 @@ public class Game{
             if(connectedPlayers.get(i).equals(activePlayer)){
                 if(i==connectedPlayers.size()-1){
                     nextRound();
+                    return;
                 }
             }
         }
