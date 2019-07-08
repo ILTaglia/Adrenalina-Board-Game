@@ -430,10 +430,10 @@ public class Client {
             //Nothing to do, just info.
         }
         if(message.getContent().equals("RunError")){
-            view.chooseRunDirection();
+            //view.chooseRunDirection();
         }
         if(message.getContent().equals("GrabError")){
-            view.chooseAction();
+            //view.chooseAction();
         }
         if(message.getContent().equals("MaxWeaponCardError")){
             view.chooseDiscardWeapon();

@@ -249,6 +249,7 @@ public class Game{
                 selectGrab(userID);
             }
             else if(isMovementBeforeShoot){
+                handleTimer(true);
                this.askWeaponToShoot();
             }
             else {
@@ -261,6 +262,7 @@ public class Game{
         } catch(InvalidDirectionException e){           //migliorare eccezione con motivo dell'errore
             Message errorMessage=new RunError("Invalid Direction. Choose an other direction");
             gameRoom.sendErrorMessage(match.getActivePlayer().getID(),errorMessage);
+            askRun();
         } catch (NotYourTurnException e) {
             Message message=new ActionError("Not your turn");
             gameRoom.sendErrorMessage(userID,message);
@@ -311,7 +313,7 @@ public class Game{
         if(!grabWeapon.isValid(match,userID)){
             askToDiscardWeaponCard();
         }
-        if(!manageWeapon.areEnoughAmmoToGrabWeapon(match.getActivePlayer(),getWeaponToGrabCost(indexWeapon))){
+        else if(!manageWeapon.areEnoughAmmoToGrabWeapon(match.getActivePlayer(),getWeaponToGrabCost(indexWeapon))){
             // case if you don't have enough ammos and you want to convert a PowCard
             askWeaponGrabWithPowCard();
         }
@@ -1316,6 +1318,7 @@ public class Game{
             if(connectedPlayers.get(i).equals(activePlayer)){
                 if(i==connectedPlayers.size()-1){
                     nextRound();
+                    return;
                 }
             }
         }

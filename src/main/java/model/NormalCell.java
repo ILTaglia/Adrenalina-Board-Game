@@ -4,9 +4,6 @@ import exceptions.CardAlreadyCollectedException;
 import exceptions.FullCellException;
 import exceptions.MoreThanTreeAmmosException;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class NormalCell extends Cell {
     /**
      * ammoNormalCell is the AmmoCard associated to the Normal Cell
@@ -60,5 +57,12 @@ public class NormalCell extends Cell {
      *
      * @return the AmmoCard contained in the cell
      */
-    public AmmoCard getAmmoCard(){ return ammoNormalCell;}
+    public AmmoCard getAmmoCard(){
+        return ammoNormalCell;}
+
+    public AmmoCard removeAmmoCard(){
+        AmmoCard ammo=ammoNormalCell;
+        ammoNormalCell=null;
+        return ammo;
+    }
 }
