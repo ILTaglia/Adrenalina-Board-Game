@@ -1,5 +1,5 @@
 # Adrenalina by Cranio Creations 
-*Prova Finale per il corso di Ingegneria del Software I, Politecnico di Milano, Ingegneria Informatica*
+*Prova Finale per il corso di Ingegneria del Software I, Politecnico di Milano, Ingegneria Informatica, a.a. 2018-2019*
 
 ###### Overview
 This is the second part of the final course of Software Engineering I for IT Engineering at Politecnico di Milano, year 2018-19, where students have to design a software adaptation for a board game.
